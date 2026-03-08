@@ -1,0 +1,12 @@
+{
+	version: 1
+	uuid: "386b396920994e259404222474d1c582"
+	name: "White_Traveller#386b3969"
+	lock: false
+	rewards_blocked: false
+	task_progress: { }
+	started: { }
+	completed: { }
+	claimed_rewards: { }
+	player_data: { }
+}

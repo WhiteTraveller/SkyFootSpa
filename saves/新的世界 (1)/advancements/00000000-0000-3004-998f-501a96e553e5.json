@@ -1,0 +1,364 @@
+{
+  "minecraft:recipes/decorations/crafting_table": {
+    "criteria": {
+      "unlock_right_away": "2026-01-24 23:29:27 +0800"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:plains": "2026-01-24 23:29:29 +0800"
+    },
+    "done": false
+  },
+  "dimdungeons:dungeons/root": {
+    "criteria": {
+      "keystone_block": "2026-01-24 23:37:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:adventure/shoot_arrow": {
+    "criteria": {
+      "shot_arrow": "2026-01-25 00:31:33 +0800"
+    },
+    "done": true
+  },
+  "l2hostility:recipes/misc/bottle_of_sanity_craft": {
+    "criteria": {
+      "has_hostility_orb": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "l2hostility:hostility/patchouli": {
+    "criteria": {
+      "0": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "minecraft:adventure/kill_all_mobs": {
+    "criteria": {
+      "minecraft:slime": "2026-01-25 00:31:35 +0800",
+      "minecraft:zombie": "2026-01-25 00:37:51 +0800"
+    },
+    "done": false
+  },
+  "minecraft:adventure/root": {
+    "criteria": {
+      "killed_something": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "minecraft:adventure/kill_a_mob": {
+    "criteria": {
+      "minecraft:slime": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "l2hostility:hostility/root": {
+    "criteria": {
+      "0": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "l2hostility:recipes/misc/chaos_ingot": {
+    "criteria": {
+      "has_hostility_orb": "2026-01-25 00:31:35 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/burnt/burnt/rotten_flesh": {
+    "criteria": {
+      "has_rotten_flesh": "2026-01-25 00:37:52 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/snow": {
+    "criteria": {
+      "has_snowball": "2026-01-25 01:10:02 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/snow_block": {
+    "criteria": {
+      "has_snowball": "2026-01-25 01:10:02 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/cherry_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/bamboo_raft": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/spruce_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/birch_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/oak_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/mangrove_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/acacia_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/jungle_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/transportation/dark_oak_boat": {
+    "criteria": {
+      "in_water": "2026-01-25 01:14:29 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/chest": {
+    "criteria": {
+      "has_lots_of_items": "2026-01-25 01:24:20 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/bone_meal": {
+    "criteria": {
+      "has_bone": "2026-01-25 01:24:20 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/lead": {
+    "criteria": {
+      "has_slime_ball": "2026-01-25 12:15:09 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/sticky_piston": {
+    "criteria": {
+      "has_slime_ball": "2026-01-25 12:15:09 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/slime_block": {
+    "criteria": {
+      "has_slime_ball": "2026-01-25 12:15:09 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/diamond": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_chestplate": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/diffusion/diffusion/deepslate_diamond_ore": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_hoe": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_boots": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "constructionwand:recipes/misc/core_destruction": {
+    "criteria": {
+      "has_item": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_pickaxe": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_leggings": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_sword": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_helmet": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_shovel": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/diffusion/diffusion/diamond_ore": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/misc/vanilla/upgrade/diamond_axe": {
+    "criteria": {
+      "has_diamond_block": "2026-01-25 12:15:21 +0800"
+    },
+    "done": true
+  },
+  "dimdungeons:dungeons/enter_basic_dungeon": {
+    "criteria": {
+      "entered_dungeon": "2026-01-25 12:15:23 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/burnt/burnt/cooked_porkchop": {
+    "criteria": {
+      "has_cooked_porkchop": "2026-01-25 12:15:23 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/diamond_leggings": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/diamond_sword": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/jukebox": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/diamond_chestplate": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/diamond_pickaxe": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/diamond_hoe": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/diamond_shovel": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/diamond_boots": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "l2hostility:recipes/misc/charm_of_looting_2": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/enchantments/enchantments/durable_armor_1": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/enchantments/enchantments/durable_armor_2": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "l2complements:recipes/enchantments/enchantments/durable_armor_3": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "constructionwand:recipes/tools/diamond_wand": {
+    "criteria": {
+      "has_item": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/diamond_helmet": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/diamond_block": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:story/mine_diamond": {
+    "criteria": {
+      "diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/diamond_axe": {
+    "criteria": {
+      "has_diamond": "2026-01-25 12:15:31 +0800"
+    },
+    "done": true
+  },
+  "DataVersion": 3465
+}

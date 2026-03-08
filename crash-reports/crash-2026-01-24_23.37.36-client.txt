@@ -1,0 +1,442 @@
+---- Minecraft Crash Report ----
+// Embeddium instance tainted by mods: [sodiumoptionsapi, ruokmod, oculus, sodiumdynamiclights, embeddium_extra]
+// Please do not reach out for Embeddium support without removing these mods first.
+// -------
+// This doesn't make any sense!
+
+Time: 2026-01-24 23:37:36
+Description: Container click
+
+dev.latvian.mods.rhino.EvaluatorException: Cannot convert {name: blue_knife, nameZH: 蓝色小刀, description: literal{伤害}[style={color=gray}, siblings=[literal{+1}[style={color=green}], literal{速度}[style={color=gray}], literal{+0.02}[style={color=green}]]], story: Unknown, tags: [{id: marguerite:tag_metal, nameZH: 金属制品, color: white}, {id: marguerite:tag_knife, nameZH: 小刀, color: blue}], guideTexture: Unknown, onEquip: Unknown, onUnEquip: Unknown, onLoad: Unknown, onDoDamage: Unknown, specialDescription: literal{你只能生效前}[style={color=gray}, siblings=[literal{2}[style={color=white}], literal{个小刀，因为你只有两只手}[style={color=gray}]]], canEquip: SlotContext[identifier=package, entity=LocalPlayer['bslr'/77, l='ClientLevel', x=12.35, y=-60.00, z=-0.11], index=0, cosmetic=false, visible=true], canUnEquip: Unknown} to boolean
+	at dev.latvian.mods.rhino.DefaultErrorReporter.runtimeError(DefaultErrorReporter.java:67) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError(Context.java:133) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError(Context.java:173) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError2(Context.java:150) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.reportConversionError(NativeJavaObject.java:562) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.reportConversionError(NativeJavaObject.java:556) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.coerceTypeImpl(NativeJavaObject.java:362) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.jsToJava(Context.java:237) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterfaceAdapter.invoke(InterfaceAdapter.java:130) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.VMBridge.lambda$newInterfaceProxy$0(VMBridge.java:74) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at jdk.proxy1.$Proxy78.test(Unknown Source) ~[?:?] {}
+	at net.zhaiji.kubejscurios.curios.CapabilityCurios$1.canEquip(CapabilityCurios.java:203) ~[kubejs_curios_forge_1.20.1-1.0.3.jar%23283!/:1.0.3] {re:classloading}
+	at top.theillusivec4.curios.common.capability.ItemizedCurioCapability.canEquip(ItemizedCurioCapability.java:60) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.inventory.DynamicStackHandler.lambda$isItemValid$0(DynamicStackHandler.java:73) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.map(LazyOptional.java:180) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.inventory.DynamicStackHandler.isItemValid(DynamicStackHandler.java:73) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.items.SlotItemHandler.m_5857_(SlotItemHandler.java:33) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:classloading}
+	at dev.xkmc.l2tabs.compat.TabCurioSlot.m_5857_(TabCurioSlot.java:102) ~[l2tabs-0.3.3.jar%23391!/:0.3.3] {re:classloading}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_38903_(AbstractContainerMenu.java:660) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at dev.xkmc.l2library.base.menu.base.BaseContainerMenu.m_7648_(BaseContainerMenu.java:229) ~[l2library-2.5.1.jar%23286!/:2.5.1] {re:classloading}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_150430_(AbstractContainerMenu.java:398) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_150399_(AbstractContainerMenu.java:298) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at net.minecraft.client.multiplayer.MultiPlayerGameMode.m_171799_(MultiPlayerGameMode.java:434) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6597_(AbstractContainerScreen.java:536) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6375_(AbstractContainerScreen.java:329) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168084_(MouseHandler.java:92) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.Screen.m_96579_(Screen.java:437) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:computing_frames,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:mixins.modernui-forge.json:MixinScreen,pl:mixin:APP:controlling.mixins.json:AccessScreen,pl:mixin:APP:konkrete.mixin.json:IMixinScreen,pl:mixin:APP:patchouli_xplat.mixins.json:client.AccessorScreen,pl:mixin:APP:kubejs-common.mixins.json:ScreenMixin,pl:mixin:APP:configured.common.mixins.json:client.ScreenMixin,pl:mixin:APP:fancymenu.mixins.json:client.IMixinScreen,pl:mixin:APP:fancymenu.mixins.json:client.MixinScreen,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_91530_(MouseHandler.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168091_(MouseHandler.java:189) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:102) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-common.mixins.json:perf.fix_loop_spin_waiting.BlockableEventLoopMixin,pl:mixin:A}
+	at net.minecraft.client.MouseHandler.m_91565_(MouseHandler.java:188) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {}
+	at org.lwjgl.system.JNI.invokeV(Native Method) ~[lwjgl-3.3.1.jar%23132!/:build 7] {}
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {re:mixin}
+	at com.mojang.blaze3d.systems.RenderSystem.pollEvents(RenderSystem.java:201) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:219) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.platform.Window.m_85435_(Window.java:274) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinWindow,pl:mixin:APP:kubejs-common.mixins.json:WindowMixin,pl:mixin:APP:sodium-extra.mixins.json:adaptive_sync.MixinWindow,pl:mixin:APP:sodium-extra.mixins.json:reduce_resolution_on_mac.MixinWindow,pl:mixin:APP:embeddium.mixins.json:workarounds.context_creation.WindowMixin,pl:mixin:APP:mixins.oculus.json:MixinWindow,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91383_(Minecraft.java:1170) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91374_(Minecraft.java:718) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:218) ~[1.20.1-Forge_47.4.16.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.clientService(CommonLaunchHandler.java:99) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonClientLaunchHandler.lambda$makeService$0(CommonClientLaunchHandler.java:25) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at oolloo.jlw.Wrapper.invokeMain(Wrapper.java:112) ~[?:?] {}
+	at oolloo.jlw.Wrapper.main(Wrapper.java:105) ~[?:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Suspected Mods: 
+	Rhino (rhino), Version: 2001.2.3-build.10
+		Issue tracker URL: https://github.com/KubeJS-Mods/Rhino/issues
+		at TRANSFORMER/rhino@2001.2.3-build.10/dev.latvian.mods.rhino.DefaultErrorReporter.runtimeError(DefaultErrorReporter.java:67)
+
+	Curios API (curios), Version: 5.12.1+1.20.1
+		Issue tracker URL: https://github.com/TheIllusiveC4/Curios/issues
+		at TRANSFORMER/curios@5.12.1+1.20.1/top.theillusivec4.curios.common.capability.ItemizedCurioCapability.canEquip(ItemizedCurioCapability.java:60)
+
+	KubeJSCurios (kubejs_curios), Version: 1.0.3
+		at TRANSFORMER/kubejs_curios@1.0.3/net.zhaiji.kubejscurios.curios.CapabilityCurios$1.canEquip(CapabilityCurios.java:203)
+
+	L2 Tabs (l2tabs), Version: 0.3.3
+		at TRANSFORMER/l2tabs@0.3.3/dev.xkmc.l2tabs.compat.TabCurioSlot.m_5857_(TabCurioSlot.java:102)
+
+	L2 Library (l2library), Version: 2.5.1
+		at TRANSFORMER/l2library@2.5.1/dev.xkmc.l2library.base.menu.base.BaseContainerMenu.m_7648_(BaseContainerMenu.java:229)
+Stacktrace:
+	at dev.latvian.mods.rhino.DefaultErrorReporter.runtimeError(DefaultErrorReporter.java:67) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError(Context.java:133) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError(Context.java:173) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.reportRuntimeError2(Context.java:150) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.reportConversionError(NativeJavaObject.java:562) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.reportConversionError(NativeJavaObject.java:556) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.NativeJavaObject.coerceTypeImpl(NativeJavaObject.java:362) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.jsToJava(Context.java:237) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterfaceAdapter.invoke(InterfaceAdapter.java:130) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.VMBridge.lambda$newInterfaceProxy$0(VMBridge.java:74) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at jdk.proxy1.$Proxy78.test(Unknown Source) ~[?:?] {}
+	at net.zhaiji.kubejscurios.curios.CapabilityCurios$1.canEquip(CapabilityCurios.java:203) ~[kubejs_curios_forge_1.20.1-1.0.3.jar%23283!/:1.0.3] {re:classloading}
+	at top.theillusivec4.curios.common.capability.ItemizedCurioCapability.canEquip(ItemizedCurioCapability.java:60) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.inventory.DynamicStackHandler.lambda$isItemValid$0(DynamicStackHandler.java:73) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.map(LazyOptional.java:180) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.inventory.DynamicStackHandler.isItemValid(DynamicStackHandler.java:73) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.items.SlotItemHandler.m_5857_(SlotItemHandler.java:33) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:classloading}
+	at dev.xkmc.l2tabs.compat.TabCurioSlot.m_5857_(TabCurioSlot.java:102) ~[l2tabs-0.3.3.jar%23391!/:0.3.3] {re:classloading}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_38903_(AbstractContainerMenu.java:660) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at dev.xkmc.l2library.base.menu.base.BaseContainerMenu.m_7648_(BaseContainerMenu.java:229) ~[l2library-2.5.1.jar%23286!/:2.5.1] {re:classloading}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_150430_(AbstractContainerMenu.java:398) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_150399_(AbstractContainerMenu.java:298) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at net.minecraft.client.multiplayer.MultiPlayerGameMode.m_171799_(MultiPlayerGameMode.java:434) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6597_(AbstractContainerScreen.java:536) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6375_(AbstractContainerScreen.java:329) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168084_(MouseHandler.java:92) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.Screen.m_96579_(Screen.java:437) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:computing_frames,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:mixins.modernui-forge.json:MixinScreen,pl:mixin:APP:controlling.mixins.json:AccessScreen,pl:mixin:APP:konkrete.mixin.json:IMixinScreen,pl:mixin:APP:patchouli_xplat.mixins.json:client.AccessorScreen,pl:mixin:APP:kubejs-common.mixins.json:ScreenMixin,pl:mixin:APP:configured.common.mixins.json:client.ScreenMixin,pl:mixin:APP:fancymenu.mixins.json:client.IMixinScreen,pl:mixin:APP:fancymenu.mixins.json:client.MixinScreen,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_91530_(MouseHandler.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168091_(MouseHandler.java:189) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:102) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-common.mixins.json:perf.fix_loop_spin_waiting.BlockableEventLoopMixin,pl:mixin:A}
+	at net.minecraft.client.MouseHandler.m_91565_(MouseHandler.java:188) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {}
+	at org.lwjgl.system.JNI.invokeV(Native Method) ~[lwjgl-3.3.1.jar%23132!/:build 7] {}
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {re:mixin}
+	at com.mojang.blaze3d.systems.RenderSystem.pollEvents(RenderSystem.java:201) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:219) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+-- Click info --
+Details:
+	Menu Type: l2tabs:curios
+	Menu Class: dev.xkmc.l2tabs.compat.CuriosListMenu
+	Slot Count: 90
+	Slot: 31
+	Button: 0
+	Type: QUICK_MOVE
+Stacktrace:
+	at net.minecraft.world.inventory.AbstractContainerMenu.m_150399_(AbstractContainerMenu.java:298) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:placebo.mixins.json:AbstractContainerMenuInvoker,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerMenuAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerMenuMixin,pl:mixin:A}
+	at net.minecraft.client.multiplayer.MultiPlayerGameMode.m_171799_(MultiPlayerGameMode.java:434) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6597_(AbstractContainerScreen.java:536) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.m_6375_(AbstractContainerScreen.java:329) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:forgematica.mixins.json:IMixinHandledScreen,pl:mixin:APP:forgematica.mixins.json:MixinHandledScreen,pl:mixin:APP:ldlib-common.mixins.json:accessor.AbstractContainerScreenAccessor,pl:mixin:APP:petiteinventory.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mafglib.mixins.json:MixinHandledScreen,pl:mixin:APP:attributeslib.mixins.json:client.AbstractContainerScreenMixin,pl:mixin:APP:mixins.ipnext.json:MixinAbstractContainerScreen,pl:mixin:APP:l2screentracker.mixins.json:AbstractContainerScreenMixin,pl:mixin:APP:mousetweaks.mixins.json:AbstractContainerScreenAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168084_(MouseHandler.java:92) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.gui.screens.Screen.m_96579_(Screen.java:437) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:computing_frames,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:mixins.modernui-forge.json:MixinScreen,pl:mixin:APP:controlling.mixins.json:AccessScreen,pl:mixin:APP:konkrete.mixin.json:IMixinScreen,pl:mixin:APP:patchouli_xplat.mixins.json:client.AccessorScreen,pl:mixin:APP:kubejs-common.mixins.json:ScreenMixin,pl:mixin:APP:configured.common.mixins.json:client.ScreenMixin,pl:mixin:APP:fancymenu.mixins.json:client.IMixinScreen,pl:mixin:APP:fancymenu.mixins.json:client.MixinScreen,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_91530_(MouseHandler.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168091_(MouseHandler.java:189) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:102) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-common.mixins.json:perf.fix_loop_spin_waiting.BlockableEventLoopMixin,pl:mixin:A}
+	at net.minecraft.client.MouseHandler.m_91565_(MouseHandler.java:188) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {}
+	at org.lwjgl.system.JNI.invokeV(Native Method) ~[lwjgl-3.3.1.jar%23132!/:build 7] {}
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {re:mixin}
+	at com.mojang.blaze3d.systems.RenderSystem.pollEvents(RenderSystem.java:201) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:219) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.platform.Window.m_85435_(Window.java:274) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinWindow,pl:mixin:APP:kubejs-common.mixins.json:WindowMixin,pl:mixin:APP:sodium-extra.mixins.json:adaptive_sync.MixinWindow,pl:mixin:APP:sodium-extra.mixins.json:reduce_resolution_on_mac.MixinWindow,pl:mixin:APP:embeddium.mixins.json:workarounds.context_creation.WindowMixin,pl:mixin:APP:mixins.oculus.json:MixinWindow,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91383_(Minecraft.java:1170) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91374_(Minecraft.java:718) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:218) ~[1.20.1-Forge_47.4.16.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.clientService(CommonLaunchHandler.java:99) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonClientLaunchHandler.lambda$makeService$0(CommonClientLaunchHandler.java:25) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at oolloo.jlw.Wrapper.invokeMain(Wrapper.java:112) ~[?:?] {}
+	at oolloo.jlw.Wrapper.main(Wrapper.java:105) ~[?:?] {}
+
+
+-- Affected screen --
+Details:
+	Screen name: dev.xkmc.l2tabs.compat.CuriosListScreen
+Stacktrace:
+	at net.minecraft.client.gui.screens.Screen.m_96579_(Screen.java:437) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:computing_frames,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:mixins.modernui-forge.json:MixinScreen,pl:mixin:APP:controlling.mixins.json:AccessScreen,pl:mixin:APP:konkrete.mixin.json:IMixinScreen,pl:mixin:APP:patchouli_xplat.mixins.json:client.AccessorScreen,pl:mixin:APP:kubejs-common.mixins.json:ScreenMixin,pl:mixin:APP:configured.common.mixins.json:client.ScreenMixin,pl:mixin:APP:fancymenu.mixins.json:client.IMixinScreen,pl:mixin:APP:fancymenu.mixins.json:client.MixinScreen,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_91530_(MouseHandler.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.MouseHandler.m_168091_(MouseHandler.java:189) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:102) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-common.mixins.json:perf.fix_loop_spin_waiting.BlockableEventLoopMixin,pl:mixin:A}
+	at net.minecraft.client.MouseHandler.m_91565_(MouseHandler.java:188) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinMouseHandler,pl:mixin:APP:ldlib-common.mixins.json:accessor.MouseHandlerAccessor,pl:mixin:APP:konkrete.mixin.json:MixinMouseHandler,pl:mixin:APP:mafglib.mixins.json:MixinMouse,pl:mixin:APP:fancymenu.mixins.json:client.MixinMouseHandler,pl:mixin:APP:fancymenu.forge.mixins.json:client.MixinForgeMouseHandler,pl:mixin:APP:justzoom.mixins.json:client.MixinMouseHandler,pl:mixin:A,pl:runtimedistcleaner:A}
+	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {}
+	at org.lwjgl.system.JNI.invokeV(Native Method) ~[lwjgl-3.3.1.jar%23132!/:build 7] {}
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403) ~[lwjgl-glfw-3.3.1.jar%23120!/:build 7] {re:mixin}
+	at com.mojang.blaze3d.systems.RenderSystem.pollEvents(RenderSystem.java:201) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:219) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:MixinGlStateManager,pl:mixin:APP:mixins.oculus.json:MixinRenderSystem,pl:mixin:APP:mixins.oculus.json:statelisteners.MixinRenderSystem,pl:mixin:APP:embeddium.mixins.json:workarounds.event_loop.RenderSystemMixin,pl:mixin:A}
+	at com.mojang.blaze3d.platform.Window.m_85435_(Window.java:274) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:mixins.modernui-forge.json:MixinWindow,pl:mixin:APP:kubejs-common.mixins.json:WindowMixin,pl:mixin:APP:sodium-extra.mixins.json:adaptive_sync.MixinWindow,pl:mixin:APP:sodium-extra.mixins.json:reduce_resolution_on_mac.MixinWindow,pl:mixin:APP:embeddium.mixins.json:workarounds.context_creation.WindowMixin,pl:mixin:APP:mixins.oculus.json:MixinWindow,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91383_(Minecraft.java:1170) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91374_(Minecraft.java:718) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:218) ~[1.20.1-Forge_47.4.16.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.clientService(CommonLaunchHandler.java:99) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonClientLaunchHandler.lambda$makeService$0(CommonClientLaunchHandler.java:25) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at oolloo.jlw.Wrapper.invokeMain(Wrapper.java:112) ~[?:?] {}
+	at oolloo.jlw.Wrapper.main(Wrapper.java:105) ~[?:?] {}
+
+
+-- Affected level --
+Details:
+	All players: 1 total; [LocalPlayer['bslr'/77, l='ClientLevel', x=12.35, y=-60.00, z=-0.11]]
+	Chunk stats: 961, 609
+	Level dimension: minecraft:overworld
+	Level spawn location: World: (0,-60,0), Section: (at 0,4,0 in 0,-4,0; chunk contains blocks 0,-64,0 to 15,319,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,-64,0 to 511,319,511)
+	Level time: 9721 game time, 9721 day time
+	Server brand: forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.ClientLevel.m_6026_(ClientLevel.java:455) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,xf:fml:xaeroworldmap:xaero_wm_clientworldclass,xf:fml:xaerominimap:xaero_clientworldclass,pl:runtimedistcleaner:A,re:classloading,xf:fml:xaeroworldmap:xaero_wm_clientworldclass,xf:fml:xaerominimap:xaero_clientworldclass,pl:mixin:APP:embeddium.mixins.json:features.render.world.ClientLevelMixin,pl:mixin:APP:forgematica.mixins.json:MixinClientWorld,pl:mixin:APP:RuOK.common.mixins.json:minecraft.ClientWorldMixin,pl:mixin:APP:mixins.sodiumdynamiclights.json:ClientLevelMixin,pl:mixin:APP:mixins.oculus.vertexformat.json:block_rendering.MixinClientLevel,pl:mixin:APP:architectury.mixins.json:MixinClientLevel,pl:mixin:APP:kubejs-common.mixins.json:ClientLevelMixin,pl:mixin:APP:entityculling.mixins.json:ClientWorldMixin,pl:mixin:APP:embeddium.mixins.json:core.world.biome.ClientWorldMixin,pl:mixin:APP:embeddium.mixins.json:core.world.map.ClientWorldMixin,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91354_(Minecraft.java:2319) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.m_91374_(Minecraft.java:735) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick,xf:fml:xaeroworldmap:xaero_wm_minecraft_runtick_render_call,xf:fml:xaeroworldmap:xaero_wm_minecraftclient,xf:fml:customskinloader:MinecraftTransformer,xf:fml:xaerominimap:xaero_minecraftclient,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:218) ~[1.20.1-Forge_47.4.16.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:111) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonLaunchHandler.clientService(CommonLaunchHandler.java:99) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at net.minecraftforge.fml.loading.targets.CommonClientLaunchHandler.lambda$makeService$0(CommonClientLaunchHandler.java:25) ~[fmlloader-1.20.1-47.4.16.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?] {}
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?] {}
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?] {}
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?] {}
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?] {}
+	at oolloo.jlw.Wrapper.invokeMain(Wrapper.java:112) ~[?:?] {}
+	at oolloo.jlw.Wrapper.main(Wrapper.java:105) ~[?:?] {}
+
+
+-- Last reload --
+Details:
+	Reload number: 1
+	Reload reason: initial
+	Finished: Yes
+	Packs: vanilla, mod_resources, KubeJS Resource Pack [assets]
+
+-- System Details --
+Details:
+	Minecraft Version: 1.20.1
+	Minecraft Version ID: 1.20.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 17.0.1, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Microsoft
+	Memory: 253287144 bytes (241 MiB) / 1459617792 bytes (1392 MiB) up to 7730102272 bytes (7372 MiB)
+	CPUs: 16
+	Processor Vendor: AuthenticAMD
+	Processor Name: AMD Ryzen 7 9700X 8-Core Processor             
+	Identifier: AuthenticAMD Family 26 Model 68 Stepping 0
+	Microarchitecture: unknown
+	Frequency (GHz): 3.79
+	Number of physical packages: 1
+	Number of physical CPUs: 8
+	Number of logical CPUs: 16
+	Graphics card #0 name: OrayIddDriver Device
+	Graphics card #0 vendor: Shanghai Best Oray Information Technology Co., Ltd.
+	Graphics card #0 VRAM (MB): 0.00
+	Graphics card #0 deviceId: unknown
+	Graphics card #0 versionInfo: DriverVersion=17.1.58.818
+	Graphics card #1 name: Virtual Desktop Monitor
+	Graphics card #1 vendor: Virtual Desktop, Inc.
+	Graphics card #1 VRAM (MB): 0.00
+	Graphics card #1 deviceId: unknown
+	Graphics card #1 versionInfo: DriverVersion=13.50.53.699
+	Graphics card #2 name: NVIDIA GeForce RTX 4070 Ti SUPER
+	Graphics card #2 vendor: NVIDIA (0x10de)
+	Graphics card #2 VRAM (MB): 4095.00
+	Graphics card #2 deviceId: 0x2689
+	Graphics card #2 versionInfo: DriverVersion=32.0.15.7242
+	Graphics card #3 name: AMD Radeon(TM) Graphics
+	Graphics card #3 vendor: Advanced Micro Devices, Inc. (0x1002)
+	Graphics card #3 VRAM (MB): 512.00
+	Graphics card #3 deviceId: 0x13c0
+	Graphics card #3 versionInfo: DriverVersion=32.0.21030.2001
+	Memory slot #0 capacity (MB): 16384.00
+	Memory slot #0 clockSpeed (GHz): 4.80
+	Memory slot #0 type: Unknown
+	Memory slot #1 capacity (MB): 16384.00
+	Memory slot #1 clockSpeed (GHz): 4.80
+	Memory slot #1 type: Unknown
+	Virtual memory max (MB): 40202.11
+	Virtual memory used (MB): 33687.63
+	Swap memory total (MB): 8339.77
+	Swap memory used (MB): 0.00
+	JVM Flags: 6 total; -XX:+UseG1GC -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmn1105m -Xmx7372m
+	Loaded Shaderpack: (off)
+	Launched Version: 1.20.1-Forge_47.4.16
+	Backend library: LWJGL version 3.3.1 build 7
+	Backend API: NVIDIA GeForce RTX 4070 Ti SUPER/PCIe/SSE2 GL version 4.6.0 NVIDIA 572.42, NVIDIA Corporation
+	Window size: 3840x2120
+	GL Caps: Using framebuffer using OpenGL 3.2
+	GL debug messages: 
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'forge'; Server brand changed to 'forge'
+	Type: Integrated Server (map_client.txt)
+	Graphics mode: fancy
+	Resource Packs: 
+	Current Language: zh_cn
+	CPU: 16x AMD Ryzen 7 9700X 8-Core Processor 
+	Server Running: true
+	Player Count: 1 / 8; [ServerPlayer['bslr'/77, l='ServerLevel[新的世界]', x=12.35, y=-60.00, z=-0.11]]
+	Data Packs: vanilla, mod:ftbessentials (incompatible), mod:powerfuljs (incompatible), mod:kubejs_curios, mod:controlling (incompatible), mod:xaeroworldmap (incompatible), mod:placebo (incompatible), mod:modernfix (incompatible), mod:forgematica (incompatible), mod:mixinextras (incompatible), mod:bookshelf, mod:ldlib (incompatible), mod:melody (incompatible), mod:sodiumoptionsapi, mod:cloth_config (incompatible), mod:ruokmod (incompatible), mod:embeddium, mod:konkrete (incompatible), mod:staaaaaaaaaaaack, mod:sodiumdynamiclights, mod:petiteinventory, mod:bettertags, mod:mafglib, mod:structureexpansion (incompatible), mod:curios (incompatible), mod:patchouli (incompatible), mod:oculus, mod:searchables (incompatible), mod:attributeslib (incompatible), mod:constructionwand, mod:inventoryprofilesnext (incompatible), mod:architectury (incompatible), mod:framework, mod:l2library (incompatible), mod:l2damagetracker (incompatible), mod:probejs (incompatible), mod:foodeffecttooltips, mod:betteradvancements (incompatible), mod:rhino (incompatible), mod:l2tabs (incompatible), mod:ftblibrary (incompatible), mod:ftbteams (incompatible), mod:customskinloader (incompatible), mod:itemfilters (incompatible), mod:jei, mod:kubejs (incompatible), mod:attributefix (incompatible), mod:l2complements (incompatible), mod:eventjs (incompatible), mod:naturescompass, mod:configured (incompatible), mod:l2screentracker (incompatible), mod:catalogue (incompatible), mod:memoryleakfix (incompatible), mod:forge, mod:enchdesc (incompatible), mod:libipn (incompatible), mod:fabric_api_base, mod:mousetweaks, mod:ftbquests (incompatible), mod:tickrate_changer_reborn (incompatible), mod:jade (incompatible), mod:dialog, mod:kotlinforforge (incompatible), mod:dimdungeons, mod:xaerominimap (incompatible), mod:l2hostility (incompatible), mod:entityculling, mod:jecharacters (incompatible), mod:mob_weapon_api (incompatible), mod:fancymenu (incompatible), mod:appleskin (incompatible), mod:ferritecore (incompatible), mod:embeddium_extra, mod:modernui, mod:nbtedit (incompatible), mod:justzoom (incompatible), mod:l2itemselector (incompatible), mod:imblocker
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Experimental
+	ModLauncher: 10.0.9+10.0.9+main.dcd20f30
+	ModLauncher launch target: forgeclient
+	ModLauncher naming: srg
+	ModLauncher services: 
+		mixin-0.8.5.jar mixin PLUGINSERVICE 
+		eventbus-6.2.33.jar eventbus PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar slf4jfixer PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar object_holder_definalize PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar runtime_enum_extender PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar capability_token_subclass PLUGINSERVICE 
+		accesstransformers-8.0.4.jar accesstransformer PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-10.0.9.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-10.0.9.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		minecraft@1.0
+		kotlinforforge@4.11.0
+		javafml@null
+		lowcodefml@null
+	Mod List: 
+		ftb-essentials-forge-2001.2.2 (2).jar             |FTB Essentials                |ftbessentials                 |2001.2.2            |DONE      |Manifest: NOSIGNATURE
+		powerfuljs-1.6.1.jar                              |PowerfulJS                    |powerfuljs                    |1.6.1               |DONE      |Manifest: NOSIGNATURE
+		kubejs_curios_forge_1.20.1-1.0.3.jar              |KubeJSCurios                  |kubejs_curios                 |1.0.3               |DONE      |Manifest: NOSIGNATURE
+		[键位冲突显示]Controlling-forge-1.20.1-12.0.2.jar       |Controlling                   |controlling                   |12.0.2              |DONE      |Manifest: NOSIGNATURE
+		[Xaeros的世界地图]XaerosWorldMap_1.39.4_Forge_1.20.jar |Xaero's World Map             |xaeroworldmap                 |1.39.4              |DONE      |Manifest: NOSIGNATURE
+		Placebo-1.20.1-8.6.3.jar                          |Placebo                       |placebo                       |8.6.3               |DONE      |Manifest: NOSIGNATURE
+		[现代化修复]modernfix-forge-5.21.0+mc1.20.1.jar        |ModernFix                     |modernfix                     |5.21.0+mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		[全息蓝图] Forgematica-0.1.13-mc1.20.1.jar            |Forgematica                   |forgematica                   |0.1.13-mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		mixinextras-forge-0.2.0-beta.8.jar                |MixinExtras                   |mixinextras                   |0.2.0-beta.8        |DONE      |Manifest: NOSIGNATURE
+		[前置]Bookshelf-Forge-1.20.1-20.2.13.jar            |Bookshelf                     |bookshelf                     |20.2.13             |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		ldlib-forge-1.20.1-1.0.39.a.jar                   |LowDragLib                    |ldlib                         |1.0.39.a            |DONE      |Manifest: NOSIGNATURE
+		melody_forge_1.0.3_MC_1.20.1-1.20.4.jar           |Melody                        |melody                        |1.0.2               |DONE      |Manifest: NOSIGNATURE
+		[动态光源前置]sodiumoptionsapi-forge-1.0.10-1.20.1.jar  |Sodium Options API            |sodiumoptionsapi              |1.0.10              |DONE      |Manifest: NOSIGNATURE
+		[前置]cloth-config-11.1.136-forge.jar               |Cloth Config v10 API          |cloth_config                  |11.1.136            |DONE      |Manifest: NOSIGNATURE
+		[钌]RuOK-1.7.1_1.20.1-Forge.jar                    |RuOK Mod                      |ruokmod                       |1.7.1               |DONE      |Manifest: NOSIGNATURE
+		[铷]embeddium-0.3.31+mc1.20.1.jar                  |Embeddium                     |embeddium                     |0.3.31+mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		[视角缩放前置]konkrete_forge_1.8.0_MC_1.20-1.20.1.jar   |Konkrete                      |konkrete                      |1.8.0               |DONE      |Manifest: NOSIGNATURE
+		[掉落物堆叠]staaaaaaaaaaaack-forge-1.20.1-1.5-71.jar   |Staaaaaaaaaaaack              |staaaaaaaaaaaack              |1.20.1-1.5-71       |DONE      |Manifest: NOSIGNATURE
+		[动态光源]sodiumdynamiclights-forge-1.0.10-1.20.1.jar |Sodium Dynamic Lights         |sodiumdynamiclights           |1.0.9               |DONE      |Manifest: NOSIGNATURE
+		petiteinventory-1.0.4.jar                         |PetiteInventory               |petiteinventory               |1.0.4               |DONE      |Manifest: NOSIGNATURE
+		Better Tags-1.20.1-1.4.jar                        |Better Tags                   |bettertags                    |1.4                 |DONE      |Manifest: NOSIGNATURE
+		MaFgLib-0.1.14-mc1.20.1.jar                       |MaFgLib                       |mafglib                       |0.1.14-mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		structure-expansion-2.0.1-build.11.jar            |Structure Expansion           |structureexpansion            |2.0.1-build.11      |DONE      |Manifest: NOSIGNATURE
+		curios-forge-5.12.1+1.20.1.jar                    |Curios API                    |curios                        |5.12.1+1.20.1       |DONE      |Manifest: NOSIGNATURE
+		Patchouli-1.20.1-84.1-FORGE.jar                   |Patchouli                     |patchouli                     |1.20.1-84.1-FORGE   |DONE      |Manifest: NOSIGNATURE
+		[Iris非官方移植]oculus-mc1.20.1-1.8.0.jar              |Oculus                        |oculus                        |1.8.0               |DONE      |Manifest: NOSIGNATURE
+		[键位冲突显示前置]Searchables-forge-1.20.1-1.0.3.jar      |Searchables                   |searchables                   |1.0.3               |DONE      |Manifest: NOSIGNATURE
+		ApothicAttributes-1.20.1-1.3.7.jar                |Apothic Attributes            |attributeslib                 |1.3.7               |DONE      |Manifest: NOSIGNATURE
+		[建筑手杖] constructionwand-1.20.1-2.11.jar           |Construction Wand             |constructionwand              |1.20.1-2.11         |DONE      |Manifest: NOSIGNATURE
+		[一键整理NEXT(IPN)]InventoryProfilesNext-forge-1.20-1.|Inventory Profiles Next       |inventoryprofilesnext         |1.10.14             |DONE      |Manifest: NOSIGNATURE
+		[前置]architectury-9.2.14-forge.jar                 |Architectury                  |architectury                  |9.2.14              |DONE      |Manifest: NOSIGNATURE
+		framework-forge-1.20.1-0.7.15.jar                 |Framework                     |framework                     |0.7.15              |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		l2library-2.5.1.jar                               |L2 Library                    |l2library                     |2.5.1               |DONE      |Manifest: NOSIGNATURE
+		l2damagetracker-0.4.3.jar                         |L2 Damage Tracker             |l2damagetracker               |0.4.3               |DONE      |Manifest: NOSIGNATURE
+		probejs-6.0.1-forge.jar                           |ProbeJS                       |probejs                       |6.0.1               |DONE      |Manifest: NOSIGNATURE
+		[食物效果显示]foodeffecttooltips+forge-1.20.1-1.3.0.jar |Food Effect Tooltips          |foodeffecttooltips            |1.3.0               |DONE      |Manifest: NOSIGNATURE
+		[更好的进度]BetterAdvancements-NeoForge-1.20.1-0.4.2.25|Better Advancements           |betteradvancements            |0.4.2.25            |DONE      |Manifest: NOSIGNATURE
+		rhino-forge-2001.2.3-build.10.jar                 |Rhino                         |rhino                         |2001.2.3-build.10   |DONE      |Manifest: NOSIGNATURE
+		l2tabs-0.3.3.jar                                  |L2 Tabs                       |l2tabs                        |0.3.3               |DONE      |Manifest: NOSIGNATURE
+		ftb-library-forge-2001.2.9.jar                    |FTB Library                   |ftblibrary                    |2001.2.9            |DONE      |Manifest: NOSIGNATURE
+		ftb-teams-forge-2001.3.1.jar                      |FTB Teams                     |ftbteams                      |2001.3.1            |DONE      |Manifest: NOSIGNATURE
+		[离线皮肤加载器]CustomSkinLoader_ForgeV2-14.23.jar       |CustomSkinLoader              |customskinloader              |14.23               |DONE      |Manifest: 4a:31:8b:cf:34:eb:d0:13:f3:19:39:d5:d2:b9:12:78:b5:f2:8d:91:3e:6f:8f:ed:97:48:00:69:e1:30:3a:54
+		item-filters-forge-2001.1.0-build.59.jar          |Item Filters                  |itemfilters                   |2001.1.0-build.59   |DONE      |Manifest: NOSIGNATURE
+		[JEI]jei-1.20.1-forge-15.20.0.106.jar             |Just Enough Items             |jei                           |15.20.0.106         |DONE      |Manifest: NOSIGNATURE
+		kubejs-forge-2001.6.5-build.16.jar                |KubeJS                        |kubejs                        |2001.6.5-build.16   |DONE      |Manifest: NOSIGNATURE
+		[属性修复]AttributeFix-Forge-1.20.1-21.0.4.jar        |AttributeFix                  |attributefix                  |21.0.4              |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		l2complements-2.5.5.jar                           |L2 Complements                |l2complements                 |2.5.5               |DONE      |Manifest: NOSIGNATURE
+		EventJS-1.20.1-1.4.0.jar                          |EventJS                       |eventjs                       |1.4.0               |DONE      |Manifest: NOSIGNATURE
+		[群系指南针]NaturesCompass-1.20.1-1.11.2-forge.jar     |Nature's Compass              |naturescompass                |1.20.1-1.11.2-forge |DONE      |Manifest: NOSIGNATURE
+		[配置界面]configured-forge-1.20.1-2.2.3.jar           |Configured                    |configured                    |2.2.3               |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		l2screentracker-0.1.4.jar                         |L2 Screen Tracker             |l2screentracker               |0.1.4               |DONE      |Manifest: NOSIGNATURE
+		[模组目录]catalogue-forge-1.20.1-1.8.0.jar            |Catalogue                     |catalogue                     |1.8.0               |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		[内存泄漏修复]memoryleakfix-forge-1.17+-1.1.5.jar       |Memory Leak Fix               |memoryleakfix                 |1.1.5               |DONE      |Manifest: NOSIGNATURE
+		forge-1.20.1-47.4.16-universal.jar                |Forge                         |forge                         |47.4.16             |DONE      |Manifest: NOSIGNATURE
+		client-1.20.1-20230612.114412-srg.jar             |Minecraft                     |minecraft                     |1.20.1              |DONE      |Manifest: a1:d4:5e:04:4f:d3:d6:e0:7b:37:97:cf:77:b0:de:ad:4a:47:ce:8c:96:49:5f:0a:cf:8c:ae:b2:6d:4b:8a:3f
+		[附魔描述]EnchantmentDescriptions-Forge-1.20.1-17.1.19|EnchantmentDescriptions       |enchdesc                      |17.1.19             |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		[IPN前置]libIPN-forge-1.20-4.0.2.jar                |libIPN                        |libipn                        |4.0.2               |DONE      |Manifest: NOSIGNATURE
+		fabric-api-base-0.4.31+ef105b4977.jar             |Fabric API Base               |fabric_api_base               |0.4.31+ef105b4977   |DONE      |Manifest: NOSIGNATURE
+		[鼠标手势]MouseTweaks-forge-mc1.20.1-2.25.1.jar       |Mouse Tweaks                  |mousetweaks                   |2.25.1              |DONE      |Manifest: NOSIGNATURE
+		ftb-quests-forge-2001.4.12.jar                    |FTB Quests                    |ftbquests                     |2001.4.12           |DONE      |Manifest: NOSIGNATURE
+		TickChanger-1.20-1.0.jar                          |TickChanger:Reborn            |tickrate_changer_reborn       |1.20-1.0            |DONE      |Manifest: NOSIGNATURE
+		[玉🔍]Jade-1.20.1-Forge-11.13.1.jar                |Jade                          |jade                          |11.13.1+forge       |DONE      |Manifest: NOSIGNATURE
+		VNDialog-1.1.2-1.20.1.jar                         |VNDialog                      |dialog                        |1.1.2-1.20.1        |DONE      |Manifest: NOSIGNATURE
+		kffmod-4.11.0.jar                                 |Kotlin For Forge              |kotlinforforge                |4.11.0              |DONE      |Manifest: NOSIGNATURE
+		dimdungeons-194-forge-1.20.1.jar                  |Dimensional Dungeons          |dimdungeons                   |194                 |DONE      |Manifest: NOSIGNATURE
+		[Xaero的小地图]Xaeros_Minimap_25.2.0_Forge_1.20.jar   |Xaero's Minimap               |xaerominimap                  |25.2.0              |DONE      |Manifest: NOSIGNATURE
+		l2hostility-2.5.6.jar                             |L2 Hostility                  |l2hostility                   |2.5.6               |DONE      |Manifest: NOSIGNATURE
+		[实体渲染机制优化]entityculling-forge-1.7.4-mc1.20.1.jar  |EntityCulling                 |entityculling                 |1.7.4               |DONE      |Manifest: NOSIGNATURE
+		[JEI拼音搜索]jecharacters-1.20.1-forge-4.5.11.jar     |Just Enough Characters        |jecharacters                  |4.5.11              |DONE      |Manifest: NOSIGNATURE
+		mob_weapon_api-0.2.3.jar                          |Mob Weapon API                |mob_weapon_api                |0.2.3               |DONE      |Manifest: NOSIGNATURE
+		fancymenu_forge_3.7.0_MC_1.20.1.jar               |FancyMenu                     |fancymenu                     |3.7.0               |DONE      |Manifest: NOSIGNATURE
+		[苹果皮]appleskin-forge-mc1.20.1-2.5.1.jar           |AppleSkin                     |appleskin                     |2.5.1+mc1.20.1      |DONE      |Manifest: NOSIGNATURE
+		[铁氧体磁芯]ferritecore-6.0.1-forge.jar                |Ferrite Core                  |ferritecore                   |6.0.1               |DONE      |Manifest: 41:ce:50:66:d1:a0:05:ce:a1:0e:02:85:9b:46:64:e0:bf:2e:cf:60:30:9a:fe:0c:27:e0:63:66:9a:84:ce:8a
+		[铷扩展]rubidium-extra-0.5.4.4+mc1.20.1-build.131.jar|Embeddium Extra               |embeddium_extra               |0.5.4.4+mc1.20.1-bui|DONE      |Manifest: NOSIGNATURE
+		[现代化UI]ModernUI-Forge-1.20.1-3.11.1.6-universal.ja|Modern UI                     |modernui                      |3.11.1.6            |DONE      |Manifest: 01:c4:52:25:b1:6e:5f:ac:fe:88:35:7e:cf:65:2f:69:1d:56:db:2b:93:f8:dd:7c:93:47:04:8c:e4:22:13:91
+		nbtedit-forge-5.2.8.jar                           |In-game NBTEdit Reborn        |nbtedit                       |5.2.8               |DONE      |Manifest: NOSIGNATURE
+		[视角缩放]justzoom_forge_2.1.1_MC_1.20.1.jar          |Just Zoom                     |justzoom                      |2.1.1               |DONE      |Manifest: NOSIGNATURE
+		l2itemselector-0.1.9.jar                          |L2 Item Selector              |l2itemselector                |0.1.9               |DONE      |Manifest: NOSIGNATURE
+		[输入法冲突修复]IMBlocker-5.0.2-1.19.4-1.20.4.jar        |IMBlocker                     |imblocker                     |5.0.2               |DONE      |Manifest: NOSIGNATURE
+	Crash Report UUID: 1acfa637-6967-4fe9-949a-16aa03794285
+	FML: 47.4
+	Forge: net.minecraftforge:47.4.16
+	Fragments: Back Stack Index: 0
+FragmentManager misc state:
+  mHost=icyllis.modernui.mc.UIManager$HostCallbacks@45078b4f
+  mContainer=icyllis.modernui.mc.UIManager$HostCallbacks@45078b4f
+  mCurState=7 mStateSaved=false mStopped=false mDestroyed=false

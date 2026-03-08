@@ -1,0 +1,172 @@
+{
+  "id": "hello_world",
+  "title": "Hello World",
+  "description": "A simple dialog",
+  "start": "start",
+  "entries": [
+    {
+      "id": "start",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "桐树啊 一直都不能忘记",
+      "portraits": [{ "path": "1.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "1",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "那是只有充满著悲伤的树",
+      "portraits": [{ "path": "2.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "2",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "就像一首只有我能听到的歌一样",
+      "portraits": [{ "path": "3.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "3",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "清新的空气 水也是透明的 就连人声也没有",
+      "portraits": [{ "path": "4.png",  "position": "LEFT","animationType": "BOUNCE"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "4",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "这儿是哪儿呢 不像梦境一般",
+      "portraits": [{ "path": "5.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "5",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "从废墟之山里把伸进的手 拿出来的话 如能重返昔日的时光",
+      "portraits": [{ "path": "1.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "6",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "这痛苦将一直等待着我吗",
+      "portraits": [{ "path": "2.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "7",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "桐树啊 一直都不能忘记",
+      "portraits": [{ "path": "3.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "8",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "我已是被往另一方的船所遗弃的无用之物",
+      "portraits": [{ "path": "4.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "9",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "只能在浅滩蹲下休息着",
+      "portraits": [{ "path": "5.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "10",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "来自对岸的彩虹变得支离破碎 真不可思议呐",
+      "portraits": [{ "path": "1.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "11",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "就像你不在身旁的事实 两者都是一样的",
+      "portraits": [{ "path": "2.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "12",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "天与地之间的交界线… 如那些涟漪能到达那儿为止 一人也不留下的话就好了",
+      "portraits": [{ "path": "3.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "13",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "text": "记忆就像溶化为河川的水的雪",
+      "portraits": [{ "path": "4.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    },
+    {
+      "id": "14",
+      "speaker": "爱丽丝·玛格特罗伊德",
+      "portraits": [{ "path": "1.png",  "position": "LEFT"}],
+      "background_image": {
+        "path": "example_dialog.png",
+        "render_option": "FILL",
+        "animation_type": "FADE_IN"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "hello_world",
+  "title": "Hello World",
+  "description": "A simple dialog",
+  "start": "start",
+  "entries": [
+    {
+      "id": "start",
+      "speaker": "System",
+      "text": "Hello world! ",
+      "portraits":[
+       {"path": "character.png"} 
+      ]           
+    }
+  ]
+}

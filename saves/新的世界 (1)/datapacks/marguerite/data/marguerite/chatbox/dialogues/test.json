@@ -1,0 +1,51 @@
+{
+  "portrait": {
+    "pic": {
+      "type": "texture",
+      "texture": "chatbox:textures/portrait/authors.png",
+      "animation": "BOUNCE",
+      "x": 0, "y": 0, "width": 10, "height": 10, "alignX": "left", "alignY": "bottom",
+      "brightness": 100,
+      "opacity": 100,
+      "scale": 1,
+      "renderOrder": 20,
+      "angle": 0,
+      "attachment": [
+        {
+          "type": "text",
+          "value": "Ciallo～(∠·ω< )⌒★",
+          "x": 3, "y": 3
+        }
+      ]
+    },
+    "player": {
+      "type": "player_head",
+      "texture": "@s",
+      "x": 0, "y": 0, "width": 10, "height": 10, "alignX": "left", "alignY": "bottom",
+      "opacity": 100,
+      "scale": 1,
+      "renderOrder": 20,
+      "angle": 0,
+      "customAnimation": [
+        {"time": 50, "x": 20, "easing": "EASE_OUT_SINE"},
+        {"time": 50, "scale": 1.2, "opacity": 0, "easing": "EASE_OUT_SINE"}
+      ]
+    },
+    "item": {
+      "type": "item",
+      "texture": "diamond",
+      "hoverTexture": "coal",
+      "itemCount": 64,
+      "customItemData": 114514,
+      "scale": 1,
+      "x": 0, "y": 0, "alignX": "left", "alignY": "bottom",
+      "opacity": 100,
+      "renderOrder": 20,
+      "angle": 0,
+      "customAnimation": [
+        {"time": 50},
+        {"time": 50, "angle": 360}
+      ]
+    }
+  }
+}

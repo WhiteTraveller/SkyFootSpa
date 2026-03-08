@@ -1,0 +1,17 @@
+{
+	id: "00000000-0000-3004-998f-501a96e553e5"
+	type: "player"
+	player_name: "bslr"
+	ranks: {
+		00000000-0000-3004-998f-501a96e553e5: "owner"
+	}
+	properties: {
+		"ftbteams:display_name": "bslr"
+		"ftbteams:description": ""
+		"ftbteams:color": "#B559FF"
+		"ftbteams:free_to_join": 0b
+		"ftbteams:max_msg_history_size": 1000
+	}
+	message_history: [ ]
+	extra: { }
+}

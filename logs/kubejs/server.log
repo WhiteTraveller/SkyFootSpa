@@ -1,0 +1,42 @@
+[21:28:10] [INIT] KubeJS 2001.6.5-build.16; MC 2001 forge
+[21:28:10] [INIT] Loaded plugins:
+[21:28:10] [INIT] - dev.latvian.mods.kubejs.forge.BuiltinKubeJSForgePlugin
+[21:28:10] [INIT] - dev.latvian.mods.kubejs.forge.BuiltinKubeJSForgeClientPlugin
+[21:28:10] [INIT] - com.prunoideae.powerfuljs.forge.PowerfulJSPluginForge
+[21:28:10] [INIT] - net.zhaiji.kubejscurios.kubejs.KubeJSCuriosPlugin
+[21:28:10] [INIT] - zank.mods.eventjs.EventJSKubeJSPlugin
+[21:28:10] [INIT] - com.aszecsei.musicjs.MusicJSPlugin
+[21:28:10] [INIT] - com.lowdragmc.lowdraglib.kjs.LDLibKubeJSPlugin
+[21:28:10] [INIT] - com.sighs.petiteinventory.compat.kubejs.JSPlugin
+[21:28:10] [INIT] - net.liopyu.entityjs.EntityJSPlugin
+[21:28:10] [INIT] - dev.xkmc.l2hostility.compat.kubejs.LHKJSPlugin
+[21:28:10] [INIT] - com.probejs.ProbeJSPlugin
+[21:28:10] [INIT] - net.sixik.sdmshop.compat.kubejs.SDMShopKubeJS
+[21:28:10] [INIT] - com.zhenshiz.chatbox.ChatBoxJSPlugin
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/session/gen.js in 0.007 s
+[21:28:10] [INFO] Loaded script server_scripts:damageCreate.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:danmaku/danmakuSpawn.js in 0.001 s
+[21:28:10] [INFO] dungeon/backpack/backpackUpdate.js#1: Loaded Java class 'top.theillusivec4.curios.api.CuriosApi'
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/backpack/backpackUpdate.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/backpack/relic/relicDiamond.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/blocks/dimensionDestoryer.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/blocks/treasuraSpawner.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/mob/mobPool.js in 0.002 s
+[21:28:10] [INFO] dungeon/mob/mobSpawn.js#49: Loaded Java class 'dev.xkmc.l2hostility.content.capability.mob.MobTraitCap'
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/mob/mobSpawn.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/relic_attack.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/room/door.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/room/roomPool.js in 0.001 s
+[21:28:10] [ERROR] ! dungeon/room/selectRoom.js#29: ReferenceError: "MBDMachineEvents" is not defined.
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/session/session.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/shop/shop.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:dungeon/start.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:example.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:getInSphereEntities.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:globalFunction.js in 0.0 s
+[21:28:10] [INFO] Loaded script server_scripts:luckyAttack.js in 0.001 s
+[21:28:10] [INFO] Loaded script server_scripts:relic_kill.js in 0.0 s
+[21:28:10] [INFO] Loaded 20/21 KubeJS server scripts in 0.029 s with 1 errors and 0 warnings
+[21:28:10] [INFO] Scripts loaded
+[21:28:10] [INFO] [minecraft:item] Found 338 tags, added 54 objects, removed 0 objects
+[21:28:11] [INFO] Server resource reload complete!

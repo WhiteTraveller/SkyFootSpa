@@ -1,0 +1,12 @@
+{
+  "generator": {
+    "type": "dimdungeons:dimdungeons_chunkgen",
+    "settings": {
+	  "biome": "dimdungeons:biome_dungeon",
+      "lakes": false,
+      "features": false,
+      "layers": []
+    }
+  },
+  "type": "dimdungeons:dungeon_dimension"
+}

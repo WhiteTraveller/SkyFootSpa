@@ -1,0 +1,17 @@
+{
+	id: "386b3969-2099-4e25-9404-222474d1c582"
+	type: "player"
+	player_name: "White_Traveller"
+	ranks: {
+		386b3969-2099-4e25-9404-222474d1c582: "owner"
+	}
+	properties: {
+		"ftbteams:display_name": "White_Traveller"
+		"ftbteams:description": ""
+		"ftbteams:color": "#90FF59"
+		"ftbteams:free_to_join": 0b
+		"ftbteams:max_msg_history_size": 1000
+	}
+	message_history: [ ]
+	extra: { }
+}

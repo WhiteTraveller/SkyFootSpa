@@ -1,0 +1,292 @@
+---- Minecraft Crash Report ----
+// Embeddium instance tainted by mods: [sodiumoptionsapi, ruokmod, oculus, sodiumdynamiclights, embeddium_extra]
+// Please do not reach out for Embeddium support without removing these mods first.
+// -------
+// Surprise! Haha. Well, this is awkward.
+
+Time: 2026-01-25 00:15:09
+Description: Ticking player
+
+dev.latvian.mods.rhino.EcmaError: TypeError: Cannot call property onEquip in object [object Object]. It is not a function, it is "object". (startup_scripts:relic.js#16)
+	at dev.latvian.mods.rhino.ScriptRuntime.constructError(ScriptRuntime.java:3041) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.constructError(ScriptRuntime.java:3028) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.typeError(ScriptRuntime.java:3049) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.typeError3(ScriptRuntime.java:3069) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.notFunctionError(ScriptRuntime.java:3121) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.getPropFunctionAndThisHelper(ScriptRuntime.java:1792) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.getPropFunctionAndThis(ScriptRuntime.java:1775) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Interpreter.interpretLoop(Interpreter.java:869) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Interpreter.interpret(Interpreter.java:370) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterpretedFunction.call(InterpretedFunction.java:72) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.doTopCall(Context.java:1374) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterpretedFunction.call(InterpretedFunction.java:70) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ArrowFunction.call(ArrowFunction.java:42) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterfaceAdapter.invoke(InterfaceAdapter.java:125) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.VMBridge.lambda$newInterfaceProxy$0(VMBridge.java:74) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at jdk.proxy3.$Proxy77.accept(Unknown Source) ~[?:?] {}
+	at net.zhaiji.kubejscurios.curios.CapabilityCurios$1.onEquip(CapabilityCurios.java:185) ~[kubejs_curios_forge_1.20.1-1.0.3.jar%23283!/:1.0.3] {re:classloading}
+	at top.theillusivec4.curios.common.capability.ItemizedCurioCapability.onEquip(ItemizedCurioCapability.java:137) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.lambda$tick$32(CuriosEventHandler.java:608) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:137) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.lambda$tick$34(CuriosEventHandler.java:608) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:137) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.tick(CuriosEventHandler.java:528) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.event.__CuriosEventHandler_tick_LivingTickEvent.invoke(.dynamic) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading,pl:eventbus:B}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:55) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:312) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:298) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.common.ForgeHooks.onLivingTick(ForgeHooks.java:265) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at net.minecraft.world.entity.LivingEntity.m_8119_(LivingEntity.java:2258) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:kubejs_curios.mixins.json:LivingEntityMixin,pl:mixin:APP:modernfix-forge.mixins.json:perf.forge_cap_retrieval.LivingEntityMixin,pl:mixin:APP:bookshelf.common.mixins.json:accessors.entity.AccessorLivingEntity,pl:mixin:APP:bookshelf.common.mixins.json:patches.entity.MixinLivingEntity,pl:mixin:APP:mixins.sodiumdynamiclights.json:lightsource.LivingEntityMixin,pl:mixin:APP:curios.mixins.json:MixinLivingEntity,pl:mixin:APP:attributeslib.mixins.json:LivingEntityMixin,pl:mixin:APP:l2damagetracker.mixins.json:LivingEntityMixin,pl:mixin:APP:kubejs-common.mixins.json:LivingEntityMixin,pl:mixin:APP:l2complements.mixins.json:LivingEntityMixin,pl:mixin:A}
+	at net.minecraft.world.entity.player.Player.m_8119_(Player.java:241) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,pl:mixin:APP:mixins.sodiumdynamiclights.json:lightsource.PlayerEntityMixin,pl:mixin:APP:attributeslib.mixins.json:PlayerMixin,pl:mixin:APP:l2damagetracker.mixins.json:PlayerMixin,pl:mixin:APP:l2hostility.mixins.json:PlayerMixin,pl:mixin:APP:kubejs-common.mixins.json:PlayerMixin,pl:mixin:A}
+	at net.minecraft.server.level.ServerPlayer.m_9240_(ServerPlayer.java:467) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_serverplayer,xf:fml:xaerominimap:xaero_serverplayer,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_serverplayer,xf:fml:xaerominimap:xaero_serverplayer,pl:mixin:APP:ldlib-common.mixins.json:accessor.ServerPlayerAccessor,pl:mixin:APP:petiteinventory.mixins.json:ServerPlayerMixin,pl:mixin:APP:kubejs-common.mixins.json:ServerPlayerMixin,pl:mixin:APP:l2screentracker.mixins.json:ServerPlayerMixin,pl:mixin:A}
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.m_9933_(ServerGamePacketListenerImpl.java:262) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-forge.mixins.json:bugfix.forge_vehicle_packets.ServerGamePacketListenerImplMixin,pl:mixin:APP:forgematica.mixins.json:MixinServerPlayNetworkHandler,pl:mixin:A}
+	at net.minecraft.network.Connection.m_129483_(Connection.java:263) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading}
+	at net.minecraft.server.network.ServerConnectionListener.m_9721_(ServerConnectionListener.java:142) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.m_5703_(MinecraftServer.java:907) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_5705_(MinecraftServer.java:814) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.client.server.IntegratedServer.m_5705_(IntegratedServer.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:modernfix-common.mixins.json:perf.thread_priorities.IntegratedServerMixin,pl:mixin:APP:forgematica.mixins.json:MixinIntegratedServer,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:661) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at java.lang.Thread.run(Thread.java:833) ~[?:?] {re:mixin}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Suspected Mods: 
+	Curios API (curios), Version: 5.12.1+1.20.1
+		Issue tracker URL: https://github.com/TheIllusiveC4/Curios/issues
+		at TRANSFORMER/curios@5.12.1+1.20.1/top.theillusivec4.curios.common.capability.ItemizedCurioCapability.onEquip(ItemizedCurioCapability.java:137)
+
+	Rhino (rhino), Version: 2001.2.3-build.10
+		Issue tracker URL: https://github.com/KubeJS-Mods/Rhino/issues
+		at TRANSFORMER/rhino@2001.2.3-build.10/dev.latvian.mods.rhino.ScriptRuntime.constructError(ScriptRuntime.java:3041)
+
+	KubeJSCurios (kubejs_curios), Version: 1.0.3
+		at TRANSFORMER/kubejs_curios@1.0.3/net.zhaiji.kubejscurios.curios.CapabilityCurios$1.onEquip(CapabilityCurios.java:185)
+Stacktrace:
+	at dev.latvian.mods.rhino.ScriptRuntime.constructError(ScriptRuntime.java:3041) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.constructError(ScriptRuntime.java:3028) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.typeError(ScriptRuntime.java:3049) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.typeError3(ScriptRuntime.java:3069) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.notFunctionError(ScriptRuntime.java:3121) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.getPropFunctionAndThisHelper(ScriptRuntime.java:1792) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ScriptRuntime.getPropFunctionAndThis(ScriptRuntime.java:1775) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Interpreter.interpretLoop(Interpreter.java:869) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Interpreter.interpret(Interpreter.java:370) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterpretedFunction.call(InterpretedFunction.java:72) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.doTopCall(Context.java:1374) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterpretedFunction.call(InterpretedFunction.java:70) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.ArrowFunction.call(ArrowFunction.java:42) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.Context.callSync(Context.java:1357) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.InterfaceAdapter.invoke(InterfaceAdapter.java:125) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at dev.latvian.mods.rhino.VMBridge.lambda$newInterfaceProxy$0(VMBridge.java:74) ~[rhino-forge-2001.2.3-build.10.jar%23296!/:2001.2.3-build.10] {re:classloading}
+	at jdk.proxy3.$Proxy77.accept(Unknown Source) ~[?:?] {}
+	at net.zhaiji.kubejscurios.curios.CapabilityCurios$1.onEquip(CapabilityCurios.java:185) ~[kubejs_curios_forge_1.20.1-1.0.3.jar%23283!/:1.0.3] {re:classloading}
+	at top.theillusivec4.curios.common.capability.ItemizedCurioCapability.onEquip(ItemizedCurioCapability.java:137) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.lambda$tick$32(CuriosEventHandler.java:608) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:137) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.lambda$tick$34(CuriosEventHandler.java:608) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:137) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at top.theillusivec4.curios.common.event.CuriosEventHandler.tick(CuriosEventHandler.java:528) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading}
+	at top.theillusivec4.curios.common.event.__CuriosEventHandler_tick_LivingTickEvent.invoke(.dynamic) ~[curios-forge-5.12.1+1.20.1.jar%23271!/:5.12.1+1.20.1] {re:classloading,pl:eventbus:B}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:55) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:312) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:298) ~[eventbus-6.2.33.jar%23137!/:?] {}
+	at net.minecraftforge.common.ForgeHooks.onLivingTick(ForgeHooks.java:265) ~[forge-1.20.1-47.4.16-universal.jar%23305!/:?] {re:mixin,re:classloading}
+	at net.minecraft.world.entity.LivingEntity.m_8119_(LivingEntity.java:2258) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:kubejs_curios.mixins.json:LivingEntityMixin,pl:mixin:APP:modernfix-forge.mixins.json:perf.forge_cap_retrieval.LivingEntityMixin,pl:mixin:APP:bookshelf.common.mixins.json:accessors.entity.AccessorLivingEntity,pl:mixin:APP:bookshelf.common.mixins.json:patches.entity.MixinLivingEntity,pl:mixin:APP:mixins.sodiumdynamiclights.json:lightsource.LivingEntityMixin,pl:mixin:APP:curios.mixins.json:MixinLivingEntity,pl:mixin:APP:attributeslib.mixins.json:LivingEntityMixin,pl:mixin:APP:l2damagetracker.mixins.json:LivingEntityMixin,pl:mixin:APP:kubejs-common.mixins.json:LivingEntityMixin,pl:mixin:APP:l2complements.mixins.json:LivingEntityMixin,pl:mixin:A}
+	at net.minecraft.world.entity.player.Player.m_8119_(Player.java:241) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:computing_frames,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_playerentity_iswearing,xf:fml:xaerominimap:xaero_playerentity_iswearing,pl:mixin:APP:mixins.sodiumdynamiclights.json:lightsource.PlayerEntityMixin,pl:mixin:APP:attributeslib.mixins.json:PlayerMixin,pl:mixin:APP:l2damagetracker.mixins.json:PlayerMixin,pl:mixin:APP:l2hostility.mixins.json:PlayerMixin,pl:mixin:APP:kubejs-common.mixins.json:PlayerMixin,pl:mixin:A}
+-- Player being ticked --
+Details:
+	Entity Type: minecraft:player (net.minecraft.server.level.ServerPlayer)
+	Entity ID: 98
+	Entity Name: bslr
+	Entity's Exact location: 24.30, -42.25, -22.04
+	Entity's Block location: World: (24,-43,-23), Section: (at 8,5,9 in 1,-3,-2; chunk contains blocks 16,-64,-32 to 31,319,-17), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,-64,-512 to 511,319,-1)
+	Entity's Momentum: 0.00, 0.00, 0.00
+	Entity's Passengers: []
+	Entity's Vehicle: null
+Stacktrace:
+	at net.minecraft.server.level.ServerPlayer.m_9240_(ServerPlayer.java:467) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_serverplayer,xf:fml:xaerominimap:xaero_serverplayer,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_serverplayer,xf:fml:xaerominimap:xaero_serverplayer,pl:mixin:APP:ldlib-common.mixins.json:accessor.ServerPlayerAccessor,pl:mixin:APP:petiteinventory.mixins.json:ServerPlayerMixin,pl:mixin:APP:kubejs-common.mixins.json:ServerPlayerMixin,pl:mixin:APP:l2screentracker.mixins.json:ServerPlayerMixin,pl:mixin:A}
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.m_9933_(ServerGamePacketListenerImpl.java:262) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:modernfix-forge.mixins.json:bugfix.forge_vehicle_packets.ServerGamePacketListenerImplMixin,pl:mixin:APP:forgematica.mixins.json:MixinServerPlayNetworkHandler,pl:mixin:A}
+	at net.minecraft.network.Connection.m_129483_(Connection.java:263) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,re:classloading}
+	at net.minecraft.server.network.ServerConnectionListener.m_9721_(ServerConnectionListener.java:142) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.m_5703_(MinecraftServer.java:907) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_5705_(MinecraftServer.java:814) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.client.server.IntegratedServer.m_5705_(IntegratedServer.java:89) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:runtimedistcleaner:A,re:classloading,pl:mixin:APP:modernfix-common.mixins.json:perf.thread_priorities.IntegratedServerMixin,pl:mixin:APP:forgematica.mixins.json:MixinIntegratedServer,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.m_130011_(MinecraftServer.java:661) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at net.minecraft.server.MinecraftServer.m_206580_(MinecraftServer.java:251) ~[client-1.20.1-20230612.114412-srg.jar%23300!/:?] {re:mixin,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,re:classloading,pl:accesstransformer:B,xf:fml:xaeroworldmap:xaero_wm_minecraftserver,xf:fml:xaerominimap:xaero_minecraftserver,pl:mixin:A}
+	at java.lang.Thread.run(Thread.java:833) ~[?:?] {re:mixin}
+
+
+-- System Details --
+Details:
+	Minecraft Version: 1.20.1
+	Minecraft Version ID: 1.20.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 17.0.1, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Microsoft
+	Memory: 517793688 bytes (493 MiB) / 1262485504 bytes (1204 MiB) up to 8376025088 bytes (7988 MiB)
+	CPUs: 16
+	Processor Vendor: AuthenticAMD
+	Processor Name: AMD Ryzen 7 9700X 8-Core Processor             
+	Identifier: AuthenticAMD Family 26 Model 68 Stepping 0
+	Microarchitecture: unknown
+	Frequency (GHz): 3.79
+	Number of physical packages: 1
+	Number of physical CPUs: 8
+	Number of logical CPUs: 16
+	Graphics card #0 name: OrayIddDriver Device
+	Graphics card #0 vendor: Shanghai Best Oray Information Technology Co., Ltd.
+	Graphics card #0 VRAM (MB): 0.00
+	Graphics card #0 deviceId: unknown
+	Graphics card #0 versionInfo: DriverVersion=17.1.58.818
+	Graphics card #1 name: Virtual Desktop Monitor
+	Graphics card #1 vendor: Virtual Desktop, Inc.
+	Graphics card #1 VRAM (MB): 0.00
+	Graphics card #1 deviceId: unknown
+	Graphics card #1 versionInfo: DriverVersion=13.50.53.699
+	Graphics card #2 name: NVIDIA GeForce RTX 4070 Ti SUPER
+	Graphics card #2 vendor: NVIDIA (0x10de)
+	Graphics card #2 VRAM (MB): 4095.00
+	Graphics card #2 deviceId: 0x2689
+	Graphics card #2 versionInfo: DriverVersion=32.0.15.7242
+	Graphics card #3 name: AMD Radeon(TM) Graphics
+	Graphics card #3 vendor: Advanced Micro Devices, Inc. (0x1002)
+	Graphics card #3 VRAM (MB): 512.00
+	Graphics card #3 deviceId: 0x13c0
+	Graphics card #3 versionInfo: DriverVersion=32.0.21030.2001
+	Memory slot #0 capacity (MB): 16384.00
+	Memory slot #0 clockSpeed (GHz): 4.80
+	Memory slot #0 type: Unknown
+	Memory slot #1 capacity (MB): 16384.00
+	Memory slot #1 clockSpeed (GHz): 4.80
+	Memory slot #1 type: Unknown
+	Virtual memory max (MB): 38129.07
+	Virtual memory used (MB): 33412.25
+	Swap memory total (MB): 6266.73
+	Swap memory used (MB): 0.00
+	JVM Flags: 6 total; -XX:+UseG1GC -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmn1198m -Xmx7987m
+	Loaded Shaderpack: (off)
+	Server Running: true
+	Player Count: 1 / 8; [ServerPlayer['bslr'/98, l='ServerLevel[新的世界]', x=24.30, y=-42.25, z=-22.04]]
+	Data Packs: vanilla, mod:ftbessentials (incompatible), mod:powerfuljs (incompatible), mod:kubejs_curios, mod:controlling (incompatible), mod:xaeroworldmap (incompatible), mod:placebo (incompatible), mod:modernfix (incompatible), mod:forgematica (incompatible), mod:mixinextras (incompatible), mod:bookshelf, mod:ldlib (incompatible), mod:melody (incompatible), mod:sodiumoptionsapi, mod:cloth_config (incompatible), mod:ruokmod (incompatible), mod:embeddium, mod:konkrete (incompatible), mod:staaaaaaaaaaaack, mod:sodiumdynamiclights, mod:petiteinventory, mod:bettertags, mod:mafglib, mod:structureexpansion (incompatible), mod:curios (incompatible), mod:patchouli (incompatible), mod:oculus, mod:searchables (incompatible), mod:attributeslib (incompatible), mod:constructionwand, mod:inventoryprofilesnext (incompatible), mod:architectury (incompatible), mod:framework, mod:l2library (incompatible), mod:l2damagetracker (incompatible), mod:probejs (incompatible), mod:foodeffecttooltips, mod:betteradvancements (incompatible), mod:rhino (incompatible), mod:l2tabs (incompatible), mod:ftblibrary (incompatible), mod:ftbteams (incompatible), mod:customskinloader (incompatible), mod:itemfilters (incompatible), mod:jei, mod:kubejs (incompatible), mod:attributefix (incompatible), mod:l2complements (incompatible), mod:eventjs (incompatible), mod:naturescompass, mod:configured (incompatible), mod:l2screentracker (incompatible), mod:catalogue (incompatible), mod:memoryleakfix (incompatible), mod:forge, mod:enchdesc (incompatible), mod:libipn (incompatible), mod:fabric_api_base, mod:mousetweaks, mod:ftbquests (incompatible), mod:tickrate_changer_reborn (incompatible), mod:jade (incompatible), mod:dialog, mod:kotlinforforge (incompatible), mod:dimdungeons, mod:xaerominimap (incompatible), mod:l2hostility (incompatible), mod:entityculling, mod:jecharacters (incompatible), mod:mob_weapon_api (incompatible), mod:fancymenu (incompatible), mod:appleskin (incompatible), mod:ferritecore (incompatible), mod:embeddium_extra, mod:modernui, mod:nbtedit (incompatible), mod:justzoom (incompatible), mod:l2itemselector (incompatible), mod:imblocker
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Experimental
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'forge'; Server brand changed to 'forge'
+	Launched Version: 1.20.1-Forge_47.4.16
+	ModLauncher: 10.0.9+10.0.9+main.dcd20f30
+	ModLauncher launch target: forgeclient
+	ModLauncher naming: srg
+	ModLauncher services: 
+		mixin-0.8.5.jar mixin PLUGINSERVICE 
+		eventbus-6.2.33.jar eventbus PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar slf4jfixer PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar object_holder_definalize PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar runtime_enum_extender PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar capability_token_subclass PLUGINSERVICE 
+		accesstransformers-8.0.4.jar accesstransformer PLUGINSERVICE 
+		fmlloader-1.20.1-47.4.16.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-10.0.9.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-10.0.9.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		minecraft@1.0
+		kotlinforforge@4.11.0
+		javafml@null
+		lowcodefml@null
+	Mod List: 
+		ftb-essentials-forge-2001.2.2 (2).jar             |FTB Essentials                |ftbessentials                 |2001.2.2            |DONE      |Manifest: NOSIGNATURE
+		powerfuljs-1.6.1.jar                              |PowerfulJS                    |powerfuljs                    |1.6.1               |DONE      |Manifest: NOSIGNATURE
+		kubejs_curios_forge_1.20.1-1.0.3.jar              |KubeJSCurios                  |kubejs_curios                 |1.0.3               |DONE      |Manifest: NOSIGNATURE
+		[键位冲突显示]Controlling-forge-1.20.1-12.0.2.jar       |Controlling                   |controlling                   |12.0.2              |DONE      |Manifest: NOSIGNATURE
+		[Xaeros的世界地图]XaerosWorldMap_1.39.4_Forge_1.20.jar |Xaero's World Map             |xaeroworldmap                 |1.39.4              |DONE      |Manifest: NOSIGNATURE
+		Placebo-1.20.1-8.6.3.jar                          |Placebo                       |placebo                       |8.6.3               |DONE      |Manifest: NOSIGNATURE
+		[现代化修复]modernfix-forge-5.21.0+mc1.20.1.jar        |ModernFix                     |modernfix                     |5.21.0+mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		[全息蓝图] Forgematica-0.1.13-mc1.20.1.jar            |Forgematica                   |forgematica                   |0.1.13-mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		mixinextras-forge-0.2.0-beta.8.jar                |MixinExtras                   |mixinextras                   |0.2.0-beta.8        |DONE      |Manifest: NOSIGNATURE
+		[前置]Bookshelf-Forge-1.20.1-20.2.13.jar            |Bookshelf                     |bookshelf                     |20.2.13             |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		ldlib-forge-1.20.1-1.0.39.a.jar                   |LowDragLib                    |ldlib                         |1.0.39.a            |DONE      |Manifest: NOSIGNATURE
+		melody_forge_1.0.3_MC_1.20.1-1.20.4.jar           |Melody                        |melody                        |1.0.2               |DONE      |Manifest: NOSIGNATURE
+		[动态光源前置]sodiumoptionsapi-forge-1.0.10-1.20.1.jar  |Sodium Options API            |sodiumoptionsapi              |1.0.10              |DONE      |Manifest: NOSIGNATURE
+		[前置]cloth-config-11.1.136-forge.jar               |Cloth Config v10 API          |cloth_config                  |11.1.136            |DONE      |Manifest: NOSIGNATURE
+		[钌]RuOK-1.7.1_1.20.1-Forge.jar                    |RuOK Mod                      |ruokmod                       |1.7.1               |DONE      |Manifest: NOSIGNATURE
+		[铷]embeddium-0.3.31+mc1.20.1.jar                  |Embeddium                     |embeddium                     |0.3.31+mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		[视角缩放前置]konkrete_forge_1.8.0_MC_1.20-1.20.1.jar   |Konkrete                      |konkrete                      |1.8.0               |DONE      |Manifest: NOSIGNATURE
+		[掉落物堆叠]staaaaaaaaaaaack-forge-1.20.1-1.5-71.jar   |Staaaaaaaaaaaack              |staaaaaaaaaaaack              |1.20.1-1.5-71       |DONE      |Manifest: NOSIGNATURE
+		[动态光源]sodiumdynamiclights-forge-1.0.10-1.20.1.jar |Sodium Dynamic Lights         |sodiumdynamiclights           |1.0.9               |DONE      |Manifest: NOSIGNATURE
+		petiteinventory-1.0.4.jar                         |PetiteInventory               |petiteinventory               |1.0.4               |DONE      |Manifest: NOSIGNATURE
+		Better Tags-1.20.1-1.4.jar                        |Better Tags                   |bettertags                    |1.4                 |DONE      |Manifest: NOSIGNATURE
+		MaFgLib-0.1.14-mc1.20.1.jar                       |MaFgLib                       |mafglib                       |0.1.14-mc1.20.1     |DONE      |Manifest: NOSIGNATURE
+		structure-expansion-2.0.1-build.11.jar            |Structure Expansion           |structureexpansion            |2.0.1-build.11      |DONE      |Manifest: NOSIGNATURE
+		curios-forge-5.12.1+1.20.1.jar                    |Curios API                    |curios                        |5.12.1+1.20.1       |DONE      |Manifest: NOSIGNATURE
+		Patchouli-1.20.1-84.1-FORGE.jar                   |Patchouli                     |patchouli                     |1.20.1-84.1-FORGE   |DONE      |Manifest: NOSIGNATURE
+		[Iris非官方移植]oculus-mc1.20.1-1.8.0.jar              |Oculus                        |oculus                        |1.8.0               |DONE      |Manifest: NOSIGNATURE
+		[键位冲突显示前置]Searchables-forge-1.20.1-1.0.3.jar      |Searchables                   |searchables                   |1.0.3               |DONE      |Manifest: NOSIGNATURE
+		ApothicAttributes-1.20.1-1.3.7.jar                |Apothic Attributes            |attributeslib                 |1.3.7               |DONE      |Manifest: NOSIGNATURE
+		[建筑手杖] constructionwand-1.20.1-2.11.jar           |Construction Wand             |constructionwand              |1.20.1-2.11         |DONE      |Manifest: NOSIGNATURE
+		[一键整理NEXT(IPN)]InventoryProfilesNext-forge-1.20-1.|Inventory Profiles Next       |inventoryprofilesnext         |1.10.14             |DONE      |Manifest: NOSIGNATURE
+		[前置]architectury-9.2.14-forge.jar                 |Architectury                  |architectury                  |9.2.14              |DONE      |Manifest: NOSIGNATURE
+		framework-forge-1.20.1-0.7.15.jar                 |Framework                     |framework                     |0.7.15              |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		l2library-2.5.1.jar                               |L2 Library                    |l2library                     |2.5.1               |DONE      |Manifest: NOSIGNATURE
+		l2damagetracker-0.4.3.jar                         |L2 Damage Tracker             |l2damagetracker               |0.4.3               |DONE      |Manifest: NOSIGNATURE
+		probejs-6.0.1-forge.jar                           |ProbeJS                       |probejs                       |6.0.1               |DONE      |Manifest: NOSIGNATURE
+		[食物效果显示]foodeffecttooltips+forge-1.20.1-1.3.0.jar |Food Effect Tooltips          |foodeffecttooltips            |1.3.0               |DONE      |Manifest: NOSIGNATURE
+		[更好的进度]BetterAdvancements-NeoForge-1.20.1-0.4.2.25|Better Advancements           |betteradvancements            |0.4.2.25            |DONE      |Manifest: NOSIGNATURE
+		rhino-forge-2001.2.3-build.10.jar                 |Rhino                         |rhino                         |2001.2.3-build.10   |DONE      |Manifest: NOSIGNATURE
+		l2tabs-0.3.3.jar                                  |L2 Tabs                       |l2tabs                        |0.3.3               |DONE      |Manifest: NOSIGNATURE
+		ftb-library-forge-2001.2.9.jar                    |FTB Library                   |ftblibrary                    |2001.2.9            |DONE      |Manifest: NOSIGNATURE
+		ftb-teams-forge-2001.3.1.jar                      |FTB Teams                     |ftbteams                      |2001.3.1            |DONE      |Manifest: NOSIGNATURE
+		[离线皮肤加载器]CustomSkinLoader_ForgeV2-14.23.jar       |CustomSkinLoader              |customskinloader              |14.23               |DONE      |Manifest: 4a:31:8b:cf:34:eb:d0:13:f3:19:39:d5:d2:b9:12:78:b5:f2:8d:91:3e:6f:8f:ed:97:48:00:69:e1:30:3a:54
+		item-filters-forge-2001.1.0-build.59.jar          |Item Filters                  |itemfilters                   |2001.1.0-build.59   |DONE      |Manifest: NOSIGNATURE
+		[JEI]jei-1.20.1-forge-15.20.0.106.jar             |Just Enough Items             |jei                           |15.20.0.106         |DONE      |Manifest: NOSIGNATURE
+		kubejs-forge-2001.6.5-build.16.jar                |KubeJS                        |kubejs                        |2001.6.5-build.16   |DONE      |Manifest: NOSIGNATURE
+		[属性修复]AttributeFix-Forge-1.20.1-21.0.4.jar        |AttributeFix                  |attributefix                  |21.0.4              |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		l2complements-2.5.5.jar                           |L2 Complements                |l2complements                 |2.5.5               |DONE      |Manifest: NOSIGNATURE
+		EventJS-1.20.1-1.4.0.jar                          |EventJS                       |eventjs                       |1.4.0               |DONE      |Manifest: NOSIGNATURE
+		[群系指南针]NaturesCompass-1.20.1-1.11.2-forge.jar     |Nature's Compass              |naturescompass                |1.20.1-1.11.2-forge |DONE      |Manifest: NOSIGNATURE
+		[配置界面]configured-forge-1.20.1-2.2.3.jar           |Configured                    |configured                    |2.2.3               |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		l2screentracker-0.1.4.jar                         |L2 Screen Tracker             |l2screentracker               |0.1.4               |DONE      |Manifest: NOSIGNATURE
+		[模组目录]catalogue-forge-1.20.1-1.8.0.jar            |Catalogue                     |catalogue                     |1.8.0               |DONE      |Manifest: 0d:78:5f:44:c0:47:0c:8c:e2:63:a3:04:43:d4:12:7d:b0:7c:35:37:dc:40:b1:c1:98:ec:51:eb:3b:3c:45:99
+		[内存泄漏修复]memoryleakfix-forge-1.17+-1.1.5.jar       |Memory Leak Fix               |memoryleakfix                 |1.1.5               |DONE      |Manifest: NOSIGNATURE
+		forge-1.20.1-47.4.16-universal.jar                |Forge                         |forge                         |47.4.16             |DONE      |Manifest: NOSIGNATURE
+		client-1.20.1-20230612.114412-srg.jar             |Minecraft                     |minecraft                     |1.20.1              |DONE      |Manifest: a1:d4:5e:04:4f:d3:d6:e0:7b:37:97:cf:77:b0:de:ad:4a:47:ce:8c:96:49:5f:0a:cf:8c:ae:b2:6d:4b:8a:3f
+		[附魔描述]EnchantmentDescriptions-Forge-1.20.1-17.1.19|EnchantmentDescriptions       |enchdesc                      |17.1.19             |DONE      |Manifest: eb:c4:b1:67:8b:f9:0c:db:dc:4f:01:b1:8e:61:64:39:4c:10:85:0b:a6:c4:c7:48:f0:fa:95:f2:cb:08:3a:e5
+		[IPN前置]libIPN-forge-1.20-4.0.2.jar                |libIPN                        |libipn                        |4.0.2               |DONE      |Manifest: NOSIGNATURE
+		fabric-api-base-0.4.31+ef105b4977.jar             |Fabric API Base               |fabric_api_base               |0.4.31+ef105b4977   |DONE      |Manifest: NOSIGNATURE
+		[鼠标手势]MouseTweaks-forge-mc1.20.1-2.25.1.jar       |Mouse Tweaks                  |mousetweaks                   |2.25.1              |DONE      |Manifest: NOSIGNATURE
+		ftb-quests-forge-2001.4.12.jar                    |FTB Quests                    |ftbquests                     |2001.4.12           |DONE      |Manifest: NOSIGNATURE
+		TickChanger-1.20-1.0.jar                          |TickChanger:Reborn            |tickrate_changer_reborn       |1.20-1.0            |DONE      |Manifest: NOSIGNATURE
+		[玉🔍]Jade-1.20.1-Forge-11.13.1.jar                |Jade                          |jade                          |11.13.1+forge       |DONE      |Manifest: NOSIGNATURE
+		VNDialog-1.1.2-1.20.1.jar                         |VNDialog                      |dialog                        |1.1.2-1.20.1        |DONE      |Manifest: NOSIGNATURE
+		kffmod-4.11.0.jar                                 |Kotlin For Forge              |kotlinforforge                |4.11.0              |DONE      |Manifest: NOSIGNATURE
+		dimdungeons-194-forge-1.20.1.jar                  |Dimensional Dungeons          |dimdungeons                   |194                 |DONE      |Manifest: NOSIGNATURE
+		[Xaero的小地图]Xaeros_Minimap_25.2.0_Forge_1.20.jar   |Xaero's Minimap               |xaerominimap                  |25.2.0              |DONE      |Manifest: NOSIGNATURE
+		l2hostility-2.5.6.jar                             |L2 Hostility                  |l2hostility                   |2.5.6               |DONE      |Manifest: NOSIGNATURE
+		[实体渲染机制优化]entityculling-forge-1.7.4-mc1.20.1.jar  |EntityCulling                 |entityculling                 |1.7.4               |DONE      |Manifest: NOSIGNATURE
+		[JEI拼音搜索]jecharacters-1.20.1-forge-4.5.11.jar     |Just Enough Characters        |jecharacters                  |4.5.11              |DONE      |Manifest: NOSIGNATURE
+		mob_weapon_api-0.2.3.jar                          |Mob Weapon API                |mob_weapon_api                |0.2.3               |DONE      |Manifest: NOSIGNATURE
+		fancymenu_forge_3.7.0_MC_1.20.1.jar               |FancyMenu                     |fancymenu                     |3.7.0               |DONE      |Manifest: NOSIGNATURE
+		[苹果皮]appleskin-forge-mc1.20.1-2.5.1.jar           |AppleSkin                     |appleskin                     |2.5.1+mc1.20.1      |DONE      |Manifest: NOSIGNATURE
+		[铁氧体磁芯]ferritecore-6.0.1-forge.jar                |Ferrite Core                  |ferritecore                   |6.0.1               |DONE      |Manifest: 41:ce:50:66:d1:a0:05:ce:a1:0e:02:85:9b:46:64:e0:bf:2e:cf:60:30:9a:fe:0c:27:e0:63:66:9a:84:ce:8a
+		[铷扩展]rubidium-extra-0.5.4.4+mc1.20.1-build.131.jar|Embeddium Extra               |embeddium_extra               |0.5.4.4+mc1.20.1-bui|DONE      |Manifest: NOSIGNATURE
+		[现代化UI]ModernUI-Forge-1.20.1-3.11.1.6-universal.ja|Modern UI                     |modernui                      |3.11.1.6            |DONE      |Manifest: 01:c4:52:25:b1:6e:5f:ac:fe:88:35:7e:cf:65:2f:69:1d:56:db:2b:93:f8:dd:7c:93:47:04:8c:e4:22:13:91
+		nbtedit-forge-5.2.8.jar                           |In-game NBTEdit Reborn        |nbtedit                       |5.2.8               |DONE      |Manifest: NOSIGNATURE
+		[视角缩放]justzoom_forge_2.1.1_MC_1.20.1.jar          |Just Zoom                     |justzoom                      |2.1.1               |DONE      |Manifest: NOSIGNATURE
+		l2itemselector-0.1.9.jar                          |L2 Item Selector              |l2itemselector                |0.1.9               |DONE      |Manifest: NOSIGNATURE
+		[输入法冲突修复]IMBlocker-5.0.2-1.19.4-1.20.4.jar        |IMBlocker                     |imblocker                     |5.0.2               |DONE      |Manifest: NOSIGNATURE
+	Crash Report UUID: 0e5141d6-0b12-429a-b939-e982648811a8
+	FML: 47.4
+	Forge: net.minecraftforge:47.4.16
+	Fragments: Back Stack Index: 0
+FragmentManager misc state:
+  mHost=icyllis.modernui.mc.UIManager$HostCallbacks@35db66e5
+  mContainer=icyllis.modernui.mc.UIManager$HostCallbacks@35db66e5
+  mCurState=7 mStateSaved=false mStopped=false mDestroyed=false

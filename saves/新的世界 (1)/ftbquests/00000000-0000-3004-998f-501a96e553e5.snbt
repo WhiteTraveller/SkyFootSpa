@@ -1,0 +1,12 @@
+{
+	version: 1
+	uuid: "0000000000003004998f501a96e553e5"
+	name: "bslr#00000000"
+	lock: false
+	rewards_blocked: false
+	task_progress: { }
+	started: { }
+	completed: { }
+	claimed_rewards: { }
+	player_data: { }
+}

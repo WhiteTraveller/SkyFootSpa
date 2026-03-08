@@ -1,0 +1,9 @@
+{
+  "id" : "cd7f241b940749b2b44700eda807546d",
+  "name" : "bslr",
+  "properties" : [ {
+    "name" : "textures",
+    "value" : "ewogICJ0aW1lc3RhbXAiIDogMTc2OTQzNzM2NjQ5NiwKICAicHJvZmlsZUlkIiA6ICJjZDdmMjQxYjk0MDc0OWIyYjQ0NzAwZWRhODA3NTQ2ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJic2xyIiwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2Q1YzRlZTVjZTIwYWVkOWUzM2U4NjZjNjZjYWEzNzE3ODYwNjIzNGIzNzIxMDg0YmYwMWQxMzMyMGZiMmViM2YiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+  } ],
+  "profileActions" : [ ]
+}

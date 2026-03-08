@@ -1,0 +1,55 @@
+[21:27:34] [INIT] KubeJS 2001.6.5-build.16; MC 2001 forge
+[21:27:34] [INIT] Loaded plugins:
+[21:27:34] [INIT] - dev.latvian.mods.kubejs.forge.BuiltinKubeJSForgePlugin
+[21:27:34] [INIT] - dev.latvian.mods.kubejs.forge.BuiltinKubeJSForgeClientPlugin
+[21:27:34] [INIT] - com.prunoideae.powerfuljs.forge.PowerfulJSPluginForge
+[21:27:34] [INIT] - net.zhaiji.kubejscurios.kubejs.KubeJSCuriosPlugin
+[21:27:34] [INIT] - zank.mods.eventjs.EventJSKubeJSPlugin
+[21:27:34] [INIT] - com.aszecsei.musicjs.MusicJSPlugin
+[21:27:34] [INIT] - com.lowdragmc.lowdraglib.kjs.LDLibKubeJSPlugin
+[21:27:34] [INIT] - com.sighs.petiteinventory.compat.kubejs.JSPlugin
+[21:27:34] [INIT] - net.liopyu.entityjs.EntityJSPlugin
+[21:27:34] [INIT] - dev.xkmc.l2hostility.compat.kubejs.LHKJSPlugin
+[21:27:34] [INIT] - com.probejs.ProbeJSPlugin
+[21:27:34] [INIT] - net.sixik.sdmshop.compat.kubejs.SDMShopKubeJS
+[21:27:34] [INIT] - com.zhenshiz.chatbox.ChatBoxJSPlugin
+[21:27:34] [INFO] Loaded script startup_scripts:relicRegister.js in 0.034 s
+[21:27:34] [INFO] Loaded script startup_scripts:relicTags.js in 0.004 s
+[21:27:34] [INFO] relic/mushroom/relicMushroomBlue.js#2: Loaded Java class 'top.theillusivec4.curios.api.CuriosApi'
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomBlue.js in 0.005 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomCrown.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomFarm.js in 0.002 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomGreen.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomMoon.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/mushroom/relicMushroomRed.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicBirdGray.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicBirdRainbow.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicPerformFlute.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicPerformFork.js in 0.002 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicPerformHorn.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/perform/relicPerformPick.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicBackpackSpace.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicBattry.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicBroomstick.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicCoin.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicExample.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicFuransuDoll.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicGoriaDoll.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicHouraiDoll.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicKnifeBlue.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicKnifeGreen.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicKnifeRed.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicKyotoDoll.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicLegStrap.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicMagicThread.js in 0.0 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic/relicShanghaiDoll.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:block.js in 0.006 s
+[21:27:34] [INFO] Loaded script startup_scripts:danmaku/danmakuRegist.js in 0.001 s
+[21:27:34] [INFO] dimension.js#1: Loaded Java class 'net.minecraftforge.event.entity.EntityTravelToDimensionEvent'
+[21:27:34] [INFO] dimension.js#2: Loaded Java class 'net.minecraft.server.level.ServerPlayer'
+[21:27:34] [INFO] Loaded script startup_scripts:dimension.js in 0.056 s
+[21:27:34] [INFO] Loaded script startup_scripts:music.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:relic.js in 0.001 s
+[21:27:34] [INFO] Loaded script startup_scripts:test.js in 0.0 s
+[21:27:34] [INFO] Loaded 35/35 KubeJS startup scripts in 0.472 s with 0 errors and 0 warnings
+[21:27:34] [WARN] block.js#49: blockBuilder.material(string) is no longer supported! Use .soundType(SoundType) and .mapColor(MapColor) instead!
