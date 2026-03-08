@@ -1,0 +1,7 @@
+
+[Setting]
+	#Enabled menu.
+	whitelist = ["class dev.xkmc.l2tabs.compat.CuriosListMenu", "class net.minecraft.world.inventory.ChestMenu"]
+	#Whether inventory will be effort.
+	enableInventory = true
+

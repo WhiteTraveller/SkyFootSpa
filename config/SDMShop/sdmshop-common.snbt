@@ -1,0 +1,23 @@
+{
+	# The store ID that you specify when creating via /sdmshop create_shop <id>. After specifying the ID, clicking on the store button or the button in the menu will open the current store.
+	# Default: "default"
+	default_shop_id: "default"
+	
+	# Default: false
+	disable_key_bind: false
+	
+	# Default: true
+	send_notify: true
+	
+	# Default: true
+	show_admin_messages: true
+	
+	# Default: "blockymodern"
+	# Valid values: "modern", "blockymodern"
+	ui_style: "blockymodern"
+	caching: {
+		# Allows you to reduce the load on the network by caching store data on the player's client. In this case, the player will be able to copy your store data without any obstacles.
+		# Default: true
+		use_cached_shop_data: true
+	}
+}

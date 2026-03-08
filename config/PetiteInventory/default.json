@@ -1,0 +1,22 @@
+[
+  {
+    "match": ["minecraft:bed", "minecraft:diamond"],
+    "result": "3*2"
+  },
+  {
+    "match": ["#minecraft:tools"],
+    "result": "1*2"
+  },
+  {
+    "match": ["#forge:stone", "#forge:ores", "#minecraft:logs"],
+    "result": "2*2"
+  },
+  {
+    "match": ["#minecraft:doors"],
+    "result": "2*3"
+  },
+  {
+    "match": ["#minecraft:slabs"],
+    "result": "2*1"
+  }
+]

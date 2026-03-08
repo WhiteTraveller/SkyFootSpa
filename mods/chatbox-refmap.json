@@ -1,0 +1,56 @@
+{
+  "mappings": {
+    "com/zhenshiz/chatbox/mixin/client/MinecraftMixin": {
+      "pauseGame": "Lnet/minecraft/client/Minecraft;m_91358_(Z)V",
+      "setScreen": "Lnet/minecraft/client/Minecraft;m_91152_(Lnet/minecraft/client/gui/screens/Screen;)V"
+    },
+    "com/zhenshiz/chatbox/mixin/client/SoundEngineAccessor": {
+      "soundEngine": "f_120349_:Lnet/minecraft/client/sounds/SoundEngine;"
+    },
+    "com/zhenshiz/chatbox/mixin/client/SoundInstanceAccessor": {
+      "tickNonPaused": "m_120326_()V",
+      "instanceToChannel": "f_120226_:Ljava/util/Map;"
+    },
+    "com/zhenshiz/chatbox/mixin/EntityAccessor": {
+      "readAdditionalSaveData": "m_7378_(Lnet/minecraft/nbt/CompoundTag;)V"
+    },
+    "com/zhenshiz/chatbox/mixin/SimpleCriterionTriggerMixin": {
+      "trigger": "Lnet/minecraft/advancements/critereon/SimpleCriterionTrigger;m_66234_(Lnet/minecraft/server/level/ServerPlayer;Ljava/util/function/Predicate;)V"
+    },
+    "com/zhenshiz/chatbox/mixin/client/MouseHandlerMixin": {
+      "onScroll": "Lnet/minecraft/client/MouseHandler;m_91526_(JDD)V",
+      "Lnet/minecraft/client/gui/screens/Screen;afterMouseAction()V": "Lnet/minecraft/client/gui/screens/Screen;m_169415_()V"
+    },
+    "com/zhenshiz/chatbox/mixin/client/ScreenMixin": {
+      "renderBackground": "Lnet/minecraft/client/gui/screens/Screen;m_280273_(Lnet/minecraft/client/gui/GuiGraphics;)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "com/zhenshiz/chatbox/mixin/client/MinecraftMixin": {
+        "pauseGame": "Lnet/minecraft/client/Minecraft;m_91358_(Z)V",
+        "setScreen": "Lnet/minecraft/client/Minecraft;m_91152_(Lnet/minecraft/client/gui/screens/Screen;)V"
+      },
+      "com/zhenshiz/chatbox/mixin/client/SoundEngineAccessor": {
+        "soundEngine": "f_120349_:Lnet/minecraft/client/sounds/SoundEngine;"
+      },
+      "com/zhenshiz/chatbox/mixin/client/SoundInstanceAccessor": {
+        "tickNonPaused": "m_120326_()V",
+        "instanceToChannel": "f_120226_:Ljava/util/Map;"
+      },
+      "com/zhenshiz/chatbox/mixin/EntityAccessor": {
+        "readAdditionalSaveData": "m_7378_(Lnet/minecraft/nbt/CompoundTag;)V"
+      },
+      "com/zhenshiz/chatbox/mixin/SimpleCriterionTriggerMixin": {
+        "trigger": "Lnet/minecraft/advancements/critereon/SimpleCriterionTrigger;m_66234_(Lnet/minecraft/server/level/ServerPlayer;Ljava/util/function/Predicate;)V"
+      },
+      "com/zhenshiz/chatbox/mixin/client/MouseHandlerMixin": {
+        "onScroll": "Lnet/minecraft/client/MouseHandler;m_91526_(JDD)V",
+        "Lnet/minecraft/client/gui/screens/Screen;afterMouseAction()V": "Lnet/minecraft/client/gui/screens/Screen;m_169415_()V"
+      },
+      "com/zhenshiz/chatbox/mixin/client/ScreenMixin": {
+        "renderBackground": "Lnet/minecraft/client/gui/screens/Screen;m_280273_(Lnet/minecraft/client/gui/GuiGraphics;)V"
+      }
+    }
+  }
+}

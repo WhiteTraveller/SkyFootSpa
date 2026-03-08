@@ -1,0 +1,9 @@
+{
+    "pack": {
+        "description": "我的测试资源包",
+		"pack_format": 9999,
+        "supported_formats": [0, 9999],
+		"min_format": 0,
+        "max_format": 9999
+    }
+}

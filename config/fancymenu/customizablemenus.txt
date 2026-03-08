@@ -1,0 +1,8 @@
+type = customizablemenus
+
+dev.xkmc.l2tabs.compat.CuriosListScreen {
+}
+
+net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen {
+}
+
