@@ -98,7 +98,7 @@ let PF_ENTITY_TYPES = [
 
 // ============================================================
 // BlockEntity Tick：每tick执行移动，每10tick推进时间轴
-// pfPhase: 2=行走中, 3=躺床中, 4=等待床位中
+// pfPhase: 2=行走中, 3=躺床中, 4=等待床位中(已禁用), 5=蓝色地毯等待中
 // ============================================================
 
 // 路径生成时扫描路径每一格旁边（1格内）的所有床，返回床位列表
@@ -206,7 +206,7 @@ function pfParseBeds(str) {
 // 检查指定床是否被占用（pfPhase=3 的实体在床附近）
 function pfIsBedOccupied(level, bed, selfEnt) {
     let bedArea = new AABB.of(bed.blockX - 1.5, bed.blockY, bed.blockZ - 1.5,
-                              bed.blockX + 1.5, bed.blockY + 1.5, bed.blockZ + 1.5)
+        bed.blockX + 1.5, bed.blockY + 1.5, bed.blockZ + 1.5)
     let nearbyEnts = level.getEntitiesWithin(bedArea)
     for (let e = 0; e < nearbyEnts.length; e++) {
         let other = nearbyEnts[e]
@@ -216,6 +216,11 @@ function pfIsBedOccupied(level, bed, selfEnt) {
     return false
 }
 
+
+/**
+ * 寻路系统每 tick 驱动入口，由 pathfinder_block 方块实体调用
+ * @param {$BlockEntity_} entity  触发方块的方块实体对象
+ */
 global.pathfinderTick = function (entity) {
     let level = entity.getLevel()
     let pos = entity.getBlockPos()
@@ -230,6 +235,7 @@ global.pathfinderTick = function (entity) {
     let walkers = []      // pfPhase=2 行走中
     let sleepers = []     // pfPhase=3 躺床中
     let waiters = []      // pfPhase=4 等待床位中
+    let blueWaiters = []  // pfPhase=5 蓝色地毯等待中
     for (let i = 0; i < allEntities.length; i++) {
         let ent = allEntities[i]
         let phase = ent.persistentData.getInt("pfPhase")
@@ -239,86 +245,114 @@ global.pathfinderTick = function (entity) {
             sleepers.push(ent)
         } else if (phase === 4) {
             waiters.push(ent)
+        } else if (phase === 5) {
+            blueWaiters.push(ent)
         }
     }
-    
-    // ---- 处理等待床位中的实体 ----
-    for (let i = 0; i < waiters.length; i++) {
-        let ent = waiters[i]
-        
+
+    // ---- 处理等待床位中的实体（pfPhase=4，普通床位等待，现已禁用，只使用蓝色地毯机制）----
+    // 注意：普通行走时的床位等待已禁用，只保留蓝色地毯等待机制（pfPhase=5）
+
+    // ---- 处理蓝色地毯等待中的实体 ----
+    for (let i = 0; i < blueWaiters.length; i++) {
+        let ent = blueWaiters[i]
+
         // 防止重复处理
         let lastTick = (ent.persistentData.getInt("pfLastTick") | 0)
         let currTick = (currentTick | 0)
         if (lastTick != 0 && lastTick == currTick) continue
         ent.persistentData.putInt("pfLastTick", currTick)
-        
-        // 获取等待位置
-        let waitX = ent.persistentData.getFloat("pfWaitX")
-        let waitY = ent.persistentData.getFloat("pfWaitY")
-        let waitZ = ent.persistentData.getFloat("pfWaitZ")
-        
-        // 检查附近是否有空床（从预扫描的床位列表中查找）
+
+        // 检查是否已经上过床，只上床一次
+        let hasSlept = (ent.persistentData.getInt("pfHasSlept") | 0)
+        if (hasSlept === 1) {
+            // 已经上过床，继续行走
+            ent.persistentData.putInt("pfPhase", 2)
+            console.log("[PF] 蓝色地毯等待：已上过床，继续行走")
+            continue
+        }
+
+        // 获取当前路径进度
+        let time = (ent.persistentData.getInt("pfTime") | 0)
+        let routeStr = "" + ent.persistentData.getString("pfRoute")
+        let routeChars = routeStr.split('')
+        let routeLen = routeChars.length
+
+        // 从预扫描的床位列表中，查找当前进度之后的床位（后面的路径旁）
         let bedListStr = "" + ent.persistentData.getString("pfBedList")
         let allBeds = pfParseBeds(bedListStr)
-        // 找距离等待位置 < 2.0 格的床
-        let foundEmpty = null
-        let foundOccupied = false
+
+        // 计算当前位置
+        let ox = ent.persistentData.getFloat("pfOriginX")
+        let oz = ent.persistentData.getFloat("pfOriginZ")
+        let cx = ox, cz = oz
+        for (let k = 0; k < time; k++) {
+            let d = routeChars[k]
+            if (d === 'N') cz -= 1
+            else if (d === 'S') cz += 1
+            else if (d === 'E') cx += 1
+            else if (d === 'W') cx -= 1
+        }
+
+        // 查找后面路径旁的空床
+        let foundEmptyBed = null
         for (let b = 0; b < allBeds.length; b++) {
             let bed = allBeds[b]
-            let dx = bed.x - waitX
-            let dz = bed.z - waitZ
+            // 检查床是否在"后面"（距离当前位置有一定距离，且在路径上）
+            let dx = bed.x - cx
+            let dz = bed.z - cz
             let dist = Math.sqrt(dx * dx + dz * dz)
-            if (dist < 2.0) {
-                if (!pfIsBedOccupied(level, bed, ent)) {
-                    foundEmpty = bed
-                    break
-                } else {
-                    foundOccupied = true
-                }
+            // 床在当前位置前方（距离2~10格）且未被占用
+            if (dist >= 2 && dist <= 10 && !pfIsBedOccupied(level, bed, ent)) {
+                foundEmptyBed = bed
+                break
             }
         }
-        if (foundEmpty !== null) {
-            let bedPos = foundEmpty
-            
-            ent.persistentData.putFloat("pfBeforeSleepX", waitX)
-            ent.persistentData.putFloat("pfBeforeSleepY", waitY)
-            ent.persistentData.putFloat("pfBeforeSleepZ", waitZ)
+
+        if (foundEmptyBed !== null) {
+            // 有空床，直接去躺
+            let bedPos = foundEmptyBed
+            let entY = ent.getY()
+
+            ent.persistentData.putFloat("pfBeforeSleepX", cx)
+            ent.persistentData.putFloat("pfBeforeSleepY", entY)
+            ent.persistentData.putFloat("pfBeforeSleepZ", cz)
             ent.persistentData.putInt("pfSleepStartTick", currTick)
             ent.persistentData.putInt("pfHasSlept", 1)
             ent.persistentData.putInt("pfPhase", 3)
-            // 保存床坐标和朝向供下一tick设置睡觉NBT
             ent.persistentData.putInt("pfBedX", bedPos.blockX)
             ent.persistentData.putInt("pfBedY", bedPos.blockY)
             ent.persistentData.putInt("pfBedZ", bedPos.blockZ)
             ent.persistentData.putInt("pfBedYaw", bedPos.yaw)
-            // 移动到床头中心，设置正确朝向
+            // 标记这是从蓝色地毯等待后去躺床，下床时需要找红色地毯
+            ent.persistentData.putInt("pfFromBlueWait", 1)
             ent.setPositionAndRotation(bedPos.x, bedPos.blockY + 0.2, bedPos.z, bedPos.yaw, 0)
-            console.log("[PF-SLEEP] 等待后躺床: sleepStartTick=" + currTick + " bedPos=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ") yaw=" + bedPos.yaw)
+            console.log("[PF-SLEEP] 蓝色地毯等待后躺床: bedPos=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ")")
         }
         // 否则继续等待
     }
-    
+
     // ---- 处理躺床中的实体 ----
     for (let i = 0; i < sleepers.length; i++) {
         let ent = sleepers[i]
-        
+
         // 防止重复处理
         let lastTick = (ent.persistentData.getInt("pfLastTick") | 0)
         let currTick = (currentTick | 0)
         if (lastTick != 0 && lastTick == currTick) continue
         ent.persistentData.putInt("pfLastTick", currTick)
-        
+
         let sleepStart = (ent.persistentData.getInt("pfSleepStartTick") | 0)
         let sleepDuration = currTick - sleepStart
-        
+
         console.log("[PF-SLEEP] duration=" + sleepDuration + " sleepStart=" + sleepStart + " currTick=" + currTick)
-        
+
         // 确保至少睡了1tick才开始计时
         if (sleepStart <= 0 || sleepDuration < 1) {
             console.log("[PF-SLEEP] 跳过: sleepStart=" + sleepStart + " duration=" + sleepDuration)
             continue
         }
-        
+
         // 超时保护：如果睡了超过200tick（10秒）还没起床，强制清除
         if (sleepDuration > 200) {
             let server = level.getServer()
@@ -333,7 +367,7 @@ global.pathfinderTick = function (entity) {
             ent.persistentData.putInt("pfPhase", 2)
             continue
         }
-        
+
         // 躺下后每tick：设置睡觉姿势NBT和保持朝向
         if (sleepDuration >= 1 && sleepDuration < 60) {
             let server = level.getServer()
@@ -351,45 +385,111 @@ global.pathfinderTick = function (entity) {
             // 保持朝向和位置
             ent.setYaw(bedYaw)
         }
-        
+
         // 3秒 = 60 tick 后离开床
         if (sleepDuration >= 60 && sleepDuration <= 65) {
-            // 恢复到躺床前的位置
-            let bsx = ent.persistentData.getFloat("pfBeforeSleepX")
-            let bsy = ent.persistentData.getFloat("pfBeforeSleepY")
-            let bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
-            
             let uuid = "" + ent.getUuid()
             if (sleepDuration == 60) {
                 console.log("[PF-SLEEP] 移除躺姿 uuid=" + uuid)
             }
-            
+
             // 直接调用 stopSleeping() 方法，正确清除游戏内部睡眠状态
             ent.stopSleeping()
-            
+
             // 同时用命令移除NBT（双重保险）
             let server = level.getServer()
             server.runCommandSilent("data remove entity " + uuid + " SleepingX")
             server.runCommandSilent("data remove entity " + uuid + " SleepingY")
             server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
-            
+
             // 第60tick时：重置状态并恢复位置
             if (sleepDuration == 60) {
+                // 检查是否是从蓝色地毯等待后去躺床的
+                let fromBlueWait = (ent.persistentData.getInt("pfFromBlueWait") | 0)
+                let bsx, bsy, bsz
+
+                if (fromBlueWait === 1) {
+                    // 从蓝色地毯等待后躺床，需要在床位紧挨的红色地毯下床
+                    let bedX = ent.persistentData.getInt("pfBedX")
+                    let bedY = ent.persistentData.getInt("pfBedY")
+                    let bedZ = ent.persistentData.getInt("pfBedZ")
+
+                    // 查找床位周围2格范围内的红色地毯（包括床头和可能的床尾位置）
+                    let redCarpetPos = null
+                    for (let dx = -2; dx <= 2 && redCarpetPos === null; dx++) {
+                        for (let dz = -2; dz <= 2 && redCarpetPos === null; dz++) {
+                            if (dx === 0 && dz === 0) continue
+                            let checkX = bedX + dx
+                            let checkZ = bedZ + dz
+                            let checkBlock = level.getBlock(checkX, bedY, checkZ)
+                            if (checkBlock.id == "minecraft:red_carpet") {
+                                redCarpetPos = { x: checkX + 0.5, z: checkZ + 0.5 }
+                            }
+                        }
+                    }
+
+                    if (redCarpetPos !== null) {
+                        bsx = redCarpetPos.x
+                        bsy = bedY
+                        bsz = redCarpetPos.z
+                        console.log("[PF-SLEEP] 从蓝色地毯等待后下床，定位到红色地毯: (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
+                    } else {
+                        // 没找到红色地毯，使用原位置
+                        bsx = ent.persistentData.getFloat("pfBeforeSleepX")
+                        bsy = ent.persistentData.getFloat("pfBeforeSleepY")
+                        bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
+                        console.log("[PF-SLEEP] 未找到床位旁红色地毯，使用原位置")
+                    }
+                    // 清除标记
+                    ent.persistentData.putInt("pfFromBlueWait", 0)
+                } else {
+                    // 普通情况：恢复到躺床前的位置
+                    bsx = ent.persistentData.getFloat("pfBeforeSleepX")
+                    bsy = ent.persistentData.getFloat("pfBeforeSleepY")
+                    bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
+                }
+
                 ent.persistentData.putInt("pfSleepStartTick", 0)
                 ent.persistentData.putInt("pfClearSleepTick", 10)
                 ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
                 ent.persistentData.putInt("pfPhase", 2)
-                console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
+
+                // 根据下床位置更新 pfTime，确保实体从正确的路径位置继续行走
+                let routeStr = "" + ent.persistentData.getString("pfRoute")
+                let routeChars = routeStr.split('')
+                let ox = ent.persistentData.getFloat("pfOriginX")
+                let oz = ent.persistentData.getFloat("pfOriginZ")
+                // 找到最接近下床位置的路径点
+                let bestTime = 0
+                let bestDist = 9999
+                for (let t = 0; t <= routeChars.length; t++) {
+                    let px = ox, pz = oz
+                    for (let k = 0; k < t; k++) {
+                        let d = routeChars[k]
+                        if (d === 'N') pz -= 1
+                        else if (d === 'S') pz += 1
+                        else if (d === 'E') px += 1
+                        else if (d === 'W') px -= 1
+                    }
+                    let dist = Math.sqrt((px - bsx) * (px - bsx) + (pz - bsz) * (pz - bsz))
+                    if (dist < bestDist) {
+                        bestDist = dist
+                        bestTime = t
+                    }
+                }
+                ent.persistentData.putInt("pfTime", bestTime)
+                ent.persistentData.putInt("pfSubStep", 0)
+                console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ") 更新路径进度 time=" + bestTime)
             }
         }
     }
-    
+
 
 
     // ---- 每 tick：按路径移动，精确对齐格子中心 ----
     // pfTime = 已完成的整格数（每10tick+1）
     // pfSubStep = 当前格内子步（0~9，每tick+1）
-    
+
     // 先计算每个实体的进度和位置，用于排队检测（包括行走、等待、睡眠中的实体）
     let walkerInfos = []
     for (let i = 0; i < walkers.length; i++) {
@@ -430,19 +530,32 @@ global.pathfinderTick = function (entity) {
             z: ent.getZ()
         })
     }
-    
+    // 蓝色地毯等待中的实体也加入排队检测
+    for (let i = 0; i < blueWaiters.length; i++) {
+        let ent = blueWaiters[i]
+        let time = (ent.persistentData.getInt("pfTime") | 0)
+        let sub = (ent.persistentData.getInt("pfSubStep") | 0)
+        let progress = time * 10 + sub
+        walkerInfos.push({
+            ent: ent,
+            progress: progress,
+            x: ent.getX(),
+            z: ent.getZ()
+        })
+    }
+
     for (let i = 0; i < walkers.length; i++) {
         let ent = walkers[i]
-        
+
         // 防止多个方块实体重复处理同一实体：检查上次处理tick
         let lastTick = (ent.persistentData.getInt("pfLastTick") | 0)
         let currTick = (currentTick | 0)
         if (lastTick != 0 && lastTick == currTick) continue
         ent.persistentData.putInt("pfLastTick", currTick)
-        
+
         let phase = ent.persistentData.getInt("pfPhase")
         if (phase !== 2) continue
-        
+
         // 离床后持续清除残留的睡觉NBT（防止某些情况下NBT没有被正确移除）
         let clearTick = ent.persistentData.getInt("pfClearSleepTick")
         if (clearTick > 0) {
@@ -458,7 +571,7 @@ global.pathfinderTick = function (entity) {
         let routeStr = "" + ent.persistentData.getString("pfRoute")
         let routeChars = routeStr.split('')
         let time = (ent.persistentData.getInt("pfTime") | 0)
-        let sub  = (ent.persistentData.getInt("pfSubStep") | 0)
+        let sub = (ent.persistentData.getInt("pfSubStep") | 0)
         let routeLen = routeChars.length
 
         if (time < 0 || time >= routeLen || routeLen === 0) {
@@ -471,16 +584,16 @@ global.pathfinderTick = function (entity) {
         let myZ = ent.getZ()
         let myId = ent.getId()  // 实体唯一ID
         let shouldWait = false
-        
+
         for (let j = 0; j < walkerInfos.length; j++) {
             let other = walkerInfos[j]
             if (other.ent === ent) continue  // 跳过自己
-            
+
             // 计算距离
             let dx = other.x - myX
             let dz = other.z - myZ
             let dist = Math.sqrt(dx * dx + dz * dz)
-            
+
             // 距离小于1.5时需要排队
             if (dist < 1.5) {
                 // 进度更大的优先走
@@ -498,7 +611,7 @@ global.pathfinderTick = function (entity) {
                 }
             }
         }
-        
+
         if (shouldWait) {
             continue  // 排队等待，不移动
         }
@@ -534,56 +647,37 @@ global.pathfinderTick = function (entity) {
         // 调试log：每格开始打印一次
         if (sub === 0) {
             console.log("[PF] t=" + time + "/" + routeLen + " d=" + stepChar + " pos=(" + cx.toFixed(1) + "," + cz.toFixed(1) + ")")
-            
-            // 每格开始时检测是否有床（从预扫描列表，距离 < 1.5 格，且未躺过）
-            let hasSlept = (ent.persistentData.getInt("pfHasSlept") | 0)
-            if (hasSlept === 0) {
-                let bedListStr2 = "" + ent.persistentData.getString("pfBedList")
-                let routeBeds = pfParseBeds(bedListStr2)
-                // 当前格中心 = (cx, cz)（cx已含0.5偏移）
-                let nearBed = null
-                let allOccupied = false
-                for (let b = 0; b < routeBeds.length; b++) {
-                    let bed = routeBeds[b]
-                    let dx = bed.x - cx
-                    let dz = bed.z - cz
-                    let dist = Math.sqrt(dx * dx + dz * dz)
-                    if (dist < 2.5) {
-                        if (!pfIsBedOccupied(level, bed, ent)) {
-                            nearBed = bed
-                            break
-                        } else {
-                            allOccupied = true
-                        }
-                    }
-                }
-                
-                if (nearBed !== null) {
-                    // 有空床且距离1格以内，躺上去
-                    let bedPos = nearBed
-                    ent.persistentData.putFloat("pfBeforeSleepX", cx)
-                    ent.persistentData.putFloat("pfBeforeSleepY", entY)
-                    ent.persistentData.putFloat("pfBeforeSleepZ", cz)
-                    ent.persistentData.putInt("pfSleepStartTick", currTick)
-                    ent.persistentData.putInt("pfHasSlept", 1)
-                    ent.persistentData.putInt("pfPhase", 3)
-                    ent.persistentData.putInt("pfBedX", bedPos.blockX)
-                    ent.persistentData.putInt("pfBedY", bedPos.blockY)
-                    ent.persistentData.putInt("pfBedZ", bedPos.blockZ)
-                    ent.persistentData.putInt("pfBedYaw", bedPos.yaw)
-                    ent.setPositionAndRotation(bedPos.x, bedPos.blockY + 0.2, bedPos.z, bedPos.yaw, 0)
-                    console.log("[PF-SLEEP] 行走时躺床: sleepStartTick=" + currTick + " bedPos=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ") yaw=" + bedPos.yaw)
-                    continue
-                } else if (allOccupied) {
-                    // 床存在但全被占用，进入等待状态
+
+            // 检查是否到达蓝色地毯位置（优先使用保存的位置，防止地毯被打掉）
+            let savedBlueX = ent.persistentData.getFloat("pfBlueCarpetX")
+            let savedBlueZ = ent.persistentData.getFloat("pfBlueCarpetZ")
+            let dx = cx - savedBlueX
+            let dz = cz - savedBlueZ
+            let distToBlue = Math.sqrt(dx * dx + dz * dz)
+
+            // 距离保存的蓝色地毯位置小于0.5格即认为到达（或当前格确实是蓝色地毯）
+            let blockX = Math.floor(cx)
+            let blockZ = Math.floor(cz)
+            let currentBlock = level.getBlock(blockX, entY, blockZ)
+            let isBlueCarpet = (currentBlock.id == "minecraft:blue_carpet") || (distToBlue < 0.5)
+
+            if (isBlueCarpet) {
+                // 检查是否已经上过床，上过床的实体不再进入蓝色地毯等待
+                let hasSlept = (ent.persistentData.getInt("pfHasSlept") | 0)
+                if (hasSlept === 1) {
+                    console.log("[PF] 到达蓝色地毯但已上过床，继续行走")
+                } else {
+                    // 进入蓝色地毯等待状态
                     ent.persistentData.putFloat("pfWaitX", cx)
                     ent.persistentData.putFloat("pfWaitY", entY)
                     ent.persistentData.putFloat("pfWaitZ", cz)
-                    ent.persistentData.putInt("pfPhase", 4)
-                    console.log("[PF] 床位已满，等待中")
+                    ent.persistentData.putInt("pfPhase", 5)
+                    console.log("[PF] 到达蓝色地毯，进入等待状态 pos=(" + cx.toFixed(1) + "," + cz.toFixed(1) + ")")
                     continue
                 }
             }
+
+            // 注意：普通行走时不再自动上床，只通过蓝色地毯机制触发上床
         }
 
         ent.setPositionAndRotation(nx, entY, nz, yaw, 0)
@@ -619,7 +713,7 @@ global.pathfinderTick = function (entity) {
 BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     // 只响应主手右键
     if (event.hand != "main_hand") return
-    
+
     let player = event.player
     let blockPos = event.block.pos
     let level = event.level
@@ -641,6 +735,8 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             let idx = (wx - (baseX - GRID_HALF)) + (wz - (baseZ - GRID_HALF)) * GRID_W
             if (block.id == "minecraft:red_carpet") {
                 pfMap[idx] = 0
+            } else if (block.id == "minecraft:blue_carpet") {
+                pfMap[idx] = 0  // 蓝色地毯可走，作为等待点
             } else if (block.id == "minecraft:yellow_carpet") {
                 pfMap[idx] = 0
                 finishSet.add(idx)
@@ -665,18 +761,43 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     }
     console.log("[PF] 路径=" + result[0] + " 长度=" + result[0].length)
 
+    // 检测路径中是否存在蓝色地毯
+    let routeChars = result[0].split('')
+    let blueCarpetPos = null
+    let cx = baseX, cz = baseZ
+    for (let i = 0; i <= routeChars.length; i++) {
+        let block = level.getBlock(cx, baseY, cz)
+        if (block.id == "minecraft:blue_carpet") {
+            blueCarpetPos = { x: cx + 0.5, z: cz + 0.5 }
+            console.log("[PF] 找到蓝色地毯位置: (" + cx + "," + cz + ")")
+            break
+        }
+        if (i < routeChars.length) {
+            let d = routeChars[i]
+            if (d === 'N') cz -= 1
+            else if (d === 'S') cz += 1
+            else if (d === 'E') cx += 1
+            else if (d === 'W') cx -= 1
+        }
+    }
+
+    if (blueCarpetPos === null) {
+        player.setStatusMessage("§c路径中未找到蓝色地毯！")
+        return
+    }
+
     // 生成随机怪物
     let entityType = PF_ENTITY_TYPES[Math.floor(Math.random() * PF_ENTITY_TYPES.length)]
     let walker = level.createEntity(entityType)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
-    
+
     // 设置位置和NBT
     walker.setPositionAndRotation(spawnX, baseY, spawnZ, 0, 0)
     walker.setNoAi(true)
     walker.mergeNbt(`{NoAI:1b,Invulnerable:1b,PersistenceRequired:1b,NoGravity:1b,DeathLootTable:"entities/empty"}`)
     walker.spawn()
-    
+
     // spawn后设置persistentData
     walker.persistentData.putFloat("pfOriginX", spawnX)
     walker.persistentData.putFloat("pfOriginZ", spawnZ)
@@ -684,12 +805,16 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     walker.persistentData.putInt("pfPhase", 2)
     walker.persistentData.putInt("pfTime", 0)
     walker.persistentData.putInt("pfSubStep", 0)
-    
+
+    // 保存蓝色地毯位置（防止被打掉后丢失）
+    walker.persistentData.putFloat("pfBlueCarpetX", blueCarpetPos.x)
+    walker.persistentData.putFloat("pfBlueCarpetZ", blueCarpetPos.z)
+
     // 路径生成时预扫描路径上的所有床位，存入pfBedList
     let pathBeds = pfScanBedsAlongRoute(level, result[0], spawnX, baseY, spawnZ)
     walker.persistentData.putString("pfBedList", pfSerializeBeds(pathBeds))
     console.log("[PF] 预扫描床位数量=" + pathBeds.length)
-    
+
     level.spawnParticles("minecraft:poof", false, spawnX, baseY + 1, spawnZ, 0.5, 1, 0.5, 50, 0)
     player.setStatusMessage("§a寻路开始！路径长度：" + result[0].length + " 格")
 })

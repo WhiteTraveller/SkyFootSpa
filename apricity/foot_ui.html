@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>脚</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">这是一只脚</div>
+        <img class="foot-image" src="foot.png" />
+        <div class="hint">点击任意位置关闭</div>
+    </div>
+</body>
+<style>
+    body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #2d2d2d;
+        border-radius: 8px;
+        border: 2px solid #555;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .title {
+        color: #ffffff;
+        font-size: 18px;
+        font-family: lxgw;
+        margin-bottom: 15px;
+    }
+    
+    .foot-image {
+        width: 128px;
+        height: 128px;
+        border-radius: 4px;
+    }
+    
+    .hint {
+        color: #888888;
+        font-size: 12px;
+        font-family: lxgw;
+        margin-top: 10px;
+    }
+</style>
+<script>
+    document.body.addEventListener("mousedown", function(e) {
+        ApricityUI.closeScreen();
+    });
+</script>
+</html>

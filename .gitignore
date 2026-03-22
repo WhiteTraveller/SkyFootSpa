@@ -36,3 +36,6 @@ usernamecache.json
 resourcepacks/
 kubejstest/
 /.idea/
+/.qoder/
+/ldlib/
+/patchouli_books/
