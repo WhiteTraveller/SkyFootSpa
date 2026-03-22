@@ -9,6 +9,8 @@ ItemEvents.rightClicked(event => {
 global.rightClickedEntity = event => {
     let target = event.getTarget().entity
     console.log(target)
+    event.player.sendData('open_foot_ui', {})
+    ApricityUI
     
     // 检查是否是寻路系统创建的实体（通过 pfPhase 判断）
     if (target && target.persistentData) {
