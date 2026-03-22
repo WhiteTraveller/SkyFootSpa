@@ -1,8 +1,38 @@
 <body>
-    <div class="container">
-        <div class="title">这是一只脚</div>
-        <img class="foot-image" src="foot.png" />
-        <div class="hint">点击任意位置关闭</div>
+    <div class="main-container">
+        <div class="header">
+            <div class="title">脚部交互区域</div>
+            <div class="close-btn" id="closeBtn">✕</div>
+        </div>
+        
+        <div class="image-wrapper">
+            <img class="foot-image" src="foot.png" />
+            <div class="zones-container">
+                <div class="zone zone-1" id="zone1">
+                    <span class="zone-label">区域1</span>
+                </div>
+                <div class="row-two">
+                    <div class="zone zone-2" id="zone2">
+                        <span class="zone-label">区域2</span>
+                    </div>
+                    <div class="zone zone-3" id="zone3">
+                        <span class="zone-label">区域3</span>
+                    </div>
+                </div>
+                <div class="row-right">
+                    <div class="zone zone-4" id="zone4">
+                        <span class="zone-label">区域4</span>
+                    </div>
+                </div>
+                <div class="row-right">
+                    <div class="zone zone-5" id="zone5">
+                        <span class="zone-label">区域5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
     </div>
 </body>
 <style>
@@ -12,42 +42,196 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.7);
     }
     
-    .container {
+    .main-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 20px;
-        background-color: #2d2d2d;
-        border-radius: 8px;
-        border: 2px solid #555;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px rgba(102, 126, 234, 0.15);
+    }
+    
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 24%;
+        margin-bottom: 12px;
+        gap: 10px;
     }
     
     .title {
         color: #ffffff;
-        font-size: 18px;
+        font-size: 16px;
         font-family: lxgw;
-        margin-bottom: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    
+    .close-btn {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .close-btn:hover {
+        background-color: #e74c3c;
+        transform: rotate(90deg);
+    }
+    
+    .image-wrapper {
+        position: relative;
+        width: 150px;
+        height: 210px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .foot-image {
-        width: 128px;
-        height: 128px;
+        width: 180px;
+        height:180px;
+        border-radius: 8px;
+        object-fit: contain;
+        transform: rotate(50deg);
+    }
+    
+    .zones-container {
+        margin-left: 6px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+    
+    .row-two {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+    }
+    
+    .row-right {
+        margin: 1px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    
+    .zone {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 6px;
+    }
+    
+    .zone:hover {
+        transform: scale(1.02);
+        filter: brightness(1.2);
+    }
+    
+    .zone-label {
+        color: #ffffff;
+        font-size: 13px;
+        font-family: lxgw;
+        font-weight: bold;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+    }
+    
+    .zone-1 {
+        margin: 1px;
+        width: 120px;
+        background-color: rgba(231, 76, 60, 0.4);
+        border: 2px solid rgba(231, 76, 60, 0.6);
+        border-radius: 8px 8px 4px 4px;
+    }
+    
+    .zone-2 {
+        margin: 1px;
+        width: 58px;
+        background-color: rgba(46, 204, 113, 0.4);
+        border: 2px solid rgba(46, 204, 113, 0.6);
         border-radius: 4px;
     }
     
+    .zone-3 {
+        margin: 1px;
+        width: 58px;
+        background-color: rgba(52, 152, 219, 0.4);
+        border: 2px solid rgba(52, 152, 219, 0.6);
+        border-radius: 4px;
+    }
+    
+    .zone-4 {
+        width: 90px;
+        background-color: rgba(155, 89, 182, 0.4);
+        border: 2px solid rgba(155, 89, 182, 0.6);
+        border-radius: 4px;
+    }
+    
+    .zone-5 {
+        width: 90px;
+        background-color: rgba(241, 196, 15, 0.4);
+        border: 2px solid rgba(241, 196, 15, 0.6);
+        border-radius: 4px 4px 8px 8px;
+    }
+    
+    .footer {
+        margin-top: 12px;
+    }
+    
     .hint {
-        color: #888888;
-        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 11px;
         font-family: lxgw;
-        margin-top: 10px;
     }
 </style>
 <script>
-    document.body.addEventListener("mousedown", function(e) {
+    let closeBtn = document.getElementById("closeBtn");
+    closeBtn.addEventListener("mousedown", function(e) {
         ApricityUI.closeScreen();
     });
+    
+    let zone1 = document.getElementById("zone1");
+    let zone2 = document.getElementById("zone2");
+    let zone3 = document.getElementById("zone3");
+    let zone4 = document.getElementById("zone4");
+    let zone5 = document.getElementById("zone5");
+    
+    function createClickEffect(zone, color) {
+        zone.addEventListener("mousedown", function(e) {
+            zone.setAttribute("style", "background-color: " + color + "; transform: scale(0.95);");
+            
+            window.setTimeout(function() {
+                zone.setAttribute("style", "");
+            },200);
+        });
+    }
+    
+    createClickEffect(zone1, "rgba(231, 76, 60, 0.7)");
+    createClickEffect(zone2, "rgba(46, 204, 113, 0.7)");
+    createClickEffect(zone3, "rgba(52, 152, 219, 0.7)");
+    createClickEffect(zone4, "rgba(155, 89, 182, 0.7)");
+    createClickEffect(zone5, "rgba(241, 196, 15, 0.8)");
 </script>
