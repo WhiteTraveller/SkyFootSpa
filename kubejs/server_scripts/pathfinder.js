@@ -328,6 +328,11 @@ global.pathfinderTick = function (entity) {
             ent.persistentData.putInt("pfFromBlueWait", 1)
             ent.setPositionAndRotation(bedPos.x, bedPos.blockY + 0.2, bedPos.z, bedPos.yaw, 0)
             console.log("[PF-SLEEP] 蓝色地毯等待后躺床: bedPos=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ")")
+
+            // 调用睡眠开始回调（定义在 sleep.js）
+            if (typeof global.pfOnStartSleep === "function") {
+                global.pfOnStartSleep(ent, level, bedPos, currTick)
+            }
         }
         // 否则继续等待
     }
@@ -354,19 +359,19 @@ global.pathfinderTick = function (entity) {
         }
 
         // 超时保护：如果睡了超过200tick（10秒）还没起床，强制清除
-        if (sleepDuration > 200) {
-            let server = level.getServer()
-            let uuid = "" + ent.getUuid()
-            console.log("[PF-SLEEP] 超时强制清除 uuid=" + uuid)
-            ent.stopSleeping()
-            server.runCommandSilent("data remove entity " + uuid + " SleepingX")
-            server.runCommandSilent("data remove entity " + uuid + " SleepingY")
-            server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
-            ent.persistentData.putInt("pfSleepStartTick", 0)
-            ent.persistentData.putInt("pfClearSleepTick", 10)
-            ent.persistentData.putInt("pfPhase", 2)
-            continue
-        }
+        // if (sleepDuration > 200) {
+        //     let server = level.getServer()
+        //     let uuid = "" + ent.getUuid()
+        //     console.log("[PF-SLEEP] 超时强制清除 uuid=" + uuid)
+        //     ent.stopSleeping()
+        //     server.runCommandSilent("data remove entity " + uuid + " SleepingX")
+        //     server.runCommandSilent("data remove entity " + uuid + " SleepingY")
+        //     server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
+        //     ent.persistentData.putInt("pfSleepStartTick", 0)
+        //     ent.persistentData.putInt("pfClearSleepTick", 10)
+        //     ent.persistentData.putInt("pfPhase", 2)
+        //     continue
+        // }
 
         // 躺下后每tick：设置睡觉姿势NBT和保持朝向
         if (sleepDuration >= 1 && sleepDuration < 60) {
@@ -386,12 +391,21 @@ global.pathfinderTick = function (entity) {
             ent.setYaw(bedYaw)
         }
 
-        // 3秒 = 60 tick 后离开床
-        if (sleepDuration >= 60 && sleepDuration <= 65) {
+        // 调用接口检测是否应该起床（定义在 sleep.js）
+        let bedX = ent.persistentData.getInt("pfBedX")
+        let bedY = ent.persistentData.getInt("pfBedY")
+        let bedZ = ent.persistentData.getInt("pfBedZ")
+        let bedYaw = ent.persistentData.getInt("pfBedYaw")
+        let bedPos = { blockX: bedX, blockY: bedY, blockZ: bedZ, yaw: bedYaw }
+
+        let shouldWakeUp = false
+        if (typeof global.pfShouldWakeUp === "function") {
+            shouldWakeUp = global.pfShouldWakeUp(ent, level, bedPos, sleepDuration)
+        }
+
+        if (shouldWakeUp) {
             let uuid = "" + ent.getUuid()
-            if (sleepDuration == 60) {
-                console.log("[PF-SLEEP] 移除躺姿 uuid=" + uuid)
-            }
+            console.log("[PF-SLEEP] 起床 uuid=" + uuid + " sleepDuration=" + sleepDuration)
 
             // 直接调用 stopSleeping() 方法，正确清除游戏内部睡眠状态
             ent.stopSleeping()
@@ -402,85 +416,79 @@ global.pathfinderTick = function (entity) {
             server.runCommandSilent("data remove entity " + uuid + " SleepingY")
             server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
 
-            // 第60tick时：重置状态并恢复位置
-            if (sleepDuration == 60) {
-                // 检查是否是从蓝色地毯等待后去躺床的
-                let fromBlueWait = (ent.persistentData.getInt("pfFromBlueWait") | 0)
-                let bsx, bsy, bsz
+            // 重置状态并恢复位置
+            // 检查是否是从蓝色地毯等待后去躺床的
+            let fromBlueWait = (ent.persistentData.getInt("pfFromBlueWait") | 0)
+            let bsx, bsy, bsz
 
-                if (fromBlueWait === 1) {
-                    // 从蓝色地毯等待后躺床，需要在床位紧挨的红色地毯下床
-                    let bedX = ent.persistentData.getInt("pfBedX")
-                    let bedY = ent.persistentData.getInt("pfBedY")
-                    let bedZ = ent.persistentData.getInt("pfBedZ")
-
-                    // 查找床位周围2格范围内的红色地毯（包括床头和可能的床尾位置）
-                    let redCarpetPos = null
-                    for (let dx = -2; dx <= 2 && redCarpetPos === null; dx++) {
-                        for (let dz = -2; dz <= 2 && redCarpetPos === null; dz++) {
-                            if (dx === 0 && dz === 0) continue
-                            let checkX = bedX + dx
-                            let checkZ = bedZ + dz
-                            let checkBlock = level.getBlock(checkX, bedY, checkZ)
-                            if (checkBlock.id == "minecraft:red_carpet") {
-                                redCarpetPos = { x: checkX + 0.5, z: checkZ + 0.5 }
-                            }
+            if (fromBlueWait === 1) {
+                // 从蓝色地毯等待后躺床，需要在床位紧挨的红色地毯下床
+                // 查找床位周围2格范围内的红色地毯（包括床头和可能的床尾位置）
+                let redCarpetPos = null
+                for (let dx = -2; dx <= 2 && redCarpetPos === null; dx++) {
+                    for (let dz = -2; dz <= 2 && redCarpetPos === null; dz++) {
+                        if (dx === 0 && dz === 0) continue
+                        let checkX = bedX + dx
+                        let checkZ = bedZ + dz
+                        let checkBlock = level.getBlock(checkX, bedY, checkZ)
+                        if (checkBlock.id == "minecraft:red_carpet") {
+                            redCarpetPos = { x: checkX + 0.5, z: checkZ + 0.5 }
                         }
                     }
+                }
 
-                    if (redCarpetPos !== null) {
-                        bsx = redCarpetPos.x
-                        bsy = bedY
-                        bsz = redCarpetPos.z
-                        console.log("[PF-SLEEP] 从蓝色地毯等待后下床，定位到红色地毯: (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
-                    } else {
-                        // 没找到红色地毯，使用原位置
-                        bsx = ent.persistentData.getFloat("pfBeforeSleepX")
-                        bsy = ent.persistentData.getFloat("pfBeforeSleepY")
-                        bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
-                        console.log("[PF-SLEEP] 未找到床位旁红色地毯，使用原位置")
-                    }
-                    // 清除标记
-                    ent.persistentData.putInt("pfFromBlueWait", 0)
+                if (redCarpetPos !== null) {
+                    bsx = redCarpetPos.x
+                    bsy = bedY
+                    bsz = redCarpetPos.z
+                    console.log("[PF-SLEEP] 从蓝色地毯等待后下床，定位到红色地毯: (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
                 } else {
-                    // 普通情况：恢复到躺床前的位置
+                    // 没找到红色地毯，使用原位置
                     bsx = ent.persistentData.getFloat("pfBeforeSleepX")
                     bsy = ent.persistentData.getFloat("pfBeforeSleepY")
                     bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
+                    console.log("[PF-SLEEP] 未找到床位旁红色地毯，使用原位置")
                 }
-
-                ent.persistentData.putInt("pfSleepStartTick", 0)
-                ent.persistentData.putInt("pfClearSleepTick", 10)
-                ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
-                ent.persistentData.putInt("pfPhase", 2)
-
-                // 根据下床位置更新 pfTime，确保实体从正确的路径位置继续行走
-                let routeStr = "" + ent.persistentData.getString("pfRoute")
-                let routeChars = routeStr.split('')
-                let ox = ent.persistentData.getFloat("pfOriginX")
-                let oz = ent.persistentData.getFloat("pfOriginZ")
-                // 找到最接近下床位置的路径点
-                let bestTime = 0
-                let bestDist = 9999
-                for (let t = 0; t <= routeChars.length; t++) {
-                    let px = ox, pz = oz
-                    for (let k = 0; k < t; k++) {
-                        let d = routeChars[k]
-                        if (d === 'N') pz -= 1
-                        else if (d === 'S') pz += 1
-                        else if (d === 'E') px += 1
-                        else if (d === 'W') px -= 1
-                    }
-                    let dist = Math.sqrt((px - bsx) * (px - bsx) + (pz - bsz) * (pz - bsz))
-                    if (dist < bestDist) {
-                        bestDist = dist
-                        bestTime = t
-                    }
-                }
-                ent.persistentData.putInt("pfTime", bestTime)
-                ent.persistentData.putInt("pfSubStep", 0)
-                console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ") 更新路径进度 time=" + bestTime)
+                // 清除标记
+                ent.persistentData.putInt("pfFromBlueWait", 0)
+            } else {
+                // 普通情况：恢复到躺床前的位置
+                bsx = ent.persistentData.getFloat("pfBeforeSleepX")
+                bsy = ent.persistentData.getFloat("pfBeforeSleepY")
+                bsz = ent.persistentData.getFloat("pfBeforeSleepZ")
             }
+
+            ent.persistentData.putInt("pfSleepStartTick", 0)
+            ent.persistentData.putInt("pfClearSleepTick", 10)
+            ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
+            ent.persistentData.putInt("pfPhase", 2)
+
+            // 根据下床位置更新 pfTime，确保实体从正确的路径位置继续行走
+            let routeStr = "" + ent.persistentData.getString("pfRoute")
+            let routeChars = routeStr.split('')
+            let ox = ent.persistentData.getFloat("pfOriginX")
+            let oz = ent.persistentData.getFloat("pfOriginZ")
+            // 找到最接近下床位置的路径点
+            let bestTime = 0
+            let bestDist = 9999
+            for (let t = 0; t <= routeChars.length; t++) {
+                let px = ox, pz = oz
+                for (let k = 0; k < t; k++) {
+                    let d = routeChars[k]
+                    if (d === 'N') pz -= 1
+                    else if (d === 'S') pz += 1
+                    else if (d === 'E') px += 1
+                    else if (d === 'W') px -= 1
+                }
+                let dist = Math.sqrt((px - bsx) * (px - bsx) + (pz - bsz) * (pz - bsz))
+                if (dist < bestDist) {
+                    bestDist = dist
+                    bestTime = t
+                }
+            }
+            ent.persistentData.putInt("pfTime", bestTime)
+            ent.persistentData.putInt("pfSubStep", 0)
+            console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ") 更新路径进度 time=" + bestTime)
         }
     }
 

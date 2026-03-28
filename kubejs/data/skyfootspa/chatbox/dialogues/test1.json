@@ -1,0 +1,107 @@
+{
+  "$introduce": "这是一段介绍本模组的文本",
+  "theme": "skyfootspa:alice_margatroid",
+  "isPause": false,
+  "dialogues": {
+    "start": [
+      {
+        "dialogBox": {
+          "text": "「<ruby 6 你那如此甜美>そっと囁いた，<ruby 7 而温柔的轻声细语>誓いの言葉こそ」"
+        },
+        "portrait": ["margatroid1", "names", "attachment"]
+      },
+      {
+        "dialogBox": {
+          "text": "<ruby 9 慕う心に>就在此良宵美景之下——，<ruby 9 嘘はつけない>怀着这般爱慕的心情"
+        },
+        "portrait": ["margatroid1", "names", "attachment"],
+        "clearOldPortrait": false,
+        "options": [
+          {
+            "text": "唱啥呢"
+          },
+          {
+            "text": "叽里咕噜"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "<ruby 11 たとえ出逢いも 逢瀬も>是没办法说出半句谎言的，<ruby 9 何もかもが遍く>倘若说邂逅以及相逢"
+        },
+        "portrait": ["margatroid2", "names", "attachment"],
+        "options": [
+          {
+            "text": "baka"
+          },
+          {
+            "text": "真是个笨蛋呢"
+          },
+          {
+            "text": "大笨蛋"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "<ruby 13 決められていたとしてさえも>乃至所有的一切 都如此普遍,<ruby 13 その約束も>就连命中注定一事 也是如此"
+        },
+        "portrait": ["margatroid2", "names", "attachment"]
+      },
+      {
+        "dialogBox": {
+          "text": "<ruby 6 よすがとすれば>若要连那约定，<ruby 9 明日のよき良人 契りを>也一并视作缘分的话"
+        },
+        "portrait": ["margatroid1", "names", "attachment"],
+        "options": [
+          {
+            "text": "闭嘴",
+            "next": "this",
+            "click": {"type": "command", "value": "chatbox skip skyfootspa:test1 branch1"}
+          },
+          {
+            "text": "好的",
+            "next": "this",
+            "click": {"type": "command", "value": "chatbox skip skyfootspa:test1 branch2"}
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "滚吧"
+        },
+        "portrait": ["margatroid1", "names", "attachment"]
+      }
+    ],
+    "branch1": [
+      {
+        "dialogBox": {
+          "text": "我讨厌你QAQ"
+        },
+        "options": [
+          {
+            "text": "不要这样啦！",
+            "next": "this",
+            "click": {"type": "command", "value": "chatbox skip skyfootspa:test1 start 5"}
+          }
+        ],
+        "portrait": ["margatroid2", "names", "attachment"]
+      }
+    ],
+    "branch2": [
+      {
+        "dialogBox": {
+          "text": "<ruby 8 交わすことに一片の>与未来的命定之人，<ruby 8 迷いもございませんでした>互相勾指起誓一事"
+        },
+        "options": [
+          {
+            "text": "好棒啊！",
+            "next": "this",
+            "click": {"type": "command", "value": "chatbox skip skyfootspa:test1 start 5"}
+          }
+        ],
+        "portrait": ["margatroid1", "names", "attachment"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "portrait": {
+    "authors": {
+      "type": "texture",
+      "x": 0, "y": -5, "width": 20, "height": 40,
+      "alignX": "left", "alignY": "bottom",
+      "texture": "chatbox:textures/portrait/authors.png"
+    },
+    "head": {
+      "type": "player_head",
+      "x": 40, "y": 15, "width": 10,
+      "texture": "@s",
+      "renderOrder": -10
+    },
+    "item": {
+      "type": "item",
+      "x": 75, "y": 25, "scale": 3,
+      "texture": "diamond",
+      "hoverTexture": "coal",
+      "itemCount": 64,
+      "renderOrder": -10
+    },
+    "player": {
+      "type": "entity", "texture": "@s",
+      "alignX": "center", "alignY": "center",
+      "x": -30, "y": -4, "width": 80, "height": 120,
+      "yOffset": 0,
+      "stareAt": "point", "stareAtX": 50, "stareAtY": 50
+    }
+  },
+  "option": {
+    "texture": "chatbox:textures/options/default_no_checked_option.png",
+    "selectTexture": "chatbox:textures/options/default_checked_option.png",
+    "lockTexture": "chatbox:textures/options/default_lock_checked_option.png",
+    "x": 0, "y": 30, "width": 35, "height": 8, "alignX": "right", "alignY": "top",
+    "optionChatX": 6, "optionChatY": 2.7,
+    "textAlign": "left",
+    "hidden": true
+  },
+  "dialogBox": {
+    "texture": "chatbox:textures/chatbox/default_dialog_box.png",
+    "alignX": "left", "alignY": "bottom",
+    "lineWidth": 70,
+    "width": 100, "height": 40,
+    "nameX": 20, "nameY": 10,
+    "textX": 20, "textY": 15,
+    "renderEvents": [
+      {"trigger": "end", "type": "show", "value": "@Options"}
+    ]
+  },
+  "注释": "如果不在这里填写功能按钮，在对话框界面将不会显示功能按钮，对应的功能也无法使用",
+  "functionalButton": [
+    {
+      "type": "log"
+    },
+    {
+      "type": "fastForward"
+    },
+    {
+      "type": "autoPlay"
+    }
+  ],
+  "customAnimation": {
+    "FADE_IN": [
+      {"time": 1, "opacity": 0},
+      {"time": 30, "opacity": 100, "easing": "EASE_OUT_SINE"}
+    ],
+    "SLIDE_IN_FROM_BOTTOM": [
+      {"time": 30, "yOffset": -5, "easing": "EASE_OUT_SINE"}
+    ],
+    "BOUNCE": [
+      {"time": 15, "yOffset": -5, "easing": "EASE_OUT_SINE"},
+      {"time": 15, "yOffset": 5, "easing": "EASE_OUT_SINE"}
+    ]
+  }
+}
