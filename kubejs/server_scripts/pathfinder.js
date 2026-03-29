@@ -6,6 +6,97 @@
 let GRID_HALF = 10
 let GRID_W = GRID_HALF * 2 + 1  // 49
 
+// ============================================================
+// 物品NBT同步函数 - 使用实体手持物品的NBT存储数据
+// 物品NBT会自动同步到客户端
+// ============================================================
+
+// 设置pfPhase（阶段状态）
+function pfSyncPhase(entity, phase) {
+    let item = entity.getMainHandItem()
+    if (!item || item.id === 'minecraft:air') {
+        item = Item.of('minecraft:redstone', { pfPhase: phase })
+    } else {
+        item = item.withNBT({ pfPhase: phase })
+    }
+    entity.setMainHandItem(item)
+}
+
+// 设置床位信息
+function pfSyncBed(entity, bedX, bedY, bedZ, bedYaw) {
+    let item = entity.getMainHandItem()
+    let nbtData = { pfBedX: bedX, pfBedY: bedY, pfBedZ: bedZ, pfBedYaw: bedYaw }
+    if (!item || item.id === 'minecraft:air') {
+        item = Item.of('minecraft:redstone', nbtData)
+    } else {
+        item = item.withNBT(nbtData)
+    }
+    entity.setMainHandItem(item)
+}
+
+// 同步倒计时到手持物品NBT
+// countdown: 剩余秒数（0-10）
+function pfSyncCountdown(entity, countdown) {
+    let item = entity.getMainHandItem()
+    if (item && item.id === 'minecraft:redstone') {
+        // 保留现有NBT，只更新倒计时
+        let nbt = item.nbt || {}
+        nbt.pfCountdown = countdown
+        item = item.withNBT(nbt)
+        entity.setMainHandItem(item)
+    }
+}
+
+// 需求清单类型定义
+const PF_DEMAND_TYPES = ['脚背', '脚掌', '脚后跟', '脚趾', '脚心']
+
+// 生成随机需求清单
+// 返回对象: {脚背: x, 脚掌: x, 脚后跟: x, 脚趾: x, 脚心: x}
+function pfGenerateDemandList() {
+    let demandList = {}
+    for (let i = 0; i < PF_DEMAND_TYPES.length; i++) {
+        let type = PF_DEMAND_TYPES[i]
+        // 0~5次随机
+        demandList[type] = Math.floor(Math.random() * 6)
+    }
+    return demandList
+}
+
+// 同步需求清单到手持物品NBT
+function pfSyncDemandList(entity, demandList) {
+    let item = entity.getMainHandItem()
+    let nbtData = {
+        pfDemandJiaobei: demandList['脚背'],
+        pfDemandJiaozhang: demandList['脚掌'],
+        pfDemandJiaogen: demandList['脚后跟'],
+        pfDemandJiaozhi: demandList['脚趾'],
+        pfDemandJiaoxin: demandList['脚心']
+    }
+    if (!item || item.id === 'minecraft:air') {
+        // 如果没有手持物品，创建一个红石
+        item = Item.of('minecraft:redstone', nbtData)
+    } else {
+        // 保留现有NBT，添加需求清单
+        let nbt = item.nbt || {}
+        nbt.pfDemandJiaobei = demandList['脚背']
+        nbt.pfDemandJiaozhang = demandList['脚掌']
+        nbt.pfDemandJiaogen = demandList['脚后跟']
+        nbt.pfDemandJiaozhi = demandList['脚趾']
+        nbt.pfDemandJiaoxin = demandList['脚心']
+        item = item.withNBT(nbt)
+    }
+    entity.setMainHandItem(item)
+}
+
+// 从手持物品读取pfPhase（服务端用，客户端直接读取）
+function pfGetPhase(entity) {
+    let item = entity.getMainHandItem()
+    if (item && item.id === 'minecraft:redstone') {
+        return item.nbt.getInt('pfPhase')
+    }
+    return 0
+}
+
 /**
  * 将世界坐标转换为网格数字索引
  * @param {$BlockPos_} base  触发方块坐标
@@ -268,6 +359,7 @@ global.pathfinderTick = function (entity) {
         if (hasSlept === 1) {
             // 已经上过床，继续行走
             ent.persistentData.putInt("pfPhase", 2)
+            pfSyncPhase(ent, 2)
             console.log("[PF] 蓝色地毯等待：已上过床，继续行走")
             continue
         }
@@ -324,6 +416,9 @@ global.pathfinderTick = function (entity) {
             ent.persistentData.putInt("pfBedY", bedPos.blockY)
             ent.persistentData.putInt("pfBedZ", bedPos.blockZ)
             ent.persistentData.putInt("pfBedYaw", bedPos.yaw)
+            // 同步到NBT供客户端读取
+            pfSyncPhase(ent, 3)
+            pfSyncBed(ent, bedPos.blockX, bedPos.blockY, bedPos.blockZ, bedPos.yaw)
             // 标记这是从蓝色地毯等待后去躺床，下床时需要找红色地毯
             ent.persistentData.putInt("pfFromBlueWait", 1)
             ent.setPositionAndRotation(bedPos.x, bedPos.blockY + 0.2, bedPos.z, bedPos.yaw, 0)
@@ -389,6 +484,17 @@ global.pathfinderTick = function (entity) {
             server.runCommandSilent(cmd)
             // 保持朝向和位置
             ent.setYaw(bedYaw)
+        }
+
+        // 同步倒计时到客户端（每20tick更新一次，即每秒）
+        // 最大睡眠200tick(10秒)，剩余秒数 = ceil((200 - duration) / 20)
+        let remainingSeconds = Math.ceil((200 - sleepDuration) / 20)
+        if (remainingSeconds < 0) remainingSeconds = 0
+        if (remainingSeconds > 10) remainingSeconds = 10
+        // 每秒更新一次（20tick）
+        if (sleepDuration % 20 === 1) {
+            pfSyncCountdown(ent, remainingSeconds)
+            console.log("[PF-SLEEP] 倒计时同步: " + remainingSeconds + "秒 uuid=" + ent.getUuid())
         }
 
         // 调用接口检测是否应该起床（定义在 sleep.js）
@@ -462,6 +568,8 @@ global.pathfinderTick = function (entity) {
             ent.persistentData.putInt("pfClearSleepTick", 10)
             ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
             ent.persistentData.putInt("pfPhase", 2)
+            // 同步到NBT供客户端读取
+            pfSyncPhase(ent, 2)
 
             // 根据下床位置更新 pfTime，确保实体从正确的路径位置继续行走
             let routeStr = "" + ent.persistentData.getString("pfRoute")
@@ -679,7 +787,7 @@ global.pathfinderTick = function (entity) {
                     ent.persistentData.putFloat("pfWaitX", cx)
                     ent.persistentData.putFloat("pfWaitY", entY)
                     ent.persistentData.putFloat("pfWaitZ", cz)
-                    ent.persistentData.putInt("pfPhase", 5)
+                    ent.persistentData.putInt("pfPhase", 5); pfSyncPhase(ent, 5)
                     console.log("[PF] 到达蓝色地毯，进入等待状态 pos=(" + cx.toFixed(1) + "," + cz.toFixed(1) + ")")
                     continue
                 }
@@ -810,7 +918,7 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     walker.persistentData.putFloat("pfOriginX", spawnX)
     walker.persistentData.putFloat("pfOriginZ", spawnZ)
     walker.persistentData.putString("pfRoute", result[0])
-    walker.persistentData.putInt("pfPhase", 2)
+    walker.persistentData.putInt("pfPhase", 2); pfSyncPhase(walker, 2)
     walker.persistentData.putInt("pfTime", 0)
     walker.persistentData.putInt("pfSubStep", 0)
 
@@ -822,6 +930,23 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let pathBeds = pfScanBedsAlongRoute(level, result[0], spawnX, baseY, spawnZ)
     walker.persistentData.putString("pfBedList", pfSerializeBeds(pathBeds))
     console.log("[PF] 预扫描床位数量=" + pathBeds.length)
+
+    // 生成需求清单并同步到手持物品NBT
+    let demandList = pfGenerateDemandList()
+    console.log("[PF-DATA] 生成需求清单: " + JSON.stringify(demandList))
+    pfSyncDemandList(walker, demandList)
+    
+    // 验证存储结果
+    let verifyItem = walker.getMainHandItem()
+    if (verifyItem && verifyItem.id === 'minecraft:redstone') {
+        console.log("[PF-DATA] 存储验证 - 脚背=" + verifyItem.nbt.getInt('pfDemandJiaobei') + 
+                    ", 脚掌=" + verifyItem.nbt.getInt('pfDemandJiaozhang') + 
+                    ", 脚后跟=" + verifyItem.nbt.getInt('pfDemandJiaogen') + 
+                    ", 脚趾=" + verifyItem.nbt.getInt('pfDemandJiaozhi') + 
+                    ", 脚心=" + verifyItem.nbt.getInt('pfDemandJiaoxin'))
+    } else {
+        console.log("[PF-DATA] 存储验证失败 - 手持物品: " + (verifyItem ? verifyItem.id : "null"))
+    }
 
     level.spawnParticles("minecraft:poof", false, spawnX, baseY + 1, spawnZ, 0.5, 1, 0.5, 50, 0)
     player.setStatusMessage("§a寻路开始！路径长度：" + result[0].length + " 格")

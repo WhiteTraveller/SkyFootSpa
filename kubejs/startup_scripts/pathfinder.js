@@ -1,6 +1,10 @@
 // 占位：防止 server_scripts 还未加载时报错
 global.pathfinderTick = function (entity) {}
 
+// ============================================================
+// 注册寻路触发方块
+// ============================================================
+
 StartupEvents.registry("block", (event) => {
     event.create("pathfinder_block")
         .textureAll("minecraft:block/red_carpet")
