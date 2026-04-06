@@ -4,6 +4,9 @@
 // UI显示由 client_scripts/foot_ui.js 管理
 // ============================================================
 
+// 常量定义
+let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
+
 // 全局 Window 管理器（保留用于客户端脚本访问）
 global.pfSleepWindows = global.pfSleepWindows || new Map()
 
@@ -93,38 +96,37 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
 
     // 检查需求清单是否全部为0
     let item = entity.getMainHandItem()
-    if (item && item.id === 'minecraft:redstone' && item.nbt) {
+    if (item && item.id === SYNC_ITEM_ID && item.nbt) {
         let nbt = item.nbt
         let jiaobei = nbt.getInt('pfDemandJiaobei') || 0
         let jiaozhang = nbt.getInt('pfDemandJiaozhang') || 0
         let jiaogen = nbt.getInt('pfDemandJiaogen') || 0
         let jiaozhi = nbt.getInt('pfDemandJiaozhi') || 0
         let jiaoxin = nbt.getInt('pfDemandJiaoxin') || 0
+        console.log("[SLEEP-JS] 需求: 脚背=" + jiaobei + ", 脚掌=" + jiaozhang + ", 脚根=" + jiaogen + ", 脚趾=" + jiaozhi + ", 脚心=" + jiaoxin)
         
         // 所有需求都为0时才能起床
         if (jiaobei === 0 && jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
             
-            // 结算规则（新版本）：
-            // - 本单最终掉落钻石数量 = 本单累计金钱（pfMoney）
-            // - pfMoney 在每次“有效点击”时会增加：money_gain.<部位>
-            //   所以这条规则等价于“每个部位点击收益 * 点击次数 的总和”
-            let satisfaction = nbt.getInt('pfSatisfaction') || 0
+            // 结算规则：
+            // - 本单最终掉落金锭数量 = 本单累计金钱（pfMoney）
+            // - pfMoney 在每次"有效点击"时会增加：money_gain.<部位>
+            //   所以这条规则等价于"每个部位点击收益 * 点击次数 的总和"
             let money = nbt.getInt('pfMoney') || 0
-            let diamondCount = Math.max(0, Math.floor(money))
-            console.log("[SLEEP-JS] 需求完成！掉落钻石: " + diamondCount + "个 (满意度=" + satisfaction + "%, 金钱=" + money + ")")
-            if (diamondCount > 0) {
-                // 使用原版指令生成钻石物品
-
+            let goldCount = Math.max(0, Math.floor(money))
+            console.log("[SLEEP-JS] 需求完成！掉落金锭: " + goldCount + "个 (累计金钱=" + money + ")")
+            if (goldCount > 0) {
+                // 使用原版指令生成金锭物品
                 let x = entity.x
                 let y = (entity.y + 1)
                 let z = entity.z
-                let remaining = diamondCount
+                let remaining = goldCount
                 while (remaining > 0) {
                     // 原版物品堆叠上限通常是 64，因此这里按 64 分批召唤掉落物，
                     // 避免一次性 Count 太大导致指令无效或显示异常。
                     let count = Math.min(64, remaining)
-                    let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:diamond",Count:' + count + 'b}}'
+                    let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:gold_ingot",Count:' + count + 'b}}'
                     level.getServer().runCommandSilent(cmd)
                     remaining -= count
                 }

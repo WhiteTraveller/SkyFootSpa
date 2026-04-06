@@ -3,6 +3,9 @@
 // foot_ui.js - 在世界中显示睡眠实体的脚部UI
 // ============================================================
 
+// 常量定义
+let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
+
 let WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow")
 let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
 
@@ -55,7 +58,7 @@ function createSleepWindow(entity) {
     // 从手持物品NBT读取床位信息（物品NBT自动同步）
     let mainHand = entity.getMainHandItem()
     let bedX = 0, bedY = 0, bedZ = 0, bedYaw = 0
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         bedX = mainHand.nbt.getInt('pfBedX')
         bedY = mainHand.nbt.getInt('pfBedY')
         bedZ = mainHand.nbt.getInt('pfBedZ')
@@ -168,7 +171,7 @@ function createSoakWindow(entity) {
     // 从手持物品NBT读取床位信息
     let mainHand = entity.getMainHandItem()
     let bedX = 0, bedY = 0, bedZ = 0, bedYaw = 0
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         bedX = mainHand.nbt.getInt('pfBedX')
         bedY = mainHand.nbt.getInt('pfBedY')
         bedZ = mainHand.nbt.getInt('pfBedZ')
@@ -292,7 +295,7 @@ function isSleeping(entity) {
         return false
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let phase = mainHand.nbt.getInt('pfPhase')
         return phase === 3
     }
@@ -307,7 +310,7 @@ function isSoakDone(entity) {
         return false
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let soakDone = mainHand.nbt.getInt('pfSoakDone')
         return soakDone === 1
     }
@@ -322,7 +325,7 @@ function getSoakTimeLeft(entity) {
         return 0
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let timeLeft = mainHand.nbt.getInt('pfSoakTimeLeft')
         return timeLeft >= 0 ? timeLeft : 0
     }
@@ -337,7 +340,7 @@ function isSoaking(entity) {
         return false
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let isSoaking = mainHand.nbt.getInt('pfIsSoaking')
         return isSoaking === 1
     }
@@ -354,7 +357,7 @@ function getDemandList(entity) {
         return { '脚背': 0, '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let result = {
             '脚背': mainHand.nbt.getInt('pfDemandJiaobei') || 0,
             '脚掌': mainHand.nbt.getInt('pfDemandJiaozhang') || 0,
@@ -377,7 +380,7 @@ function getCountdown(entity) {
         return 10
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let countdown = mainHand.nbt.getInt('pfCountdown')
         if (countdown > 0 && countdown <= 10) {
             return countdown
@@ -395,7 +398,7 @@ function getSatisfaction(entity) {
         return 0
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let satisfaction = mainHand.nbt.getInt('pfSatisfaction')
         if (satisfaction >= 0 && satisfaction <= 100) {
             return satisfaction
@@ -422,7 +425,7 @@ function getSteps(entity) {
         return ""
     }
     let mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === 'minecraft:redstone') {
+    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let stepsStr = mainHand.nbt.pfSteps
         if (stepsStr && stepsStr.length > 0) {
             // 解码字符串为中文

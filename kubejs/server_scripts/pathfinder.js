@@ -2,6 +2,9 @@
 // 寻路系统 - 参照 kubejstest/server_scripts/src/counter.js
 // ============================================================
 
+// 常量定义
+let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
+
 // 网格参数：以方块为中心，向四周延伸 GRID_HALF 格
 let GRID_HALF = 20
 let GRID_W = GRID_HALF * 2 + 1  // 49
@@ -15,7 +18,7 @@ let GRID_W = GRID_HALF * 2 + 1  // 49
 function pfSyncPhase(entity, phase) {
     let item = entity.getMainHandItem()
     if (!item || item.id === 'minecraft:air') {
-        item = Item.of('minecraft:redstone', { pfPhase: phase })
+        item = Item.of(SYNC_ITEM_ID, { pfPhase: phase })
     } else {
         item = item.withNBT({ pfPhase: phase })
     }
@@ -27,7 +30,7 @@ function pfSyncBed(entity, bedX, bedY, bedZ, bedYaw) {
     let item = entity.getMainHandItem()
     let nbtData = { pfBedX: bedX, pfBedY: bedY, pfBedZ: bedZ, pfBedYaw: bedYaw }
     if (!item || item.id === 'minecraft:air') {
-        item = Item.of('minecraft:redstone', nbtData)
+        item = Item.of(SYNC_ITEM_ID, nbtData)
     } else {
         item = item.withNBT(nbtData)
     }
@@ -38,7 +41,7 @@ function pfSyncBed(entity, bedX, bedY, bedZ, bedYaw) {
 // countdown: 剩余秒数（0-10）
 function pfSyncCountdown(entity, countdown) {
     let item = entity.getMainHandItem()
-    if (item && item.id === 'minecraft:redstone') {
+    if (item && item.id === SYNC_ITEM_ID) {
         // 保留现有NBT，只更新倒计时
         let nbt = item.nbt || {}
         nbt.pfCountdown = countdown
@@ -85,7 +88,7 @@ function pfSyncDemandList(entity, demandList) {
     }
     if (!item || item.id === 'minecraft:air') {
         // 如果没有手持物品，创建一个红石
-        item = Item.of('minecraft:redstone', nbtData)
+        item = Item.of(SYNC_ITEM_ID, nbtData)
     } else {
         // 保留现有NBT，添加需求清单
         let nbt = item.nbt || {}
@@ -107,7 +110,7 @@ function pfSyncDemandList(entity, demandList) {
 // 从手持物品读取pfPhase（服务端用，客户端直接读取）
 function pfGetPhase(entity) {
     let item = entity.getMainHandItem()
-    if (item && item.id === 'minecraft:redstone') {
+    if (item && item.id === SYNC_ITEM_ID) {
         return item.nbt.getInt('pfPhase')
     }
     return 0
@@ -215,7 +218,7 @@ function pfScanBedsAlongRoute(level, routeStr, startX, startY, startZ) {
 
     for (let i = 0; i <= routeChars.length; i++) {
         // 检查当前格周围2格范围内是否有床（覆盖床头在第2格的情况）
-        let checkR = 2
+        let checkR = 1
         let adjacent = []
         for (let ddx = -checkR; ddx <= checkR; ddx++) {
             for (let ddz = -checkR; ddz <= checkR; ddz++) {
@@ -306,8 +309,8 @@ function pfParseBeds(str) {
 
 // 检查指定床是否被占用（pfPhase=3 的实体在床附近）
 function pfIsBedOccupied(level, bed, selfEnt) {
-    let bedArea = new AABB.of(bed.blockX - 1.5, bed.blockY, bed.blockZ - 1.5,
-        bed.blockX + 1.5, bed.blockY + 1.5, bed.blockZ + 1.5)
+    let bedArea = new AABB.of(bed.blockX - 1, bed.blockY, bed.blockZ - 1,
+        bed.blockX + 1, bed.blockY + 1, bed.blockZ + 1)
     let nearbyEnts = level.getEntitiesWithin(bedArea)
     for (let e = 0; e < nearbyEnts.length; e++) {
         let other = nearbyEnts[e]
@@ -405,7 +408,7 @@ global.pathfinderTick = function (entity) {
             let dz = bed.z - cz
             let dist = Math.sqrt(dx * dx + dz * dz)
             // 床在当前位置前方（距离2~10格）且未被占用
-            if (dist >= 2 && dist <= 10 && !pfIsBedOccupied(level, bed, ent)) {
+            if (dist >= 2 && dist <= 200 && !pfIsBedOccupied(level, bed, ent)) {
                 foundEmptyBed = bed
                 break
             }
@@ -445,6 +448,7 @@ global.pathfinderTick = function (entity) {
     // ---- 处理躺床中的实体 ----
     for (let i = 0; i < sleepers.length; i++) {
         let ent = sleepers[i]
+        console.log("[PF1] 处理躺床中实体 uuid=" + ent.getUuid())
 
         // 防止重复处理
         let lastTick = (ent.persistentData.getInt("pfLastTick") | 0)
@@ -454,15 +458,15 @@ global.pathfinderTick = function (entity) {
 
         // ---- 处理泡脚倒计时 ----
         let item = ent.getMainHandItem()
-        if (item && item.id === 'minecraft:redstone' && item.nbt) {
+        if (item && item.id === SYNC_ITEM_ID && item.nbt) {
             let nbt = item.nbt
             let isSoaking = nbt.getInt('pfIsSoaking') || 0
             let soakDone = nbt.getInt('pfSoakDone') || 0
-            
+
             // 如果正在泡脚且未完成，减少倒计时
             if (isSoaking === 1 && soakDone === 0) {
                 let soakTimeLeft = nbt.getInt('pfSoakTimeLeft') || 0
-                
+
                 // 每秒减少一次（每20 ticks）
                 let sleepStart = (ent.persistentData.getInt("pfSleepStartTick") | 0)
                 let sleepDuration = currTick - sleepStart
@@ -472,7 +476,7 @@ global.pathfinderTick = function (entity) {
                         nbt.pfSoakTimeLeft = soakTimeLeft
                         console.log("[PF-SOAK] 倒计时减少: " + soakTimeLeft + "秒 uuid=" + ent.getUuid())
                     }
-                    
+
                     // 倒计时结束
                     if (soakTimeLeft <= 0) {
                         nbt.pfIsSoaking = 0
@@ -488,24 +492,10 @@ global.pathfinderTick = function (entity) {
         let sleepDuration = currTick - sleepStart
 
         // 确保至少睡了1tick才开始计时
-        if (sleepStart <= 0 || sleepDuration < 1) {
-            continue
-        }
-
-        // 超时保护：如果睡了超过200tick（10秒）还没起床，强制清除
-        // if (sleepDuration > 200) {
-        //     let server = level.getServer()
-        //     let uuid = "" + ent.getUuid()
-        //     console.log("[PF-SLEEP] 超时强制清除 uuid=" + uuid)
-        //     ent.stopSleeping()
-        //     server.runCommandSilent("data remove entity " + uuid + " SleepingX")
-        //     server.runCommandSilent("data remove entity " + uuid + " SleepingY")
-        //     server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
-        //     ent.persistentData.putInt("pfSleepStartTick", 0)
-        //     ent.persistentData.putInt("pfClearSleepTick", 10)
-        //     ent.persistentData.putInt("pfPhase", 2)
+        // if (sleepStart <= 0 || sleepDuration < 1) {
         //     continue
         // }
+                console.log("[PF2] 处理躺床中实体 uuid=" + ent.getUuid())
 
         // 躺下后每tick：设置睡觉姿势NBT和保持朝向
         if (sleepDuration >= 1 && sleepDuration < 60) {
@@ -534,7 +524,7 @@ global.pathfinderTick = function (entity) {
         if (sleepDuration % 20 === 1) {
             pfSyncCountdown(ent, remainingSeconds)
         }
-
+        console.log("[PF3] 处理躺床中实体 uuid=" + ent.getUuid())
         // 调用接口检测是否应该起床（定义在 sleep.js）
         let bedX = ent.persistentData.getInt("pfBedX")
         let bedY = ent.persistentData.getInt("pfBedY")
@@ -949,11 +939,11 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     // 设置位置和基础NBT
     walker.setPositionAndRotation(spawnX, baseY, spawnZ, 0, 0)
     walker.setNoAi(true)
-    
+
     // 随机选择模型（从全局函数获取）
     let randomModel = global.getRandomMaidModel ? global.getRandomMaidModel() : "touhou_little_maid:hakurei_reimu"
     console.log("[PF] 生成女仆，随机模型: " + randomModel)
-    
+
     // 设置NBT（包含模型ID）
     walker.mergeNbt({
         NoAI: 1,
@@ -986,15 +976,15 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let demandList = pfGenerateDemandList()
     console.log("[PF-DATA] 生成需求清单: " + JSON.stringify(demandList))
     pfSyncDemandList(walker, demandList)
-    
+
     // 验证存储结果
     let verifyItem = walker.getMainHandItem()
-    if (verifyItem && verifyItem.id === 'minecraft:redstone') {
-        console.log("[PF-DATA] 存储验证 - 脚背=" + verifyItem.nbt.getInt('pfDemandJiaobei') + 
-                    ", 脚掌=" + verifyItem.nbt.getInt('pfDemandJiaozhang') + 
-                    ", 脚后跟=" + verifyItem.nbt.getInt('pfDemandJiaogen') + 
-                    ", 脚趾=" + verifyItem.nbt.getInt('pfDemandJiaozhi') + 
-                    ", 脚心=" + verifyItem.nbt.getInt('pfDemandJiaoxin'))
+    if (verifyItem && verifyItem.id === SYNC_ITEM_ID) {
+        console.log("[PF-DATA] 存储验证 - 脚背=" + verifyItem.nbt.getInt('pfDemandJiaobei') +
+            ", 脚掌=" + verifyItem.nbt.getInt('pfDemandJiaozhang') +
+            ", 脚后跟=" + verifyItem.nbt.getInt('pfDemandJiaogen') +
+            ", 脚趾=" + verifyItem.nbt.getInt('pfDemandJiaozhi') +
+            ", 脚心=" + verifyItem.nbt.getInt('pfDemandJiaoxin'))
     } else {
         console.log("[PF-DATA] 存储验证失败 - 手持物品: " + (verifyItem ? verifyItem.id : "null"))
     }
@@ -1040,26 +1030,26 @@ function pfGetAttributeValue(player, id, fallback) {
             let v = inst.getValue()
             if (v != null) return v
         }
-    } catch (e) {}
+    } catch (e) { }
     return fallback
 }
 
+// 客户端点击按钮后会发送一个数据包到服务端（NetworkEvents.dataReceived）。
+// 这里是服务端的处理逻辑：
+// - 客户端只告诉我们“点了哪个实体（entityUuid）”
+// - 本次点击算哪个部位，则由“玩家手持羊毛颜色”决定（WOOL_TO_DEMAND）
+// - 真正的结算（满意度/金钱）只在服务端进行，防止客户端作弊
 NetworkEvents.dataReceived('foot_click_demand', event => {
-    // 客户端点击按钮后会发送一个数据包到服务端（NetworkEvents.dataReceived）。
-    // 这里是服务端的处理逻辑：
-    // - 客户端只告诉我们“点了哪个实体（entityUuid）”
-    // - 本次点击算哪个部位，则由“玩家手持羊毛颜色”决定（WOOL_TO_DEMAND）
-    // - 真正的结算（满意度/金钱）只在服务端进行，防止客户端作弊
     let entityUuid = event.data.entityUuid
     let partKey = event.data.partKey  // 客户端传来的部位键
     let player = event.player
     let level = player.level
-    
+
     console.log("[PF-NETWORK] 收到点击请求 entityUuid=" + entityUuid + ", partKey=" + partKey)
-    
+
     // 确定要操作的需求键
     let demandKey = null
-    
+
     // 优先使用客户端传来的部位信息
     if (partKey && DEMAND_KEY_TO_CODE[partKey]) {
         demandKey = partKey
@@ -1071,12 +1061,12 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
             demandKey = WOOL_TO_DEMAND[playerMainHand.id]
         }
     }
-    
+
     if (!demandKey) {
         console.log("[PF-NETWORK] 无法确定操作部位，玩家手持: " + (player.getMainHandItem() ? player.getMainHandItem().id : "null"))
         return
     }
-    
+
     // 查找实体
     let entities = level.getEntities()
     let targetEntity = null
@@ -1087,17 +1077,17 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
             break
         }
     }
-    
+
     if (targetEntity == null) {
         console.log("[PF-NETWORK] 未找到实体 uuid=" + entityUuid)
         return
     }
-    
+
     // 读取并更新需求清单
     let item = targetEntity.getMainHandItem()
-    if (item && item.id === 'minecraft:redstone' && item.nbt) {
+    if (item && item.id === SYNC_ITEM_ID && item.nbt) {
         let nbt = item.nbt
-        
+
         // 获取当前需求值
         let currentValue = nbt.getInt(demandKey) || 0
 
@@ -1122,14 +1112,14 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
         if (currentValue > 0) {
             currentValue--
             nbt[demandKey] = currentValue
-            
+
             // 本次点击结算：
             // - satGain：满意度增量（向下取整、且不小于 0）
             // - moneyGain：金钱增量（向下取整）
             let satGain = Math.max(0, Math.floor(satPart))
             let moneyGain = Math.floor(moneyPart)
 
-            // 累加到“本单累计结果”（写回 NBT）
+            // 累加到"本单累计结果"（写回 NBT）
             // 客户端 UI 读取 pfSatisfaction / pfMoney 来展示进度与收益
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
             satisfaction = Math.min(100, satisfaction + satGain)
@@ -1137,24 +1127,27 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
 
             let money = nbt.getInt('pfMoney') || 0
             nbt.pfMoney = money + moneyGain
-            
+
+            // 在聊天栏通知玩家本次奖励
+            player.tell("§a+" + moneyGain + "§6💰 §7| §b+" + satGain + "§d❤")
+
             console.log("[PF-NETWORK] 满意度更新: " + nbt)
             // 记录步骤到NBT - 使用字符串存储（逗号分隔的整数）
             let stepCode = DEMAND_KEY_TO_CODE[demandKey]
             let currentSteps = nbt.pfSteps
             console.log("[PF-NETWORK] pfSteps步骤=" + currentSteps + ", 添加步骤=" + stepCode)
             if (currentSteps && currentSteps.length > 0) {
-                console.log("[PF-NETWORK] 添加步骤=" +  currentSteps + "," + stepCode)
-                nbt.merge({'pfSteps': currentSteps + "," + stepCode})
+                console.log("[PF-NETWORK] 添加步骤=" + currentSteps + "," + stepCode)
+                nbt.merge({ 'pfSteps': currentSteps + "," + stepCode })
             } else {
-                nbt.merge({'pfSteps': String(stepCode)})
+                nbt.merge({ 'pfSteps': String(stepCode) })
             }
-            
+
             // targetEntity.setMainHandItem(item.withNBT(nbt))
-            
-            console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue + 
-                        ", 满意度=" + satisfaction + "% (玩家手持: " + playerMainHand.id + ")" +
-                        ", 金钱=" + nbt.pfMoney)
+
+            console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue +
+                ", 满意度=" + satisfaction + "% (玩家手持: " + playerMainHand.id + ")" +
+                ", 金钱=" + nbt.pfMoney)
         } else {
             // 需求已经是 0：不再给奖励，也不扣奖励（避免负反馈让新手困惑）
             console.log("[PF-NETWORK] 需求已为0，无法减少")
@@ -1203,7 +1196,7 @@ NetworkEvents.dataReceived('foot_click_soak', event => {
 
     // 读取实体NBT
     let item = targetEntity.getMainHandItem()
-    if (item && item.id === 'minecraft:redstone' && item.nbt) {
+    if (item && item.id === SYNC_ITEM_ID && item.nbt) {
         let nbt = item.nbt
 
         // 检查是否已经在泡脚中或已完成
