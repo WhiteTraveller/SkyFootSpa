@@ -3,7 +3,7 @@
 // ============================================================
 
 // 网格参数：以方块为中心，向四周延伸 GRID_HALF 格
-let GRID_HALF = 10
+let GRID_HALF = 20
 let GRID_W = GRID_HALF * 2 + 1  // 49
 
 // ============================================================
@@ -57,7 +57,7 @@ function pfGenerateDemandList() {
     for (let i = 0; i < PF_DEMAND_TYPES.length; i++) {
         let type = PF_DEMAND_TYPES[i]
         // 0~5次随机
-        demandList[type] = Math.floor(Math.random() * 6)
+        demandList[type] = Math.floor(Math.random() * 3)
     }
     return demandList
 }
@@ -72,7 +72,10 @@ function pfSyncDemandList(entity, demandList) {
         pfDemandJiaozhi: demandList['脚趾'],
         pfDemandJiaoxin: demandList['脚心'],
         pfSatisfaction: 0,  // 满意度初始化为0%
-        pfDiamondMult: 1.0
+        pfDiamondMult: 1.0,
+        pfIsSoaking: 0,     // 是否正在泡脚
+        pfSoakDone: 0,      // 是否已完成泡脚
+        pfSoakTimeLeft: 0   // 泡脚剩余时间
     }
     if (!item || item.id === 'minecraft:air') {
         // 如果没有手持物品，创建一个红石
@@ -87,6 +90,9 @@ function pfSyncDemandList(entity, demandList) {
         nbt.pfDemandJiaoxin = demandList['脚心']
         nbt.pfSatisfaction = nbt.pfSatisfaction || 0  // 保留已有满意度或初始化为0
         nbt.pfDiamondMult = nbt.pfDiamondMult || 1.0
+        nbt.pfIsSoaking = nbt.pfIsSoaking || 0
+        nbt.pfSoakDone = nbt.pfSoakDone || 0
+        nbt.pfSoakTimeLeft = nbt.pfSoakTimeLeft || 0
         item = item.withNBT(nbt)
     }
     entity.setMainHandItem(item)
@@ -182,15 +188,8 @@ function pfBfs(start, finish, map, routes) {
     return [str, now[0]]
 }
 
-// 可生成的实体类型列表（与 counter.js 保持一致）
-let PF_ENTITY_TYPES = [
-    // "minecraft:husk",
-    // "minecraft:drowned",
-    // "minecraft:zombie",
-    // "minecraft:skeleton",
-    // "minecraft:stray",
-    "touhou_little_maid:maid"
-]
+// 可生成的实体类型
+let PF_ENTITY_TYPE = "touhou_little_maid:maid"
 
 // ============================================================
 // BlockEntity Tick：每tick执行移动，每10tick推进时间轴
@@ -446,6 +445,38 @@ global.pathfinderTick = function (entity) {
         let currTick = (currentTick | 0)
         if (lastTick != 0 && lastTick == currTick) continue
         ent.persistentData.putInt("pfLastTick", currTick)
+
+        // ---- 处理泡脚倒计时 ----
+        let item = ent.getMainHandItem()
+        if (item && item.id === 'minecraft:redstone' && item.nbt) {
+            let nbt = item.nbt
+            let isSoaking = nbt.getInt('pfIsSoaking') || 0
+            let soakDone = nbt.getInt('pfSoakDone') || 0
+            
+            // 如果正在泡脚且未完成，减少倒计时
+            if (isSoaking === 1 && soakDone === 0) {
+                let soakTimeLeft = nbt.getInt('pfSoakTimeLeft') || 0
+                
+                // 每秒减少一次（每20 ticks）
+                let sleepStart = (ent.persistentData.getInt("pfSleepStartTick") | 0)
+                let sleepDuration = currTick - sleepStart
+                if (sleepDuration > 0 && sleepDuration % 20 === 0) {
+                    if (soakTimeLeft > 0) {
+                        soakTimeLeft--
+                        nbt.pfSoakTimeLeft = soakTimeLeft
+                        console.log("[PF-SOAK] 倒计时减少: " + soakTimeLeft + "秒 uuid=" + ent.getUuid())
+                    }
+                    
+                    // 倒计时结束
+                    if (soakTimeLeft <= 0) {
+                        nbt.pfIsSoaking = 0
+                        nbt.pfSoakDone = 1
+                        nbt.pfSoakTimeLeft = 0
+                        console.log("[PF-SOAK] 倒计时结束，泡脚完成！uuid=" + ent.getUuid())
+                    }
+                }
+            }
+        }
 
         let sleepStart = (ent.persistentData.getInt("pfSleepStartTick") | 0)
         let sleepDuration = currTick - sleepStart
@@ -904,16 +935,28 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         return
     }
 
-    // 生成随机怪物
-    let entityType = PF_ENTITY_TYPES[Math.floor(Math.random() * PF_ENTITY_TYPES.length)]
-    let walker = level.createEntity(entityType)
+    // 生成女仆实体
+    let walker = level.createEntity(PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
 
-    // 设置位置和NBT
+    // 设置位置和基础NBT
     walker.setPositionAndRotation(spawnX, baseY, spawnZ, 0, 0)
     walker.setNoAi(true)
-    walker.mergeNbt(`{NoAI:1b,Invulnerable:1b,PersistenceRequired:1b,NoGravity:1b,DeathLootTable:"entities/empty"}`)
+    
+    // 随机选择模型（从全局函数获取）
+    let randomModel = global.getRandomMaidModel ? global.getRandomMaidModel() : "touhou_little_maid:hakurei_reimu"
+    console.log("[PF] 生成女仆，随机模型: " + randomModel)
+    
+    // 设置NBT（包含模型ID）
+    walker.mergeNbt({
+        NoAI: 1,
+        Invulnerable: 1,
+        PersistenceRequired: 1,
+        NoGravity: 1,
+        DeathLootTable: "entities/empty",
+        ModelId: randomModel
+    })
     walker.spawn()
 
     // spawn后设置persistentData
@@ -978,21 +1021,29 @@ let DEMAND_KEY_TO_CODE = {
 
 NetworkEvents.dataReceived('foot_click_demand', event => {
     let entityUuid = event.data.entityUuid
+    let partKey = event.data.partKey  // 客户端传来的部位键
     let player = event.player
     let level = player.level
     
-    console.log("[PF-NETWORK] 收到点击请求 entityUuid=" + entityUuid)
+    console.log("[PF-NETWORK] 收到点击请求 entityUuid=" + entityUuid + ", partKey=" + partKey)
     
-    // 检查玩家手持物品
-    let playerMainHand = player.getMainHandItem()
-    if (!playerMainHand || !playerMainHand.id) {
-        console.log("[PF-NETWORK] 玩家手持物品为空")
-        return
+    // 确定要操作的需求键
+    let demandKey = null
+    
+    // 优先使用客户端传来的部位信息
+    if (partKey && DEMAND_KEY_TO_CODE[partKey]) {
+        demandKey = partKey
+        console.log("[PF-NETWORK] 使用客户端传来的部位: " + demandKey)
+    } else {
+        // 兼容旧逻辑：检查玩家手持物品（羊毛）
+        let playerMainHand = player.getMainHandItem()
+        if (playerMainHand && playerMainHand.id) {
+            demandKey = WOOL_TO_DEMAND[playerMainHand.id]
+        }
     }
     
-    let demandKey = WOOL_TO_DEMAND[playerMainHand.id]
     if (!demandKey) {
-        console.log("[PF-NETWORK] 玩家手持的不是对应羊毛: " + (playerMainHand ? playerMainHand.id : "null"))
+        console.log("[PF-NETWORK] 无法确定操作部位，玩家手持: " + (player.getMainHandItem() ? player.getMainHandItem().id : "null"))
         return
     }
     
@@ -1078,3 +1129,88 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
         console.log("[PF-NETWORK] 实体手持物品无效")
     }
 })
+
+// ============================================================
+// 泡脚点击事件处理
+// ============================================================
+NetworkEvents.dataReceived('foot_click_soak', event => {
+    let entityUuid = event.data.entityUuid
+    let player = event.player
+    let level = player.level
+
+    console.log("[PF-SOAK] 收到泡脚点击请求 entityUuid=" + entityUuid)
+
+    // 检查玩家是否手持水桶
+    let playerMainHand = player.getMainHandItem()
+    if (!playerMainHand || playerMainHand.id !== 'minecraft:water_bucket') {
+        console.log("[PF-SOAK] 玩家没有手持水桶: " + (playerMainHand ? playerMainHand.id : "null"))
+        player.setStatusMessage("§c需要手持水桶才能开始泡脚！")
+        return
+    }
+
+    // 查找实体
+    let entities = level.getEntities()
+    let targetEntity = null
+    for (let i = 0; i < entities.size(); i++) {
+        let ent = entities.get(i)
+        if ("" + ent.getUuid() === entityUuid) {
+            targetEntity = ent
+            break
+        }
+    }
+
+    if (targetEntity == null) {
+        console.log("[PF-SOAK] 未找到实体 uuid=" + entityUuid)
+        return
+    }
+
+    // 读取实体NBT
+    let item = targetEntity.getMainHandItem()
+    if (item && item.id === 'minecraft:redstone' && item.nbt) {
+        let nbt = item.nbt
+
+        // 检查是否已经在泡脚中或已完成
+        let isSoaking = nbt.getInt('pfIsSoaking') || 0
+        let soakDone = nbt.getInt('pfSoakDone') || 0
+
+        if (isSoaking === 1) {
+            console.log("[PF-SOAK] 实体正在泡脚中，忽略请求")
+            player.setStatusMessage("§e该顾客正在泡脚中...")
+            return
+        }
+
+        if (soakDone === 1) {
+            console.log("[PF-SOAK] 实体已完成泡脚，忽略请求")
+            player.setStatusMessage("§e该顾客已完成泡脚！")
+            return
+        }
+
+        // 开始泡脚
+        console.log("[PF-SOAK] 开始泡脚，设置倒计时10秒")
+        nbt.pfIsSoaking = 1
+        nbt.pfSoakTimeLeft = 10
+        nbt.pfSoakDone = 0
+
+        // 消耗水桶，变成空桶
+        player.setMainHandItem(Item.of('minecraft:bucket', 1))
+        console.log("[PF-SOAK] 水桶已消耗，变为空桶")
+
+        player.setStatusMessage("§a开始泡脚！倒计时10秒...")
+
+        // 启动倒计时任务
+        startSoakCountdown(level, targetEntity, nbt)
+    } else {
+        console.log("[PF-SOAK] 实体手持物品无效")
+    }
+})
+
+/**
+ * 启动泡脚倒计时
+ * 现在倒计时的实际减少在 global.pathfinderTick 中处理
+ */
+function startSoakCountdown(level, entity, initialNbt) {
+    let uuid = "" + entity.getUuid()
+    console.log("[PF-SOAK] 启动倒计时任务 uuid=" + uuid)
+    // 倒计时逻辑已集成到 global.pathfinderTick 中
+    // 这里只需要设置初始状态，实际倒计时由 pathfinderTick 驱动
+}

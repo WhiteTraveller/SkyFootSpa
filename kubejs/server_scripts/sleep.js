@@ -105,28 +105,27 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
         if (jiaobei === 0 && jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
             
-            // 掉落钻石：数量 = 10 * 满意度 * 总步骤数
+            // 掉落金锭：数量 = 满意度 * 总步骤数 / 100 * 倍率
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
             let totalSteps = nbt.getInt('pfTotalSteps') || 0
-            let diamondMult = 1.0
+            let goldMult = 1.0
             try {
                 if (typeof nbt.getFloat === "function") {
-                    diamondMult = nbt.getFloat('pfDiamondMult') || 1.0
+                    goldMult = nbt.getFloat('pfDiamondMult') || 1.0
                 } else if (nbt.pfDiamondMult != null) {
-                    diamondMult = nbt.pfDiamondMult
+                    goldMult = nbt.pfDiamondMult
                 }
             } catch (e) {
-                diamondMult = 1.0
+                goldMult = 1.0
             }
-            let diamondCount = Math.floor(Math.floor(satisfaction * totalSteps / 100) * diamondMult)
-            console.log("[SLEEP-JS] 需求完成！掉落钻石: " + diamondCount + "个 (满意度=" + satisfaction + "%, 总步骤数=" + totalSteps + ")")
-            if (diamondCount > 0) {
-                // 使用原版指令生成钻石物品
-
+            let goldCount = Math.floor(Math.floor(satisfaction * totalSteps / 100) * goldMult)
+            console.log("[SLEEP-JS] 需求完成！掉落金锭: " + goldCount + "个 (满意度=" + satisfaction + "%, 总步骤数=" + totalSteps + ")")
+            if (goldCount > 0) {
+                // 使用原版指令生成金锭物品
                 let x = entity.x
                 let y = (entity.y + 1)
                 let z = entity.z
-                let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:diamond",Count:' + diamondCount + 'b}}'
+                let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:gold_ingot",Count:' + goldCount + 'b}}'
                 level.getServer().runCommandSilent(cmd)
                 console.log("[SLEEP-JS] 执行指令: " + cmd)
             }

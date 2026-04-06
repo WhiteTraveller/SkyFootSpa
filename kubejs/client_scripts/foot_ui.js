@@ -3,9 +3,6 @@
 // foot_ui.js - 在世界中显示睡眠实体的脚部UI
 // ============================================================
 
-
-
-
 let WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow")
 let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
 
@@ -13,8 +10,10 @@ let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
 
 // 全局状态管理
 let sleepWindows = new Map()
+let soakWindows = new Map()       // 泡脚UI窗口
 let trackedEntities = new Map()
 let entityCountdowns = new Map()  // 存储每个实体的上次倒计时值
+let entitySoakState = new Map()   // 存储每个实体的泡脚状态 { isSoaking: boolean, soakTimeLeft: number }
 
 // UI配置
 let BAR_WIDTH = 100.0
@@ -78,7 +77,7 @@ function createSleepWindow(entity) {
     console.log("[FOOT-UI-DATA] 最终需求清单: " + JSON.stringify(demandList) + ", 满意度=" + satisfaction + "%, 步骤=" + steps)
 
     // 注意：路径是相对于 apricity/ 目录的 footui
-    let window = new WorldWindow("kubejs/test.html", footBlockPos, BAR_WIDTH, BAR_HEIGHT, MAX_DISTANCE)
+    let window = new WorldWindow("kubejs/footui.html", footBlockPos, BAR_WIDTH, BAR_HEIGHT, MAX_DISTANCE)
     if (bedYaw == -90) bedYaw = 270
     window.setRotation(180 - (bedYaw * (PI / 180)) - (bedYaw % 180 == 0 ? PI : 0), 0)
     console.log("[FOOT-UI-DATA] 设置窗口旋转角度: " + bedYaw + " -> " + (180 - (bedYaw * (PI / 180) + PI)))
@@ -89,17 +88,34 @@ function createSleepWindow(entity) {
     sleepWindows.set(uuid, window)
     trackedEntities.set(uuid, entity)
 
-    // 给脚按钮添加点击事件
-    let footBtn = window.document.getElementById("footBtn")
-    if (footBtn != null) {
-        footBtn.addEventListener("mousedown", event => {
-            console.log("[FOOT-UI] 点击脚按钮，发送请求到服务端 uuid=" + uuid)
-            // 发送网络包到服务端
-            let player = Minecraft.getInstance().player
-            if (player != null) {
-                player.sendData('foot_click_demand', { entityUuid: uuid })
-            }
-        })
+    // 给各个部位按钮添加点击事件
+    // 部位按钮ID与需求键的映射
+    let partButtonMap = {
+        'jiaobei': 'pfDemandJiaobei',    // 脚背
+        'jiaozhang': 'pfDemandJiaozhang', // 脚掌
+        'jiaogen': 'pfDemandJiaogen',    // 脚后跟
+        'jiaozhi': 'pfDemandJiaozhi',    // 脚趾
+        'jiaoxin': 'pfDemandJiaoxin'     // 脚心
+    }
+    
+    // 为每个部位按钮绑定点击事件
+    for (let btnId in partButtonMap) {
+        let btn = window.document.getElementById(btnId)
+        if (btn != null) {
+            btn.addEventListener("mousedown", (function(partKey) {
+                return function(event) {
+                    console.log("[FOOT-UI] 点击" + partKey + "按钮，发送请求到服务端 uuid=" + uuid)
+                    // 发送网络包到服务端，包含部位信息
+                    let player = Minecraft.getInstance().player
+                    if (player != null) {
+                        player.sendData('foot_click_demand', { 
+                            entityUuid: uuid,
+                            partKey: partKey
+                        })
+                    }
+                }
+            })(partButtonMap[btnId]))
+        }
     }
 
     // 设置初始倒计时、需求清单、满意度和步骤显示
@@ -124,6 +140,120 @@ function removeSleepWindow(uuid) {
     }
     trackedEntities.delete(uuid)
     entityCountdowns.delete(uuid)
+    entitySoakState.delete(uuid)
+}
+
+/**
+ * 移除泡脚UI窗口
+ */
+function removeSoakWindow(uuid) {
+    let window = soakWindows.get(uuid)
+    if (window != null) {
+        WorldWindow.removeWindow(window)
+        soakWindows.delete(uuid)
+        console.log("[FOOT-UI] 移除泡脚UI窗口 uuid=" + uuid)
+    }
+}
+
+/**
+ * 创建泡脚UI窗口
+ */
+function createSoakWindow(entity) {
+    if (entity == null || !entity.isAlive()) {
+        return null
+    }
+
+    let uuid = "" + entity.getUuid()
+
+    // 从手持物品NBT读取床位信息
+    let mainHand = entity.getMainHandItem()
+    let bedX = 0, bedY = 0, bedZ = 0, bedYaw = 0
+    if (mainHand && mainHand.id === 'minecraft:redstone') {
+        bedX = mainHand.nbt.getInt('pfBedX')
+        bedY = mainHand.nbt.getInt('pfBedY')
+        bedZ = mainHand.nbt.getInt('pfBedZ')
+        bedYaw = mainHand.nbt.getInt('pfBedYaw')
+    }
+
+    // 计算脚的位置
+    let footPos = pfGetFootPosition(bedX, bedY, bedZ, bedYaw)
+    let footBlockPos = new BlockPos(footPos.x, footPos.y, footPos.z)
+
+    // 创建泡脚UI窗口
+    let window = new WorldWindow("kubejs/footsoak.html", footBlockPos, 120.0, 80.0, MAX_DISTANCE)
+    if (bedYaw == -90) bedYaw = 270
+    window.setRotation(180 - (bedYaw * (PI / 180)) - (bedYaw % 180 == 0 ? PI : 0), 0)
+    window.setScale(SCALE)
+
+    WorldWindow.addWindow(window)
+    soakWindows.set(uuid, window)
+    trackedEntities.set(uuid, entity)
+
+    // 初始化泡脚状态
+    let soakState = entitySoakState.get(uuid) || { isSoaking: false, soakTimeLeft: 10 }
+    entitySoakState.set(uuid, soakState)
+
+    // 给泡脚按钮添加点击事件
+    let soakBtn = window.document.getElementById("soakBtn")
+    if (soakBtn != null) {
+        soakBtn.addEventListener("mousedown", event => {
+            console.log("[FOOT-UI] 点击泡脚按钮 uuid=" + uuid)
+            // 发送网络包到服务端请求开始泡脚
+            let player = Minecraft.getInstance().player
+            if (player != null) {
+                player.sendData('foot_click_soak', { entityUuid: uuid })
+            }
+        })
+    }
+
+    // 更新倒计时显示
+    updateSoakCountdownDisplay(window, soakState.soakTimeLeft, soakState.isSoaking)
+
+    console.log("[FOOT-UI] 创建泡脚UI窗口 uuid=" + uuid)
+    return window
+}
+
+/**
+ * 更新泡脚倒计时显示
+ */
+function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
+    if (window == null || window.document == null) {
+        return
+    }
+    try {
+        let filledElement = window.document.getElementById("progressFilled")
+        let emptyElement = window.document.getElementById("progressEmpty")
+        let timeElement = window.document.getElementById("countdownTime")
+        let btnElement = window.document.getElementById("soakBtn")
+
+        if (filledElement != null && emptyElement != null && timeElement != null) {
+            // 生成进度条（共15个字符宽度）
+            let totalBars = 15
+            let filledBars = 0
+            if (isSoaking) {
+                filledBars = Math.round((timeLeft / 10) * totalBars)
+            } else {
+                filledBars = totalBars  // 未开始时全满
+            }
+
+            filledElement.innerText = "|".repeat(filledBars)
+            emptyElement.innerText = "|".repeat(totalBars - filledBars)
+            timeElement.innerText = timeLeft + "s"
+        }
+
+        // 更新按钮状态
+        if (btnElement != null) {
+            if (isSoaking) {
+                btnElement.disabled = true
+                btnElement.innerText = "泡脚中..."
+            } else {
+                btnElement.disabled = false
+                btnElement.innerText = "开始泡脚"
+            }
+        }
+    } catch (e) {
+        console.log("[FOOT-UI] 更新泡脚倒计时失败: " + e)
+    }
 }
 
 /**
@@ -165,6 +295,51 @@ function isSleeping(entity) {
     if (mainHand && mainHand.id === 'minecraft:redstone') {
         let phase = mainHand.nbt.getInt('pfPhase')
         return phase === 3
+    }
+    return false
+}
+
+/**
+ * 检查实体是否已完成泡脚（从NBT读取pfSoakDone）
+ */
+function isSoakDone(entity) {
+    if (entity == null) {
+        return false
+    }
+    let mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === 'minecraft:redstone') {
+        let soakDone = mainHand.nbt.getInt('pfSoakDone')
+        return soakDone === 1
+    }
+    return false
+}
+
+/**
+ * 获取泡脚剩余时间（从NBT读取pfSoakTimeLeft）
+ */
+function getSoakTimeLeft(entity) {
+    if (entity == null) {
+        return 0
+    }
+    let mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === 'minecraft:redstone') {
+        let timeLeft = mainHand.nbt.getInt('pfSoakTimeLeft')
+        return timeLeft >= 0 ? timeLeft : 0
+    }
+    return 0
+}
+
+/**
+ * 检查实体是否正在泡脚中（从NBT读取pfIsSoaking）
+ */
+function isSoaking(entity) {
+    if (entity == null) {
+        return false
+    }
+    let mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === 'minecraft:redstone') {
+        let isSoaking = mainHand.nbt.getInt('pfIsSoaking')
+        return isSoaking === 1
     }
     return false
 }
@@ -455,35 +630,69 @@ ClientEvents.tick(event => {
         let uuid = "" + entity.getUuid()
 
         if (isSleeping(entity)) {
-            // 实体正在睡眠，检查是否已有窗口
-            if (!sleepWindows.has(uuid)) {
-                createSleepWindow(entity)
-            } else {
-                // 检查倒计时是否变化，变化则
-                let window = sleepWindows.get(uuid)
-                let currentCountdown = getCountdown(entity)
-                let lastCountdown = entityCountdowns.get(uuid) || 10
-                if (currentCountdown !== lastCountdown) {
-                    entityCountdowns.set(uuid, currentCountdown)
-                    // 通过document APIuid)
-                    updateCountdownDisplay(window, currentCountdown)
-                    console.log("[FOOT-UI] 倒计时更新: " + lastCountdown + " -> " + currentCountdown)
+            // 实体正在睡眠
+            // 检查是否已完成泡脚
+            let soakDone = isSoakDone(entity)
+
+            if (!soakDone) {
+                // 未泡脚或泡脚中，显示泡脚UI
+                if (!soakWindows.has(uuid)) {
+                    // 移除主UI（如果存在）
+                    if (sleepWindows.has(uuid)) {
+                        removeSleepWindow(uuid)
+                    }
+                    createSoakWindow(entity)
+                } else {
+                    // 更新泡脚UI倒计时
+                    let window = soakWindows.get(uuid)
+                    let timeLeft = getSoakTimeLeft(entity)
+                    let soaking = isSoaking(entity)
+                    let soakState = entitySoakState.get(uuid) || { isSoaking: false, soakTimeLeft: 10 }
+
+                    // 更新状态
+                    soakState.isSoaking = soaking
+                    soakState.soakTimeLeft = timeLeft
+                    entitySoakState.set(uuid, soakState)
+
+                    updateSoakCountdownDisplay(window, timeLeft, soaking)
                 }
-                let demandList = getDemandList(entity)
-                updateDemandListDisplay(window, demandList)
-                
-                // 更新满意度显示
-                let satisfaction = getSatisfaction(entity)
-                updateSatisfactionDisplay(window, satisfaction)
-                
-                // 更新步骤显示
-                let steps = getSteps(entity)
-                updateStepsDisplay(window, steps)
+            } else {
+                // 已完成泡脚，显示主UI
+                if (!sleepWindows.has(uuid)) {
+                    // 移除泡脚UI（如果存在）
+                    if (soakWindows.has(uuid)) {
+                        removeSoakWindow(uuid)
+                    }
+                    createSleepWindow(entity)
+                } else {
+                    // 检查倒计时是否变化
+                    let window = sleepWindows.get(uuid)
+                    let currentCountdown = getCountdown(entity)
+                    let lastCountdown = entityCountdowns.get(uuid) || 10
+                    if (currentCountdown !== lastCountdown) {
+                        entityCountdowns.set(uuid, currentCountdown)
+                        updateCountdownDisplay(window, currentCountdown)
+                        console.log("[FOOT-UI] 倒计时更新: " + lastCountdown + " -> " + currentCountdown)
+                    }
+                    let demandList = getDemandList(entity)
+                    updateDemandListDisplay(window, demandList)
+
+                    // 更新满意度显示
+                    let satisfaction = getSatisfaction(entity)
+                    updateSatisfactionDisplay(window, satisfaction)
+
+                    // 更新步骤显示
+                    let steps = getSteps(entity)
+                    updateStepsDisplay(window, steps)
+                }
             }
         } else {
-            // 实体不在睡眠状态，移除窗口（如果存在）
+            // 实体不在睡眠状态，移除所有窗口
             if (sleepWindows.has(uuid)) {
                 removeSleepWindow(uuid)
+            }
+            if (soakWindows.has(uuid)) {
+                removeSoakWindow(uuid)
             }
         }
     }
@@ -504,6 +713,23 @@ ClientEvents.tick(event => {
     for (let i = 0; i < toRemove.length; i++) {
         removeSleepWindow(toRemove[i])
     }
+
+    // 清理超出范围的泡脚窗口
+    let toRemoveSoak = []
+    soakWindows.forEach(function (window, uuid) {
+        let entity = trackedEntities.get(uuid)
+        if (entity == null || !entity.isAlive()) {
+            toRemoveSoak.push(uuid)
+        } else {
+            let dist = entity.position().distanceToSqr(playerPos)
+            if (dist > MAX_DISTANCE * MAX_DISTANCE) {
+                toRemoveSoak.push(uuid)
+            }
+        }
+    })
+    for (let i = 0; i < toRemoveSoak.length; i++) {
+        removeSoakWindow(toRemoveSoak[i])
+    }
 })
 
 /**
@@ -511,15 +737,22 @@ ClientEvents.tick(event => {
  */
 ClientEvents.loggedIn(event => {
     sleepWindows.clear()
+    soakWindows.clear()
     trackedEntities.clear()
     entityCountdowns.clear()
+    entitySoakState.clear()
 })
 
 ClientEvents.loggedOut(event => {
     sleepWindows.forEach(function (window, uuid) {
         WorldWindow.removeWindow(window)
     })
+    soakWindows.forEach(function (window, uuid) {
+        WorldWindow.removeWindow(window)
+    })
     sleepWindows.clear()
+    soakWindows.clear()
     trackedEntities.clear()
     entityCountdowns.clear()
+    entitySoakState.clear()
 })
