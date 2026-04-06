@@ -105,29 +105,29 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
         if (jiaobei === 0 && jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
             
-            // 掉落金锭：数量 = 满意度 * 总步骤数 / 100 * 倍率
+            // 结算规则（新版本）：
+            // - 本单最终掉落钻石数量 = 本单累计金钱（pfMoney）
+            // - pfMoney 在每次“有效点击”时会增加：money_gain.<部位>
+            //   所以这条规则等价于“每个部位点击收益 * 点击次数 的总和”
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
-            let totalSteps = nbt.getInt('pfTotalSteps') || 0
-            let goldMult = 1.0
-            try {
-                if (typeof nbt.getFloat === "function") {
-                    goldMult = nbt.getFloat('pfDiamondMult') || 1.0
-                } else if (nbt.pfDiamondMult != null) {
-                    goldMult = nbt.pfDiamondMult
-                }
-            } catch (e) {
-                goldMult = 1.0
-            }
-            let goldCount = Math.floor(Math.floor(satisfaction * totalSteps / 100) * goldMult)
-            console.log("[SLEEP-JS] 需求完成！掉落金锭: " + goldCount + "个 (满意度=" + satisfaction + "%, 总步骤数=" + totalSteps + ")")
-            if (goldCount > 0) {
-                // 使用原版指令生成金锭物品
+            let money = nbt.getInt('pfMoney') || 0
+            let diamondCount = Math.max(0, Math.floor(money))
+            console.log("[SLEEP-JS] 需求完成！掉落钻石: " + diamondCount + "个 (满意度=" + satisfaction + "%, 金钱=" + money + ")")
+            if (diamondCount > 0) {
+                // 使用原版指令生成钻石物品
+
                 let x = entity.x
                 let y = (entity.y + 1)
                 let z = entity.z
-                let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:gold_ingot",Count:' + goldCount + 'b}}'
-                level.getServer().runCommandSilent(cmd)
-                console.log("[SLEEP-JS] 执行指令: " + cmd)
+                let remaining = diamondCount
+                while (remaining > 0) {
+                    // 原版物品堆叠上限通常是 64，因此这里按 64 分批召唤掉落物，
+                    // 避免一次性 Count 太大导致指令无效或显示异常。
+                    let count = Math.min(64, remaining)
+                    let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:diamond",Count:' + count + 'b}}'
+                    level.getServer().runCommandSilent(cmd)
+                    remaining -= count
+                }
             }
             
             return true
