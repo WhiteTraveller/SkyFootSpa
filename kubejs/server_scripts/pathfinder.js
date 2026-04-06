@@ -190,11 +190,12 @@ function pfBfs(start, finish, map, routes) {
 
 // 可生成的实体类型列表（与 counter.js 保持一致）
 let PF_ENTITY_TYPES = [
-    "minecraft:husk",
-    "minecraft:drowned",
-    "minecraft:zombie",
-    "minecraft:skeleton",
-    "minecraft:stray",
+    // "minecraft:husk",
+    // "minecraft:drowned",
+    // "minecraft:zombie",
+    // "minecraft:skeleton",
+    // "minecraft:stray",
+    "touhou_little_maid:maid"
 ]
 
 // ============================================================
