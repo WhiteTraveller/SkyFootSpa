@@ -64,6 +64,12 @@ function pfGenerateDemandList() {
 
 // 同步需求清单到手持物品NBT
 function pfSyncDemandList(entity, demandList) {
+    // 这里把“本单服务数据”写到实体主手的红石 NBT 里：
+    // - 物品 NBT 会自动同步到客户端，所以客户端 UI 可以直接读取这些数据展示。
+    // - 我们保持 NBT 尽量精简，只保存 UI 和结算必须的字段：
+    //   1) 五个部位的剩余需求次数（完成判定用）
+    //   2) 本单累计满意度（pfSatisfaction）
+    //   3) 本单累计金钱/收益（pfMoney）
     let item = entity.getMainHandItem()
     let nbtData = {
         pfDemandJiaobei: demandList['脚背'],
@@ -71,8 +77,8 @@ function pfSyncDemandList(entity, demandList) {
         pfDemandJiaogen: demandList['脚后跟'],
         pfDemandJiaozhi: demandList['脚趾'],
         pfDemandJiaoxin: demandList['脚心'],
-        pfSatisfaction: 0,  // 满意度初始化为0%
-        pfDiamondMult: 1.0
+        pfSatisfaction: 0,
+        pfMoney: 0
     }
     if (!item || item.id === 'minecraft:air') {
         // 如果没有手持物品，创建一个红石
@@ -85,8 +91,8 @@ function pfSyncDemandList(entity, demandList) {
         nbt.pfDemandJiaogen = demandList['脚后跟']
         nbt.pfDemandJiaozhi = demandList['脚趾']
         nbt.pfDemandJiaoxin = demandList['脚心']
-        nbt.pfSatisfaction = nbt.pfSatisfaction || 0  // 保留已有满意度或初始化为0
-        nbt.pfDiamondMult = nbt.pfDiamondMult || 1.0
+        nbt.pfSatisfaction = nbt.pfSatisfaction || 0
+        nbt.pfMoney = nbt.pfMoney || 0
         item = item.withNBT(nbt)
     }
     entity.setMainHandItem(item)
@@ -966,6 +972,14 @@ let WOOL_TO_DEMAND = {
     'minecraft:yellow_wool': 'pfDemandJiaoxin'   // 黄色羊毛 → 脚心
 }
 
+let DEMAND_KEY_TO_SUFFIX = {
+    'pfDemandJiaobei': 'Jiaobei',
+    'pfDemandJiaozhang': 'Jiaozhang',
+    'pfDemandJiaogen': 'Jiaogen',
+    'pfDemandJiaozhi': 'Jiaozhi',
+    'pfDemandJiaoxin': 'Jiaoxin'
+}
+
 // 需求键值与整数代码映射（用于NBT整数数组存储）
 let DEMAND_KEY_TO_CODE = {
     'pfDemandJiaobei': 1,    // 脚背
@@ -975,7 +989,23 @@ let DEMAND_KEY_TO_CODE = {
     'pfDemandJiaoxin': 5     // 脚心
 }
 
+function pfGetAttributeValue(player, id, fallback) {
+    try {
+        let inst = player.getAttribute(id)
+        if (inst != null) {
+            let v = inst.getValue()
+            if (v != null) return v
+        }
+    } catch (e) {}
+    return fallback
+}
+
 NetworkEvents.dataReceived('foot_click_demand', event => {
+    // 客户端点击按钮后会发送一个数据包到服务端（NetworkEvents.dataReceived）。
+    // 这里是服务端的处理逻辑：
+    // - 客户端只告诉我们“点了哪个实体（entityUuid）”
+    // - 本次点击算哪个部位，则由“玩家手持羊毛颜色”决定（WOOL_TO_DEMAND）
+    // - 真正的结算（满意度/金钱）只在服务端进行，防止客户端作弊
     let entityUuid = event.data.entityUuid
     let player = event.player
     let level = player.level
@@ -1018,33 +1048,43 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
         
         // 获取当前需求值
         let currentValue = nbt.getInt(demandKey) || 0
-        
-        if (typeof global.serveGetConfig !== "function" || typeof global.serveGetPartConfig !== "function") {
-            return
-        }
-        let cfg = global.serveGetConfig(player)
-        let partCfg = global.serveGetPartConfig(player, demandKey)
-        nbt.pfDiamondMult = cfg.diamondMult || 1.0
+
+        // demandKey -> part（用于拼接属性 ID）
+        // 例如 pfDemandJiaobei -> jiaobei
+        let part = null
+        if (demandKey === "pfDemandJiaobei") part = "jiaobei"
+        else if (demandKey === "pfDemandJiaozhang") part = "jiaozhang"
+        else if (demandKey === "pfDemandJiaogen") part = "jiaogen"
+        else if (demandKey === "pfDemandJiaozhi") part = "jiaozhi"
+        else if (demandKey === "pfDemandJiaoxin") part = "jiaoxin"
+
+        // 从玩家属性（Attribute）读取“本次点击的基础收益/满意度增量”
+        // 这些 Attribute 由 startup_scripts/attributes/serveAttributes.js 注册并挂到玩家身上，
+        // 遗物通过 AttributeModifier 去改变它们的值，因此这里不需要写任何“判断玩家装备了什么遗物”的逻辑。
+        let satPart = part ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + part, 10.0) : 10.0
+        let moneyPart = part ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + part, 1.0) : 1.0
+        nbt.pfMoney = nbt.pfMoney || 0
+        nbt.pfSatisfaction = nbt.pfSatisfaction || 0
 
         // 对应需求-1，最小为0
         if (currentValue > 0) {
             currentValue--
             nbt[demandKey] = currentValue
             
-            let satGain = Math.max(0, Math.floor((partCfg.sat || 0) * (cfg.satMult || 1.0)))
-            let moneyGain = Math.floor((partCfg.money || 0) * (cfg.moneyMult || 1.0))
+            // 本次点击结算：
+            // - satGain：满意度增量（向下取整、且不小于 0）
+            // - moneyGain：金钱增量（向下取整）
+            let satGain = Math.max(0, Math.floor(satPart))
+            let moneyGain = Math.floor(moneyPart)
 
+            // 累加到“本单累计结果”（写回 NBT）
+            // 客户端 UI 读取 pfSatisfaction / pfMoney 来展示进度与收益
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
             satisfaction = Math.min(100, satisfaction + satGain)
             nbt.pfSatisfaction = satisfaction
-            
-            // 记录总步骤数（用于计算钻石）
-            let totalSteps = nbt.getInt('pfTotalSteps') || 0
-            totalSteps++
-            nbt.pfTotalSteps = totalSteps
 
-            global.serveAddMoney(player, moneyGain)
-            global.serveAddSatisfaction(player, satGain)
+            let money = nbt.getInt('pfMoney') || 0
+            nbt.pfMoney = money + moneyGain
             
             console.log("[PF-NETWORK] 满意度更新: " + nbt)
             // 记录步骤到NBT - 使用字符串存储（逗号分隔的整数）
@@ -1062,17 +1102,14 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
             
             console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue + 
                         ", 满意度=" + satisfaction + "% (玩家手持: " + playerMainHand.id + ")" +
-                        ", 总步骤数=" + totalSteps)
+                        ", 金钱=" + nbt.pfMoney)
         } else {
-            let satLose = Math.max(0, Math.floor((cfg.wrongSat || 0) * (cfg.satMult || 1.0)))
-            let moneyLose = Math.floor((cfg.wrongMoney || 0) * (cfg.moneyMult || 1.0))
-            let satisfaction = nbt.getInt('pfSatisfaction') || 0
-            satisfaction = Math.max(0, satisfaction - satLose)
-            nbt.pfSatisfaction = satisfaction
-            global.serveAddMoney(player, moneyLose)
-            global.serveAddSatisfaction(player, -satLose)
+            // 需求已经是 0：不再给奖励，也不扣奖励（避免负反馈让新手困惑）
             console.log("[PF-NETWORK] 需求已为0，无法减少")
         }
+
+        // 必须把写入后的 NBT 放回主手物品，否则客户端看不到更新
+        targetEntity.setMainHandItem(item.withNBT(nbt))
     } else {
         console.log("[PF-NETWORK] 实体手持物品无效")
     }
