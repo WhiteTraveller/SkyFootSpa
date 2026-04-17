@@ -1034,6 +1034,15 @@ function pfGetAttributeValue(player, id, fallback) {
     return fallback
 }
 
+// ============================================================
+// Serve 扩展 Hook（由 startup_scripts/serveHooks.js 提供注册与执行）
+// ============================================================
+function pfRunServeClickHooks(ctx) {
+    if (global.runServeClickHooks) {
+        global.runServeClickHooks(ctx)
+    }
+}
+
 // 客户端点击按钮后会发送一个数据包到服务端（NetworkEvents.dataReceived）。
 // 这里是服务端的处理逻辑：
 // - 客户端只告诉我们“点了哪个实体（entityUuid）”
@@ -1108,16 +1117,39 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
         nbt.pfMoney = nbt.pfMoney || 0
         nbt.pfSatisfaction = nbt.pfSatisfaction || 0
 
+        let playerMainHand = player.getMainHandItem()
+        let satGain = Math.max(0, Math.floor(satPart))
+        let moneyGain = Math.floor(moneyPart)
+
+        let ctx = {
+            action: 'demand',
+            player: player,
+            level: level,
+            targetEntity: targetEntity,
+            item: item,
+            nbt: nbt,
+            demandKey: demandKey,
+            part: part,
+            currentDemand: currentValue,
+            isEffective: currentValue > 0,
+            satGain: satGain,
+            moneyGain: moneyGain,
+            cancel: false,
+            message: null
+        }
+        pfRunServeClickHooks(ctx)
+        if (ctx.cancel) {
+            targetEntity.setMainHandItem(item.withNBT(nbt))
+            if (ctx.message) player.setStatusMessage(ctx.message)
+            return
+        }
+        satGain = ctx.satGain
+        moneyGain = ctx.moneyGain
+
         // 对应需求-1，最小为0
         if (currentValue > 0) {
             currentValue--
             nbt[demandKey] = currentValue
-
-            // 本次点击结算：
-            // - satGain：满意度增量（向下取整、且不小于 0）
-            // - moneyGain：金钱增量（向下取整）
-            let satGain = Math.max(0, Math.floor(satPart))
-            let moneyGain = Math.floor(moneyPart)
 
             // 累加到"本单累计结果"（写回 NBT）
             // 客户端 UI 读取 pfSatisfaction / pfMoney 来展示进度与收益
@@ -1146,7 +1178,7 @@ NetworkEvents.dataReceived('foot_click_demand', event => {
             // targetEntity.setMainHandItem(item.withNBT(nbt))
 
             console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue +
-                ", 满意度=" + satisfaction + "% (玩家手持: " + playerMainHand.id + ")" +
+                ", 满意度=" + satisfaction + "% (玩家手持: " + (playerMainHand ? playerMainHand.id : "null") + ")" +
                 ", 金钱=" + nbt.pfMoney)
         } else {
             // 需求已经是 0：不再给奖励，也不扣奖励（避免负反馈让新手困惑）
@@ -1170,14 +1202,6 @@ NetworkEvents.dataReceived('foot_click_soak', event => {
 
     console.log("[PF-SOAK] 收到泡脚点击请求 entityUuid=" + entityUuid)
 
-    // 检查玩家是否手持水桶
-    let playerMainHand = player.getMainHandItem()
-    if (!playerMainHand || playerMainHand.id !== 'minecraft:water_bucket') {
-        console.log("[PF-SOAK] 玩家没有手持水桶: " + (playerMainHand ? playerMainHand.id : "null"))
-        player.setStatusMessage("§c需要手持水桶才能开始泡脚！")
-        return
-    }
-
     // 查找实体
     let entities = level.getEntities()
     let targetEntity = null
@@ -1198,6 +1222,31 @@ NetworkEvents.dataReceived('foot_click_soak', event => {
     let item = targetEntity.getMainHandItem()
     if (item && item.id === SYNC_ITEM_ID && item.nbt) {
         let nbt = item.nbt
+        let playerMainHand = player.getMainHandItem()
+
+        let ctx = {
+            action: 'soak',
+            player: player,
+            level: level,
+            targetEntity: targetEntity,
+            item: item,
+            nbt: nbt,
+            cancel: false,
+            message: null
+        }
+        pfRunServeClickHooks(ctx)
+        if (ctx.cancel) {
+            targetEntity.setMainHandItem(item.withNBT(nbt))
+            if (ctx.message) player.setStatusMessage(ctx.message)
+            return
+        }
+
+        // 检查玩家是否手持水桶
+        if (!playerMainHand || playerMainHand.id !== 'minecraft:water_bucket') {
+            console.log("[PF-SOAK] 玩家没有手持水桶: " + (playerMainHand ? playerMainHand.id : "null"))
+            player.setStatusMessage("§c需要手持水桶才能开始泡脚！")
+            return
+        }
 
         // 检查是否已经在泡脚中或已完成
         let isSoaking = nbt.getInt('pfIsSoaking') || 0
@@ -1220,6 +1269,7 @@ NetworkEvents.dataReceived('foot_click_soak', event => {
         nbt.pfIsSoaking = 1
         nbt.pfSoakTimeLeft = 10
         nbt.pfSoakDone = 0
+        targetEntity.setMainHandItem(item.withNBT(nbt))
 
         // 消耗水桶，变成空桶
         player.setMainHandItem(Item.of('minecraft:bucket', 1))

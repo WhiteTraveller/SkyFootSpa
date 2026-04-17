@@ -6,6 +6,10 @@
 // 常量定义
 let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
 
+let OIL_ID_TO_NAME = {
+    'marguerite:oil': '精油'
+}
+
 let WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow")
 let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
 
@@ -126,6 +130,7 @@ function createSleepWindow(entity) {
     updateDemandListDisplay(window, demandList)
     updateSatisfactionDisplay(window, satisfaction)
     updateStepsDisplay(window, steps)
+    updateOilDisplay(window, getOilInfo(entity))
 
     console.log("[FOOT-UI] 创建UI窗口 uuid=" + uuid + " countdown=" + countdown)
     return window
@@ -603,6 +608,37 @@ function updateStepsDisplay(window, steps) {
     }
 }
 
+function getOilInfo(entity) {
+    let mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        let id = mainHand.nbt.getString('pfOilId')
+        let left = mainHand.nbt.getInt('pfOilLeft') || 0
+        if (id && id.length > 0 && left > 0) {
+            return { id: id, left: left }
+        }
+    }
+    return null
+}
+
+function updateOilDisplay(window, oilInfo) {
+    if (window == null || window.document == null) {
+        return
+    }
+    try {
+        let oilElement = window.document.getElementById("oilStatus")
+        if (oilElement == null) return
+
+        if (oilInfo && oilInfo.left > 0) {
+            let name = OIL_ID_TO_NAME[oilInfo.id] || oilInfo.id
+            oilElement.innerText = name + "(" + oilInfo.left + ")"
+        } else {
+            oilElement.innerText = "✕"
+        }
+    } catch (e) {
+        console.log("[FOOT-UI] 更新抹油状态失败: " + e)
+    }
+}
+
 
 /**
  * 客户端Tick事件 - 检测并管理睡眠实体的UI
@@ -687,6 +723,8 @@ ClientEvents.tick(event => {
                     // 更新步骤显示
                     let steps = getSteps(entity)
                     updateStepsDisplay(window, steps)
+
+                    updateOilDisplay(window, getOilInfo(entity))
                 }
             }
         } else {
