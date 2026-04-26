@@ -1,10 +1,9 @@
 <body>
-  <div class="main-container">
+  <div class="foot-ui-container">
     <div class="header">
       <span class="title">需求清单</span>
     </div>
-    <!-- 需求列表 -->
-    <div class="requieList">
+    <div class="requireList">
       <div class="left">
         <div class="instep">
           <span class="label">脚背：</span>
@@ -27,38 +26,26 @@
           <span class="count" id="countJiaozhi">2次</span>
         </div>
       </div>
-      <div class="right">
-        <div class="footSoak">
-          <span class="text">泡脚：</span>
-          <span class="red-x">✕</span>
-        </div>
-        <div class="addOil">
-          <span class="text">抹油：</span>
-          <span class="red-x">✕</span>
-        </div>
-      </div>
     </div>
-  </div>
+    <!-- 满意度和步骤 -->
+    <div class="satisfaction">
+      <span class="progress-wrapper">
+        <span class="text">满意度：</span>
+        <span class="progress-bracket">[</span>
+        <span class="progress-filled" id="progressFilled"></span>
+        <span class="progress-empty" id="progressEmpty"></span>
+        <span class="progress-bracket-right">]</span>
+      </span>
+      <span class="progress-percent" id="satisfactionPercent">0%</span>
+    </div>
 
-  <div class="satisfaction">
-    <span class="progress-wrapper">
-      <span class="text">满意度：</span>
-      <span class="progress-bracket">[</span>
-      <span class="progress-filled" id="progressFilled"></span>
-      <span class="progress-empty" id="progressEmpty"></span>
-      <span class="progress-bracket-right">]</span>
-    </span>
-    <span class="progress-percent" id="satisfactionPercent">0%</span>
-  </div>
+    <!-- 步骤记录 -->
+    <div class="steps-container" id="stepsContainer">
+      <span class="steps-label">已执行:</span>
+      <span class="steps-text" id="stepsText"></span>
+    </div>
 
-  <!-- 步骤记录 -->
-  <div class="steps-container" id="stepsContainer">
-    <span class="steps-label">已执行:</span>
-    <span class="steps-text" id="stepsText"></span>
-  </div>
-
-  <!-- 脚部位按钮 -->
-  <div class="main-btn">
+    <!-- 脚部位按钮 -->
     <div class="btn-container">
       <div id="jiaobei" class="jiaobei box">脚背</div>
       <div id="jiaozhang" class="jiaozhang box">脚掌</div>
@@ -69,40 +56,44 @@
   </div>
 </body>
 <style>
-  .main-container {
-    transform: translate(0, -30px);
+  /* 主容器 */
+  .foot-ui-container {
+    position: relative;
+    left: -10px;
+    /* top: -100px; */
+    transform: translateY(-50px);
     width: 100px;
-    height: 70px;
-    /* position: absolute; */
-    background-color: rgba(0, 0, 0, 0.289);
+    background-color: rgba(20, 10, 40, 0.9);
     border-radius: 10px;
-    border: 1px solid #888;
+    border: 1px solid #a855f7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
   }
 
   .header {
-    /* 横向居中 */
     width: 100%;
-    padding: 3px;
+    margin: 0 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
   }
 
   .title {
     color: #ffffff;
-    flex: 1;
+    font-size: 24px;
   }
 
   /* 需求列表 */
-  .requieList {
+  .requireList {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding-left: 15px;
-    justify-content: space-between;
-    /* align-items: flex-start; */
-    color: white;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    margin-top: 8px;
+    color: #ffffff;
   }
 
   /* 需求项横向排布 */
@@ -110,6 +101,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 0;
   }
 
@@ -141,26 +133,6 @@
     gap: 0;
   }
 
-  /* 泡脚、抹油横向排布 */
-  .footSoak {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .addOil {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .satisfaction {
-    transform: translate(0, -26px);
-    margin-left: 7px;
-    display: flex;
-    flex-direction: row;
-  }
-
   /* 需求标签样式 */
   .label {
     font-size: 14px;
@@ -178,21 +150,9 @@
     color: #00FF00;
   }
 
-  input {
-    width: 14px;
-    height: 14px;
-    margin: 8px;
-    margin-left: 0;
-  }
-
-  .right {
-    width: 45px;
-  }
-
   .left {
-    width: 45px;
+    width: 100%;
   }
-
 
   /* 高亮 */
   .highlight {
@@ -214,10 +174,21 @@
   }
 
   /* 满意度进度条 */
-  .progress-wrapper {
+  .satisfaction {
+    display: flex;
     flex-direction: row;
+  }
+
+  .progress-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 14px;
     font-family: monospace;
+  }
+
+  .text {
+    color: #ffffff;
   }
 
   .progress-bracket {
@@ -226,7 +197,7 @@
 
   .progress-bracket-right {
     color: #ffffff;
-    margin-left: 38px;
+    margin-left: 2px;
   }
 
   .progress-filled {
@@ -255,31 +226,10 @@
     margin-left: 2px;
   }
 
-  /* 红色X */
-  .red-x {
-    color: #ff4444;
-    font-size: 14px;
-  }
-
-  .add {
-    color: green;
-  }
-
-  .reduce {
-    color: red;
-  }
-
-  .text {
-    font-size: 14px;
-    color: #ffffff;
-  }
-
   /* 步骤记录容器 */
   .steps-container {
-    transform: translate(0, -24px);
-    padding-left: 6px;
-    border-radius: 6px;
-    border: 1px solid rgba(136, 136, 136, 0.5);
+    margin: 0 10px;
+    margin-top: 4px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -298,36 +248,26 @@
   .steps-text {
     font-size: 12px;
     color: #87CEEB;
-    /* line-height: 1.4; */
   }
 
-  /* 中间按钮 */
-  .main-btn {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-
-
-
+  /* 脚部位按钮 */
   .btn-container {
     position: relative;
-    top: -20px;
     width: 100px;
-    height: 70px;
-    border-radius: 10px;
-    border: 1px solid #888;
-    /* align-items: center;
-    justify-content: center; */
-    /* font-size: 48px; */
-    background-color: rgba(0, 0, 0, 0.289);
+    height: 100px;
+    margin: 0 10px;
+    border-radius: 8px;
+    margin-top: 4px;
+
     color: #ffffff;
     cursor: pointer;
-    transition: transform 0.5s;
+    background-image: url('larget_foot32x.png');
+    background-size: contain;
+    background-position: center;
   }
 
-  .main-btn .box {
+  /* 按钮样式 */
+  .box {
     position: absolute;
     width: 20px;
     height: 15px;
@@ -339,38 +279,43 @@
   }
 
   /* 点击动画 - 缩小再放大 */
-  .main-btn .box:active {
-    transform: scale(0.95);
+  .box:active {
+    transform: scale(0.85);
   }
 
   /* 方案一
-     []
-  [] [] []
-     [] */
-  .main-btn .btn-container .jiaobei {
-    top: 6px;
+     [脚趾]
+     [脚掌]
+     [脚背]
+     [脚心]
+     [脚跟]
+      */
+  .btn-container .jiaozhi {
+    top: 4px;
     left: 40px;
   }
 
-  .main-btn .btn-container .jiaozhang {
-    top: 27px;
-    left: 10px;
-  }
-
-  .main-btn .btn-container .jiaogen {
-    top: 27px;
-    right: 10px;
-  }
-
-  .main-btn .btn-container .jiaoxin {
-    top: 27px;
+  .btn-container .jiaozhang {
+    top: 23px;
     left: 40px;
   }
 
-  .main-btn .btn-container .jiaozhi {
-    top: 48px;
+  .btn-container .jiaobei {
+    top: 42px;
     left: 40px;
   }
+
+  .btn-container .jiaoxin {
+    top: 61px;
+    left: 40px;
+  }
+
+  .btn-container .jiaogen {
+    top: 80px;
+    left: 40px;
+  }
+
+
 
   /* .btn-container:active {
     transform: scale(0.95);

@@ -30,20 +30,26 @@ let MAX_DISTANCE = 16
 let PI = 3.1415926
 
 /**
- * 根据床的 yaw 计算脚的位置（床尾位置）
+ * 根据床的 yaw 计算脚的位置（顾客中心位置）
  */
 function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
     let footX = bedX
     let footZ = bedZ
 
+    // 计算顾客中心位置，而不是床尾位置
+    // 床的长度为2格，顾客中心在床的中间
     if (yaw === 0) {
-        footZ = bedZ - 1
+        // 床朝向北方，顾客中心在z-0.5
+        footZ = bedZ - 0.5
     } else if (yaw === 180 || yaw === -180) {
-        footZ = bedZ + 1
+        // 床朝向南方，顾客中心在z+0.5
+        footZ = bedZ + 0.5
     } else if (yaw === 90) {
-        footX = bedX + 1
+        // 床朝向东方，顾客中心在x+0.5
+        footX = bedX + 0.5
     } else if (yaw === -90) {
-        footX = bedX - 1
+        // 床朝向西方，顾客中心在x-0.5
+        footX = bedX - 0.5
     }
 
     return { x: footX, y: bedY + 1, z: footZ }
@@ -53,7 +59,9 @@ function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
  * 创建睡眠实体的UI窗口
  */
 function createSleepWindow(entity) {
-    if (entity == null || !entity.isAlive()) {
+    // 确保实体存在且存活
+    if (!entity || !entity.isAlive()) {
+        console.log("[FOOT-UI] 实体不存在或死亡，无法创建UI窗口")
         return null
     }
 
@@ -86,8 +94,8 @@ function createSleepWindow(entity) {
     // 注意：路径是相对于 apricity/ 目录的 footui
     let window = new WorldWindow("kubejs/footui.html", footBlockPos, BAR_WIDTH, BAR_HEIGHT, MAX_DISTANCE)
     if (bedYaw == -90) bedYaw = 270
-    window.setRotation(180 - (bedYaw * (PI / 180)) - (bedYaw % 180 == 0 ? PI : 0), 0)
-    console.log("[FOOT-UI-DATA] 设置窗口旋转角度: " + bedYaw + " -> " + (180 - (bedYaw * (PI / 180) + PI)))
+    window.setRotation(360 - bedYaw, 0)
+    console.log("[FOOT-UI-DATA] 设置窗口旋转角度: " + bedYaw + " -> " + (360 - bedYaw))
     window.setScale(SCALE)
 
     WorldWindow.addWindow(window)
@@ -111,6 +119,12 @@ function createSleepWindow(entity) {
         if (btn != null) {
             btn.addEventListener("mousedown", (function(partKey) {
                 return function(event) {
+                    // 确保实体仍然存在且存活
+                    if (!entity || !entity.isAlive()) {
+                        console.log("[FOOT-UI] 实体不存在或死亡，无法执行操作")
+                        return
+                    }
+                    
                     console.log("[FOOT-UI] 点击" + partKey + "按钮，发送请求到服务端 uuid=" + uuid)
                     // 发送网络包到服务端，包含部位信息
                     let player = Minecraft.getInstance().player
@@ -167,7 +181,9 @@ function removeSoakWindow(uuid) {
  * 创建泡脚UI窗口
  */
 function createSoakWindow(entity) {
-    if (entity == null || !entity.isAlive()) {
+    // 确保实体存在且存活
+    if (!entity || !entity.isAlive()) {
+        console.log("[FOOT-UI] 实体不存在或死亡，无法创建泡脚UI窗口")
         return null
     }
 
@@ -190,7 +206,7 @@ function createSoakWindow(entity) {
     // 创建泡脚UI窗口
     let window = new WorldWindow("kubejs/footsoak.html", footBlockPos, 120.0, 80.0, MAX_DISTANCE)
     if (bedYaw == -90) bedYaw = 270
-    window.setRotation(180 - (bedYaw * (PI / 180)) - (bedYaw % 180 == 0 ? PI : 0), 0)
+    window.setRotation(360 - bedYaw, 0)
     window.setScale(SCALE)
 
     WorldWindow.addWindow(window)
@@ -327,7 +343,7 @@ function isSoakDone(entity) {
  */
 function getSoakTimeLeft(entity) {
     if (entity == null) {
-        return 0
+        return 10
     }
     let mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
@@ -667,6 +683,18 @@ ClientEvents.tick(event => {
         if (entity == player) continue
 
         let uuid = "" + entity.getUuid()
+
+        // 确保实体存在且存活
+        if (!entity || !entity.isAlive()) {
+            // 实体不存在或死亡，移除所有窗口
+            if (sleepWindows.has(uuid)) {
+                removeSleepWindow(uuid)
+            }
+            if (soakWindows.has(uuid)) {
+                removeSoakWindow(uuid)
+            }
+            continue
+        }
 
         if (isSleeping(entity)) {
             // 实体正在睡眠

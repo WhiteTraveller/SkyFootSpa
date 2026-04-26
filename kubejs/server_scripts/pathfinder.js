@@ -84,7 +84,7 @@ function pfSyncDemandList(entity, demandList) {
         pfMoney: 0,         // 本单累计金钱
         pfIsSoaking: 0,     // 是否正在泡脚
         pfSoakDone: 0,      // 是否已完成泡脚
-        pfSoakTimeLeft: 0   // 泡脚剩余时间
+        pfSoakTimeLeft: 10  // 泡脚剩余时间
     }
     if (!item || item.id === 'minecraft:air') {
         // 如果没有手持物品，创建一个红石
@@ -101,7 +101,7 @@ function pfSyncDemandList(entity, demandList) {
         nbt.pfMoney = nbt.pfMoney || 0
         nbt.pfIsSoaking = nbt.pfIsSoaking || 0
         nbt.pfSoakDone = nbt.pfSoakDone || 0
-        nbt.pfSoakTimeLeft = nbt.pfSoakTimeLeft || 0
+        nbt.pfSoakTimeLeft = nbt.pfSoakTimeLeft || 10
         item = item.withNBT(nbt)
     }
     entity.setMainHandItem(item)
@@ -1270,6 +1270,9 @@ NetworkEvents.dataReceived('foot_click_soak', event => {
         nbt.pfSoakTimeLeft = 10
         nbt.pfSoakDone = 0
         targetEntity.setMainHandItem(item.withNBT(nbt))
+        
+        // 重新设置睡眠时间，确保计时从开始泡脚时开始
+        targetEntity.persistentData.putInt("pfSleepStartTick", currTick)
 
         // 消耗水桶，变成空桶
         player.setMainHandItem(Item.of('minecraft:bucket', 1))
