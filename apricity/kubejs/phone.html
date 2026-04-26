@@ -1,0 +1,420 @@
+<body>
+  <div class="phone-wrapper">
+    <div class="phone-frame">
+      <!-- 内侧黑边 -->
+      <div class="phone-bezel">
+        <!-- 整个屏幕区域（全面屏，摄像头嵌入屏幕内） -->
+        <div class="phone-screen">
+          <!-- 状态栏（摄像头在中间） -->
+          <div class="status-bar">
+            <span class="status-left">12:00</span>
+            <div class="camera-hole"><div class="camera-lens"></div></div>
+            <span class="status-right">
+              <span class="battery">■ 85%</span>
+            </span>
+          </div>
+
+          <!-- 时间显示区域 -->
+          <div class="time-display">
+            <span class="time-main">12:00</span>
+            <span class="time-traditional">午时</span>
+          </div>
+
+          <!-- 主屏幕内容（靠下） -->
+          <div class="home-screen">
+            <!-- 壁纸区域（上方空白填充，将应用推到底部） -->
+            <div class="wallpaper-space"></div>
+
+            <!-- 应用区 -->
+            <div class="app-row">
+              <div class="app-icon" id="appSoakToggle">
+                <div class="icon green-icon" id="soakToggleIcon">🛁</div>
+                <span class="app-name" id="soakToggleLabel">泡脚:开</span>
+              </div>
+              <div class="app-icon" id="appClearUI">
+                <div class="icon orange-icon">✖</div>
+                <span class="app-name">清除UI</span>
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- 底部手势条 -->
+          <div class="gesture-bar">
+            <div class="gesture-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  /* 外层容器 - 靠下靠右显示 */
+  .phone-wrapper {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .phone-frame {
+    width: 110px;
+    height: 224px;
+    background-color: #000000;
+    border-radius: 2;
+    border: 1px solid #444444;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+      0 0 40px rgba(0, 0, 0, 0.9),
+      0 0 2px rgba(80, 80, 80, 0.4);
+  }
+
+  /* 内侧黑边 */
+  .phone-bezel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #000000;
+  }
+
+  /* 屏幕区域 - 全面屏，直角 */
+  .phone-screen {
+    height: 98.5%;
+    border: 2px solid #000000;
+    background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 5;
+    position: relative;
+    background-image: url(phone_wallpaper.jpg);
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* 状态栏 - 摄像头嵌入中间 */
+  .status-bar {
+    height: 12px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: #ffffff;
+    font-family: monospace;
+    z-index: 1;
+  }
+
+  .status-left {
+    position: absolute;
+    left: 4px;
+    top: 2px;
+  }
+
+  /* 挖孔摄像头 - 居中嵌入状态栏 */
+  .camera-hole {
+    position: relative;
+    top: -1px;
+    width: 4px;
+    height: 4px;
+    background-color: #0a0a0a;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .camera-lens {
+    width: 4px;
+    height: 4px;
+    background-color: #1b1b1b;
+    border-radius: 100%;
+    border: 1px solid #333;
+    box-shadow: 0 0 2px rgba(0, 100, 200, 0.3);
+  }
+
+  .status-right {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    display: flex;
+    gap: 4px;
+    font-size: 8px;
+  }
+
+  .signal {
+    letter-spacing: -1px;
+    font-size: 8px;
+  }
+  .wifi {
+    font-size: 8px;
+  }
+  .battery {
+    font-size: 8px;
+  }
+
+  /* 时间显示区域 */
+  .time-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0 0 0;
+    z-index: 1;
+  }
+
+  .time-main {
+    font-size: 24px;
+    color: #ffffff;
+    font-family: monospace;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+
+  .time-traditional {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: sans-serif;
+    margin-top: 2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 主屏幕 */
+  .home-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1;
+  }
+
+  /* 应用行 */
+  .app-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  /* 应用图标 */
+  .app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+  }
+
+  .icon {
+    width: 19px;
+    height: 19px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+  }
+
+  .icon:active {
+    transform: scale(0.85);
+  }
+
+  .app-name {
+    font-size: 8px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    font-family: sans-serif;
+  }
+
+  /* 图标颜色 */
+  .green-icon {
+    background-color: #4caf50;
+  }
+  .blue-icon {
+    background-color: #2196f3;
+  }
+  .red-icon {
+    background-color: #f44336;
+  }
+  .orange-icon {
+    background-color: #ff9800;
+  }
+  .gray-icon {
+    background-color: #607d8b;
+  }
+  .purple-icon {
+    background-color: #9c27b0;
+  }
+  .teal-icon {
+    background-color: #009688;
+  }
+  .cyan-icon {
+    background-color: #00bcd4;
+  }
+  .yellow-icon {
+    background-color: #ffc107;
+  }
+  .dark-icon {
+    background-color: #37474f;
+  }
+  .white-icon {
+    background-color: #78909c;
+  }
+  .gradient-icon {
+    background: linear-gradient(135deg, #ff5722, #ff9800, #4caf50, #2196f3);
+  }
+
+  /* 壁纸空白区域 */
+  .wallpaper-space {
+    flex: 1;
+  }
+
+  /* 底部手势条（S23 Ultra全面屏手势导航） */
+  .gesture-bar {
+    height: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gesture-line {
+    width: 28px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+  }
+</style>
+
+<script>
+  var McClient = Java.loadClass('net.minecraft.client.Minecraft');
+
+  // ===== 十二时辰映射 =====
+  var SHICHEN = [
+    '子时', '丑时', '丑时', '寅时', '寅时', '卯时',
+    '卯时', '辰时', '辰时', '巳时', '巳时', '午时',
+    '午时', '未时', '未时', '申时', '申时', '酉时',
+    '酉时', '戌时', '戌时', '亥时', '亥时', '子时'
+  ];
+
+  // ===== 动态时间更新 =====
+  function updateMcTime() {
+    try {
+      var mc = McClient.getInstance();
+      if (!mc || !mc.level) return;
+      var dayTime = mc.level.getDayTime() % 24000;
+      var hour = Math.floor((dayTime / 1000 + 6) % 24);
+      var minute = Math.floor((dayTime % 1000) / 1000 * 60);
+      var timeStr = (hour < 10 ? '0' : '') + hour + ':' + (minute < 10 ? '0' : '') + minute;
+      var traditional = SHICHEN[hour];
+
+      var statusLeft = document.querySelector('.status-left');
+      var timeMain = document.querySelector('.time-main');
+      var timeTraditional = document.querySelector('.time-traditional');
+      if (statusLeft) statusLeft.innerText = timeStr;
+      if (timeMain) timeMain.innerText = timeStr;
+      if (timeTraditional) timeTraditional.innerText = traditional;
+    } catch(e) {
+      console.log('[PHONE] 时间更新失败: ' + e);
+    }
+  }
+
+  // 立即更新一次，然后每秒更新
+  updateMcTime();
+  window.setInterval(updateMcTime, 1000);
+
+  // ===== 泡脚开关 =====
+  var soakSkipped = 0; // 本地状态：0=泡脚开启, 1=跳过泡脚
+
+  // 尝试从 global.pfPhoneSettings 读取初始状态
+  function initSoakToggle() {
+    try {
+      if (typeof global !== 'undefined' && global.pfPhoneSettings) {
+        soakSkipped = global.pfPhoneSettings.pfSkipSoak || 0;
+      }
+    } catch(e) {}
+    updateSoakToggleUI();
+  }
+
+  function updateSoakToggleUI() {
+    var icon = document.querySelector('#soakToggleIcon');
+    var label = document.querySelector('#soakToggleLabel');
+    if (icon && label) {
+      if (soakSkipped === 1) {
+        icon.setAttribute('class', 'icon red-icon');
+        label.innerText = '泡脚:关';
+      } else {
+        icon.setAttribute('class', 'icon green-icon');
+        label.innerText = '泡脚:开';
+      }
+    }
+  }
+
+  // 点击切换
+  var soakToggleBtn = document.querySelector('#appSoakToggle');
+  if (soakToggleBtn) {
+    soakToggleBtn.addEventListener('mousedown', function() {
+      soakSkipped = soakSkipped === 1 ? 0 : 1;
+      updateSoakToggleUI();
+      // 发送到服务端
+      try {
+        var player = McClient.getInstance().player;
+        if (player) {
+          player.sendData('phone_set_setting', { key: 'pfSkipSoak', value: soakSkipped });
+        }
+      } catch(e) {
+        console.log('[PHONE] 发送设置失败: ' + e);
+      }
+    });
+  }
+
+  // 延迟初始化，等待服务端同步数据到达
+  window.setTimeout(function() { initSoakToggle(); }, 500);
+
+  // ===== 清除所有WorldWindow =====
+  var WorldWindow = Java.loadClass('com.sighs.apricityui.instance.WorldWindow');
+  var clearUIBtn = document.querySelector('#appClearUI');
+  if (clearUIBtn) {
+    clearUIBtn.addEventListener('mousedown', function() {
+      try {
+        WorldWindow.clear();
+        console.log('[PHONE] 已清除所有WorldWindow');
+      } catch(e) {
+        console.log('[PHONE] 清除WorldWindow失败: ' + e);
+      }
+    });
+  }
+
+  // ===== 滑入动画 =====
+  var wrapper = document.querySelector('.phone-wrapper');
+  if (wrapper) {
+    var duration = 300;
+    var frameInterval = 16;
+    var totalFrames = duration / frameInterval;
+    var currentFrame = 0;
+
+    wrapper.setAttribute('style', 'bottom: -230px');
+
+    var timer = window.setInterval(function() {
+      currentFrame++;
+      var progress = currentFrame / totalFrames;
+      if (progress >= 1) {
+        progress = 1;
+        window.clearInterval(timer);
+      }
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var currentBottom = -230 + (10 - (-230)) * eased;
+      wrapper.setAttribute('style', 'bottom: ' + Math.round(currentBottom) + 'px');
+    }, frameInterval);
+  }
+</script>

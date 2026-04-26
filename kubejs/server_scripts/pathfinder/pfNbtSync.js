@@ -41,7 +41,9 @@ function pfSyncCountdown(entity, countdown) {
 }
 
 // 同步需求清单到手持物品NBT
-function pfSyncDemandList(entity, demandList) {
+// skipSoak: 可选，为true时直接设置pfSoakDone=1跳过泡脚
+function pfSyncDemandList(entity, demandList, skipSoak) {
+    let soakDoneValue = skipSoak ? 1 : 0
     let item = entity.getMainHandItem()
     let nbtData = {
         pfDemandJiaobei: demandList['脚背'],
@@ -52,7 +54,7 @@ function pfSyncDemandList(entity, demandList) {
         pfSatisfaction: 0,
         pfMoney: 0,
         pfIsSoaking: 0,
-        pfSoakDone: 0,
+        pfSoakDone: soakDoneValue,
         pfSoakTimeLeft: 0
     }
     if (!item || item.id === 'minecraft:air') {
@@ -67,7 +69,7 @@ function pfSyncDemandList(entity, demandList) {
         nbt.pfSatisfaction = nbt.pfSatisfaction || 0
         nbt.pfMoney = nbt.pfMoney || 0
         nbt.pfIsSoaking = nbt.pfIsSoaking || 0
-        nbt.pfSoakDone = nbt.pfSoakDone || 0
+        nbt.pfSoakDone = skipSoak ? 1 : (nbt.pfSoakDone || 0)
         nbt.pfSoakTimeLeft = nbt.pfSoakTimeLeft || 0
         item = item.withNBT(nbt)
     }

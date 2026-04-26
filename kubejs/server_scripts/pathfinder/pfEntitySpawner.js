@@ -47,7 +47,15 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     // 生成需求清单
     let demandList = global.pfEntityData.pfGenerateDemandList()
     console.log("[PF-DATA] 生成需求清单: " + JSON.stringify(demandList))
-    global.pfNbtSync.pfSyncDemandList(walker, demandList)
+    // 检查玩家是否设置了跳过泡脚
+    let skipSoak = false
+    if (player && global.pfGetSetting) {
+        skipSoak = global.pfGetSetting(player, 'pfSkipSoak') === 1
+    }
+    if (skipSoak) {
+        console.log("[PF-DATA] 玩家设置跳过泡脚，直接标记pfSoakDone=1")
+    }
+    global.pfNbtSync.pfSyncDemandList(walker, demandList, skipSoak)
     
     // 验证存储结果
     let verifyItem = walker.getMainHandItem()
