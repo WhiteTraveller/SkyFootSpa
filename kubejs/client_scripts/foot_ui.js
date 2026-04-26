@@ -11,6 +11,7 @@ let OIL_ID_TO_NAME = {
 }
 
 let WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow")
+let ApricityUI = Java.loadClass("com.sighs.apricityui.ApricityUI")
 let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
 
 // WorldWindow.clear()
@@ -805,6 +806,10 @@ ClientEvents.tick(event => {
  * 玩家离开世界时清理所有窗口
  */
 ClientEvents.loggedIn(event => {
+    try {
+        ApricityUI.removeDocument("kubejs/footui.html")
+        ApricityUI.removeDocument("kubejs/footsoak.html")
+    } catch (e) {}
     sleepWindows.clear()
     soakWindows.clear()
     trackedEntities.clear()
@@ -824,4 +829,9 @@ ClientEvents.loggedOut(event => {
     trackedEntities.clear()
     entityCountdowns.clear()
     entitySoakState.clear()
+
+    try {
+        ApricityUI.removeDocument("kubejs/footui.html")
+        ApricityUI.removeDocument("kubejs/footsoak.html")
+    } catch (e) {}
 })

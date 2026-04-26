@@ -1,0 +1,84 @@
+<body>
+  <div class="stamina-hud">
+    <span class="stamina-icon">⚡</span>
+    <span class="stamina-text" id="staminaText">10000</span>
+    <span class="bar-wrapper">
+      <span class="bar-bg">
+        <span class="bar-fill" id="staminaFill"></span>
+      </span>
+    </span>
+  </div>
+</body>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .stamina-hud {
+    position: fixed;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 6px 4px;
+  }
+
+  .stamina-icon {
+    font-size: 12px;
+    color: #ffcc00;
+  }
+
+  .bar-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .bar-bg {
+    width: 8px;
+    height: 100px;
+    background-color: rgba(80, 80, 80, 0.7);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(0deg, #ff8800, #ffcc00);
+    border-radius: 2px;
+    transition: height 0.05s linear;
+  }
+
+  .bar-fill.low {
+    background: linear-gradient(0deg, #ff2222, #ff6644);
+  }
+
+  .bar-fill.mid {
+    background: linear-gradient(0deg, #ff8800, #ffcc00);
+  }
+
+  .bar-fill.high {
+    background: linear-gradient(0deg, #44dd44, #88ff44);
+  }
+
+  .stamina-text {
+    font-size: 10px;
+    color: #ffffff;
+    text-align: center;
+    font-family: monospace;
+  }
+</style>

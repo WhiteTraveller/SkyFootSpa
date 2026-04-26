@@ -7,12 +7,17 @@ function RelicRegister() {
     this.curseRelics = []
     this.shopRelics = []
     this.spaceRelics = []
+    this.currentStage = 0  // 当前注册阶段，各stage文件顶部设置
     /**
     * @param {Relic} relic
     */
     this.register = function(relic) {
         let newRelic = new Relic()
         relic(newRelic)
+        // 自动继承当前阶段
+        if (newRelic.stage === 0 && this.currentStage > 0) {
+            newRelic.stage = this.currentStage
+        }
         this.relics.push(newRelic)
         if (newRelic.pool.name == "普通") {
             this.commonRelics.push(newRelic)
@@ -83,6 +88,7 @@ function Relic() {
     this.guideTexture = []
     this.rarity = global.raritys.common
     this.pool = global.relicPool.common
+    this.stage = 0  // 所属阶段 1~5
     this.getRelicId = function() {
         return "marguerite:" + this.name
     }
@@ -155,6 +161,10 @@ function Relic() {
     }
     this.setPool = function(pool) {
         this.pool = pool
+        return this
+    }
+    this.setStage = function(stage) {
+        this.stage = stage
         return this
     }
 

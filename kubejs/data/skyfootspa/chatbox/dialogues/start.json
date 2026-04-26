@@ -1,0 +1,117 @@
+{
+  "$introduce": "这是一段介绍本模组的文本",
+  "theme": "skyfootspa:alice_margatroid",
+  "isPause": false,
+  "dialogues": {
+    "start": [
+      {
+        "dialogBox": {
+          "text": "我曾经环游过世界，见识过外界"
+        },
+        "portrait": [
+          {
+            "id": "margatroid4",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          {
+            "id": "sh6",
+            "brightness": 60,
+            "replace": true
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "幻想乡人还处于明治维新前的生活状态，卫生习惯太不好"
+        },
+        "portrait": [
+          {
+            "id": "margatroid2",
+            "replace": true,
+            "renderOrder": 10
+          },
+          {
+            "id": "sh6",
+            "replace": true,
+            "brightness": 60
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "而很多人甚至意识不到问题的所在，觉得是正常情况"
+        },
+        "portrait": [
+          {
+            "id": "margatroid8",
+            "replace": true,
+            "renderOrder": 10
+          },
+          {
+            "id": "sh6",
+            "replace": true,
+            "brightness": 60
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这就是你让我开足浴店的理由？"
+        },
+        "portrait": [
+          {
+            "id": "margatroid8",
+            "replace": true,
+            "renderOrder": -1,
+            "brightness": 60
+          },
+          {
+            "id": "sh13",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这就是我让你开足浴店的理由！"
+        },
+        "portrait": [
+          {
+            "id": "margatroid3",
+            "renderOrder": 10,
+            "animation": "TALK"
+          },
+          {
+            "id": "sh1",
+            "replace": true,
+            "brightness": 60
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "......"
+        },
+        "portrait": [
+          {
+            "id": "margatroid3",
+            "brightness": 60
+          },
+          {
+            "id": "sh1",
+            "renderOrder": 10
+          },
+          "names"
+        ]
+      }
+    ]
+  }
+}

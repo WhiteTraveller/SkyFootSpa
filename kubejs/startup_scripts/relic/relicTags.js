@@ -30,6 +30,36 @@ global.margueriteTags = {
         id: "marguerite:tag_mushroom",
         nameZH: "蘑菇",
         color: "blue"
+    },
+    wooden: {
+        id: "marguerite:tag_wooden",
+        nameZH: "木制",
+        color: "gold"
+    },
+    step: {
+        id: "marguerite:tag_step",
+        nameZH: "步",
+        color: "green"
+    },
+    magic: {
+        id: "marguerite:tag_magic",
+        nameZH: "魔法",
+        color: "light_purple"
+    },
+    artifact: {
+        id: "marguerite:tag_artifact",
+        nameZH: "人工制品",
+        color: "aqua"
+    },
+    book: {
+        id: "marguerite:tag_book",
+        nameZH: "书",
+        color: "dark_aqua"
+    },
+    conductive: {
+        id: "marguerite:tag_conductive",
+        nameZH: "导电",
+        color: "red"
     }
 }
 

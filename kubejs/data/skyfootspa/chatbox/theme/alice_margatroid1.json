@@ -1,0 +1,236 @@
+{
+  "portrait": {
+    "margatroid1": {
+      "x": 5,
+      "y": -2,
+      "width": 35,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/1.png"
+    },
+    "margatroid2": {
+      "x": 5,
+      "y": -2,
+      "width": 37,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_look_liuhan.png"
+    },
+    "margatroid3": {
+      "x": 5,
+      "y": -2,
+      "width": 35,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/2.png"
+    },
+    "margatroid4": {
+      "x": 5,
+      "y": -2,
+      "width": 37,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/3.png"
+    },
+    "margatroid5": {
+      "x": 5,
+      "y": -2,
+      "width": 35,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/4.png"
+    },
+    "sh1": {
+      "x": -3,
+      "y": -2,
+      "width": 28,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai1.png"
+    },
+    "head": {
+      "x": 40,
+      "y": 15,
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "player_head",
+      "texture": "@s"
+    },
+    "names": {
+      "x": 12,
+      "y": -36.5,
+      "width": 80,
+      "scale": 1.7,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 0,
+      "texture": "skyfootspa:textures/names/alice_name.png"
+    }
+  },
+  "option": {
+    "y": -40,
+    "x": 30,
+    "width": 45,
+    "height": 8,
+    "alignX": "center",
+    "alignY": "bottom",
+    "widthReference": "screen_height",
+    "heightReference": "screen_height",
+    "hidden": true,
+    "texture": "skyfootspa:textures/options/option_hover.png",
+    "lockTexture": "skyfootspa:textures/options/option_lock.png",
+    "optionChatY": 2.7,
+    "optionChatX": 3,
+    "textAlign": "left",
+    "selectTexture": "skyfootspa:textures/options/option_default.png"
+  },
+  "dialogBox": {
+    "x": 3,
+    "y": -1,
+    "width": 100,
+    "height": 35,
+    "alignX": "center",
+    "alignY": "bottom",
+    "widthReference": "screen_height",
+    "heightReference": "screen_height",
+    "renderEvents": [
+      {
+        "trigger": "end",
+        "type": "show",
+        "value": "@Options"
+      }
+    ],
+    "texture": "skyfootspa:textures/chatbox/bg.png",
+    "lineWidth": 70,
+    "nameX": 4,
+    "nameY": 2,
+    "textX": 5,
+    "textY": 6
+  },
+  "functionalButton": [
+    {
+      "x": 37,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "log",
+      "texture": "skyfootspa:textures/button/log_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/log.png"
+    },
+    {
+      "x": 40,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "fastForward",
+      "texture": "skyfootspa:textures/button/fast_forward_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/fast_forward.png"
+    },
+    {
+      "x": 43,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "autoPlay",
+      "texture": "skyfootspa:textures/button/auto_play_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/auto_play.png"
+    }
+  ],
+  "customAnimation": {
+    "FADE_IN": [
+      {
+        "opacity": 0
+      },
+      {
+        "time": 30,
+        "opacity": 100,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "SLIDE_IN_FROM_BOTTOM": [
+      {
+        "time": 30,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "BOUNCE": [
+      {
+        "time": 15,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 15,
+        "yOffset": 5,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "TALK": [
+      {
+        "time": 0,
+        "yOffset": 2,
+        "xOffset": -1,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 10,
+        "yOffset": -2,
+        "xOffset": 1,
+        "easing": "EASE_IN_SINE"
+      }
+    ]
+  },
+  "注释": "如果不在这里填写功能按钮，在对话框界面将不会显示功能按钮，对应的功能也无法使用"
+}
