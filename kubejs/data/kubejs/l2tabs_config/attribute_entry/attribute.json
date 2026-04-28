@@ -1,0 +1,54 @@
+{
+    "list": [
+        {
+            "id": "kubejs:serve.sat_gain.jiaobei",
+            "intrinsic": 0.0,
+            "order": 100
+        },
+        {
+            "id": "kubejs:serve.sat_gain.jiaozhang",
+            "intrinsic": 0.0,
+            "order": 101
+        },
+        {
+            "id": "kubejs:serve.sat_gain.jiaogen",
+            "intrinsic": 0.0,
+            "order": 102
+        },
+        {
+            "id": "kubejs:serve.sat_gain.jiaozhi",
+            "intrinsic": 0.0,
+            "order": 103
+        },
+        {
+            "id": "kubejs:serve.sat_gain.jiaoxin",
+            "intrinsic": 0.0,
+            "order": 104
+        },
+        {
+            "id": "kubejs:serve.money_gain.jiaobei",
+            "intrinsic": 0.0,
+            "order": 110
+        },
+        {
+            "id": "kubejs:serve.money_gain.jiaozhang",
+            "intrinsic": 0.0,
+            "order": 111
+        },
+        {
+            "id": "kubejs:serve.money_gain.jiaogen",
+            "intrinsic": 0.0,
+            "order": 112
+        },
+        {
+            "id": "kubejs:serve.money_gain.jiaozhi",
+            "intrinsic": 0.0,
+            "order": 113
+        },
+        {
+            "id": "kubejs:serve.money_gain.jiaoxin",
+            "intrinsic": 0.0,
+            "order": 114
+        }
+    ]
+}

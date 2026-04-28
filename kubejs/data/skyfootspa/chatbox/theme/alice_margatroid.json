@@ -1,95 +1,515 @@
 {
   "portrait": {
     "margatroid1": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
       "type": "texture",
-      "x": 0, "y": -5, "width": 20, "height": 60,
-      "alignX": "left", "alignY": "bottom",
-      "texture": "skyfootspa:textures/portrait/1.png",
-      "scale": 1.3,
-      "renderOrder": -10
+      "texture": "skyfootspa:textures/portrait/1.png"
     },
     "margatroid2": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
       "type": "texture",
-      "x": 0, "y": -5, "width": 20, "height": 60,
-      "alignX": "left", "alignY": "bottom",
-      "texture": "skyfootspa:textures/portrait/alice_look_liuhan.png",
-      "scale": 1.3,
-      "renderOrder": -10
+      "texture": "skyfootspa:textures/portrait/2.png"
+    },
+    "margatroid3": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/3.png"
+    },
+    "margatroid4": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/4.png"
+    },
+    "margatroid5": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/5.png"
+    },
+    "margatroid6": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/6.png"
+    },
+    "margatroid7": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/7.png"
+    },
+    "margatroid8": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/8.png"
+    },
+    "margatroid9": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/9.png"
+    },
+    "margatroid10": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/10.png"
+    },
+    "margatroid11": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 60,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/11.png"
+    },
+    "sh1": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai1.png"
+    },
+    "sh2": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai2.png"
+    },
+    "sh3": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai3.png"
+    },
+    "sh4": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai4.png"
+    },
+    "sh5": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai5.png"
+    },
+    "sh6": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai6.png"
+    },
+    "sh7": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai7.png"
+    },
+    "sh8": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai8.png"
+    },
+    "sh9": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai9.png"
+    },
+    "sh10": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai10.png"
+    },
+    "sh11": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai11.png"
+    },
+    "sh12": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai12.png"
+    },
+    "sh13": {
+      "x": -3,
+      "y": -2,
+      "width": 31,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai13.png"
+    },
+    "sh14": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai14.png"
+    },
+    "sh15": {
+      "x": -3,
+      "y": -2,
+      "width": 29,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai15.png"
     },
     "head": {
+      "x": 40,
+      "y": 15,
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
       "type": "player_head",
-      "x": 40, "y": 15, "width": 10,
-      "texture": "@s",
-      "renderOrder": -10
+      "texture": "@s"
     },
     "names": {
-    "texture": "skyfootspa:textures/names/alice_name.png",
-    "x": 31, "y": 46, "width": 30, "height": 10,
-    "alignX": "left", "alignY": "top",
-    "scale": 2,
-    "renderOrder": 0
-    },
-    "attachment": {
-    "texture": "skyfootspa:textures/attachment/double_plant_sunflower_front.png",
-    "x": -0.5, "y": 5.5, "width": 20, "height": 20,
-    "alignX": "right", "alignY": "center",
-    "scale": 0.5,
-    "renderOrder": 10
+      "x": 12,
+      "y": -36.5,
+      "width": 80,
+      "scale": 1.7,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 0,
+      "texture": "skyfootspa:textures/names/alice_name.png"
     }
   },
   "option": {
+    "y": -40,
+    "x": 30,
+    "width": 45,
+    "height": 8,
+    "alignX": "center",
+    "alignY": "bottom",
+    "widthReference": "screen_height",
+    "heightReference": "screen_height",
+    "hidden": true,
     "texture": "skyfootspa:textures/options/option_hover.png",
-    "selectTexture": "skyfootspa:textures/options/option_default.png",
     "lockTexture": "skyfootspa:textures/options/option_lock.png",
-    "x": 0, "y": 17, "width": 45, "height": 8,
-    "alignX": "right", "alignY": "top",
-    "optionChatX": 0, "optionChatY": 2.7, "textAlign": "center",
-    "hidden": true
+    "optionChatY": 2.7,
+    "optionChatX": 3,
+    "textAlign": "left",
+    "selectTexture": "skyfootspa:textures/options/option_default.png"
   },
   "dialogBox": {
-    "texture": "skyfootspa:textures/chatbox/bg.png",
-    "alignX": "center", "alignY": "bottom", "lineWidth": 70,
-    "width": 80, "height": 40,"y":-5,
-    "nameX": 20, "nameY": 10, "textX": 20, "textY": 15,
+    "x": 0,
+    "y": 0,
+    "width": 100,
+    "height": 35,
+    "alignX": "center",
+    "alignY": "bottom",
+    "heightReference": "screen_height",
     "renderEvents": [
-      {"trigger": "end", "type": "show", "value": "@Options"}
-    ]
+      {
+        "trigger": "end",
+        "type": "show",
+        "value": "@Options"
+      }
+    ],
+    "texture": "chatbox:textures/chatbox/default_dialog_box.png",
+    "lineWidth": 70,
+    "nameX": 4,
+    "nameY": 2,
+    "textX": 30,
+    "textY": 6
   },
-  "注释": "如果不在这里填写功能按钮，在对话框界面将不会显示功能按钮，对应的功能也无法使用",
   "functionalButton": [
     {
+      "x": 37,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
       "type": "log",
       "texture": "skyfootspa:textures/button/log_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/log.png",
-      "x": -17, "y": -4.5, "width": 5, "height": 8, "alignX": "right", "alignY": "bottom",
-      "opacity": 100, "renderOrder": 30
+      "hoverTexture": "skyfootspa:textures/button/log.png"
     },
     {
+      "x": 40,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
       "type": "fastForward",
       "texture": "skyfootspa:textures/button/fast_forward_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/fast_forward.png",
-      "x": -13, "y": -4.5, "width": 5, "height": 8, "alignX": "right", "alignY": "bottom",
-      "opacity": 100, "renderOrder": 30
+      "hoverTexture": "skyfootspa:textures/button/fast_forward.png"
     },
     {
+      "x": 43,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
       "type": "autoPlay",
       "texture": "skyfootspa:textures/button/auto_play_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/auto_play.png",
-      "x": -9.5, "y": -4.5, "width": 5, "height": 8, "alignX": "right", "alignY": "bottom",
-      "opacity": 100, "renderOrder": 30
+      "hoverTexture": "skyfootspa:textures/button/auto_play.png"
     }
   ],
   "customAnimation": {
     "FADE_IN": [
-      {"time": 1, "opacity": 0},
-      {"time": 30, "opacity": 100, "easing": "EASE_OUT_SINE"}
+      {
+        "opacity": 0
+      },
+      {
+        "time": 30,
+        "opacity": 100,
+        "easing": "EASE_OUT_SINE"
+      }
     ],
     "SLIDE_IN_FROM_BOTTOM": [
-      {"time": 30, "yOffset": -5, "easing": "EASE_OUT_SINE"}
+      {
+        "time": 30,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      }
     ],
     "BOUNCE": [
-      {"time": 15, "yOffset": -5, "easing": "EASE_OUT_SINE"},
-      {"time": 15, "yOffset": 5, "easing": "EASE_OUT_SINE"}
+      {
+        "time": 15,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 15,
+        "yOffset": 5,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "TALK": [
+      {
+        "time": 0,
+        "yOffset": 2,
+        "xOffset": 0,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 10,
+        "yOffset": -2,
+        "xOffset": 0,
+        "easing": "EASE_IN_SINE"
+      }
     ]
-  }
+  },
+  "注释": "如果不在这里填写功能按钮，在对话框界面将不会显示功能按钮，对应的功能也无法使用"
 }

@@ -39,3 +39,6 @@ kubejstest/
 /.qoder/
 /ldlib/
 /patchouli_books/
+game.json
+game.jar
+

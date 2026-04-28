@@ -3,12 +3,12 @@
     <div class="header">
       <span class="title">待泡脚</span>
     </div>
-    
+
     <!-- 泡脚按钮 -->
     <div class="soak-btn-container">
       <button id="soakBtn" class="soak-btn">开始泡脚</button>
     </div>
-    
+
     <!-- 倒计时进度条 -->
     <div class="countdown-bar">
       <span class="progress-wrapper">
@@ -25,15 +25,32 @@
 
 <style>
   .soak-container {
+    position: relative;
+    left: -10px;
     width: 120px;
     height: 80px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(20, 10, 40, 0.9);
     border-radius: 10px;
-    border: 1px solid #888;
+    border: 1px solid #a855f7;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 8px;
+  }
+
+  /* 确保按钮点击区域与视觉位置一致 */
+  .soak-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #4a90d9;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+    /* 增加点击区域大小 */
+    min-width: 60px;
+    text-align: center;
   }
 
   .header {
@@ -41,29 +58,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .title {
     color: #87CEEB;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: bold;
   }
 
   /* 泡脚按钮 */
   .soak-btn-container {
     margin-bottom: 8px;
-  }
-
-  .soak-btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    background-color: #4a90d9;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.1s, background-color 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .soak-btn:hover {
@@ -71,7 +78,7 @@
   }
 
   .soak-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.85);
     background-color: #3a80c9;
   }
 
@@ -83,8 +90,10 @@
 
   /* 倒计时进度条 */
   .countdown-bar {
+    margin-top: 8px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     width: 100%;
   }
