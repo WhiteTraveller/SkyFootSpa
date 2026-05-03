@@ -1,114 +1,428 @@
 {
-  "$introduce": "这是一段介绍本模组的文本",
-  "theme": "skyfootspa:alice_margatroid",
+  "$introduce": "序章：爱丽丝用大锤唤醒土偶玩家，交代足浴店任务",
+  "theme": "skyfootspa:alice_margatroid1",
   "isPause": false,
   "dialogues": {
     "start": [
       {
-        "dialogBox": {
-          "text": "我曾经环游过世界，见识过外界"
-        },
+        "dialogBox": { "text": "喂喂喂" },
         "portrait": [
-          {
-            "id": "margatroid4",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "TALK"
-          },
-          {
-            "id": "sh6",
-            "brightness": 60,
-            "replace": true
-          },
+          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "清醒了吗？" },
+        "portrait": [
+          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "能听见我说话吗" },
+        "portrait": [
+          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "呃……按照说明书，唤醒流程应该没错啊" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "……" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "……我来看看，\u201c若出现故障请前往畜生界灵长园联系埴安神袿姬\u201d" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "这维修服务难道还要我自己把东西搬过去吗？" },
+        "portrait": [
+          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "只能自己解决了。" },
+        "portrait": [
+          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "不过我对这种构造不是很熟，直接拆开可能会坏。" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "那就试试土办法好了。" },
+        "portrait": [
+          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "魔理沙说，不管是什么设备，只要敲一下就会变好。" },
+        "portrait": [
+          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "BOUNCE" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "停停停停停停！" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "哎呀，原来没坏吗。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "呃，不好意思，刚刚头有点晕。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "所以能不能劳烦您先把大锤收起来。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "啊……不好意思，我刚刚还以为你需要维修，没吓着你吧。" },
+        "portrait": [
+          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "（我看上去像是没被吓到的样子吗？）" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "所以这位小姐，能不能问一下现在是什么情况？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "我现在似乎什么也不知道。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "没有写入初始状态设定吗……埴安神女士真是……" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "那就先从我的自我介绍开始吧。" },
+        "portrait": [
+          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" }
+        ]
+      },
+      {
+        "dialogBox": { "text": "我的名字是爱丽丝·玛格特罗伊德，是居住在魔法森林的魔法使，严格来说是人偶师。" },
+        "portrait": [
+          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
           "names"
         ]
       },
       {
-        "dialogBox": {
-          "text": "幻想乡人还处于明治维新前的生活状态，卫生习惯太不好"
-        },
+        "dialogBox": { "text": "而你呢，是一个土偶，简单的来说应该是类似于仿生人和机器人之类的……仿生人这种词你应该还听得懂吧，我不知道你的知识库储备怎么样。" },
         "portrait": [
-          {
-            "id": "margatroid2",
-            "replace": true,
-            "renderOrder": 10
-          },
-          {
-            "id": "sh6",
-            "replace": true,
-            "brightness": 60
-          },
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
           "names"
         ]
       },
       {
-        "dialogBox": {
-          "text": "而很多人甚至意识不到问题的所在，觉得是正常情况"
-        },
+        "dialogBox": { "text": "大致能听得懂。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "在地狱的畜生界有一位名叫埴安神袿姬的女士很擅长制作土偶，由于跟我用的人偶有些许共同之处……事实上我以前也想过要不要用土偶，所以她之前送了我一个作为礼物，也就是现在在我面前的你。" },
         "portrait": [
-          {
-            "id": "margatroid8",
-            "replace": true,
-            "renderOrder": 10
-          },
-          {
-            "id": "sh6",
-            "replace": true,
-            "brightness": 60
-          },
+          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
           "names"
         ]
       },
       {
-        "dialogBox": {
-          "text": "这就是你让我开足浴店的理由？"
-        },
+        "dialogBox": { "text": "不过由于我用自制的人偶已经养成习惯了，所以收到后就一直堆在仓库里。" },
         "portrait": [
-          {
-            "id": "margatroid8",
-            "replace": true,
-            "renderOrder": -1,
-            "brightness": 60
-          },
-          {
-            "id": "sh13",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "TALK"
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "这就是我让你开足浴店的理由！"
-        },
-        "portrait": [
-          {
-            "id": "margatroid3",
-            "renderOrder": 10,
-            "animation": "TALK"
-          },
-          {
-            "id": "sh1",
-            "replace": true,
-            "brightness": 60
-          },
+          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
           "names"
         ]
       },
       {
-        "dialogBox": {
-          "text": "......"
-        },
+        "dialogBox": { "text": "简单的来说，我是你的主人，而你是我的下属。" },
         "portrait": [
-          {
-            "id": "margatroid3",
-            "brightness": 60
-          },
-          {
-            "id": "sh1",
-            "renderOrder": 10
-          },
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "那你现在是有什么活要我干吗？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，各方面都几乎如同它的名字般梦幻。但在这平和温馨的日常下，总是潜藏着浑浊的污秽。" },
+        "portrait": [
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种黑暗不断生根发芽。而如今对于这个幻想乡所积攒的陈腐习气我已经无法忍受了。" },
+        "portrait": [
+          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "于是，现在我准备对幻想乡进行一场彻底的创新性变革。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "而为此，我需要更多人手的协助。" },
+        "portrait": [
+          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "你是我能想到的最佳人选，所以请务必借给我你的力量。" },
+        "portrait": [
+          { "id": "alice_shack_hand_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "难道你是想……" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "所以，我现在命令你为洗脚城大店长，统率全城。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "然后把这家足浴店打造成全幻想乡人尽皆知的超人气品牌！" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "幻想乡崭新的未来就靠你了！" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "……" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "我好像不是很懂你想表达什么。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "不好意思，我的说明可能跳过了一些步骤。" },
+        "portrait": [
+          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "幻想乡在某种角度上是一个怀旧的产物。" },
+        "portrait": [
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的，地球上的避风港。" },
+        "portrait": [
+          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "但关键在于，隔绝幻想乡与外界的\u201c博丽大结界\u201d是于明治年间升起的。在此之后，两边就无法随意往来。" },
+        "portrait": [
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "而幻想乡内是有人类存在的，他们也就在同一时间和外界断绝了联系。" },
+        "portrait": [
+          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "所以现在幻想乡内的人类聚落——人间之里还大体保留着明治时期乡间的风貌和生活习俗。" },
+        "portrait": [
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "也就是说，幻想乡人类的卫生状态以外界的现代标准来看有点不达标。" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "于是，就需要我来掀起一场轰轰烈烈的讲卫生树新风行动！" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "那为什么是足浴店，正常情况下不是应该开澡堂或者卖卫浴用品又或当水管工加装自来水管道吗？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "呃……因为这里其实还有另一个问题。" },
+        "portrait": [
+          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "不知道怎么回事，也不知道是谁先开的头，有一股……令人尴尬的流言正在传播。" },
+        "portrait": [
+          { "id": "alice_shack_hand", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "什么流言？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "……是说幻想乡里的人都不怎么洗脚，所以幻想乡里的美少女脚都很臭……" },
+        "portrait": [
+          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "……" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "所以真的很臭吗？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "你觉得呢。" },
+        "portrait": [
+          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "……我觉得应该是香的，至少不是臭。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "原来前面的污秽指的是字面意义上的卫生问题吗。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "总之，要是给我捉到是谁在散布这种谣言，我绝对要把他钉在魔法森林的树上让他瘴气吸到饱。" },
+        "portrait": [
+          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "不过现在既然抓不到人，就只能用其他方式来解决这个谣言了。" },
+        "portrait": [
+          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "靠开洗脚店？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "没错，足浴店！" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "这可是我好不容易才想出来的完美方案，既能改善幻想乡里的卫生条件，又能展现我们非常在乎个人卫生。简直是一举两得。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "（这种做法……怎么感觉有种此地无银三百两的既视感）" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "所以就让我来经营这家足浴店吗？" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "没错，毕竟我自己的人偶都是需要我手动操纵的，而我现在又有其它事要做，所以还是作为土偶可以自主行动的你更加适合。" },
+        "portrait": [
+          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "那行吧，毕竟在我的立场上也没有拒绝的能力。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "你也别想的这么悲观了，如果你高标准地完成了工作的话，我肯定不会亏待你。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我觉得我和她们间的差别还是不小的。" },
+        "portrait": [
+          { "id": "alice_shack_hand_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "真是无法被常识束缚的世界观……" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "我们还是先进入正题，让我学习一下具体的经营操作吧。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "好的，不过在经营的时候要小心脚下。为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。" },
+        "portrait": [
+          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": { "text": "我已经不知道该说什么了。" },
+        "portrait": []
+      },
+      {
+        "dialogBox": { "text": "接下来，我会帮你熟悉一遍必要的经营步骤。" },
+        "portrait": [
+          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
           "names"
         ]
       }

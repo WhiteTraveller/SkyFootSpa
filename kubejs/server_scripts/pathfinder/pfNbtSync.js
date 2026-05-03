@@ -40,13 +40,12 @@ function pfSyncCountdown(entity, countdown) {
     }
 }
 
-// 同步需求清单到手持物品NBT
+// 同步需求清单到手持物品NBT（4部位，已移除脚背）
 // skipSoak: 可选，为true时直接设置pfSoakDone=1跳过泡脚
 function pfSyncDemandList(entity, demandList, skipSoak) {
     let soakDoneValue = skipSoak ? 1 : 0
     let item = entity.getMainHandItem()
     let nbtData = {
-        pfDemandJiaobei: demandList['脚背'],
         pfDemandJiaozhang: demandList['脚掌'],
         pfDemandJiaogen: demandList['脚后跟'],
         pfDemandJiaozhi: demandList['脚趾'],
@@ -61,7 +60,6 @@ function pfSyncDemandList(entity, demandList, skipSoak) {
         item = Item.of(global.pfConstants.SYNC_ITEM_ID, nbtData)
     } else {
         let nbt = item.nbt || {}
-        nbt.pfDemandJiaobei = demandList['脚背']
         nbt.pfDemandJiaozhang = demandList['脚掌']
         nbt.pfDemandJiaogen = demandList['脚后跟']
         nbt.pfDemandJiaozhi = demandList['脚趾']

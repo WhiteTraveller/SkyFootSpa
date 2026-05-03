@@ -1,7 +1,7 @@
 {
     "list": [
         {
-            "id": "kubejs:serve.sat_gain.jiaobei",
+            "id": "kubejs:serve.sat_gain.jiaozhi",
             "intrinsic": 0.0,
             "order": 100
         },
@@ -11,22 +11,17 @@
             "order": 101
         },
         {
-            "id": "kubejs:serve.sat_gain.jiaogen",
+            "id": "kubejs:serve.sat_gain.jiaoxin",
             "intrinsic": 0.0,
             "order": 102
         },
         {
-            "id": "kubejs:serve.sat_gain.jiaozhi",
+            "id": "kubejs:serve.sat_gain.jiaogen",
             "intrinsic": 0.0,
             "order": 103
         },
         {
-            "id": "kubejs:serve.sat_gain.jiaoxin",
-            "intrinsic": 0.0,
-            "order": 104
-        },
-        {
-            "id": "kubejs:serve.money_gain.jiaobei",
+            "id": "kubejs:serve.money_gain.jiaozhi",
             "intrinsic": 0.0,
             "order": 110
         },
@@ -36,19 +31,34 @@
             "order": 111
         },
         {
-            "id": "kubejs:serve.money_gain.jiaogen",
+            "id": "kubejs:serve.money_gain.jiaoxin",
             "intrinsic": 0.0,
             "order": 112
         },
         {
-            "id": "kubejs:serve.money_gain.jiaozhi",
+            "id": "kubejs:serve.money_gain.jiaogen",
             "intrinsic": 0.0,
             "order": 113
         },
         {
-            "id": "kubejs:serve.money_gain.jiaoxin",
+            "id": "kubejs:serve.stamina_cost.jiaozhi",
             "intrinsic": 0.0,
-            "order": 114
+            "order": 120
+        },
+        {
+            "id": "kubejs:serve.stamina_cost.jiaozhang",
+            "intrinsic": 0.0,
+            "order": 121
+        },
+        {
+            "id": "kubejs:serve.stamina_cost.jiaoxin",
+            "intrinsic": 0.0,
+            "order": 122
+        },
+        {
+            "id": "kubejs:serve.stamina_cost.jiaogen",
+            "intrinsic": 0.0,
+            "order": 123
         }
     ]
 }

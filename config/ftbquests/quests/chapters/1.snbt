@@ -1,0 +1,48 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "1"
+	group: "703E058CBE887155"
+	id: "358D848C495AD6C3"
+	order_index: 0
+	quest_links: [ ]
+	quests: [{
+		id: "093EE0EFD4D20B44"
+		rewards: [
+			{
+				auto: "enabled"
+				command: "/schedule function skyblock:place_456258 5t"
+				elevate_perms: true
+				id: "7693996ED3EDDE63"
+				silent: true
+				team_reward: true
+				type: "command"
+			}
+			{
+				auto: "enabled"
+				command: "/say wxhn"
+				elevate_perms: true
+				id: "0776D0ED17DA1A99"
+				type: "command"
+			}
+		]
+		tasks: [
+			{
+				dimension: "minecraft:the_nether"
+				icon: "minecraft:oak_log"
+				id: "060CB98DFEB46B59"
+				title: "xiajiexiajie"
+				type: "dimension"
+			}
+			{
+				dimension: "minecraft:overworld"
+				id: "787929F44A00607C"
+				title: "你复活啦"
+				type: "dimension"
+			}
+		]
+		x: -0.5d
+		y: -3.0d
+	}]
+	title: "1"
+}

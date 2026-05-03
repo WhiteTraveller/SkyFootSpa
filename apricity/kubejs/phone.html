@@ -1,4 +1,104 @@
 <body>
+  <div class="rt-overlay" id="ratingOverlay" style="top: -9999; left: -9999;">
+    <div class="rt-card">
+      <!-- 顶部标题栏 -->
+      <div class="rt-header">
+        <span class="rt-shop-name">Gensyo·Live</span>
+        <div class="rt-div"></div>
+        <span class="rt-close" id="ratingClose">x</span>
+      </div>
+      <!-- 评分主区域 -->
+      <div class="rt-score-area">
+        <div class="rt-score-left">
+          <div class="rt-stars" id="rtStars">★☆☆☆☆</div>
+          <div class="rt-big-score" id="rtAvgScore">1.5</div>
+          <div class="rt-score-label">综合评分</div>
+        </div>
+      </div>
+      <!-- 分割线 -->
+      <div class="rt-divider"></div>
+      <!-- 种族评价区块 -->
+      <div class="rt-section">
+        <span class="rt-section-mark"></span>
+        <span class="rt-section-title">种族评价</span>
+      </div>
+      <div class="rt-list">
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName0">人类</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar0" style="width:75%;"></div></div>
+          <span class="rt-val" id="ratingVal0">75</span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName1">妖精</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar1" style="width:0%;"></div></div>
+          <span class="rt-val" id="ratingVal1">0</span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName2">妖怪</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar2" style="width:40%;"></div></div>
+          <span class="rt-val" id="ratingVal2">40</span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName3">神</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar3" style="width:0%;"></div></div>
+          <span class="rt-val" id="ratingVal3">0</span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName4">灵</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar4" style="width:0%;"></div></div>
+          <span class="rt-val" id="ratingVal4">0</span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-name" id="ratingName5">鬼</span>
+          <div class="rt-bar-bg"><div class="rt-bar-fill" id="ratingBar5" style="width:60%;"></div></div>
+          <span class="rt-val" id="ratingVal5">60</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <!-- ===== 抽卡弹窗 ===== -->
+  <div class="gc-overlay" id="gachaOverlay" style="top: -9999; left: -9999;">
+    <div class="gc-card">
+      <!-- 标题栏 -->
+      <div class="gc-header">
+        <span class="gc-title">补给抽取</span>
+        <span class="gc-close" id="gachaClose">x</span>
+      </div>
+        <div class="gc-poster">
+          <img class="gc-poster-header" src="poster.png"></img>
+        </div>
+      <!-- 两列卡片区域 -->
+      <div class="gc-body">
+        <div class="gc-item">
+          <div class="gc-item-header">补给获得物品数量</div>
+          <div class="gc-item-icon-area">
+            <img class="gc-question" src="ck.png"></img>
+            <span class="gc-times">x 2</span>
+          </div>
+          <div class="gc-item-desc">可获得Stage1-Stage2芯片、道具或材料</div>
+          <div class="gc-btn" id="gachaPull1">
+            <span class="gc-btn-text">一回补给</span>
+            <span class="gc-btn-sub">x1</span>
+          </div>
+        </div>
+        <div class="gc-item">
+          <div class="gc-item-header">补给获得物品数量</div>
+          <div class="gc-item-icon-area">
+            <img class="gc-question" src="ck.png"></img>
+            <span class="gc-times">x 20</span>
+          </div>
+          <div class="gc-item-desc">可获得Stage1-Stage2芯片、道具或材料</div>
+          <div class="gc-btn gc-btn-gold" id="gachaPull10">
+            <span class="gc-btn-text">十回补给</span>
+            <span class="gc-btn-sub">x10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="phone-wrapper">
     <div class="phone-frame">
       <!-- 内侧黑边 -->
@@ -35,9 +135,34 @@
                 <div class="icon orange-icon">✖</div>
                 <span class="app-name">清除UI</span>
               </div>
+              <div class="app-icon" id="appHideHud">
+                <div class="icon gray-icon">👁</div>
+                <span class="app-name">体力HUD</span>
+              </div>
+              <div class="app-icon" id="appOneClick">
+                <div class="icon green-icon" id="oneClickIcon">⚡</div>
+                <span class="app-name" id="oneClickLabel">秒搞:关</span>
+              </div>
             </div>
 
-
+            <div class="app-row">
+              <div class="app-icon" id="appRatings">
+                <div class="icon yellow-icon">⭐</div>
+                <span class="app-name">Gensyo</span>
+              </div>
+              <div class="app-icon" id="appGacha">
+                <div class="icon purple-icon">🎰</div>
+                <span class="app-name">抽卡</span>
+              </div>
+              <div class="app-icon app-placeholder">
+                <div class="icon dark-icon">•</div>
+                <span class="app-name">待定</span>
+              </div>
+              <div class="app-icon app-placeholder">
+                <div class="icon dark-icon">•</div>
+                <span class="app-name">待定</span>
+              </div>
+            </div>
           </div>
 
           <!-- 底部手势条 -->
@@ -74,9 +199,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow:
-      0 0 40px rgba(0, 0, 0, 0.9),
-      0 0 2px rgba(80, 80, 80, 0.4);
   }
 
   /* 内侧黑边 */
@@ -90,6 +212,7 @@
 
   /* 屏幕区域 - 全面屏，直角 */
   .phone-screen {
+    width: 97%;
     height: 98.5%;
     border: 2px solid #000000;
     background-color: #000000;
@@ -280,6 +403,296 @@
     flex: 1;
   }
 
+  /* ===== 美团风评价弹窗 ===== */
+  .rt-overlay {
+    position: absolute;
+    width: 100% ;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rt-card {
+    position: absolute;
+    bottom: 20px;
+    right: 200px;
+    width: 100px;
+    height: 220px;
+    background: #fff;
+    border-radius: 6px;
+    padding-right: 10px;
+    overflow: hidden;
+  }
+  /* 标题栏 */
+  .rt-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    margin-right: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  .rt-shop-name {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    font-family: sans-serif;
+    flex: 1;
+  }
+  .rt-close {
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    font-family: sans-serif;
+    padding: 2px 6px;
+  }
+  .rt-close:active {
+    color: #333;
+  }
+  /* 评分主区域 */
+  .rt-score-area {
+    display: flex;
+    padding: 8px;
+    justify-content: center;
+  }
+  .rt-score-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .rt-stars {
+    font-size: 8px;
+    color: #ff6633;
+    font-family: sans-serif;
+  }
+  .rt-big-score {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff6633;
+    font-family: sans-serif;
+    line-height: 30px;
+  }
+  .rt-score-label {
+    font-size: 7px;
+    color: #999;
+    font-family: sans-serif;
+  }
+  /* 分割线 */
+  .rt-divider {
+    height: 1px;
+    background: #eee;
+    margin: 0 8px;
+  }
+  /* 区块标题 */
+  .rt-section {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px 3px 8px;
+  }
+  .rt-section-mark {
+    width: 3px;
+    height: 10px;
+    background: #ff6633;
+    border-radius: 1px;
+  }
+  .rt-section-title {
+    font-size: 9px;
+    font-weight: bold;
+    color: #333;
+    font-family: sans-serif;
+  }
+  /* 种族评价列表 */
+  .rt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 3px 8px 6px 8px;
+  }
+  .rt-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .rt-name {
+    font-size: 8px;
+    color: #666;
+    font-family: sans-serif;
+    width: 14px;
+    text-align: right;
+  }
+  .rt-bar-bg {
+    width: 70px;
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .rt-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: #ff6633;
+    border-radius: 3px;
+  }
+  .rt-val {
+    font-size: 8px;
+    font-weight: bold;
+    color: #ff6633;
+    font-family: sans-serif;
+    width: 6px;
+    text-align: right;
+  }
+
+  /* ===== 抽卡弹窗 ===== */
+  .gc-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gc-card {
+    position: absolute;
+    bottom: 20px;
+    right: 140px;
+    height: 226px;
+    width: 210px;
+    padding-right: 20px;
+    background: #a6000000;
+    border-radius: 3px;
+  }
+  .gc-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 6px;
+    margin-left: 10px;
+                border-bottom: 0.5px solid #ddd;
+  }
+  .gc-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: sans-serif;
+    flex-grow: 1;
+  }
+  .gc-close {
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: sans-serif;
+    padding: 2px 4px;
+  }
+  .gc-close:active {
+    color: #333;
+  }
+  .gc-body {
+    display: flex;
+    padding: 6px;
+  }
+  .gc-item {
+    width: 46.5%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px;
+    margin-right: 6px;
+  }
+  .gc-item:last-child {
+    margin-right: 0;
+  }
+  .gc-item-header {
+    font-size: 10px;
+    color: #ffffff;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    padding-bottom: 2px;
+  }
+  .gc-item-icon-area {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+  }
+  .gc-question {
+    margin-left: 16px;
+    width: 22px;
+    height: 22px;
+    background: url(ck.png);
+    background-size: cover;
+    background-position: center;
+  }
+  .gc-times {
+    width: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 4px;
+    color: #ffffff;
+    font-family: sans-serif;
+  }
+  .gc-item-desc {
+    font-size: 8px;
+    color: #999;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+  .gc-btn {
+    width: 50%;
+    background: #ffcc00;
+    justify-content: center;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    cursor: pointer;
+    margin-top: 2px;
+  }
+  .gc-btn:active {
+    background: #e6b800;
+  }
+  .gc-btn-gold {
+    background: #ff9800;
+  }
+  .gc-btn-gold:active {
+    background: #e68900;
+  }
+  .gc-btn-text {
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    font-family: sans-serif;
+  }
+  .gc-btn-sub {
+    padding-left: 2px;
+    font-weight: bold;
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    font-family: sans-serif;
+  }
+  .gc-poster-header {
+    width: 100%;
+    height: 110px;
+    border-radius: 3px;
+    margin-left: 10px;
+    margin-top: 10px;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+  }
+
   /* 底部手势条（S23 Ultra全面屏手势导航） */
   .gesture-bar {
     height: 8px;
@@ -297,14 +710,34 @@
 </style>
 
 <script>
-  var McClient = Java.loadClass('net.minecraft.client.Minecraft');
+  var McClient = Java.loadClass("net.minecraft.client.Minecraft");
 
   // ===== 十二时辰映射 =====
   var SHICHEN = [
-    '子时', '丑时', '丑时', '寅时', '寅时', '卯时',
-    '卯时', '辰时', '辰时', '巳时', '巳时', '午时',
-    '午时', '未时', '未时', '申时', '申时', '酉时',
-    '酉时', '戌时', '戌时', '亥时', '亥时', '子时'
+    "子时",
+    "丑时",
+    "丑时",
+    "寅时",
+    "寅时",
+    "卯时",
+    "卯时",
+    "辰时",
+    "辰时",
+    "巳时",
+    "巳时",
+    "午时",
+    "午时",
+    "未时",
+    "未时",
+    "申时",
+    "申时",
+    "酉时",
+    "酉时",
+    "戌时",
+    "戌时",
+    "亥时",
+    "亥时",
+    "子时",
   ];
 
   // ===== 动态时间更新 =====
@@ -314,18 +747,19 @@
       if (!mc || !mc.level) return;
       var dayTime = mc.level.getDayTime() % 24000;
       var hour = Math.floor((dayTime / 1000 + 6) % 24);
-      var minute = Math.floor((dayTime % 1000) / 1000 * 60);
-      var timeStr = (hour < 10 ? '0' : '') + hour + ':' + (minute < 10 ? '0' : '') + minute;
+      var minute = Math.floor(((dayTime % 1000) / 1000) * 60);
+      var timeStr =
+        (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute;
       var traditional = SHICHEN[hour];
 
-      var statusLeft = document.querySelector('.status-left');
-      var timeMain = document.querySelector('.time-main');
-      var timeTraditional = document.querySelector('.time-traditional');
+      var statusLeft = document.querySelector(".status-left");
+      var timeMain = document.querySelector(".time-main");
+      var timeTraditional = document.querySelector(".time-traditional");
       if (statusLeft) statusLeft.innerText = timeStr;
       if (timeMain) timeMain.innerText = timeStr;
       if (timeTraditional) timeTraditional.innerText = traditional;
-    } catch(e) {
-      console.log('[PHONE] 时间更新失败: ' + e);
+    } catch (e) {
+      console.log("[PHONE] 时间更新失败: " + e);
     }
   }
 
@@ -339,82 +773,396 @@
   // 尝试从 global.pfPhoneSettings 读取初始状态
   function initSoakToggle() {
     try {
-      if (typeof global !== 'undefined' && global.pfPhoneSettings) {
+      if (typeof global !== "undefined" && global.pfPhoneSettings) {
         soakSkipped = global.pfPhoneSettings.pfSkipSoak || 0;
       }
-    } catch(e) {}
+    } catch (e) {}
     updateSoakToggleUI();
   }
 
   function updateSoakToggleUI() {
-    var icon = document.querySelector('#soakToggleIcon');
-    var label = document.querySelector('#soakToggleLabel');
+    var icon = document.querySelector("#soakToggleIcon");
+    var label = document.querySelector("#soakToggleLabel");
     if (icon && label) {
       if (soakSkipped === 1) {
-        icon.setAttribute('class', 'icon red-icon');
-        label.innerText = '泡脚:关';
+        icon.setAttribute("class", "icon red-icon");
+        label.innerText = "泡脚:关";
       } else {
-        icon.setAttribute('class', 'icon green-icon');
-        label.innerText = '泡脚:开';
+        icon.setAttribute("class", "icon green-icon");
+        label.innerText = "泡脚:开";
       }
     }
   }
 
   // 点击切换
-  var soakToggleBtn = document.querySelector('#appSoakToggle');
+  var soakToggleBtn = document.querySelector("#appSoakToggle");
   if (soakToggleBtn) {
-    soakToggleBtn.addEventListener('mousedown', function() {
+    soakToggleBtn.addEventListener("mousedown", function () {
       soakSkipped = soakSkipped === 1 ? 0 : 1;
       updateSoakToggleUI();
       // 发送到服务端
       try {
         var player = McClient.getInstance().player;
         if (player) {
-          player.sendData('phone_set_setting', { key: 'pfSkipSoak', value: soakSkipped });
+          player.sendData("phone_set_setting", {
+            key: "pfSkipSoak",
+            value: soakSkipped,
+          });
         }
-      } catch(e) {
-        console.log('[PHONE] 发送设置失败: ' + e);
+      } catch (e) {
+        console.log("[PHONE] 发送设置失败: " + e);
       }
     });
   }
 
   // 延迟初始化，等待服务端同步数据到达
-  window.setTimeout(function() { initSoakToggle(); }, 500);
+  window.setTimeout(function () {
+    initSoakToggle();
+    initOneClickToggle();
+  }, 500);
+
+  // ===== 一键满足开关 =====
+  var oneClickEnabled = 0;
+
+  function initOneClickToggle() {
+    try {
+      if (typeof global !== "undefined" && global.pfPhoneSettings) {
+        oneClickEnabled = global.pfPhoneSettings.pfOneClickSatisfy || 0;
+      }
+    } catch (e) {}
+    updateOneClickUI();
+  }
+
+  function updateOneClickUI() {
+    var icon = document.querySelector("#oneClickIcon");
+    var label = document.querySelector("#oneClickLabel");
+    if (icon && label) {
+      if (oneClickEnabled === 1) {
+        icon.setAttribute("class", "icon green-icon");
+        label.innerText = "秒搞:开";
+      } else {
+        icon.setAttribute("class", "icon dark-icon");
+        label.innerText = "秒搞:关";
+      }
+    }
+  }
+
+  var oneClickBtn = document.querySelector("#appOneClick");
+  if (oneClickBtn) {
+    oneClickBtn.addEventListener("mousedown", function () {
+      oneClickEnabled = oneClickEnabled === 1 ? 0 : 1;
+      updateOneClickUI();
+      try {
+        var player = McClient.getInstance().player;
+        if (player) {
+          player.sendData("phone_set_setting", {
+            key: "pfOneClickSatisfy",
+            value: oneClickEnabled,
+          });
+        }
+      } catch (e) {
+        console.log("[PHONE] 发送设置失败: " + e);
+      }
+    });
+  }
 
   // ===== 清除所有WorldWindow =====
-  var WorldWindow = Java.loadClass('com.sighs.apricityui.instance.WorldWindow');
-  var clearUIBtn = document.querySelector('#appClearUI');
+  var WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow");
+  var clearUIBtn = document.querySelector("#appClearUI");
   if (clearUIBtn) {
-    clearUIBtn.addEventListener('mousedown', function() {
+    clearUIBtn.addEventListener("mousedown", function () {
       try {
         WorldWindow.clear();
-        console.log('[PHONE] 已清除所有WorldWindow');
-      } catch(e) {
-        console.log('[PHONE] 清除WorldWindow失败: ' + e);
+        console.log("[PHONE] 已清除所有WorldWindow");
+      } catch (e) {
+        console.log("[PHONE] 清除WorldWindow失败: " + e);
+      }
+    });
+  }
+
+  // ===== 隐藏体力HUD =====
+  var ApricityUIRef = Java.loadClass("com.sighs.apricityui.ApricityUI");
+  var hideHudBtn = document.querySelector("#appHideHud");
+  if (hideHudBtn) {
+    hideHudBtn.addEventListener("mousedown", function () {
+      try {
+        ApricityUIRef.removeDocument("kubejs/stamina_hud.html");
+        console.log("[PHONE] 已移除体力HUD");
+      } catch (e) {
+        console.log("[PHONE] 移除体力HUD失败: " + e);
+      }
+    });
+  }
+
+  // ===== 评价按钮 =====
+  var ratingBtn = document.querySelector("#appRatings");
+  var ratingOverlay = document.querySelector("#ratingOverlay");
+  var ratingClose = document.querySelector("#ratingClose");
+  var ratingVisible = false;
+  var ratingAnimVer = 0;
+
+  // 6行静态元素引用
+  var ratingBars = [];
+  var ratingVals = [];
+  for (var i = 0; i < 6; i++) {
+    ratingBars.push(document.querySelector("#ratingBar" + i));
+    ratingVals.push(document.querySelector("#ratingVal" + i));
+  }
+  // 顶部评分元素
+  var rtStars = document.querySelector("#rtStars");
+  var rtAvgScore = document.querySelector("#rtAvgScore");
+
+  function showOverlay() {
+    if (!ratingOverlay) return;
+    ratingVisible = true;
+    ratingAnimVer++;
+    var myVer = ratingAnimVer;
+    var duration = 220;
+    var frameInterval = 16;
+    var totalFrames = duration / frameInterval;
+    var currentFrame = 0;
+    var startTop = 30;
+    var endTop = 10;
+    // 初始帧立即应用起始状态，避免首帧跳变
+    ratingOverlay.setAttribute(
+      "style",
+      "top: " + startTop + "; left: 10; opacity: 0;"
+    );
+    window.setInterval(function () {
+      // 版本号失效或已隐藏则空转退出
+      if (myVer !== ratingAnimVer || !ratingVisible) return;
+      currentFrame++;
+      var progress = currentFrame / totalFrames;
+      if (progress >= 1) {
+        progress = 1;
+        ratingAnimVer++; // 让本定时器后续调用失效
+      }
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var top = startTop + (endTop - startTop) * eased;
+      var op = eased;
+      ratingOverlay.setAttribute(
+        "style",
+        "top: " + Math.round(top) + "; left: 10; opacity: " + op.toFixed(2) + ";"
+      );
+    }, frameInterval);
+  }
+
+  function hideOverlay() {
+    if (!ratingOverlay) return;
+    ratingAnimVer++; // 让进行中动画失效
+    ratingOverlay.setAttribute("style", "top: -9999; left: -9999;");
+    ratingVisible = false;
+  }
+
+  // 更新第i行的进度条和数值
+  function updateRatingRow(idx, rating) {
+    var pct = Math.round(rating);
+    if (ratingBars[idx]) {
+      ratingBars[idx].setAttribute("style", "width:" + pct + "%;");
+    }
+    if (ratingVals[idx]) {
+      ratingVals[idx].innerText = "" + rating;
+    }
+  }
+
+  // 更新顶部综合评分
+  function updateAvgScore(ratings) {
+    var total = 0;
+    for (var i = 0; i < ratings.length; i++) {
+      total = total + ratings[i];
+    }
+    var avg = total / ratings.length;
+    var score5 = (avg / 100) * 5;
+    var scoreStr = score5.toFixed(1);
+    if (rtAvgScore) rtAvgScore.innerText = scoreStr;
+    if (rtStars) {
+      var fullStars = Math.floor(score5);
+      var halfStar = (score5 - fullStars) >= 0.5 ? 1 : 0;
+      var emptyStars = 5 - fullStars - halfStar;
+      var starStr = "";
+      for (var s = 0; s < fullStars; s++) starStr = starStr + "\u2605";
+      if (halfStar) starStr = starStr + "\u2606";
+      for (var e = 0; e < emptyStars; e++) starStr = starStr + "\u2606";
+      rtStars.innerText = starStr;
+    }
+  }
+
+  function showRatings() {
+    showOverlay();
+    // 请求服务端真实数据
+    try {
+      var player = McClient.getInstance().player;
+      if (player) {
+        player.sendData("phone_get_ratings", {});
+      }
+    } catch (e) {
+      console.log("[PHONE] 请求评价数据失败: " + e);
+    }
+    // 轮询等待真实数据到达后刷新
+    var pollCount = 0;
+    var pollDone = false;
+    window.setInterval(function () {
+      if (pollDone) return;
+      pollCount++;
+      if (pollCount > 30) {
+        pollDone = true;
+        return;
+      }
+      if (
+        typeof global !== "undefined" &&
+        global.pfPhoneSettings &&
+        global.pfPhoneSettings.ratings
+      ) {
+        pollDone = true;
+        var data = global.pfPhoneSettings.ratings;
+        global.pfPhoneSettings.ratings = null;
+        if (ratingVisible) {
+          var nums = [];
+          for (var j = 0; j < data.length && j < 6; j++) {
+            updateRatingRow(j, data[j].rating);
+            nums.push(data[j].rating);
+          }
+          updateAvgScore(nums);
+        }
+      }
+    }, 100);
+  }
+
+  if (ratingBtn) {
+    ratingBtn.addEventListener("mousedown", function () {
+      if (ratingVisible) {
+        hideOverlay();
+      } else {
+        if (gachaVisible) hideGacha();
+        showRatings();
+      }
+    });
+  }
+  if (ratingClose) {
+    ratingClose.addEventListener("mousedown", function () {
+      hideOverlay();
+    });
+  }
+
+  // ===== 抽卡弹窗 =====
+  var gachaBtn = document.querySelector("#appGacha");
+  var gachaOverlay = document.querySelector("#gachaOverlay");
+  var gachaClose = document.querySelector("#gachaClose");
+  var gachaVisible = false;
+  var gachaAnimVer = 0;
+
+  function showGacha() {
+    if (!gachaOverlay) return;
+    gachaVisible = true;
+    gachaAnimVer++;
+    var myVer = gachaAnimVer;
+    var duration = 220;
+    var frameInterval = 16;
+    var totalFrames = duration / frameInterval;
+    var currentFrame = 0;
+    var startTop = 30;
+    var endTop = 10;
+    gachaOverlay.setAttribute(
+      "style",
+      "top: " + startTop + "; left: 10; opacity: 0;"
+    );
+    window.setInterval(function () {
+      if (myVer !== gachaAnimVer || !gachaVisible) return;
+      currentFrame++;
+      var progress = currentFrame / totalFrames;
+      if (progress >= 1) {
+        progress = 1;
+        gachaAnimVer++;
+      }
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var top = startTop + (endTop - startTop) * eased;
+      var op = eased;
+      gachaOverlay.setAttribute(
+        "style",
+        "top: " + Math.round(top) + "; left: 10; opacity: " + op.toFixed(2) + ";"
+      );
+    }, frameInterval);
+  }
+
+  function hideGacha() {
+    if (!gachaOverlay) return;
+    gachaAnimVer++;
+    gachaOverlay.setAttribute("style", "top: -9999; left: -9999;");
+    gachaVisible = false;
+  }
+
+  if (gachaBtn) {
+    gachaBtn.addEventListener("mousedown", function () {
+      if (gachaVisible) {
+        hideGacha();
+      } else {
+        // 如果评价弹窗开着，先关掉
+        if (ratingVisible) hideOverlay();
+        showGacha();
+      }
+    });
+  }
+  if (gachaClose) {
+    gachaClose.addEventListener("mousedown", function () {
+      hideGacha();
+    });
+  }
+
+  // 抽卡按钮（预留，暂时打印日志）
+  var gachaPull1 = document.querySelector("#gachaPull1");
+  var gachaPull10 = document.querySelector("#gachaPull10");
+  if (gachaPull1) {
+    gachaPull1.addEventListener("mousedown", function () {
+      console.log("[PHONE] 一回抽卡");
+      try {
+        var player = McClient.getInstance().player;
+        if (player) {
+          player.sendData("phone_gacha_pull", { count: 1 });
+        }
+      } catch (e) {
+        console.log("[PHONE] 抽卡失败: " + e);
+      }
+    });
+  }
+  if (gachaPull10) {
+    gachaPull10.addEventListener("mousedown", function () {
+      console.log("[PHONE] 十回抽卡");
+      try {
+        var player = McClient.getInstance().player;
+        if (player) {
+          player.sendData("phone_gacha_pull", { count: 10 });
+        }
+      } catch (e) {
+        console.log("[PHONE] 抽卡失败: " + e);
       }
     });
   }
 
   // ===== 滑入动画 =====
-  var wrapper = document.querySelector('.phone-wrapper');
+  var wrapper = document.querySelector(".phone-wrapper");
   if (wrapper) {
     var duration = 300;
     var frameInterval = 16;
     var totalFrames = duration / frameInterval;
     var currentFrame = 0;
+    var animDone = false;
 
-    wrapper.setAttribute('style', 'bottom: -230px');
+    wrapper.setAttribute("style", "bottom: -230px");
 
-    var timer = window.setInterval(function() {
+    window.setInterval(function () {
+      if (animDone) return;
       currentFrame++;
       var progress = currentFrame / totalFrames;
       if (progress >= 1) {
         progress = 1;
-        window.clearInterval(timer);
+        animDone = true;
       }
       var eased = 1 - Math.pow(1 - progress, 3);
-      var currentBottom = -230 + (10 - (-230)) * eased;
-      wrapper.setAttribute('style', 'bottom: ' + Math.round(currentBottom) + 'px');
+      var currentBottom = -230 + (10 - -230) * eased;
+      wrapper.setAttribute(
+        "style",
+        "bottom: " + Math.round(currentBottom) + "px",
+      );
     }, frameInterval);
   }
 </script>

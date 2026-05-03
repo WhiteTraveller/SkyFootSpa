@@ -1,0 +1,122 @@
+{
+  // The default offset from 0, 0 to generate the islands
+  // Can be used to generate them in the middle of .mca files
+  // This applies on top of the "offset" defined in each template
+  "defaultOffset": 0,
+  
+  // The template which will be used for spawn only
+  // Example: 
+  // {
+  //     "name": "default",
+  //     "desc": "",
+  //     "file": "default.nbt",
+  //     "spawns": "default",
+  //     "offset": [ 0, 0, 0 ],
+  //     "surroundingMargin": 0,
+  //     "surroundingBlocks": "default"
+  // }
+  "spawn": null,
+  
+  "spawns": {
+    "default": {
+      "north": [],
+      "east": [
+        [ 21, 19, 57 ]
+      ],
+      "south": [],
+      "west": []
+    },
+    "1": {
+  "north": [],
+  "east": [],
+  "south": [
+    [
+      2,
+      1,
+      7
+    ]
+  ],
+  "west": []
+},
+    "2": {
+  "north": [
+    [
+      5,
+      1,
+      10
+    ]
+  ],
+  "east": [],
+  "south": [],
+  "west": []
+},
+  "3": {
+  "north": [],
+  "east": [],
+  "south": [],
+  "west": [
+    [
+      2,
+      9,
+      2
+    ]
+  ]
+}
+   
+  },
+  
+  // A list of file names for templates which should spread around an island
+  // Instead of "minOffset" and "maxOffset" with same values, you could also just use "offset".
+  // "origin" defines from where the offset will be used. Possible values are "zero" and "center", where "zero" is default.
+  // Example: 
+  // {
+  //     "file": "default.nbt",
+  //     "minOffset": [ -6, 3, 5 ],
+  //     "maxOffset": [ 4, 10, 3 ],
+  //     "origin": "center"
+  // }
+  "spreads": {
+    "default": []
+  },
+  
+  // A list of blocks which can be used to surround islands/caves.
+  "surroundingBlocks": {
+    "default": []
+  },
+  
+  // The list of templates being available. The first entry is the default template.
+  "templates": [
+    {
+      "name": "主城",
+      "desc": "§c§l不要选择，否则会确实一些关键物品",
+      "file": "maincity.nbt",
+      "spawns": "default",
+      "surroundingBlocks": "default",
+      "spreads": "default"
+    },
+    {
+      "name": "1",
+      "desc": "大写的1",
+      "file": "1.nbt",
+      "spawns": "1",
+      "surroundingBlocks": "default",
+      "spreads": "default"
+    },
+    {
+      "name": "2",
+      "desc": "小写的1",
+      "file": "2.nbt",
+      "spawns": "2",
+      "surroundingBlocks": "default",
+      "spreads": "default"
+    },
+    {
+      "name": "3",
+      "desc": "mll不是1",
+      "file": "3.nbt",
+      "spawns": "3",
+      "surroundingBlocks": "default",
+      "spreads": "default"
+    }
+  ]
+}

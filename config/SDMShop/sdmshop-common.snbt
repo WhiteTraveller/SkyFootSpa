@@ -14,7 +14,7 @@
 	
 	# Default: "blockymodern"
 	# Valid values: "modern", "blockymodern"
-	ui_style: "blockymodern"
+	ui_style: "modern"
 	caching: {
 		# Allows you to reduce the load on the network by caching store data on the player's client. In this case, the player will be able to copy your store data without any obstacles.
 		# Default: true

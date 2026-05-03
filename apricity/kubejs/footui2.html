@@ -6,10 +6,6 @@
     <!-- 需求列表 -->
     <div class="requieList">
       <div class="left">
-        <div class="instep">
-          <span class="label">脚背：</span>
-          <span class="count" id="countJiaobei">3次</span>
-        </div>
         <div class="footsole">
           <span class="label">脚掌：</span>
           <span class="count" id="countJiaozhang">2次</span>
@@ -18,13 +14,13 @@
           <span class="label">脚跟：</span>
           <span class="count" id="countJiaogen">1次</span>
         </div>
-        <div class="footheart">
-          <span class="label">脚心：</span>
-          <span class="count" id="countJiaoxin">3次</span>
-        </div>
         <div class="toe">
           <span class="label">脚趾：</span>
           <span class="count" id="countJiaozhi">2次</span>
+        </div>
+        <div class="footheart">
+          <span class="label">脚心：</span>
+          <span class="count" id="countJiaoxin">3次</span>
         </div>
       </div>
       <div class="right">
@@ -60,11 +56,10 @@
   <!-- 脚 -->
   <div class="main-btn">
     <div class="btn-container" id="footBtn">
-      <div class="jiaobei box">脚背</div>
-      <div class="jiaozhang box">脚掌</div>
-      <div class="jiaogen box">脚跟</div>
-      <div class="jiaoxin box">脚心</div>
       <div class="jiaozhi box">脚趾</div>
+      <div class="jiaozhang box">脚掌</div>
+      <div class="jiaoxin box">脚心</div>
+      <div class="jiaogen box">脚跟</div>
     </div>
   </div>
 </body>
@@ -106,13 +101,6 @@
   }
 
   /* 需求项横向排布 */
-  .instep {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
-  }
-
   .footsole {
     display: flex;
     flex-direction: row;
@@ -127,14 +115,14 @@
     gap: 0;
   }
 
-  .footheart {
+  .toe {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0;
   }
 
-  .toe {
+  .footheart {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -343,11 +331,11 @@
     transform: scale(0.95);
   }
 
-  /* 方案一
-     []
-  [] [] []
-     [] */
-  .main-btn .btn-container .jiaobei {
+  /* 方案一ﾈ4部位）
+     [脚趾]
+  [脚掌] [脚心] [脚跟]
+      */
+  .main-btn .btn-container .jiaozhi {
     top: 6px;
     left: 40px;
   }
@@ -357,19 +345,14 @@
     left: 10px;
   }
 
-  .main-btn .btn-container .jiaogen {
-    top: 27px;
-    right: 10px;
-  }
-
   .main-btn .btn-container .jiaoxin {
     top: 27px;
     left: 40px;
   }
 
-  .main-btn .btn-container .jiaozhi {
-    top: 48px;
-    left: 40px;
+  .main-btn .btn-container .jiaogen {
+    top: 27px;
+    right: 10px;
   }
 
   /* .btn-container:active {

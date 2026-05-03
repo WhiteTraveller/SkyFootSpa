@@ -5,7 +5,7 @@
 // ============================================================
 
 let STAMINA_MAX_SERVER = 10000
-let STAMINA_COST_PER_RUB = 100
+// 体力消耗量现在从玩家属性 kubejs:serve.stamina_cost 读取（默认100）
 
 // 通过网络包推送体力值到客户端
 function pfSyncStamina(player) {

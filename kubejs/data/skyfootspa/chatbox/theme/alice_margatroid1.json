@@ -1,10 +1,10 @@
 {
   "portrait": {
-    "margatroid1": {
+    "alice_hammer": {
       "x": 5,
       "y": -2,
-      "width": 35,
-      "height": 60,
+      "width": 40,
+      "height": 64,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -12,13 +12,55 @@
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/1.png"
+      "texture": "skyfootspa:textures/portrait/alice_hammer.png"
     },
-    "margatroid2": {
+    "alice_liuhan": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 59,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_liuhan.png"
+    },
+    "alice_sad": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 59,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_sad.png"
+    },
+    "alice_sad_2": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 59,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_sad_2png.png"
+    },
+    "alice_smile": {
       "x": 5,
       "y": -2,
       "width": 37,
-      "height": 60,
+      "height": 59,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -26,13 +68,13 @@
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_look_liuhan.png"
+      "texture": "skyfootspa:textures/portrait/alice_smile.png"
     },
-    "margatroid3": {
+    "alice_smile_open": {
       "x": 5,
       "y": -2,
-      "width": 35,
-      "height": 60,
+      "width": 36,
+      "height": 59,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -40,13 +82,13 @@
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/2.png"
+      "texture": "skyfootspa:textures/portrait/alice_smile_open_mouth.png"
     },
-    "margatroid4": {
+    "alice_shack_hand": {
       "x": 5,
       "y": -2,
-      "width": 37,
-      "height": 60,
+      "width": 43,
+      "height": 59,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -54,13 +96,13 @@
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/3.png"
+      "texture": "skyfootspa:textures/portrait/alice_shack_hand.png"
     },
-    "margatroid5": {
+    "alice_shack_hand_smile": {
       "x": 5,
       "y": -2,
-      "width": 35,
-      "height": 60,
+      "width": 43,
+      "height": 59,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -68,7 +110,35 @@
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/4.png"
+      "texture": "skyfootspa:textures/portrait/alice_shack_hand_smile.png"
+    },
+    "alice_talk_1": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 59,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_talk_1.png"
+    },
+    "alice_talk_2": {
+      "x": 5,
+      "y": -2,
+      "width": 36,
+      "height": 59,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice_talk_2.png"
     },
     "sh1": {
       "x": -3,
@@ -139,8 +209,8 @@
         "value": "@Options"
       }
     ],
-    "texture": "skyfootspa:textures/chatbox/bg.png",
-    "lineWidth": 70,
+    "texture": "chatbox:textures/chatbox/default_dialog_box.png",
+    "lineWidth": 50,
     "nameX": 4,
     "nameY": 2,
     "textX": 5,

@@ -4,8 +4,8 @@
 // 封装实体persistentData的存取操作
 // ============================================================
 
-// 生成随机需求清单
-// 返回对象: {脚背: x, 脚掌: x, 脚后跟: x, 脚趾: x, 脚心: x}
+// 生成随机需求清单（4部位）
+// 返回对象: {脚掌: x, 脚后跟: x, 脚趾: x, 脚心: x}
 function pfGenerateDemandList() {
     let demandList = {}
     for (let i = 0; i < global.pfConstants.PF_DEMAND_TYPES.length; i++) {

@@ -1,0 +1,5 @@
+minecraft:overworld
+minecraft:the_end
+dimdungeons:build_dimension
+minecraft:the_nether
+dimdungeons:dungeon_dimension

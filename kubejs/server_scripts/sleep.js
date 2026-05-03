@@ -94,19 +94,18 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
     //     return true
     // }
 
-    // 检查需求清单是否全部为0
+    // 检查需求清单是否全部为0ﾈ4部位）
     let item = entity.getMainHandItem()
     if (item && item.id === SYNC_ITEM_ID && item.nbt) {
         let nbt = item.nbt
-        let jiaobei = nbt.getInt('pfDemandJiaobei') || 0
         let jiaozhang = nbt.getInt('pfDemandJiaozhang') || 0
         let jiaogen = nbt.getInt('pfDemandJiaogen') || 0
         let jiaozhi = nbt.getInt('pfDemandJiaozhi') || 0
         let jiaoxin = nbt.getInt('pfDemandJiaoxin') || 0
-        console.log("[SLEEP-JS] 需求: 脚背=" + jiaobei + ", 脚掌=" + jiaozhang + ", 脚根=" + jiaogen + ", 脚趾=" + jiaozhi + ", 脚心=" + jiaoxin)
+        console.log("[SLEEP-JS] 需求: 脚掌=" + jiaozhang + ", 脚根=" + jiaogen + ", 脚趾=" + jiaozhi + ", 脚心=" + jiaoxin)
         
         // 所有需求都为0时才能起床
-        if (jiaobei === 0 && jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
+        if (jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
             
             // 结算规则：
@@ -129,6 +128,20 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                     let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:gold_ingot",Count:' + count + 'b}}'
                     level.getServer().runCommandSilent(cmd)
                     remaining -= count
+                }
+            }
+            
+            // 评价系统：满意度 >= 60 时，该类顾客评价+1
+            let satisfaction = nbt.getInt('pfSatisfaction') || 0
+            let customerCategory = '' + entity.persistentData.getString('pfCustomerCategory')
+            if (satisfaction >= global.pfCustomerTypes.PF_RATING_SAT_THRESHOLD && customerCategory && customerCategory.length > 0) {
+                let shopPlayer = global.pfShopState ? global.pfShopState.player : null
+                if (shopPlayer) {
+                    let newRating = global.pfCustomerTypes.pfAddRating(shopPlayer, customerCategory)
+                    let catName = global.pfCustomerTypes.PF_CUSTOMER_TYPES[customerCategory]
+                        ? global.pfCustomerTypes.PF_CUSTOMER_TYPES[customerCategory].name : customerCategory
+                    shopPlayer.tell('§a★ ' + catName + '§a类顾客评价提升！§e(§b' + newRating + '§e/§b100§e)')
+                    console.log('[SLEEP-JS] 评价更新: ' + customerCategory + ' -> ' + newRating)
                 }
             }
             

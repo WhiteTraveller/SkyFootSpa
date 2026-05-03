@@ -4,7 +4,7 @@
 // 处理右键触发方块事件
 // ============================================================
 
-// 扫描地图并生成实体
+// 扫描地图并开店/关店
 BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     console.log("[PF] 右键触发方块")
     if (event.hand != "main_hand") return
@@ -12,6 +12,18 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let player = event.player
     let blockPos = event.block.pos
     let level = event.level
+    
+    // 如果已开店，右键手动关店
+    if (global.pfShopState && global.pfShopState.isOpen) {
+        global.pfShopManager.pfCloseShop(level, "手动关店")
+        return
+    }
+    
+    // 检查是否白天
+    if (!global.pfShopManager.pfIsDaytime(level)) {
+        player.tell("§c🌙 现在是晚上，无法开店！请等到白天")
+        return
+    }
     
     let baseX = blockPos.getX() | 0
     let baseY = blockPos.getY() | 0
@@ -78,8 +90,8 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         return
     }
     
-    // 生成实体
-    global.pfEntitySpawner.pfSpawnWalker(level, baseX, baseY, baseZ, result[0], blueCarpetPos, player)
+    // 开店：保存路线数据，启动定时生成
+    global.pfShopManager.pfOpenShop(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos)
 })
 
 console.log("[PF-BLOCK] 方块事件处理器已加载")

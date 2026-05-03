@@ -107,7 +107,6 @@ function createSleepWindow(entity) {
     // 给各个部位按钮添加点击事件
     // 部位按钮ID与需求键的映射
     let partButtonMap = {
-        'jiaobei': 'pfDemandJiaobei',    // 脚背
         'jiaozhang': 'pfDemandJiaozhang', // 脚掌
         'jiaogen': 'pfDemandJiaogen',    // 脚后跟
         'jiaozhi': 'pfDemandJiaozhi',    // 脚趾
@@ -370,18 +369,17 @@ function isSoaking(entity) {
 }
 
 /**
- * 从手持物品读取需求清单
- * 返回对象: {脚背, 脚掌, 脚后跟, 脚趾, 脚心}
+ * 从手持物品读取需求清单ﾈ4部位）
+ * 返回对象: {脚掌, 脚后跟, 脚趾, 脚心}
  */
 function getDemandList(entity) {
     if (entity == null) {
         console.log("[FOOT-UI-DATA] getDemandList: entity为null")
-        return { '脚背': 0, '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
+        return { '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
     }
     let mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let result = {
-            '脚背': mainHand.nbt.getInt('pfDemandJiaobei') || 0,
             '脚掌': mainHand.nbt.getInt('pfDemandJiaozhang') || 0,
             '脚后跟': mainHand.nbt.getInt('pfDemandJiaogen') || 0,
             '脚趾': mainHand.nbt.getInt('pfDemandJiaozhi') || 0,
@@ -390,7 +388,7 @@ function getDemandList(entity) {
         return result
     }
     console.log("[FOOT-UI-DATA] 手持物品不是红石，无法读取需求清单")
-    return { '脚背': 0, '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
+    return { '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
 }
 
 /**
@@ -429,13 +427,12 @@ function getSatisfaction(entity) {
     return 0
 }
 
-// 整数代码到中文名称映射（用于解码）
+// 整数代码到中文名称映射ﾈ4部位）
 let STEP_CODE_TO_NAME = {
-    1: '脚背',
-    2: '脚掌',
-    3: '脚后跟',
-    4: '脚趾',
-    5: '脚心'
+    1: '脚掌',
+    2: '脚后跟',
+    3: '脚趾',
+    4: '脚心'
 }
 
 /**
@@ -489,19 +486,7 @@ function updateDemandListDisplay(window, demandList) {
         return
     }
     try {
-        // 更新需求清单各项目
-        // 脚背
-        let countJiaobei = window.document.getElementById("countJiaobei")
-        if (countJiaobei != null) {
-            let count = demandList['脚背'] || 0
-            if (count === 0) {
-                countJiaobei.innerText = "✓"
-                countJiaobei.setAttribute("class", "count done")
-            } else {
-                countJiaobei.innerText = count + "次"
-                countJiaobei.setAttribute("class", "count")
-            }
-        }
+        // 更新需求清单各项目ﾈ4部位）
 
         // 脚掌
         let countJiaozhang = window.document.getElementById("countJiaozhang")

@@ -7,6 +7,10 @@
   "l2hostility:mob": null,
   "mbd2:multiblock_provider": null,
   "mbd2:recipe_logic_provider": null,
+  "mekanism:data_provider": null,
+  "mekanism:entity_data_provider": null,
+  "mekanism:remove_builtin": null,
+  "mekanism:tooltip_renderer": null,
   "minecraft:animal_owner": null,
   "minecraft:armor_stand": null,
   "minecraft:beehive": null,
@@ -47,5 +51,11 @@
   "minecraft:total_enchantment_power": null,
   "minecraft:villager_profession": null,
   "minecraft:waxed": null,
-  "minecraft:zombie_villager": null
+  "minecraft:zombie_villager": null,
+  "touhou_little_maid:altar": null,
+  "touhou_little_maid:maid": null,
+  "touhou_little_maid:picnic_mat": null,
+  "touhou_little_maid:shrine_lamp": null,
+  "touhou_little_maid:tombstone": null,
+  "yes_steve_model:model_info": null
 }

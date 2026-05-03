@@ -67,15 +67,66 @@ function setupNetworkHandlers() {
             
             // 获取部位名
             let part = null
-            if (demandKey === "pfDemandJiaobei") part = "jiaobei"
-            else if (demandKey === "pfDemandJiaozhang") part = "jiaozhang"
+            if (demandKey === "pfDemandJiaozhang") part = "jiaozhang"
             else if (demandKey === "pfDemandJiaogen") part = "jiaogen"
             else if (demandKey === "pfDemandJiaozhi") part = "jiaozhi"
             else if (demandKey === "pfDemandJiaoxin") part = "jiaoxin"
             
-            if (currentValue > 0) {
-                // 检查体力是否足够
-                if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, 100)) {
+            // 检查是否开启一键满足
+            let oneClickSatisfy = global.pfGetSetting ? (global.pfGetSetting(player, 'pfOneClickSatisfy') === 1) : false
+            
+            if (oneClickSatisfy) {
+                // 一键满足：清零所有需求（无论当前部位是否已为0）
+                // 体力消耗取所有部位体力之和
+                let allKeys = ['pfDemandJiaozhang', 'pfDemandJiaogen', 'pfDemandJiaozhi', 'pfDemandJiaoxin']
+                let partNames = { 'pfDemandJiaozhang': 'jiaozhang', 'pfDemandJiaogen': 'jiaogen', 'pfDemandJiaozhi': 'jiaozhi', 'pfDemandJiaoxin': 'jiaoxin' }
+                
+                // 计算总体力消耗（只计算有需求的部位）
+                let totalStaminaCost = 0
+                for (let k = 0; k < allKeys.length; k++) {
+                    let dk = allKeys[k]
+                    let val = nbt.getInt(dk) || 0
+                    if (val > 0) {
+                        let pn = partNames[dk]
+                        let stPerClick = Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + pn, 100.0))
+                        totalStaminaCost += stPerClick * val
+                    }
+                }
+                
+                if (totalStaminaCost > 0 && (!global.pfConsumeStamina || !global.pfConsumeStamina(player, totalStaminaCost))) {
+                    player.setStatusMessage("§c体力不足，无法搛脚！")
+                    targetEntity.setMainHandItem(item.withNBT(nbt))
+                    return
+                }
+                
+                let totalSatGain = 0
+                let totalMoneyGain = 0
+                for (let k = 0; k < allKeys.length; k++) {
+                    let dk = allKeys[k]
+                    let val = nbt.getInt(dk) || 0
+                    if (val > 0) {
+                        let pn = partNames[dk]
+                        let satPer = pn ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + pn, 10.0) : 10.0
+                        let moneyPer = pn ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + pn, 1.0) : 1.0
+                        totalSatGain += Math.max(0, Math.floor(satPer)) * val
+                        totalMoneyGain += Math.floor(moneyPer) * val
+                        nbt[dk] = 0
+                    }
+                }
+                
+                let satisfaction = nbt.getInt('pfSatisfaction') || 0
+                satisfaction = Math.min(100, satisfaction + totalSatGain)
+                nbt.pfSatisfaction = satisfaction
+                let money = nbt.getInt('pfMoney') || 0
+                nbt.pfMoney = money + totalMoneyGain
+                
+                player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + totalSatGain + "§d❤ §e(一键满足)")
+                console.log("[PF-NETWORK] 一键满足所有需求, 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
+            } else if (currentValue > 0) {
+                // 正常模式：只减少当前部位
+                // 从对应部位属性读取体力消耗
+                let staminaCost = part ? Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
+                if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, staminaCost)) {
                     player.setStatusMessage("§c体力不足，无法搛脚！")
                     targetEntity.setMainHandItem(item.withNBT(nbt))
                     return

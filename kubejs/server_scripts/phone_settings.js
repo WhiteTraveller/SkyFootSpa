@@ -6,7 +6,8 @@
 
 // 设置键与默认值
 let PHONE_SETTINGS_DEFAULTS = {
-    'pfSkipSoak': 0   // 0=泡脚开启, 1=跳过泡脚
+    'pfSkipSoak': 0,        // 0=泡脚开启, 1=跳过泡脚
+    'pfOneClickSatisfy': 0  // 0=正常模式, 1=一键满足所有需求
 }
 
 /**
@@ -79,6 +80,33 @@ NetworkEvents.dataReceived('phone_get_settings', event => {
     let player = event.player
     console.log("[PHONE-SETTINGS] 收到设置请求")
     pfSyncPhoneSettings(player)
+})
+
+// ===== 接收客户端评价查询请求 =====
+NetworkEvents.dataReceived('phone_get_ratings', event => {
+    let player = event.player
+    console.log("[PHONE-SETTINGS] 收到评价查询请求")
+    if (!global.pfCustomerTypes) {
+        console.log("[PHONE-SETTINGS] 顾客类型系统未加载")
+        return
+    }
+    let types = global.pfCustomerTypes.PF_CUSTOMER_TYPES
+    let syncData = {}
+    let count = 0
+    for (let key in types) {
+        let rating = global.pfCustomerTypes.pfGetRating(player, key)
+        let weight = global.pfCustomerTypes.PF_RATING_BASE_WEIGHT + rating * global.pfCustomerTypes.PF_RATING_PER_POINT
+        // 用 key_name / key_rating / key_weight 分字段传输
+        syncData['k' + count] = key
+        syncData['n' + count] = types[key].name
+        syncData['r' + count] = rating
+        syncData['w' + count] = weight
+        count++
+    }
+    syncData['count'] = count
+    syncData['totalPool'] = global.pfCustomerTypes.PF_RATING_TOTAL_POOL
+    player.sendData('phone_ratings_sync', syncData)
+    console.log("[PHONE-SETTINGS] 评价数据已推送，共" + count + "类")
 })
 
 // ===== 玩家登录时初始化默认设置 =====

@@ -11,31 +11,42 @@ function createRangedAttribute(descriptionId, defaultValue, min, max) {
   return attr
 }
 
+// 4部位属性默认值配置
+// 脚趾(jiaozhi): 高钱低满高耗 | 脚掌(jiaozhang): 低钱高满中高耗
+// 脚心(jiaoxin): 低收益低耗    | 脚跟(jiaogen): 均衡
+// 脚背(jiaobei): 已从 pathfinder 中移除，仅供遗物引用兼容（无实际效果）
+let PART_DEFAULTS = {
+  jiaozhi:   { sat: 5.0,  money: 5.0, stamina: 150.0 },
+  jiaozhang: { sat: 10.0, money: 2.0, stamina: 120.0 },
+  jiaoxin:   { sat: 5.0,  money: 2.0, stamina: 70.0  },
+  jiaogen:   { sat: 7.0, money: 3.0, stamina: 100.0 },
+  jiaobei:   { sat: 0.0,  money: 0.0, stamina: 100.0 }
+}
+let SERVE_PARTS = ['jiaozhi', 'jiaozhang', 'jiaoxin', 'jiaogen', 'jiaobei']
+
 StartupEvents.registry('attribute', event => {
-  // 这一段是在“启动阶段”注册新的 Attribute（属性类型），类似原版的 attack_damage / max_health。
-  // 我们只注册 10 个：5 个部位的“点击满意度增量”，5 个部位的“点击金钱增量”。
-  //
-  // 说明：
-  // - sat_gain.xxx 的默认值是 10：表示点这个部位一次，满意度 +10（在服务端结算时使用）。
-  // - money_gain.xxx 的默认值是 1：表示点这个部位一次，金钱 +1（在服务端结算时使用）。
-  // - 遗物会通过 AttributeModifier 去修改这些值，从而改变每次点击带来的增量。
-  let parts = ['jiaobei','jiaozhang','jiaogen','jiaozhi','jiaoxin']
-  for (let i = 0; i < parts.length; i++) {
-    let p = parts[i]
-    event.createCustom('kubejs:serve.sat_gain.' + p, () => createRangedAttribute('attribute.name.serve.sat_gain.' + p, 10.0, 0.0, 1024.0))
-    event.createCustom('kubejs:serve.money_gain.' + p, () => createRangedAttribute('attribute.name.serve.money_gain.' + p, 1.0, 0.0, 1024.0))
+  // 注册搛脚相关属性（4部位 × 3属性）
+  // - sat_gain.xxx：点这个部位一次，满意度增量
+  // - money_gain.xxx：点这个部位一次，金钱增量
+  // - stamina_cost.xxx：点这个部位一次，体力消耗
+  // - 遗物会通过 AttributeModifier 去修改这些值
+  for (let i = 0; i < SERVE_PARTS.length; i++) {
+    let p = SERVE_PARTS[i]
+    let d = PART_DEFAULTS[p]
+    event.createCustom('kubejs:serve.sat_gain.' + p, () => createRangedAttribute('attribute.name.serve.sat_gain.' + p, d.sat, 0.0, 1024.0))
+    event.createCustom('kubejs:serve.money_gain.' + p, () => createRangedAttribute('attribute.name.serve.money_gain.' + p, d.money, 0.0, 1024.0))
+    event.createCustom('kubejs:serve.stamina_cost.' + p, () => createRangedAttribute('attribute.name.serve.stamina_cost.' + p, d.stamina, 0.0, 10000.0))
   }
 })
 
 ForgeModEvents.onEvent('net.minecraftforge.event.entity.EntityAttributeModificationEvent', event => {
-  // 这一段把“我们注册的 Attribute”真正挂到玩家实体上。
-  // 如果只注册不添加，player.getAttribute('kubejs:...') 可能会拿不到实例（返回 null）。
-  let parts = ['jiaobei','jiaozhang','jiaogen','jiaozhi','jiaoxin']
-  for (let i = 0; i < parts.length; i++) {
-    let p = parts[i]
+  for (let i = 0; i < SERVE_PARTS.length; i++) {
+    let p = SERVE_PARTS[i]
     let sat = 'kubejs:serve.sat_gain.' + p
     let money = 'kubejs:serve.money_gain.' + p
+    let stamina = 'kubejs:serve.stamina_cost.' + p
     if (!event.has('player', sat)) event.add('player', sat)
     if (!event.has('player', money)) event.add('player', money)
+    if (!event.has('player', stamina)) event.add('player', stamina)
   }
 })

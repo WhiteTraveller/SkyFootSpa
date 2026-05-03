@@ -5,7 +5,7 @@
 // ============================================================
 
 // 生成寻路实体
-function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player) {
+function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride) {
     let walker = level.createEntity(global.pfConstants.PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
@@ -15,7 +15,7 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     walker.setNoAi(true)
     
     // 随机选择模型
-    let randomModel = global.getRandomMaidModel ? global.getRandomMaidModel() : "touhou_little_maid:hakurei_reimu"
+    let randomModel = modelOverride || (global.getRandomMaidModel ? global.getRandomMaidModel() : "touhou_little_maid:hakurei_reimu")
     console.log("[PF] 生成女仆，随机模型: " + randomModel)
     
     // 设置NBT

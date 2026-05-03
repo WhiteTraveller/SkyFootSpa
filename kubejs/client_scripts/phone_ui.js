@@ -15,9 +15,34 @@ NetworkEvents.dataReceived('phone_settings_sync', event => {
         let data = event.data
         // 读取所有已知设置键
         global.pfPhoneSettings.pfSkipSoak = data.getInt('pfSkipSoak')
-        console.log("[PHONE-UI] 设置同步完成: pfSkipSoak=" + global.pfPhoneSettings.pfSkipSoak)
+        global.pfPhoneSettings.pfOneClickSatisfy = data.getInt('pfOneClickSatisfy')
+        console.log("[PHONE-UI] 设置同步完成: pfSkipSoak=" + global.pfPhoneSettings.pfSkipSoak + ", pfOneClickSatisfy=" + global.pfPhoneSettings.pfOneClickSatisfy)
     } catch (e) {
         console.log("[PHONE-UI] 设置同步失败: " + e)
+    }
+})
+
+// ===== 接收服务端推送的评价数据 =====
+NetworkEvents.dataReceived('phone_ratings_sync', event => {
+    try {
+        let data = event.data
+        let count = data.getInt('count')
+        let totalPool = data.getInt('totalPool')
+        let ratings = []
+        for (let i = 0; i < count; i++) {
+            ratings.push({
+                key: '' + data.getString('k' + i),
+                name: '' + data.getString('n' + i),
+                rating: data.getInt('r' + i),
+                weight: data.getInt('w' + i)
+            })
+        }
+        global.pfPhoneSettings.ratings = ratings
+        global.pfPhoneSettings.ratingsTotalPool = totalPool
+        global.pfPhoneSettings.ratingsTimestamp = Date.now()
+        console.log("[PHONE-UI] 评价数据同步完成，共" + count + "类")
+    } catch (e) {
+        console.log("[PHONE-UI] 评价数据同步失败: " + e)
     }
 })
 

@@ -13,6 +13,11 @@ global.pathfinderTick = function (entity) {
     let pos = entity.getBlockPos()
     let currentTick = level.getServer().getTickCount()
     
+    // ---- 开店定时生成处理 ----
+    if (global.pfShopManager) {
+        global.pfShopManager.pfShopTick(level, currentTick)
+    }
+    
     // 收集所有实体
     let entities = global.pfMovement.pfCollectEntities(level, pos)
     let walkers = entities.walkers

@@ -6,9 +6,10 @@ let COLS = 9
 let ROWS = 6
 let TOTAL_SLOTS = 54
 
-let RELIC_PARTS = ['jiaobei', 'jiaozhang', 'jiaogen', 'jiaozhi', 'jiaoxin']
+let RELIC_PARTS = ['jiaozhi', 'jiaozhang', 'jiaoxin', 'jiaogen']
 let MONEY_ATTR = 'kubejs:serve.money_gain.'
 let SAT_ATTR = 'kubejs:serve.sat_gain.'
+let STAMINA_ATTR = 'kubejs:serve.stamina_cost.'
 
 // ========== 属性修改快捷函数 ==========
 
@@ -23,6 +24,13 @@ global.modifyAllMoney = function(player, modName, value) {
 global.modifyAllSat = function(player, modName, value) {
     for (let p = 0; p < RELIC_PARTS.length; p++) {
         player.modifyAttribute(SAT_ATTR + RELIC_PARTS[p], modName, value, 'addition')
+    }
+}
+
+// 全部位体力消耗修改
+global.modifyAllStaminaCost = function(player, modName, value) {
+    for (let p = 0; p < RELIC_PARTS.length; p++) {
+        player.modifyAttribute(STAMINA_ATTR + RELIC_PARTS[p], modName, value, 'addition')
     }
 }
 
