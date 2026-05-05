@@ -1,53 +1,60 @@
 <body>
   <div class="foot-ui-container">
-    <div class="header">
-      <span class="title">需求清单</span>
-    </div>
-    <div class="requireList">
-      <div class="left">
-        <div class="footsole">
-          <span class="label">脚掌：</span>
-          <span class="count" id="countJiaozhang">2次</span>
+    <div class="up">
+      <div class="header">
+        <span class="title">需求清单</span>
+      </div>
+      <div class="requireList">
+        <div class="left">
+          <div class="footsole">
+            <span class="label">脚掌：</span>
+            <span class="count" id="countJiaozhang">2次</span>
+          </div>
+          <div class="footheart">
+            <span class="label">脚心：</span>
+            <span class="count" id="countJiaoxin">3次</span>
+          </div>
         </div>
-        <div class="heel">
-          <span class="label">脚跟：</span>
-          <span class="count" id="countJiaogen">1次</span>
-        </div>
-        <div class="toe">
-          <span class="label">脚趾：</span>
-          <span class="count" id="countJiaozhi">2次</span>
-        </div>
-        <div class="footheart">
-          <span class="label">脚心：</span>
-          <span class="count" id="countJiaoxin">3次</span>
+        <div class="right">
+          <div class="heel">
+            <span class="label">脚跟：</span>
+            <span class="count" id="countJiaogen">1次</span>
+          </div>
+          <div class="toe">
+            <span class="label">脚趾：</span>
+            <span class="count" id="countJiaozhi">2次</span>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- 满意度和步骤 -->
-    <div class="satisfaction">
-      <span class="progress-wrapper">
-        <span class="text">满意度：</span>
-        <span class="progress-bracket">[</span>
-        <span class="progress-filled" id="progressFilled"></span>
-        <span class="progress-empty" id="progressEmpty"></span>
-        <span class="progress-bracket-right">]</span>
-      </span>
-      <span class="progress-percent" id="satisfactionPercent">0%</span>
+      <!-- 满意度和步骤 -->
+      <div class="satisfaction">
+        <span class="progress-wrapper">
+          <span class="text">满意度：</span>
+          <span class="progress-bracket">[</span>
+          <span class="progress-filled" id="progressFilled"></span>
+          <span class="progress-empty" id="progressEmpty"></span>
+          <span class="progress-bracket-right">]</span>
+        </span>
+        <span class="progress-percent" id="satisfactionPercent">0%</span>
+      </div>
+
+      <!-- 步骤记录 -->
+      <div class="steps-container" id="stepsContainer">
+        <span class="steps-label">已执行:</span>
+        <span class="steps-text" id="stepsText"></span>
+      </div>
     </div>
 
-    <!-- 步骤记录 -->
-    <div class="steps-container" id="stepsContainer">
-      <span class="steps-label">已执行:</span>
-      <span class="steps-text" id="stepsText"></span>
+    <div class="down">
+      <!-- 脚部位按钮4部位） -->
+      <div class="btn-container">
+        <div id="jiaozhi" class="jiaozhi box">脚趾</div>
+        <div id="jiaozhang" class="jiaozhang box">脚掌</div>
+        <div id="jiaoxin" class="jiaoxin box">脚心</div>
+        <div id="jiaogen" class="jiaogen box">脚跟</div>
+      </div>
     </div>
 
-    <!-- 脚部位按钮ﾈ4部位） -->
-    <div class="btn-container">
-      <div id="jiaozhi" class="jiaozhi box">脚趾</div>
-      <div id="jiaozhang" class="jiaozhang box">脚掌</div>
-      <div id="jiaoxin" class="jiaoxin box">脚心</div>
-      <div id="jiaogen" class="jiaogen box">脚跟</div>
-    </div>
   </div>
 </body>
 <style>
@@ -55,32 +62,40 @@
   .foot-ui-container {
     position: relative;
     /* top: -100px; */
-
     width: 100px;
-    background-color: rgba(20, 10, 40, 0.9);
-    border-radius: 10px;
-    border: 1px solid #a855f7;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
-    padding: 8px;
+  }
+
+  .up {
+    height: 70px;
+    background: url('text.png') no-repeat center center;
   }
 
   .header {
-    width: 100%;
-    margin: 0 10px;
-    display: flex;
+    position: absolute;
+    left: 30px;
+    top: 8px;
+    height: 11px;
+    transform: translateZ(0.5px);
   }
 
   .title {
     color: #ffffff;
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 10.8px;
+    text-align: left;
+    vertical-align: top;
   }
 
   /* 需求列表 */
   .requireList {
-    position: relative;
-    width: 100%;
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 100px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -137,7 +152,11 @@
   }
 
   .left {
-    width: 100%;
+    width: 50%;
+  }
+
+  .right {
+    width: 50%;
   }
 
   /* 高亮 */
@@ -161,6 +180,9 @@
 
   /* 满意度进度条 */
   .satisfaction {
+    position: relative;
+    left: 10px;
+    top: 40px;
     display: flex;
     flex-direction: row;
   }
@@ -173,7 +195,7 @@
     font-family: monospace;
   }
 
-  .text {
+  .progress-wrapper .text {
     color: #ffffff;
   }
 
@@ -214,6 +236,9 @@
 
   /* 步骤记录容器 */
   .steps-container {
+    position: absolute;
+    left: 10px;
+    top: 45px;
     margin: 0 10px;
     margin-top: 4px;
     display: flex;
@@ -240,14 +265,13 @@
   .btn-container {
     position: relative;
     width: 100px;
-    height: 100px;
+    height: 70px;
+    background: url('text.png') no-repeat center center;
     margin: 0 10px;
-    border-radius: 8px;
     margin-top: 4px;
 
     color: #ffffff;
     cursor: pointer;
-    background-image: url('larget_foot32x.png');
     background-size: contain;
     background-position: center;
   }
@@ -257,11 +281,12 @@
     position: absolute;
     width: 20px;
     height: 15px;
-    padding-left: 1px;
-    border: 1px solid #888;
-    border-radius: 3px;
+    background: url('button.png') center/contain no-repeat;
+    background-size: contain;
+    display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateZ(4px);
   }
 
   /* 点击动画 - 缩小再放大 */
@@ -269,30 +294,29 @@
     transform: scale(0.85);
   }
 
-  /* 方案一ﾈ4部位）
-     [脚趾]
-     [脚掌]
-     [脚心]
-     [脚跟]
-      */
-  .btn-container .jiaozhi {
-    top: 4px;
-    left: 40px;
+  /* 方案一（4部位）
+     [脚掌]  [脚趾]
+     [脚心]  [脚跟]
+  */
+  .btn-container .jiaozhang {
+    top: 13px;
+    left: 20px;
   }
 
-  .btn-container .jiaozhang {
-    top: 27px;
-    left: 40px;
+  .btn-container .jiaozhi {
+    top: 13px;
+    left: 60px;
   }
+
 
   .btn-container .jiaoxin {
-    top: 50px;
-    left: 40px;
+    top: 41px;
+    left: 20px;
   }
 
   .btn-container .jiaogen {
-    top: 73px;
-    left: 40px;
+    top: 41px;
+    left: 60px;
   }
 
 
@@ -302,5 +326,5 @@
   } */
 </style>
 <script>
-  console.log("test.html loaded");
+  console.log("footui.html loaded");
 </script>
