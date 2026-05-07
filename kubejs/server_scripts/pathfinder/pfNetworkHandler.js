@@ -16,6 +16,23 @@ function pfGetAttributeValue(player, id, fallback) {
     return fallback
 }
 
+// 应用 Boss 满意度倍率：读取实体 persistentData.pfBossId，查 global.bossRegister 的倍率
+function pfApplyBossSatMul(entity, gain) {
+    if (!entity || gain <= 0) return gain
+    try {
+        let bossId = '' + entity.persistentData.getString('pfBossId')
+        if (!bossId || bossId.length === 0) return gain
+        if (!global.bossRegister || !global.bossRegister.byId) return gain
+        let boss = global.bossRegister.byId[bossId]
+        if (!boss) return gain
+        let scaled = Math.floor(gain * boss.satisfactionMultiplier)
+        if (scaled < 0) scaled = 0
+        return scaled
+    } catch (e) {
+        return gain
+    }
+}
+
 // 设置网络事件监听
 function setupNetworkHandlers() {
     // 客户端点击需求按钮
@@ -115,12 +132,13 @@ function setupNetworkHandlers() {
                 }
                 
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
-                satisfaction = Math.min(100, satisfaction + totalSatGain)
+                let satApplied = pfApplyBossSatMul(targetEntity, totalSatGain)
+                satisfaction = Math.min(100, satisfaction + satApplied)
                 nbt.pfSatisfaction = satisfaction
                 let money = nbt.getInt('pfMoney') || 0
                 nbt.pfMoney = money + totalMoneyGain
                 
-                player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + totalSatGain + "§d❤ §e(一键满足)")
+                player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + satApplied + "§d❤ §e(一键满足)")
                 console.log("[PF-NETWORK] 一键满足所有需求, 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
             } else if (currentValue > 0) {
                 // 正常模式：只减少当前部位
@@ -142,14 +160,15 @@ function setupNetworkHandlers() {
                 
                 // 更新NBT
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
-                satisfaction = Math.min(100, satisfaction + satGain)
+                let satApplied = pfApplyBossSatMul(targetEntity, satGain)
+                satisfaction = Math.min(100, satisfaction + satApplied)
                 nbt.pfSatisfaction = satisfaction
                 
                 let money = nbt.getInt('pfMoney') || 0
                 nbt.pfMoney = money + moneyGain
                 
                 // 通知玩家
-                player.tell("§a+" + moneyGain + "§6💰 §7| §b+" + satGain + "§d❤")
+                player.tell("§a+" + moneyGain + "§6💰 §7| §b+" + satApplied + "§d❤")
                 
                 // 记录步骤
                 let stepCode = global.pfConstants.DEMAND_KEY_TO_CODE[demandKey]
@@ -166,6 +185,8 @@ function setupNetworkHandlers() {
                 console.log("[PF-NETWORK] 需求已为0，无法减少")
             }
             
+            // 记录操作玩家 UUID（用于后续结算时回查，避免依赖商店方块状态）
+            nbt.pfActionPlayerUuid = "" + player.getUuid()
             targetEntity.setMainHandItem(item.withNBT(nbt))
         }
     })
@@ -204,6 +225,14 @@ function setupNetworkHandlers() {
         
         // 开始泡脚
         global.pfSoakManager.pfStartSoak(targetEntity, player)
+
+        // 记录操作玩家 UUID（用于后续结算时回查）
+        let soakItem = targetEntity.getMainHandItem()
+        if (soakItem && soakItem.id === global.pfConstants.SYNC_ITEM_ID && soakItem.nbt) {
+            let soakNbt = soakItem.nbt
+            soakNbt.pfActionPlayerUuid = "" + player.getUuid()
+            targetEntity.setMainHandItem(soakItem.withNBT(soakNbt))
+        }
     })
 }
 

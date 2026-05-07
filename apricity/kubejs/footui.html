@@ -16,24 +16,25 @@
           </div>
         </div>
         <div class="right">
-          <div class="heel">
-            <span class="label">脚跟：</span>
-            <span class="count" id="countJiaogen">1次</span>
-          </div>
           <div class="toe">
             <span class="label">脚趾：</span>
             <span class="count" id="countJiaozhi">2次</span>
+          </div>
+                    <div class="heel">
+            <span class="label">脚跟：</span>
+            <span class="count" id="countJiaogen">1次</span>
           </div>
         </div>
       </div>
       <!-- 满意度和步骤 -->
       <div class="satisfaction">
+          <span class="satisfaction-text">
+            满意度:
+          </span>
         <span class="progress-wrapper">
-          <span class="text">满意度：</span>
-          <span class="progress-bracket">[</span>
-          <span class="progress-filled" id="progressFilled"></span>
-          <span class="progress-empty" id="progressEmpty"></span>
-          <span class="progress-bracket-right">]</span>
+          <span class="progress-bg">
+            <span class="progress-fill" id="satisfactionFill" style="width: 0%"></span>
+          </span>
         </span>
         <span class="progress-percent" id="satisfactionPercent">0%</span>
       </div>
@@ -54,7 +55,6 @@
         <div id="jiaogen" class="jiaogen box">脚跟</div>
       </div>
     </div>
-
   </div>
 </body>
 <style>
@@ -81,7 +81,7 @@
   }
 
   .title {
-    color: #ffffff;
+    color: #844c24;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 0px;
@@ -102,7 +102,7 @@
     align-items: center;
     margin: 0 10px;
     margin-top: 8px;
-    color: #ffffff;
+    color: #844c24;
   }
 
   /* 需求项横向排布 */
@@ -137,13 +137,13 @@
   /* 需求标签样式 */
   .label {
     font-size: 14px;
-    color: #ffffff;
+    color: #844c24;
   }
 
   /* 次数样式 - 默认浅蓝色 */
   .count {
     font-size: 14px;
-    color: #87CEEB;
+    color: #844c24;
   }
 
   /* 完成样式 - 绿色对号 */
@@ -157,25 +157,6 @@
 
   .right {
     width: 50%;
-  }
-
-  /* 高亮 */
-  .highlight {
-    font-size: 14px;
-    color: #f5c76f;
-  }
-
-  /* 满意度颜色 */
-  .highlight.red {
-    color: #ff4444;
-  }
-
-  .highlight.yellow {
-    color: #ffcc00;
-  }
-
-  .highlight.green {
-    color: #44ff44;
   }
 
   /* 满意度进度条 */
@@ -196,41 +177,42 @@
   }
 
   .progress-wrapper .text {
-    color: #ffffff;
+    color: #844c24;
   }
 
-  .progress-bracket {
-    color: #ffffff;
-  }
-
-  .progress-bracket-right {
-    color: #ffffff;
+  /* 满意度横向条（仿泡脚条） */
+  .progress-bg {
+    position: relative;
+    top: -1;
+    width: 40px;
+    height: 6px;
+    background-color: rgba(80, 80, 80, 0.7);
+    border-radius: 2px;
+    overflow: hidden;
     margin-left: 2px;
   }
 
-  .progress-filled {
-    color: #ffffff;
+  .progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: #844c24;
+    border-radius: 2px;
+    transition: width 0.1s linear;
   }
 
-  .progress-filled.red {
-    color: #ff4444;
-  }
-
-  .progress-filled.yellow {
-    color: #ffcc00;
-  }
-
-  .progress-filled.green {
-    color: #44ff44;
-  }
-
-  .progress-empty {
-    color: #ffffff;
+  .satisfaction-text {
+    top: 4px;
+    font-size: 14px;
+    color: #844c24;
+    margin-right: 2px;
   }
 
   .progress-percent {
     font-size: 14px;
-    color: #ffffff;
+    color: #844c24;
     margin-left: 2px;
   }
 
@@ -251,14 +233,14 @@
 
   .steps-label {
     font-size: 12px;
-    color: #aaaaaa;
+    color: #844c24;
     white-space: nowrap;
     margin-right: 4px;
   }
 
   .steps-text {
     font-size: 12px;
-    color: #87CEEB;
+    color: #844c24;
   }
 
   /* 脚部位按钮 */
@@ -270,7 +252,7 @@
     margin: 0 10px;
     margin-top: 4px;
 
-    color: #ffffff;
+    color: #844c24;
     cursor: pointer;
     background-size: contain;
     background-position: center;
@@ -281,12 +263,13 @@
     position: absolute;
     width: 20px;
     height: 15px;
-    background: url('button.png') center/contain no-repeat;
+    border-radius: 2px;
+    border: 1px solid #844c24;
+    transform: translateZ(10px);
     background-size: contain;
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateZ(4px);
   }
 
   /* 点击动画 - 缩小再放大 */
@@ -326,5 +309,5 @@
   } */
 </style>
 <script>
-  console.log("footui.html loaded");
+  console.log("test.html loaded");
 </script>

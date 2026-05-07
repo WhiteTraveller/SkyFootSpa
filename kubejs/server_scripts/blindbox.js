@@ -143,3 +143,10 @@ ItemEvents.rightClicked(event => {
     // 设置冷却防连点 (10tick = 0.5秒)
     player.addItemCooldown(item.getItem(), 10)
 })
+
+// ===== 导出给其它模块（如手机抽卡）复用 =====
+global.pfGachaApi = {
+    buildWeightedPool: buildWeightedPool,
+    weightedRandomPick: weightedRandomPick,
+    RARITY_COLOR: RARITY_COLOR
+}

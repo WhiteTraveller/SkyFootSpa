@@ -53,7 +53,7 @@ function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
         footX = bedX - 0.5
     }
 
-    return { x: footX, y: bedY + 1, z: footZ }
+    return { x: footX, y: bedY + 1, z: footZ + 1 }
 }
 
 /**
@@ -218,7 +218,7 @@ function createSoakWindow(entity) {
     entitySoakState.set(uuid, soakState)
 
     // 给泡脚按钮添加点击事件
-    let soakBtn = window.document.getElementById("soakBtn")
+    let soakBtn = window.document.getElementById("soakContainer")
     if (soakBtn != null) {
         soakBtn.addEventListener("mousedown", event => {
             console.log("[FOOT-UI] 点击泡脚按钮 uuid=" + uuid)
@@ -245,35 +245,35 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
         return
     }
     try {
-        let filledElement = window.document.getElementById("progressFilled")
-        let emptyElement = window.document.getElementById("progressEmpty")
-        let timeElement = window.document.getElementById("countdownTime")
-        let btnElement = window.document.getElementById("soakBtn")
+        let titleEl = window.document.getElementById("mainTitle")
+        let tipsEl = window.document.getElementById("tipsText")
+        let wrapperEl = window.document.getElementById("progressWrapper")
+        let fillEl = window.document.getElementById("progressFill")
+        let textEl = window.document.getElementById("progressText")
 
-        if (filledElement != null && emptyElement != null && timeElement != null) {
-            // 生成进度条（共15个字符宽度）
-            let totalBars = 15
-            let filledBars = 0
-            if (isSoaking) {
-                filledBars = Math.round((timeLeft / 10) * totalBars)
-            } else {
-                filledBars = totalBars  // 未开始时全满
+        if (isSoaking) {
+            // 泡脚中：标题切换、tips清空、进度条显示
+            if (titleEl != null) titleEl.innerText = "泡脚中"
+            if (tipsEl != null) tipsEl.innerText = ""
+            if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 1")
+
+            // 进度条填充百分比（基于 10 秒总时长），颜色固定白色
+            let percent = Math.max(0, Math.min(100, (timeLeft / 10) * 100))
+            if (fillEl != null) {
+                fillEl.setAttribute("style", "width: " + percent + "%")
+            }
+            if (textEl != null) {
+                textEl.innerText = Math.max(0, Math.ceil(timeLeft)) + "s"
             }
 
-            filledElement.innerText = "|".repeat(filledBars)
-            emptyElement.innerText = "|".repeat(totalBars - filledBars)
-            timeElement.innerText = timeLeft + "s"
-        }
-
-        // 更新按钮状态
-        if (btnElement != null) {
-            if (isSoaking) {
-                btnElement.disabled = true
-                btnElement.innerText = "泡脚中..."
-            } else {
-                btnElement.disabled = false
-                btnElement.innerText = "开始泡脚"
-            }
+            console.log("[FOOT-UI] 泡脚UI更新 title=" + (titleEl != null) + " tips=" + (tipsEl != null) + " wrapper=" + (wrapperEl != null) + " fill=" + (fillEl != null) + " text=" + (textEl != null) + " percent=" + percent)
+        } else {
+            // 未泡脚：恢复初始文案，进度条透明
+            if (titleEl != null) titleEl.innerText = "待泡脚...."
+            if (tipsEl != null) tipsEl.innerText = "手持水桶右键"
+            if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 0")
+            if (textEl != null) textEl.innerText = ""
+            if (fillEl != null) fillEl.setAttribute("style", "width: 0%")
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新泡脚倒计时失败: " + e)
@@ -545,42 +545,23 @@ function updateDemandListDisplay(window, demandList) {
 }
 
 /**
- * 更新满意度显示 - 纯文本进度条形式
- * 格式：满意度：[||||||||] 80%
- * 小于等于30%红色，大于等于70%绿色，其余黄色
- * 只显示填充部分，空白部分留空
+ * 更新满意度显示 - 横向进度条（颜色固定 #844c24）
+ * 格式：满意度：[███      ] 80%
  */
 function updateSatisfactionDisplay(window, satisfaction) {
     if (window == null || window.document == null) {
         return
     }
     try {
-        let filledElement = window.document.getElementById("progressFilled")
-        let emptyElement = window.document.getElementById("progressEmpty")
+        let fillElement = window.document.getElementById("satisfactionFill")
         let percentElement = window.document.getElementById("satisfactionPercent")
-        
-        if (filledElement != null && emptyElement != null && percentElement != null) {
-            // 根据满意度确定颜色
-            let colorClass = ""
-            if (satisfaction <= 30) {
-                colorClass = "red"      // 红色
-            } else if (satisfaction >= 70) {
-                colorClass = "green"    // 绿色
-            } else {
-                colorClass = "yellow"   // 黄色
-            }
-            
-            // 生成进度条（共20个字符宽度）
-            let totalBars = 20
-            let filledBars = Math.round((satisfaction / 100) * totalBars)
-            
-            // 只显示填充部分，空白部分留空
-            filledElement.innerText = "|".repeat(filledBars)
-            filledElement.setAttribute("class", "progress-filled " + colorClass)
-            
-            // 空白部分不显示任何内容
-            emptyElement.innerText = ""
-            
+
+        let percent = Math.max(0, Math.min(100, satisfaction))
+
+        if (fillElement != null) {
+            fillElement.setAttribute("style", "width: " + percent + "%")
+        }
+        if (percentElement != null) {
             percentElement.innerText = satisfaction + "%"
         }
     } catch (e) {
@@ -701,6 +682,11 @@ ClientEvents.tick(event => {
                     let timeLeft = getSoakTimeLeft(entity)
                     let soaking = isSoaking(entity)
                     let soakState = entitySoakState.get(uuid) || { isSoaking: false, soakTimeLeft: 10 }
+
+                    // 状态切换时打印一次
+                    if (soakState.isSoaking !== soaking) {
+                        console.log("[FOOT-UI] 泡脚状态切换 uuid=" + uuid + " " + soakState.isSoaking + " -> " + soaking + " timeLeft=" + timeLeft)
+                    }
 
                     // 更新状态
                     soakState.isSoaking = soaking

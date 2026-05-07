@@ -5,7 +5,7 @@
 // ============================================================
 
 // 生成寻路实体
-function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride) {
+function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride, bossDef) {
     let walker = level.createEntity(global.pfConstants.PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
@@ -46,6 +46,14 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     
     // 生成需求清单
     let demandList = global.pfEntityData.pfGenerateDemandList()
+    // Boss 需求倍率：每部位次数 × bossDef.demandMultiplier
+    if (bossDef && bossDef.demandMultiplier && bossDef.demandMultiplier > 1) {
+        let mul = bossDef.demandMultiplier
+        for (let key in demandList) {
+            demandList[key] = demandList[key] * mul
+        }
+        console.log("[PF-BOSS] 需求倍率x" + mul + " 应用后: " + JSON.stringify(demandList))
+    }
     console.log("[PF-DATA] 生成需求清单: " + JSON.stringify(demandList))
     // 检查玩家是否设置了跳过泡脚
     let skipSoak = false
@@ -56,6 +64,12 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
         console.log("[PF-DATA] 玩家设置跳过泡脚，直接标记pfSoakDone=1")
     }
     global.pfNbtSync.pfSyncDemandList(walker, demandList, skipSoak)
+    
+    // Boss 标识写入 persistentData（供满意度倍率查询）
+    if (bossDef && bossDef.id) {
+        walker.persistentData.putString('pfBossId', bossDef.id)
+        console.log("[PF-BOSS] 实体标记 pfBossId=" + bossDef.id)
+    }
     
     // 验证存储结果
     let verifyItem = walker.getMainHandItem()

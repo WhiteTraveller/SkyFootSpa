@@ -2,13 +2,21 @@
   <div class="soak-container" id="soakContainer">
     <!-- 按钮区域 -->
     <div class="button-layer" id="buttonLayer">
-      <button id="soakBtn" class="soakBtn">111</button>
+      <button id="soakBtn" class="soakBtn"></button>
     </div>
     <!-- 文字区域 -->
     <div class="text-layer">
-      <div class="title" id="mainTitle">待泡脚....</div>
-      <div class="tips" id="tipsText">Tips:手持水桶右键空桶</div>
+      <span class="title" id="mainTitle">待泡脚....</span>
+      <span class="tips" id="tipsText">手持水桶右键</span>
+      <!-- 泡脚进度条（常驻DOM，通过opacity+width+innerText控制视觉显隐） -->
+      <div class="progress-wrapper" id="progressWrapper" style="opacity: 0">
+        <span class="progress-bg">
+          <span class="progress-fill" id="progressFill" style="width: 0%"></span>
+        </span>
+        <span class="progress-text" id="progressText"></span>
+      </div>
     </div>
+    <div class="bg"></div>
   </div>
 </body>
 
@@ -17,14 +25,22 @@
     position: relative;
     width: 100px;
     height: 100px;
-    background: url('soak 1.png') center/contain no-repeat;
-
     align-items: center;
     justify-content: center;
   }
 
   .soak-container.active {
-    background: url('soak 2.png') center/contain no-repeat;
+
+  }
+
+  .bg {
+    transform: translateZ(-10px);
+    position: absolute;
+    background: url('soak1.png') center/contain no-repeat;
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
   }
 
   /* 按钮区域 */
@@ -43,7 +59,6 @@
     height: 50px;
     cursor: pointer;
     background: url('botton.png') center/contain no-repeat;
-    transform: translateZ(0.5px);
     transition: transform 0.3s ease-in-out;
   }
   .soakBtn.active {
@@ -83,6 +98,55 @@
 
   .tips.active {
     color: #ffffff;
+  }
+
+  .tips.hidden {
+    display: none;
+  }
+
+  /* 泡脚进度条（横向） */
+  .progress-wrapper {
+    position: absolute;
+    left: 25px;
+    top: 80px;
+    width: 70px;
+    height: 10px;
+  }
+
+  .progress-wrapper.hidden {
+    display: none;
+  }
+
+  .progress-bg {
+    position: absolute;
+    left: 0;
+    width: 50px;
+    height: 6px;
+    background-color: rgba(80, 80, 80, 0.7);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+  }
+
+  .progress-text {
+    position: absolute;
+    left: 54px;
+    top: 0;
+    width: 20px;
+    text-align: left;
+    color: #ffffff;
+    font-size: 10px;
+    white-space: nowrap;
   }
 </style>
 

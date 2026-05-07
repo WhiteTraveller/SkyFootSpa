@@ -11,8 +11,14 @@ let BLINDBOX_STAGE_NAMES = {
 
 StartupEvents.registry('item', event => {
     for (let stage = 1; stage <= 5; stage++) {
-        event.create('marguerite:chip_blindbox_' + stage)
+        let box = event.create('marguerite:chip_blindbox_' + stage)
             .displayName(BLINDBOX_STAGE_NAMES[stage])
             .maxStackSize(16)
+        // 盲盒外观（贴图使用 Mekanism 合金）
+        if (stage === 1) {
+            box.texture('mekanism:item/alloy_infused')
+        } else if (stage === 2) {
+            box.texture('mekanism:item/alloy_reinforced')
+        }
     }
 })

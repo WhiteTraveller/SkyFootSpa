@@ -13,15 +13,29 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let blockPos = event.block.pos
     let level = event.level
     
-    // 如果已开店，右键手动关店
-    if (global.pfShopState && global.pfShopState.isOpen) {
+    // ===== 预约凭证检测：手持 voucher_* 时走凭证分支（无视昼夜）=====
+    let voucherCategory = null
+    let mainHand = player.getMainHandItem()
+    let mainHandId = mainHand && mainHand.id ? '' + mainHand.id : ''
+    if (mainHandId.indexOf('marguerite:voucher_') === 0) {
+        voucherCategory = mainHandId.replace('marguerite:voucher_', '')
+    }
+    
+    // ===== Boss 触发检测：手持 boss triggerItem 时走 boss 分支 =====
+    let bossDef = null
+    if (!voucherCategory && mainHandId && global.bossRegister && global.bossRegister.byTriggerItem) {
+        bossDef = global.bossRegister.byTriggerItem[mainHandId] || null
+    }
+    
+    // 非 voucher / boss 模式下，已开店则手动关店
+    if (!bossDef && !voucherCategory && global.pfShopState && global.pfShopState.isOpen) {
         global.pfShopManager.pfCloseShop(level, "手动关店")
         return
     }
     
-    // 检查是否白天
-    if (!global.pfShopManager.pfIsDaytime(level)) {
-        player.tell("§c🌙 现在是晚上，无法开店！请等到白天")
+    // 白天检测（boss/开店需白天；voucher 绕过）
+    if (!voucherCategory && !global.pfShopManager.pfIsDaytime(level)) {
+        player.tell("§c🌙 现在是晚上，无法" + (bossDef ? "召唤 Boss" : "开店") + "！请等到白天")
         return
     }
     
@@ -87,6 +101,32 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     
     if (blueCarpetPos === null) {
         player.setStatusMessage("§c路径中未找到蓝色地毯！")
+        return
+    }
+    
+    // Voucher 分支：消耗凭证，立即生成指定类别顾客，不改变 shop 状态
+    if (voucherCategory) {
+        if (!global.pfVoucherManager || typeof global.pfVoucherManager.pfSpawnVoucherCustomer !== 'function') {
+            player.tell('§c[预约] 管理模块未加载')
+            return
+        }
+        if (!player.isCreative() && mainHand && mainHand.getCount() > 0) {
+            mainHand.setCount(mainHand.getCount() - 1)
+        }
+        global.pfVoucherManager.pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos, voucherCategory)
+        return
+    }
+    
+    // Boss 分支：消耗触发物品，召唤 boss，不改变 shop 状态
+    if (bossDef) {
+        if (!player.isCreative() && mainHand && mainHand.getCount() > 0) {
+            mainHand.setCount(mainHand.getCount() - 1)
+        }
+        if (global.pfBossManager && typeof global.pfBossManager.pfSpawnBossOnRoute === 'function') {
+            global.pfBossManager.pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos, bossDef)
+        } else {
+            player.tell('§c[Boss] 管理模块未加载')
+        }
         return
     }
     

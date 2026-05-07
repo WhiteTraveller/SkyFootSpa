@@ -144,6 +144,35 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                     console.log('[SLEEP-JS] 评价更新: ' + customerCategory + ' -> ' + newRating)
                 }
             }
+
+            // 高满意度奖励：满意度 > 60 时额外掉落一个下界之星
+            if (satisfaction > 60) {
+                let sx = entity.x
+                let sy = (entity.y + 1)
+                let sz = entity.z
+                let starCmd = 'summon item ' + sx + ' ' + sy + ' ' + sz + ' {Item:{id:"minecraft:nether_star",Count:1b}}'
+                level.getServer().runCommandSilent(starCmd)
+                console.log('[SLEEP-JS] 高满意度奖励: 掉落 1 个下界之星 (satisfaction=' + satisfaction + ')')
+
+                // 从实体手持物品 NBT 读取"操作玩家 UUID"，回查对应玩家
+                let actionPlayer = null
+                let actionUuid = '' + nbt.getString('pfActionPlayerUuid')
+                if (actionUuid && actionUuid.length > 0) {
+                    let players = level.getPlayers()
+                    for (let i = 0; i < players.size(); i++) {
+                        let p = players.get(i)
+                        if (('' + p.getUuid()) === actionUuid) {
+                            actionPlayer = p
+                            break
+                        }
+                    }
+                }
+                if (actionPlayer) {
+                    actionPlayer.tell('§d✦ 顾客非常满意！获得下界之星 ×1 §7(满意度 ' + satisfaction + '%)')
+                } else {
+                    console.log('[SLEEP-JS] 未找到操作玩家，UUID=' + actionUuid)
+                }
+            }
             
             return true
         }

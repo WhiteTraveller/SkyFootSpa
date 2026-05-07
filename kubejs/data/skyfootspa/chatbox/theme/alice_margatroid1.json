@@ -289,7 +289,7 @@
     ],
     "TALK": [
       {
-        "time": 0,
+        "time": 1,
         "yOffset": 2,
         "xOffset": -1,
         "easing": "EASE_OUT_SINE"
