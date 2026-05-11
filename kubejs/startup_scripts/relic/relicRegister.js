@@ -86,6 +86,7 @@ function Relic() {
     this.story = ""
     this.tags = []
     this.guideTexture = []
+    this.texture = null  // 自定义物品材质（优先于 stage 默认材质）
     this.rarity = global.raritys.common
     this.pool = global.relicPool.common
     this.stage = 0  // 所属阶段 1~5
@@ -125,6 +126,10 @@ function Relic() {
     }
     this.setGuideTexture = function(textures) {
         this.guideTexture = textures
+        return this
+    }
+    this.setTexture = function(texture) {
+        this.texture = texture
         return this
     }
     this.setName = function(name) {

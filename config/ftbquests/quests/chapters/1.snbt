@@ -3,46 +3,1294 @@
 	default_quest_shape: ""
 	filename: "1"
 	group: "703E058CBE887155"
+	icon: "mekanism:basic_control_circuit"
 	id: "358D848C495AD6C3"
 	order_index: 0
 	quest_links: [ ]
-	quests: [{
-		id: "093EE0EFD4D20B44"
-		rewards: [
-			{
-				auto: "enabled"
-				command: "/schedule function skyblock:place_456258 5t"
-				elevate_perms: true
-				id: "7693996ED3EDDE63"
+	quests: [
+		{
+			can_repeat: false
+			icon: "minecraft:beacon"
+			id: "64686425A9752ADB"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:start start"
+				icon: "minecraft:nether_star"
+				id: "1813C55813EA0453"
+				title: "与爱丽丝对话"
+				type: "command"
+			}]
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "192C4AEBE2FA8BF2"
+				title: "我是谁？"
+				type: "checkmark"
+			}]
+			x: 1.0d
+			y: -3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["64686425A9752ADB"]
+			description: ["可以在这里重新触发对话"]
+			hide_dependency_lines: false
+			icon: "minecraft:nether_star"
+			id: "28F0FC608CAC5A31"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:start start"
+				icon: "minecraft:nether_star"
+				id: "708DD666D03D893F"
 				silent: true
-				team_reward: true
+				title: "与爱丽丝对话"
 				type: "command"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "380B03C5DF933152"
+				title: "重新触发对话"
+				type: "checkmark"
+			}]
+			x: 1.0d
+			y: -4.5d
+		}
+		{
+			dependencies: ["64686425A9752ADB"]
+			id: "1AD9CACAA44EDA80"
+			tasks: [
+				{
+					id: "33D561B0D6C8BAA4"
+					title: "在白天正常开店"
+					type: "checkmark"
+				}
+				{
+					id: "0BF6F66E3C4128E5"
+					item: "marguerite:voucher_random"
+					title: "使用预约凭证开店"
+					type: "item"
+				}
+			]
+			title: "招揽顾客的两种方式"
+			x: 3.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			description: [
+				"§6铜币§r(Copper Coin) 是洗脚店经济体系的基础货币——搓脚掉落、任务奖励、商店交易，一切都从它开始。"
+				""
+				"§a获取方式§r："
+				"· §e开店服务§r：顾客结算时按满意度掉落硬币"
+				"· §e任务奖励§r：本任务书几乎每个节点都赠送若干铜币"
+				"· §e搓脚掉落§r：随搓脚获得的小额财富"
+				""
+				"§b小提示§r：攒够 §f9 枚铜币§r 可以在工作台按 3×3 升阶为 §71 枚铁币§r；以此类推直到钻石币。"
+				""
+				"§7任务目标：持有 1 枚 §fcoinsje:copper_coin§r 即可完成。§r"
+			]
+			icon: "coinsje:copper_coin"
+			id: "7B3A5D9E2F1C8300"
+			rewards: [{
+				count: 5
+				id: "7B3A5D9E2F1C8302"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8301"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			title: "第一枚铜币"
+			x: 3.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8300"]
+			description: [
+				"开店赚来的第一桶硬币该拿去做什么？"
+				""
+				"§b黄铜锭§r(Brass Ingot) 是 §bCreate§r 中后期的关键材料——合成§e黄铜板§r、§e精密构件§r、§e芯片§r都离不开它。"
+				""
+				"§6虽然§r可以用 §f铜锭 + 锌锭§r 在动力搅拌器里合成，但早期机械尚未铺开，不如先去§bSDM 商店§r花点硬币，"
+				"§a直接买一锭黄铜§r，见识见识金属原料超市的便利。"
+				""
+				"§e任务目标§r：持有 1 个 §fcreate:brass_ingot§r 即可完成。"
+			]
+			icon: "create:brass_ingot"
+			id: "7B3A5D9E2F1C8200"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8202"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8201"
+				item: "create:brass_ingot"
+				type: "item"
+			}]
+			title: "以币易物：购买黄铜锭"
+			x: 15.0d
+			y: 0.5d
+		}
+		{
+			dependencies: [
+				"7B3A5D9E2F1C8200"
+				"7CBD5A2E6AE463D8"
+			]
+			description: [
+				"把买来的§6黄铜锭§r送进§b动力辊压机§r下方，启动后即可压制成§e黄铜板§r。"
+				""
+				"§a黄铜板§r是合成§f精密构件§r、§f各类芯片§r的核心材料，请务必留存一些。"
+				""
+				"§7（无需自己合成黄铜：商店买完 → 辊压机一压，一条龙）§r"
+			]
+			icon: "create:brass_sheet"
+			id: "7B3A5D9E2F1C8210"
+			rewards: [{
+				count: 5
+				id: "7B3A5D9E2F1C8212"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8211"
+				item: "create:brass_sheet"
+				type: "item"
+			}]
+			title: "黄铜板"
+			x: 15.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			description: [
+				"「皴」是顾客脚部老去角质的统称，是后续一切合成与产线的基础原料。"
+				""
+				"§e获取方式§r：为顾客提供搓脚服务，每次触碰需求部位会随机掉落 §a3~5§r 个皴。"
+				""
+				"§b加成道具§r："
+				"· §6搓泥宝§r（精油）：副手持有时搓脚掉落翻倍，消耗 1 点耐久"
+				"· 随着后续游戏进程，将会解锁更多道具提高产量"
+				""
+				"先服务一位顾客，试着获取吧！（呕）"
+			]
+			icon: "marguerite:cun"
+			id: "017E1DD7A9182B70"
+			rewards: [{
+				count: 2
+				id: "01E5036B9C896465"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "14E3750B8BFDFEAA"
+				item: "marguerite:cun"
+				type: "item"
+			}]
+			title: "意外的副产物"
+			x: 4.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["017E1DD7A9182B70"]
+			description: [
+				"§6搓泥宝§r是一款去角质神器，专为顾客脚底沉积的顽固死皮而生。"
+				""
+				"§e副手持有§r时搓脚掉落的皴数量会§a翻倍§r，每次消耗 §c1 点§r耐久。"
+				""
+				"§e获取方式§r：从§bSDM 商店§r获取。"
+				""
+				"§b使用提示§r：放入副手，在服务时生效。"
+			]
+			icon: {
+				Count: 1
+				id: "marguerite:cuonibao"
+				tag: {
+					Damage: 0
+				}
 			}
-			{
-				auto: "enabled"
-				command: "/say wxhn"
-				elevate_perms: true
-				id: "0776D0ED17DA1A99"
-				type: "command"
+			id: "4B8C9D7F3A21E55C"
+			rewards: [{
+				id: "1A7B3C8D5E9F2046"
+				item: {
+					Count: 1
+					id: "marguerite:cuonibao"
+					tag: {
+						Damage: 0
+					}
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "6F1D2A8E9B3C7D5F"
+				item: {
+					Count: 1
+					id: "marguerite:cuonibao"
+					tag: {
+						Damage: 0
+					}
+				}
+				type: "item"
+			}]
+			title: "搓泥宝"
+			x: 4.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["017E1DD7A9182B70"]
+			description: [
+				"积沙成塔，积水成渊。"
+				""
+				"持续服务顾客积累皴，或是搭建一条自动搓脚流水线。"
+				""
+				"§e小贴士§r：副手持有§6搓泥宝§r可让皴掉落翻倍；配合附加§d掉皴§r洗脚水（+1/+2）效率更高。"
+				""
+				"攒够 §a64 个皴§r即可完成，奖励一枚§e金硬币§r！"
+			]
+			icon: "marguerite:cun"
+			id: "76174453E8297A2C"
+			rewards: [{
+				id: "4546377D1E040C45"
+				item: "coinsje:gold_coin"
+				type: "item"
+			}]
+			size: 1.0d
+			tasks: [{
+				count: 64L
+				id: "11E26F3BB30E1E6F"
+				item: "marguerite:cun"
+				type: "item"
+			}]
+			title: "皴·大丰收"
+			x: 4.5d
+			y: -4.5d
+		}
+		{
+			dependencies: ["017E1DD7A9182B70"]
+			description: [
+				"§a9 个皴§r可以合成 §f1 个皴块§r。"
+				""
+				"皴块是筛矿产线的原料，可以被§b动力筛子§r筛选出铁粒、铜粒、金粒、锌粒与石英。"
+				""
+				"先在工作台合出第一块皴块吧。"
+			]
+			icon: "marguerite:cun_block"
+			id: "3117AB70F0AEC7F7"
+			rewards: [{
+				count: 5
+				id: "31AC710669601B25"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "726B98E9FBB0B530"
+				item: "marguerite:cun_block"
+				type: "item"
+			}]
+			title: "聚砂成塔"
+			x: 6.0d
+			y: -3.0d
+		}
+		{
+			dependencies: [
+				"3117AB70F0AEC7F7"
+				"7B3A5D9E2F1C8240"
+			]
+			description: [
+				"§b线筛网§r(String Mesh) 是§b动力筛子§r的基础筛网配件，用于将皴块筛分出矿粒与石英。"
+				""
+				"§a合成配方§r：§f木棍 ×4§r + §f线 ×4§r + 中心留空，工作台合成即可。"
+				""
+				"§e那么线从哪来？§r"
+				"· 天然途径：击杀蜘蛛、破坏蜘蛛网"
+				"· §6更省心的办法§r：打开§bSDM 商店§r，直接用硬币买一捆线带走"
+				""
+				"完成任务将附赠一台§b动力筛子§r，马上就能开始筛矿。"
+			]
+			icon: {
+				Count: 1
+				id: "createsifter:string_mesh"
+				tag: { }
 			}
-		]
-		tasks: [
-			{
-				dimension: "minecraft:the_nether"
-				icon: "minecraft:oak_log"
-				id: "060CB98DFEB46B59"
-				title: "xiajiexiajie"
-				type: "dimension"
-			}
-			{
-				dimension: "minecraft:overworld"
-				id: "787929F44A00607C"
-				title: "你复活啦"
-				type: "dimension"
-			}
-		]
-		x: -0.5d
-		y: -3.0d
-	}]
-	title: "1"
+			id: "5D10D03366DB0677"
+			rewards: [
+				{
+					count: 5
+					id: "10234FC8D2C53E93"
+					item: "coinsje:copper_coin"
+					type: "item"
+				}
+				{
+					id: "10234FC8D2C53E94"
+					item: "createsifter:sifter"
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "3B9E88270F686DC5"
+				item: "createsifter:string_mesh"
+				type: "item"
+			}]
+			title: "筛矿工具"
+			x: 7.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["5D10D03366DB0677"]
+			description: [
+				"将皴块与§b线筛网§r投入§b动力筛子§r，即可随机筛出：铁粒、铜粒、金粒、锌粒、石英。"
+				""
+				"§e任选其一即可完成§r：四种矿粒（铁/铜/金/锌）任意一种就能达成条件。"
+				""
+				"§7（石英另有独立奖励分支）§r"
+			]
+			icon: "minecraft:iron_nugget"
+			id: "314C359231516C59"
+			rewards: [{
+				count: 5
+				id: "1900C29CA41E20D9"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				icon: "minecraft:quartz"
+				id: "237316F73A39C1B8"
+				item: ""
+				title: "任一矿粒（铁/铜/金/锌）"
+				type: "item"
+			}]
+			title: "首次筛矿"
+			x: 9.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			icon: "minecraft:quartz"
+			id: "610F10EC9FEE4CE9"
+			rewards: [{
+				count: 3
+				id: "671D99EA2BB11779"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "54B17923C4257B34"
+				item: "minecraft:quartz"
+				type: "item"
+			}]
+			title: "意外收获：石英"
+			x: 9.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			description: [
+				"§b安山岩§r是机械工业的基石，由§f鹅卵石§r与§f闪长岩§r合成获得。"
+				""
+				"它是合成§e安山合金§r的关键材料——而安山合金正是通往§bCreate§r动力产线的第一道门槛。"
+				""
+				"合出你的第一块安山岩，开启机械时代吧！"
+			]
+			icon: "minecraft:andesite"
+			id: "7B3A5D9E2F1C8046"
+			rewards: [{
+				count: 5
+				id: "7B3A5D9E2F1C8048"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8047"
+				item: "minecraft:andesite"
+				type: "item"
+			}]
+			title: "合成安山岩"
+			x: 10.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			icon: "minecraft:iron_ingot"
+			id: "00974D4CCDEC3E45"
+			rewards: [{
+				count: 4
+				id: "7306B4A1395053FB"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "65B199578AB51A50"
+				item: "minecraft:iron_ingot"
+				type: "item"
+			}]
+			title: "铁锭 ×16"
+			x: 9.0d
+			y: -5.0d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			icon: "minecraft:copper_ingot"
+			id: "5343606BA59A1D03"
+			rewards: [{
+				count: 4
+				id: "2679205E75E6DA6A"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "5FFB59789133FA8D"
+				item: "minecraft:copper_ingot"
+				type: "item"
+			}]
+			title: "铜锭 ×16"
+			x: 9.0d
+			y: -6.0d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			icon: "minecraft:gold_ingot"
+			id: "3E31FEE7A9E6CA6E"
+			rewards: [{
+				count: 4
+				id: "6150A063A8629E0A"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "6FB290C302C57DC2"
+				item: "minecraft:gold_ingot"
+				type: "item"
+			}]
+			title: "金锭 ×16"
+			x: 9.0d
+			y: -7.0d
+		}
+		{
+			dependencies: ["314C359231516C59"]
+			icon: "create:zinc_ingot"
+			id: "4624E054EC74B95B"
+			rewards: [{
+				count: 4
+				id: "4109877A411EFFAA"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "53B403F004EB4629"
+				item: "create:zinc_ingot"
+				type: "item"
+			}]
+			title: "锌锭 ×16"
+			x: 9.0d
+			y: -4.0d
+		}
+		{
+			dependencies: ["204993835E6F415C"]
+			description: [
+				"§b石磨§r(Millstone) 是 §bCreate§r 早期最重要的加工设备，由安山合金构成骨架。"
+				""
+				"§a功能§r："
+				"· 将§f矿石§r研磨为§e矿物粉末§r（产出 ×2 粒）"
+				"· 研磨麦子、染料、兽骨等杂物"
+				""
+				"§6动力要求§r：顶部接入齿轮 / 水车即可运转，不需要高速传动。"
+				""
+				"合出第一台石磨，解锁铁、铜、金三条粉末支线。"
+			]
+			icon: "create:millstone"
+			id: "365CCFD7F2F410C8"
+			rewards: [{
+				count: 10
+				id: "226396F3A6231C7E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "518566877D60B3DB"
+				item: "create:millstone"
+				type: "item"
+			}]
+			title: "组装磨盘"
+			x: 12.0d
+			y: -4.0d
+		}
+		{
+			dependencies: [
+				"365CCFD7F2F410C8"
+				"00974D4CCDEC3E45"
+			]
+			description: [
+				"将§f铁矿石§r放入石磨，即可磨出§e铁粉§r。"
+				""
+				"§a铁粉§r是后续合成§6省力§r、§6全能§r芯片的核心原料。"
+			]
+			icon: "mekanism:dust_iron"
+			id: "3D393475EFEFCEDB"
+			rewards: [{
+				count: 5
+				id: "1DDF4EAADF2C6C2C"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "380DA8BACECF910E"
+				item: "mekanism:dust_iron"
+				type: "item"
+			}]
+			title: "铁粉"
+			x: 12.0d
+			y: -5.0d
+		}
+		{
+			dependencies: [
+				"365CCFD7F2F410C8"
+				"5343606BA59A1D03"
+			]
+			description: [
+				"将§f铜矿石§r放入石磨，即可磨出§e铜粉§r。"
+				""
+				"§a铜粉§r是后续合成§6敛财§r、§6温柔§r芯片的核心原料。"
+			]
+			icon: "mekanism:dust_copper"
+			id: "79C5E3ABD15EB78B"
+			rewards: [{
+				count: 5
+				id: "53F0C5DA10C910FA"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5056558689A368DE"
+				item: "mekanism:dust_copper"
+				type: "item"
+			}]
+			title: "铜粉"
+			x: 12.0d
+			y: -6.0d
+		}
+		{
+			dependencies: [
+				"365CCFD7F2F410C8"
+				"3E31FEE7A9E6CA6E"
+			]
+			description: [
+				"将§f金矿石§r放入石磨，即可磨出§e金粉§r。"
+				""
+				"§a金粉§r是后续合成§6悦心§r、§6逐利§r芯片的核心原料。"
+			]
+			icon: "mekanism:dust_gold"
+			id: "04FEB1161AD4A6C1"
+			rewards: [{
+				count: 5
+				id: "14911EA0AAFD4D76"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "49457E36B4BD1C47"
+				item: "mekanism:dust_gold"
+				type: "item"
+			}]
+			title: "金粉"
+			x: 12.0d
+			y: -7.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8046"]
+			description: [
+				"§e安山合金§r是 §bCreate§r 所有机械的通用原料，几乎每一个机器都要用到它。"
+				""
+				"§a合成方式§r（任选其一）："
+				"· §6早期手动§r：地面放置 §f安山岩§r，手持§6拳头棒§r(Puncheon) 右键敲打，旁边投入 §f铁粒§r + §f锌粒§r 混合"
+				"· §6搅拌机§r：将 §f安山岩 + 铁粒 + 锌粒§r 投入 §bBasin§r，启动搅拌机制作"
+				""
+				"凑齐 §a4 块安山合金§r即可完成，为之后的机械升级做准备。"
+			]
+			icon: "create:andesite_alloy"
+			id: "204993835E6F415C"
+			rewards: [{
+				count: 3
+				id: "48B987853A21B2C4"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "444E7D1A414C2340"
+				item: "create:andesite_alloy"
+				type: "item"
+			}]
+			title: "安山岩合金"
+			x: 12.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["204993835E6F415C"]
+			icon: "create:shaft"
+			id: "555B57E84414A97D"
+			rewards: [{
+				count: 3
+				id: "7F4A977C01E5E75C"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "5AE9B278EA146409"
+				item: "create:shaft"
+				type: "item"
+			}]
+			title: "传动轴"
+			x: 13.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["555B57E84414A97D"]
+			icon: "create:cogwheel"
+			id: "606C31ED5C612D97"
+			rewards: [{
+				count: 5
+				id: "1BC3ACC3DA5124C9"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "6DBF8EA3D2AD4F07"
+				item: "create:cogwheel"
+				type: "item"
+			}]
+			title: "齿轮"
+			x: 15.0d
+			y: -2.5d
+		}
+		{
+			dependencies: ["555B57E84414A97D"]
+			icon: "create:large_cogwheel"
+			id: "3EBF0AAB9D5A7B0C"
+			rewards: [{
+				count: 5
+				id: "16E2BC05BDA2A790"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "4F41A13AD1F2D6E9"
+				item: "create:large_cogwheel"
+				type: "item"
+			}]
+			title: "大齿轮"
+			x: 15.0d
+			y: -3.5d
+		}
+		{
+			dependencies: ["555B57E84414A97D"]
+			description: [
+				"§b水车§r(Water Wheel) 是 §bCreate§r 最朴素、也最稳定的入门动力源。"
+				""
+				"§a合成§r：§f木板 ×6§r + §f安山合金 ×2§r（按工作台配方摆放）。"
+				""
+				"§e使用方式§r："
+				"· 将水车紧贴流水放置，中心轴自动开始转动"
+				"· 流水面积越大、包围面越多，§6转速§r越高、§6应力容量§r越足"
+				"· 连接传动轴 / 齿轮即可把动力输出到任意机械"
+				""
+				"§7相比手摇曲柄，水车无需玩家蹲点摇动，§f适合长时间稳定供能§r。§r"
+			]
+			icon: "create:water_wheel"
+			id: "7B3A5D9E2F1C8400"
+			rewards: [{
+				count: 5
+				id: "7B3A5D9E2F1C8402"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8401"
+				item: "create:water_wheel"
+				type: "item"
+			}]
+			title: "水车"
+			x: 13.5d
+			y: -4.5d
+		}
+		{
+			dependencies: ["555B57E84414A97D"]
+			description: [
+				"§b手摇曲柄§r(Hand Crank) 是 §bCreate§r 最便携的应急动力源。"
+				""
+				"§a合成§r：§f安山合金 ×1§r + §f磨制安山岩§r + §f传动轴§r，工作台合成。"
+				""
+				"§e使用方式§r："
+				"· 放置在机械上方（或连接传动轴），§6右键§r玩家即可手动输出瞬时动力"
+				"· 按住右键持续转动，§f松开即停§r"
+				""
+				"§7适合§e临时驱动§r单台机器（如一次搅拌、一次压制），无需铺设水源或搭建风车。§r"
+			]
+			icon: "create:hand_crank"
+			id: "7B3A5D9E2F1C8410"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8412"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8411"
+				item: "create:hand_crank"
+				type: "item"
+			}]
+			title: "手摇曲柄"
+			x: 13.5d
+			y: -6.0d
+		}
+		{
+			dependencies: ["204993835E6F415C"]
+			description: [
+				"§b安山机壳§r(Andesite Casing) 是 §bCreate§r 机械装配的通用外壳。"
+				""
+				"§a合成§r：安山合金 + 去皮木头（任意）→ §f机械手§r/§f皮带§r/§f压制机§r等多种设备的前置材料。"
+				""
+				"凑齐 §a4 个§r解锁后续机械装配产线。"
+			]
+			icon: "create:andesite_casing"
+			id: "7B3A5D9E2F1C8100"
+			rewards: [{
+				count: 5
+				id: "7B3A5D9E2F1C8102"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "7B3A5D9E2F1C8101"
+				item: "create:andesite_casing"
+				type: "item"
+			}]
+			title: "安山机壳"
+			x: 12.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8100"]
+			icon: "create:mechanical_press"
+			id: "7CBD5A2E6AE463D8"
+			rewards: [{
+				count: 10
+				id: "3DE436592ACCA3AA"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5E50951A1C36BF4E"
+				item: "create:mechanical_press"
+				type: "item"
+			}]
+			title: "动力辊压机"
+			x: 13.5d
+			y: -0.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8100"]
+			icon: "create:deployer"
+			id: "23A4599D0C5B6BC0"
+			rewards: [{
+				count: 15
+				id: "0E90F0B5931B771C"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "1145AB3A132E2F97"
+				item: "create:deployer"
+				type: "item"
+			}]
+			title: "机械手 ×4"
+			x: 15.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8100"]
+			icon: "create:mechanical_mixer"
+			id: "433DE54F04296649"
+			rewards: [{
+				count: 10
+				id: "04D07D60A0C9531E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "3EF390D2C3BBDCEC"
+				item: "create:mechanical_mixer"
+				type: "item"
+			}]
+			title: "动力搅拌器"
+			x: 12.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["433DE54F04296649"]
+			description: [
+				"§6生姜水§r(Ginger Water) —— §7温通经脉，专精各部位需求§r"
+				""
+				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e胡萝卜§r，启动§b动力搅拌器§r搅拌即可得§6生姜水§r流体；空桶右键 Basin 取出得§6生姜水桶§r。"
+				""
+				"§e使用方式§r：顾客泡脚时，手持§6生姜水桶§r右键触发——每个部位随机 §a0~3§r 点需求加成。"
+			]
+			icon: "kubejs:ginger_water_bucket"
+			id: "7B3A5D9E2F1C8260"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8262"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8261"
+				item: "kubejs:ginger_water_bucket"
+				type: "item"
+			}]
+			title: "泡脚水：生姜水"
+			x: 10.5d
+			y: 2.0d
+		}
+		{
+			dependencies: ["433DE54F04296649"]
+			description: [
+				"§2艾草水§r(Mugwort Water) —— §7祛湿温经，专精满意度§r"
+				""
+				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e蕨§r，动力搅拌器搅拌 → 得§2艾草水桶§r。"
+				""
+				"§e使用方式§r：泡脚时手持艾草水桶右键——顾客满意度额外 §a+12§r。"
+			]
+			icon: "kubejs:mugwort_water_bucket"
+			id: "7B3A5D9E2F1C8270"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8272"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8271"
+				item: "kubejs:mugwort_water_bucket"
+				type: "item"
+			}]
+			title: "泡脚水：艾草水"
+			x: 13.5d
+			y: 2.0d
+		}
+		{
+			dependencies: ["433DE54F04296649"]
+			description: [
+				"§c花椒水§r(Pepper Water) —— §7驱散寒气，专精掉钱§r"
+				""
+				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e下界疣§r，动力搅拌器搅拌 → 得§c花椒水桶§r。"
+				""
+				"§e使用方式§r：泡脚时手持花椒水桶右键——顾客会额外掉落约 §a20§r 点财运（具体金额由商店系统结算）。"
+			]
+			icon: "kubejs:pepper_water_bucket"
+			id: "7B3A5D9E2F1C8280"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8282"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8281"
+				item: "kubejs:pepper_water_bucket"
+				type: "item"
+			}]
+			title: "泡脚水：花椒水"
+			x: 13.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["433DE54F04296649"]
+			description: [
+				"§f食盐水§r(Salt Water) —— §7清洁杀菌，专精搓脚掉皴§r"
+				""
+				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e骨粉§r，动力搅拌器搅拌 → 得§f食盐水桶§r。"
+				""
+				"§e使用方式§r：顾客浸泡食盐水期间，每次搓脚额外掉落 §a+2§r 皴。"
+			]
+			icon: "kubejs:salt_water_bucket"
+			id: "7B3A5D9E2F1C8290"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8292"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8291"
+				item: "kubejs:salt_water_bucket"
+				type: "item"
+			}]
+			title: "泡脚水：食盐水"
+			x: 10.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["433DE54F04296649"]
+			description: [
+				"§a茶叶水§r(Tea Water) —— §7醒神提气，专精各部位需求（高级）§r"
+				""
+				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e干海带§r，动力搅拌器搅拌 → 得§a茶叶水桶§r。"
+				""
+				"§e使用方式§r：茶叶水是生姜水的升级版——每个部位随机 §a0~4§r 点需求加成，综合增益最高。"
+			]
+			icon: "kubejs:tea_water_bucket"
+			id: "7B3A5D9E2F1C82A0"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C82A2"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C82A1"
+				item: "kubejs:tea_water_bucket"
+				type: "item"
+			}]
+			title: "泡脚水：茶叶水"
+			x: 12.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8300"]
+			description: [
+				"§c红石粉§r(Redstone) 是§b精密构件§r合成中不可替代的第 4 个 §6deploy§r 材料。"
+				""
+				"早期还没铺开红石矿产线？没关系，打开§bSDM 商店§r，花点铜币先买一些备着："
+				"· 合成精密构件时，红石与齿轮/大齿轮并列作为循环材料"
+				"· §e组合芯片§r的 3×3 合成格里，四角也必定含有红石粉"
+				""
+				"§e任务目标§r：持有 1 个 §fminecraft:redstone§r 即可完成。"
+			]
+			icon: "minecraft:redstone"
+			id: "7B3A5D9E2F1C8230"
+			rewards: [{
+				count: 2
+				id: "7B3A5D9E2F1C8232"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8231"
+				item: "minecraft:redstone"
+				type: "item"
+			}]
+			title: "以币易物：购买红石"
+			x: 16.5d
+			y: 0.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8300"]
+			description: [
+				"§f线§r(String) 是合成§b线筛网§r的关键材料，也是早期缝制背包、绳索等小物件的常见原料。"
+				""
+				"§e天然途径§r：击杀蜘蛛、破坏蜘蛛网——耗时耗耐久。"
+				""
+				"§6更省心的办法§r：打开§bSDM 商店§r，用铜币直接买一捆线带走："
+				"· 无需举着剑在夜里刷蜘蛛"
+				"· 数量管够，合成筛网、机械带、钓鱼线一条龙"
+				""
+				"§a任务目标§r：持有 1 个 §fminecraft:string§r 即可完成。"
+			]
+			icon: "minecraft:string"
+			id: "7B3A5D9E2F1C8240"
+			rewards: [{
+				count: 2
+				id: "7B3A5D9E2F1C8242"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8241"
+				item: "minecraft:string"
+				type: "item"
+			}]
+			title: "以币易物：购买线"
+			x: 7.5d
+			y: 0.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8300"]
+			description: [
+				"§b机械传送带§r(Belt Connector) 是 §bCreate§r 产线铺设中的核心物流零件——运输物品、桥接机械一把好手。"
+				""
+				"§6自制流程§r：搓泥宝（干草）+ 皮革→ 传送带 ...起步阶段相当啰嗦。"
+				""
+				"§a捷径§r：§bSDM 商店§r里传送带现货供应，硬币到手立即铺线。"
+				""
+				"§e任务目标§r：持有 1 个 §fcreate:belt_connector§r 即可完成。"
+			]
+			icon: "create:belt_connector"
+			id: "7B3A5D9E2F1C8250"
+			rewards: [{
+				count: 3
+				id: "7B3A5D9E2F1C8252"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7B3A5D9E2F1C8251"
+				item: "create:belt_connector"
+				type: "item"
+			}]
+			title: "以币易物：购买机械传送带"
+			x: 13.5d
+			y: 0.5d
+		}
+		{
+			dependencies: [
+				"606C31ED5C612D97"
+				"3EBF0AAB9D5A7B0C"
+				"23A4599D0C5B6BC0"
+				"7B3A5D9E2F1C8210"
+				"7B3A5D9E2F1C8230"
+			]
+			description: [
+				"§b精密构件§r(Precision Mechanism) 是合成§e芯片遗物§r的核心材料。"
+				""
+				"§a合成步骤§r："
+				"· 基材：§f黄铜板§r"
+				"· 由§b机械手§r持 §f齿轮 / 大齿轮 / 红石§r 依次在基材上 §6deploy§r"
+				"· 循环 §e5 次§r 后产出精密构件（含副产物）"
+				""
+				"§7掌握精密构件，就能开始打造属于你的第一批芯片遗物了。§r"
+			]
+			icon: "create:precision_mechanism"
+			id: "7B3A5D9E2F1C8220"
+			rewards: [{
+				count: 10
+				id: "7B3A5D9E2F1C8222"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			size: 1.5d
+			tasks: [{
+				id: "7B3A5D9E2F1C8221"
+				item: "create:precision_mechanism"
+				type: "item"
+			}]
+			title: "精密构件"
+			x: 16.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:basic_chip_toe"
+			id: "674B9ADA213630DF"
+			rewards: [{
+				id: "73BED160B97A835C"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "27D5CEA842C16B95"
+				item: "marguerite:basic_chip_toe"
+				type: "item"
+			}]
+			title: "基础芯片：悦心"
+			x: 19.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:basic_chip_sole"
+			id: "0DF25A392F23CFE4"
+			rewards: [{
+				id: "5C92FCB9B250E104"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "4F7B980A8D6043EF"
+				item: "marguerite:basic_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：敛财"
+			x: 19.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:basic_chip_center"
+			id: "3DBE3E048A548984"
+			rewards: [{
+				id: "42F987CB3F8D9587"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "61650A7E43C88245"
+				item: "marguerite:basic_chip_center"
+				type: "item"
+			}]
+			title: "基础芯片：省力"
+			x: 20.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:basic_chip_heel"
+			id: "500FC854446A6A3A"
+			rewards: [{
+				count: 2
+				id: "27854D2E87CF8D8C"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "40936939AFCECAE6"
+				item: "marguerite:basic_chip_heel"
+				type: "item"
+			}]
+			title: "基础芯片：逐利"
+			x: 19.0d
+			y: -4.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:general_chip_all"
+			id: "0BE6AD27551F43AE"
+			rewards: [{
+				count: 2
+				id: "2FDD1B01C56311B9"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "0BB2A5F775B11CF6"
+				item: "marguerite:general_chip_all"
+				type: "item"
+			}]
+			title: "基础芯片：温柔"
+			x: 20.0d
+			y: -4.0d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			icon: "marguerite:synergy_chip_toe"
+			id: "14CB4C02CB81D503"
+			rewards: [{
+				count: 2
+				id: "10EE8CD07D8DF3D7"
+				item: "coinsje:iron_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "2D9A0212643B5EB8"
+				item: "marguerite:synergy_chip_toe"
+				type: "item"
+			}]
+			title: "基础芯片：全能"
+			x: 20.0d
+			y: -2.0d
+		}
+		{
+			icon: "marguerite:focus_chip_sole"
+			id: "49AE5686F853901D"
+			rewards: [{
+				id: "4612A360CCECEAA8"
+				item: "coinsje:gold_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "4E9525643EC4DFEB"
+				item: "marguerite:focus_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：沉淀"
+			x: 20.5d
+			y: 3.0d
+		}
+		{
+			icon: "marguerite:eco_chip_center"
+			id: "2AC12E5B6586FE58"
+			rewards: [{
+				id: "23CC68A116ED5176"
+				item: "coinsje:gold_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "190AC06E2176C4E9"
+				item: "marguerite:eco_chip_center"
+				type: "item"
+			}]
+			title: "基础芯片：节能"
+			x: 19.5d
+			y: 4.0d
+		}
+		{
+			icon: "marguerite:impact_chip_heel"
+			id: "54D8DB083B5647F1"
+			rewards: [{
+				id: "44D990581ADC28A4"
+				item: "coinsje:gold_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "680CC238FDF1007F"
+				item: "marguerite:impact_chip_heel"
+				type: "item"
+			}]
+			title: "基础芯片：爆发"
+			x: 20.5d
+			y: 4.0d
+		}
+		{
+			icon: "marguerite:refine_chip_sole"
+			id: "3CDD4241EBC44CD5"
+			rewards: [{
+				id: "2CCE40EC70E78089"
+				item: "coinsje:gold_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "0C643106D878F327"
+				item: "marguerite:refine_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：精修"
+			x: 20.5d
+			y: 2.0d
+		}
+		{
+			dependencies: [
+				"49AE5686F853901D"
+				"2AC12E5B6586FE58"
+				"54D8DB083B5647F1"
+				"3CDD4241EBC44CD5"
+			]
+			icon: "marguerite:chip_blindbox_1"
+			id: "553F617A5A6AAB2B"
+			rewards: [{
+				id: "7788CBDEA3F6EBFE"
+				item: "coinsje:diamond_coin"
+				type: "item"
+			}]
+			shape: "gear"
+			size: 1.5d
+			tasks: [{
+				id: "5B74611B2DC2A922"
+				title: "集齐第一阶段 11 种芯片"
+				type: "checkmark"
+			}]
+			title: "第一阶段·大圆满"
+			x: 19.0d
+			y: 2.0d
+		}
+	]
+	title: "序章"
 }

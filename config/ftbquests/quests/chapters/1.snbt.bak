@@ -1,0 +1,920 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "1"
+	group: "703E058CBE887155"
+	icon: "mekanism:basic_control_circuit"
+	id: "358D848C495AD6C3"
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			can_repeat: false
+			icon: "minecraft:beacon"
+			id: "64686425A9752ADB"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:start start"
+				icon: "minecraft:nether_star"
+				id: "1813C55813EA0453"
+				title: "与爱丽丝对话"
+				type: "command"
+			}]
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "192C4AEBE2FA8BF2"
+				title: "我是谁？"
+				type: "checkmark"
+			}]
+			x: 1.0d
+			y: -3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["64686425A9752ADB"]
+			description: ["可以在这里重新触发对话"]
+			hide_dependency_lines: false
+			icon: "minecraft:nether_star"
+			id: "28F0FC608CAC5A31"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:start start"
+				icon: "minecraft:nether_star"
+				id: "708DD666D03D893F"
+				silent: true
+				title: "与爱丽丝对话"
+				type: "command"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "380B03C5DF933152"
+				title: "重新触发对话"
+				type: "checkmark"
+			}]
+			x: 1.0d
+			y: -6.0d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			id: "63C9911A3F903F20"
+			tasks: [{
+				id: "35D862F919828388"
+				title: "第一名顾客"
+				type: "checkmark"
+			}]
+			x: 4.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["63C9911A3F903F20"]
+			id: "12C64334957B3742"
+			tasks: [{
+				id: "3E2CEA35F10843F3"
+				title: "第一桶金"
+				type: "checkmark"
+			}]
+			x: 7.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["64686425A9752ADB"]
+			id: "1AD9CACAA44EDA80"
+			tasks: [
+				{
+					id: "33D561B0D6C8BAA4"
+					title: "在白天正常开店"
+					type: "checkmark"
+				}
+				{
+					id: "0BF6F66E3C4128E5"
+					item: "marguerite:voucher_random"
+					title: "使用预约凭证开店"
+					type: "item"
+				}
+			]
+			title: "招揽顾客的两种方式"
+			x: 2.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			icon: "marguerite:cun"
+			id: "AA00000000000001"
+			rewards: [{
+				id: "CC00000000000001"
+				item: { Count: 2b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000001"
+				item: "marguerite:cun"
+				type: "item"
+			}]
+			title: "初识\"皴\""
+			x: 4.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000001"]
+			icon: "marguerite:cun"
+			id: "AA00000000000002"
+			rewards: [{
+				id: "CC00000000000002"
+				item: { Count: 3b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 9L
+				id: "BB00000000000002"
+				item: "marguerite:cun"
+				type: "item"
+			}]
+			title: "勤劳致富"
+			x: 6.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000002"]
+			icon: "marguerite:cun_block"
+			id: "AA00000000000003"
+			rewards: [{
+				id: "CC00000000000003"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000003"
+				item: "marguerite:cun_block"
+				type: "item"
+			}]
+			title: "聚砂成塔"
+			x: 8.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000003"]
+			icon: "createsifter:andesite_mesh"
+			id: "AA00000000000004"
+			rewards: [{
+				id: "CC00000000000004"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000004"
+				item: "createsifter:andesite_mesh"
+				type: "item"
+			}]
+			title: "筛矿工具"
+			x: 10.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000004"]
+			icon: "minecraft:iron_nugget"
+			id: "AA00000000000005"
+			rewards: [{
+				id: "CC00000000000005"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000005"
+				item: "minecraft:iron_nugget"
+				type: "item"
+			}]
+			title: "首次筛矿"
+			x: 12.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000005"]
+			icon: "minecraft:iron_nugget"
+			id: "AA00000000000006"
+			rewards: [{
+				id: "CC00000000000006"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 9L
+				id: "BB00000000000006"
+				item: "minecraft:iron_nugget"
+				type: "item"
+			}]
+			title: "铁粒富矿"
+			x: 14.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["AA00000000000005"]
+			icon: "create:copper_nugget"
+			id: "AA00000000000007"
+			rewards: [{
+				id: "CC00000000000007"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 9L
+				id: "BB00000000000007"
+				item: "create:copper_nugget"
+				type: "item"
+			}]
+			title: "铜粒富矿"
+			x: 14.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["AA00000000000005"]
+			icon: "minecraft:gold_nugget"
+			id: "AA00000000000008"
+			rewards: [{
+				id: "CC00000000000008"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 9L
+				id: "BB00000000000008"
+				item: "minecraft:gold_nugget"
+				type: "item"
+			}]
+			title: "金粒富矿"
+			x: 14.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000005"]
+			icon: "create:zinc_nugget"
+			id: "AA00000000000009"
+			rewards: [{
+				id: "CC00000000000009"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 9L
+				id: "BB00000000000009"
+				item: "create:zinc_nugget"
+				type: "item"
+			}]
+			title: "锌粒富矿"
+			x: 14.0d
+			y: 2.5d
+		}
+		{
+			dependencies: ["AA00000000000005"]
+			icon: "minecraft:quartz"
+			id: "AA00000000000010"
+			rewards: [{
+				id: "CC00000000000010"
+				item: { Count: 3b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000010"
+				item: "minecraft:quartz"
+				type: "item"
+			}]
+			title: "意外收获：石英"
+			x: 14.0d
+			y: 3.5d
+		}
+		{
+			dependencies: ["AA00000000000006"]
+			icon: "minecraft:iron_ingot"
+			id: "AA00000000000011"
+			rewards: [{
+				id: "CC00000000000011"
+				item: { Count: 8b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000011"
+				item: "minecraft:iron_ingot"
+				type: "item"
+			}]
+			title: "铁锭"
+			x: 16.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["AA00000000000007"]
+			icon: "minecraft:copper_ingot"
+			id: "AA00000000000012"
+			rewards: [{
+				id: "CC00000000000012"
+				item: { Count: 8b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000012"
+				item: "minecraft:copper_ingot"
+				type: "item"
+			}]
+			title: "铜锭"
+			x: 16.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["AA00000000000008"]
+			icon: "minecraft:gold_ingot"
+			id: "AA00000000000013"
+			rewards: [{
+				id: "CC00000000000013"
+				item: { Count: 8b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000013"
+				item: "minecraft:gold_ingot"
+				type: "item"
+			}]
+			title: "金锭"
+			x: 16.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["AA00000000000009"]
+			icon: "create:zinc_ingot"
+			id: "AA00000000000014"
+			rewards: [{
+				id: "CC00000000000014"
+				item: { Count: 8b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000014"
+				item: "create:zinc_ingot"
+				type: "item"
+			}]
+			title: "锌锭"
+			x: 16.0d
+			y: 2.5d
+		}
+		{
+			dependencies: ["AA00000000000019", "AA00000000000011"]
+			icon: "create:millstone"
+			id: "AA00000000000015"
+			rewards: [{
+				id: "CC00000000000015"
+				item: { Count: 10b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000015"
+				item: "create:millstone"
+				type: "item"
+			}]
+			title: "组装磨盘"
+			x: 18.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["AA00000000000015", "AA00000000000011"]
+			icon: "minecraft:iron_ingot"
+			id: "AA00000000000016"
+			rewards: [{
+				id: "CC00000000000016"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000016"
+				item: { Count: 1b, tag: "forge:dusts/iron" }
+				type: "item"
+			}]
+			title: "铁粉"
+			x: 20.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["AA00000000000015", "AA00000000000012"]
+			icon: "minecraft:copper_ingot"
+			id: "AA00000000000017"
+			rewards: [{
+				id: "CC00000000000017"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000017"
+				item: { Count: 1b, tag: "forge:dusts/copper" }
+				type: "item"
+			}]
+			title: "铜粉"
+			x: 20.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["AA00000000000015", "AA00000000000013"]
+			icon: "minecraft:gold_ingot"
+			id: "AA00000000000018"
+			rewards: [{
+				id: "CC00000000000018"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000018"
+				item: { Count: 1b, tag: "forge:dusts/gold" }
+				type: "item"
+			}]
+			title: "金粉"
+			x: 20.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			icon: "create:andesite_alloy"
+			id: "AA00000000000019"
+			rewards: [{
+				id: "CC00000000000019"
+				item: { Count: 3b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "BB00000000000019"
+				item: "create:andesite_alloy"
+				type: "item"
+			}]
+			title: "安山岩合金"
+			x: 4.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["AA00000000000019"]
+			icon: "create:shaft"
+			id: "AA00000000000020"
+			rewards: [{
+				id: "CC00000000000020"
+				item: { Count: 3b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "BB00000000000020"
+				item: "create:shaft"
+				type: "item"
+			}]
+			title: "传动轴"
+			x: 6.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["AA00000000000020"]
+			icon: "create:cogwheel"
+			id: "AA00000000000021"
+			rewards: [{
+				id: "CC00000000000021"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "BB00000000000021"
+				item: "create:cogwheel"
+				type: "item"
+			}]
+			title: "齿轮"
+			x: 8.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["AA00000000000021"]
+			icon: "create:large_cogwheel"
+			id: "AA00000000000022"
+			rewards: [{
+				id: "CC00000000000022"
+				item: { Count: 5b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "BB00000000000022"
+				item: "create:large_cogwheel"
+				type: "item"
+			}]
+			title: "大齿轮"
+			x: 10.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["AA00000000000021"]
+			icon: "create:mechanical_press"
+			id: "AA00000000000023"
+			rewards: [{
+				id: "CC00000000000023"
+				item: { Count: 10b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000023"
+				item: "create:mechanical_press"
+				type: "item"
+			}]
+			title: "压制机"
+			x: 8.0d
+			y: 5.5d
+		}
+		{
+			dependencies: ["AA00000000000021"]
+			icon: "create:deployer"
+			id: "AA00000000000024"
+			rewards: [{
+				id: "CC00000000000024"
+				item: { Count: 15b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "BB00000000000024"
+				item: "create:deployer"
+				type: "item"
+			}]
+			title: "部署器 ×4"
+			x: 10.0d
+			y: 5.5d
+		}
+		{
+			dependencies: ["AA00000000000021"]
+			icon: "create:mechanical_mixer"
+			id: "AA00000000000025"
+			rewards: [{
+				id: "CC00000000000025"
+				item: { Count: 10b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000025"
+				item: "create:mechanical_mixer"
+				type: "item"
+			}]
+			title: "搅拌机"
+			x: 12.0d
+			y: 5.5d
+		}
+		{
+			dependencies: ["AA00000000000012", "AA00000000000014", "AA00000000000025"]
+			icon: "create:brass_ingot"
+			id: "AA00000000000026"
+			rewards: [{
+				id: "CC00000000000026"
+				item: { Count: 10b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000026"
+				item: "create:brass_ingot"
+				type: "item"
+			}]
+			title: "黄铜锭"
+			x: 14.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["AA00000000000026", "AA00000000000023"]
+			icon: "create:brass_sheet"
+			id: "AA00000000000027"
+			rewards: [{
+				id: "CC00000000000027"
+				item: { Count: 15b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000027"
+				item: "create:brass_sheet"
+				type: "item"
+			}]
+			title: "首块黄铜板"
+			x: 16.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["AA00000000000027"]
+			icon: "create:brass_sheet"
+			id: "AA00000000000028"
+			rewards: [{
+				id: "CC00000000000028"
+				item: { Count: 20b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "BB00000000000028"
+				item: "create:brass_sheet"
+				type: "item"
+			}]
+			title: "黄铜板仓储"
+			x: 18.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["AA00000000000028", "AA00000000000024", "AA00000000000022"]
+			icon: "create:precision_mechanism"
+			id: "AA00000000000029"
+			rewards: [{
+				id: "CC00000000000029"
+				item: { Count: 30b, id: "coinsje:copper_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000029"
+				item: "create:precision_mechanism"
+				type: "item"
+			}]
+			title: "精密构件"
+			size: 1.5d
+			x: 20.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["AA00000000000029"]
+			icon: "create:precision_mechanism"
+			id: "AA00000000000030"
+			rewards: [{
+				id: "CC00000000000030"
+				item: { Count: 1b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 8L
+				id: "BB00000000000030"
+				item: "create:precision_mechanism"
+				type: "item"
+			}]
+			title: "精密构件仓储"
+			x: 22.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["AA00000000000030", "AA00000000000018"]
+			icon: "marguerite:basic_chip_toe"
+			id: "AA00000000000031"
+			rewards: [{
+				id: "CC00000000000031"
+				item: { Count: 1b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000031"
+				item: "marguerite:basic_chip_toe"
+				type: "item"
+			}]
+			title: "基础芯片：悦心"
+			x: 18.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["AA00000000000030", "AA00000000000017"]
+			icon: "marguerite:basic_chip_sole"
+			id: "AA00000000000032"
+			rewards: [{
+				id: "CC00000000000032"
+				item: { Count: 1b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000032"
+				item: "marguerite:basic_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：敛财"
+			x: 20.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["AA00000000000030", "AA00000000000016"]
+			icon: "marguerite:basic_chip_center"
+			id: "AA00000000000033"
+			rewards: [{
+				id: "CC00000000000033"
+				item: { Count: 1b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000033"
+				item: "marguerite:basic_chip_center"
+				type: "item"
+			}]
+			title: "基础芯片：省力"
+			x: 22.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["AA00000000000031"]
+			icon: "marguerite:basic_chip_heel"
+			id: "AA00000000000034"
+			rewards: [{
+				id: "CC00000000000034"
+				item: { Count: 2b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000034"
+				item: "marguerite:basic_chip_heel"
+				type: "item"
+			}]
+			title: "基础芯片：逐利"
+			x: 18.0d
+			y: 7.5d
+		}
+		{
+			dependencies: ["AA00000000000032"]
+			icon: "marguerite:general_chip_all"
+			id: "AA00000000000035"
+			rewards: [{
+				id: "CC00000000000035"
+				item: { Count: 2b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000035"
+				item: "marguerite:general_chip_all"
+				type: "item"
+			}]
+			title: "基础芯片：温柔"
+			x: 20.0d
+			y: 7.5d
+		}
+		{
+			dependencies: ["AA00000000000033"]
+			icon: "marguerite:synergy_chip_toe"
+			id: "AA00000000000036"
+			rewards: [{
+				id: "CC00000000000036"
+				item: { Count: 2b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000036"
+				item: "marguerite:synergy_chip_toe"
+				type: "item"
+			}]
+			title: "基础芯片：全能"
+			x: 22.0d
+			y: 7.5d
+		}
+		{
+			dependencies: ["AA00000000000034", "AA00000000000035", "AA00000000000036"]
+			icon: "marguerite:chip_blindbox_1"
+			id: "AA00000000000037"
+			rewards: [{
+				id: "CC00000000000037"
+				item: { Count: 3b, id: "coinsje:iron_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000037"
+				item: "marguerite:chip_blindbox_1"
+				type: "item"
+			}]
+			title: "开启盲盒"
+			size: 1.5d
+			x: 20.0d
+			y: 9.0d
+		}
+		{
+			dependencies: ["AA00000000000037"]
+			icon: "marguerite:focus_chip_sole"
+			id: "AA00000000000038"
+			rewards: [{
+				id: "CC00000000000038"
+				item: { Count: 1b, id: "coinsje:gold_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000038"
+				item: "marguerite:focus_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：沉淀"
+			x: 15.0d
+			y: 10.5d
+		}
+		{
+			dependencies: ["AA00000000000037"]
+			icon: "marguerite:eco_chip_center"
+			id: "AA00000000000039"
+			rewards: [{
+				id: "CC00000000000039"
+				item: { Count: 1b, id: "coinsje:gold_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000039"
+				item: "marguerite:eco_chip_center"
+				type: "item"
+			}]
+			title: "基础芯片：节能"
+			x: 17.0d
+			y: 10.5d
+		}
+		{
+			dependencies: ["AA00000000000037"]
+			icon: "marguerite:impact_chip_heel"
+			id: "AA00000000000040"
+			rewards: [{
+				id: "CC00000000000040"
+				item: { Count: 1b, id: "coinsje:gold_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000040"
+				item: "marguerite:impact_chip_heel"
+				type: "item"
+			}]
+			title: "基础芯片：爆发"
+			x: 19.0d
+			y: 10.5d
+		}
+		{
+			dependencies: ["AA00000000000037"]
+			icon: "marguerite:link_chip_toe"
+			id: "AA00000000000041"
+			rewards: [{
+				id: "CC00000000000041"
+				item: { Count: 1b, id: "coinsje:gold_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000041"
+				item: "marguerite:link_chip_toe"
+				type: "item"
+			}]
+			title: "基础芯片：连携"
+			x: 21.0d
+			y: 10.5d
+		}
+		{
+			dependencies: ["AA00000000000037"]
+			icon: "marguerite:refine_chip_sole"
+			id: "AA00000000000042"
+			rewards: [{
+				id: "CC00000000000042"
+				item: { Count: 1b, id: "coinsje:gold_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 1L
+				id: "BB00000000000042"
+				item: "marguerite:refine_chip_sole"
+				type: "item"
+			}]
+			title: "基础芯片：精修"
+			x: 23.0d
+			y: 10.5d
+		}
+		{
+			dependencies: ["AA00000000000038", "AA00000000000039", "AA00000000000040", "AA00000000000041", "AA00000000000042"]
+			icon: "marguerite:chip_blindbox_1"
+			id: "AA00000000000043"
+			rewards: [{
+				id: "CC00000000000043"
+				item: { Count: 1b, id: "coinsje:diamond_coin" }
+				type: "item"
+			}]
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "BB00000000000043"
+				title: "集齐第一阶段 11 种芯片"
+				type: "checkmark"
+			}]
+			title: "第一阶段·大圆满"
+			x: 20.0d
+			y: 12.0d
+		}
+	]
+	title: "序章"
+}

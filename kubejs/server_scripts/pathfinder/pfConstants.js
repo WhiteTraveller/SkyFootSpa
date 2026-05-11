@@ -5,7 +5,7 @@
 // ============================================================
 
 // 用于同步数据的手持物品ID
-let SYNC_ITEM_ID = 'minecraft:redstone'
+let SYNC_ITEM_ID = 'minecraft:paper'
 
 // 网格参数：以方块为中心，向四周延伸 GRID_HALF 格
 let GRID_HALF = 20

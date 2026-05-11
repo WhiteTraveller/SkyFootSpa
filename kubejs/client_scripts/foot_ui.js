@@ -4,7 +4,7 @@
 // ============================================================
 
 // 常量定义
-let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
+let SYNC_ITEM_ID = 'minecraft:paper'  // 用于同步数据的手持物品ID
 
 let OIL_ID_TO_NAME = {
     'marguerite:oil': '精油'

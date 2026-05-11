@@ -59,7 +59,10 @@ StartupEvents.registry('item', event => {
         .maxStackSize(1)
         .tag("curios:package")
         // 按阶段统一芯片外观（贴图使用 Mekanism 控制电路）
-        if (relic.stage === 1) {
+        // 若遗物通过 setTexture 设置了专属材质，优先使用
+        if (relic.texture) {
+            e.texture(relic.texture)
+        } else if (relic.stage === 1) {
             e.texture("mekanism:item/basic_control_circuit")
         } else if (relic.stage === 2) {
             e.texture("mekanism:item/advanced_control_circuit")

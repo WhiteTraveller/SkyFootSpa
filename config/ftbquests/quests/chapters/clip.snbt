@@ -1,0 +1,21 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "clip"
+	group: ""
+	id: "1B6D999B51F719FB"
+	order_index: 0
+	quest_links: [ ]
+	quests: [{
+		id: "28B5E7882A1EFD30"
+		tasks: [{
+			count: 64L
+			id: "3363614BF6D54449"
+			item: { Count: 64, id: "coinsje:copper_coin" }
+			type: "item"
+		}]
+		x: -0.5d
+		y: -2.0d
+	}]
+	title: "clip"
+}

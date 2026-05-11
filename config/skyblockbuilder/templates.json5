@@ -26,6 +26,18 @@
       "south": [],
       "west": []
     },
+      "spawn1": {
+  "north": [
+    [
+      5,
+      1,
+      10
+    ]
+  ],
+  "east": [],
+  "south": [],
+  "west": []
+},
     "1": {
   "north": [],
   "east": [],
@@ -91,6 +103,14 @@
       "desc": "§c§l不要选择，否则会确实一些关键物品",
       "file": "maincity.nbt",
       "spawns": "default",
+      "surroundingBlocks": "default",
+      "spreads": "default"
+    },
+    {
+      "name": "空岛1",
+      "desc": "§c§l很遗憾你现在只能选这个",
+      "file": "build1.nbt",
+      "spawns": "spawn1",
       "surroundingBlocks": "default",
       "spreads": "default"
     },

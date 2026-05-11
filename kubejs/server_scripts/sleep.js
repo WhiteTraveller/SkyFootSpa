@@ -5,7 +5,7 @@
 // ============================================================
 
 // 常量定义
-let SYNC_ITEM_ID = 'minecraft:redstone'  // 用于同步数据的手持物品ID
+let SYNC_ITEM_ID = 'minecraft:paper'  // 用于同步数据的手持物品ID
 
 // 全局 Window 管理器（保留用于客户端脚本访问）
 global.pfSleepWindows = global.pfSleepWindows || new Map()
@@ -109,25 +109,39 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
             
             // 结算规则：
-            // - 本单最终掉落金锭数量 = 本单累计金钱（pfMoney）
-            // - pfMoney 在每次"有效点击"时会增加：money_gain.<部位>
-            //   所以这条规则等价于"每个部位点击收益 * 点击次数 的总和"
+            // - 本单累计金钱（pfMoney）按 coinsje 硬币体系贪心拆分，从最高面额向下
+            // - 面额比例: copper=1, iron=9, gold=81, diamond=729, netherite=6561
+            // - 例：10 = 1 iron + 1 copper；730 = 1 diamond + 1 copper
             let money = nbt.getInt('pfMoney') || 0
-            let goldCount = Math.max(0, Math.floor(money))
-            console.log("[SLEEP-JS] 需求完成！掉落金锭: " + goldCount + "个 (累计金钱=" + money + ")")
-            if (goldCount > 0) {
-                // 使用原版指令生成金锭物品
+            let totalCopper = Math.max(0, Math.floor(money))
+            console.log("[SLEEP-JS] 需求完成！掉落硬币 totalCopper=" + totalCopper + " (累计金钱=" + money + ")")
+            if (totalCopper > 0) {
                 let x = entity.x
                 let y = (entity.y + 1)
                 let z = entity.z
-                let remaining = goldCount
-                while (remaining > 0) {
-                    // 原版物品堆叠上限通常是 64，因此这里按 64 分批召唤掉落物，
-                    // 避免一次性 Count 太大导致指令无效或显示异常。
-                    let count = Math.min(64, remaining)
-                    let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"minecraft:gold_ingot",Count:' + count + 'b}}'
-                    level.getServer().runCommandSilent(cmd)
-                    remaining -= count
+                // 从高到低面额贪心拆分
+                let coinTiers = [
+                    { id: 'coinsje:netherite_coin', value: 6561 },
+                    { id: 'coinsje:diamond_coin',   value: 729 },
+                    { id: 'coinsje:gold_coin',      value: 81 },
+                    { id: 'coinsje:iron_coin',      value: 9 },
+                    { id: 'coinsje:copper_coin',    value: 1 }
+                ]
+                let remainingCopper = totalCopper
+                for (let t = 0; t < coinTiers.length; t++) {
+                    let tier = coinTiers[t]
+                    let cnt = Math.floor(remainingCopper / tier.value)
+                    if (cnt <= 0) continue
+                    remainingCopper -= cnt * tier.value
+                    // 按 ≤64 分批 summon，避免一次性 Count 过大
+                    let batch = cnt
+                    while (batch > 0) {
+                        let c = Math.min(64, batch)
+                        let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"' + tier.id + '",Count:' + c + 'b}}'
+                        level.getServer().runCommandSilent(cmd)
+                        batch -= c
+                    }
+                    console.log('[SLEEP-JS] 掉落 ' + tier.id + ' x' + cnt)
                 }
             }
             

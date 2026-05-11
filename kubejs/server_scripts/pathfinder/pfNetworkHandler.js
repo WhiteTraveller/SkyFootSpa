@@ -118,6 +118,7 @@ function setupNetworkHandlers() {
                 
                 let totalSatGain = 0
                 let totalMoneyGain = 0
+                let totalClicks = 0
                 for (let k = 0; k < allKeys.length; k++) {
                     let dk = allKeys[k]
                     let val = nbt.getInt(dk) || 0
@@ -127,6 +128,7 @@ function setupNetworkHandlers() {
                         let moneyPer = pn ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + pn, 1.0) : 1.0
                         totalSatGain += Math.max(0, Math.floor(satPer)) * val
                         totalMoneyGain += Math.floor(moneyPer) * val
+                        totalClicks += val
                         nbt[dk] = 0
                     }
                 }
@@ -140,6 +142,16 @@ function setupNetworkHandlers() {
                 
                 player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + satApplied + "§d❤ §e(一键满足)")
                 console.log("[PF-NETWORK] 一键满足所有需求, 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
+
+                // 掉落"皴"：一键满足按总清零次数结算
+                try {
+                    if (global.pfCunDrop && totalClicks > 0) {
+                        let dropCount = global.pfCunDrop.getDropCount(player, targetEntity, null, totalClicks)
+                        if (dropCount > 0) {
+                            player.give(Item.of('marguerite:cun', dropCount))
+                        }
+                    }
+                } catch (e) { console.log('[PF-NETWORK] 皴掉落失败(一键满足): ' + e) }
             } else if (currentValue > 0) {
                 // 正常模式：只减少当前部位
                 // 从对应部位属性读取体力消耗
@@ -181,6 +193,16 @@ function setupNetworkHandlers() {
                 
                 console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue + 
                     ", 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
+
+                // 掉落"皴"：正常模式每次点击结算一次
+                try {
+                    if (global.pfCunDrop) {
+                        let dropCount = global.pfCunDrop.getDropCount(player, targetEntity, part, 1)
+                        if (dropCount > 0) {
+                            player.give(Item.of('marguerite:cun', dropCount))
+                        }
+                    }
+                } catch (e) { console.log('[PF-NETWORK] 皴掉落失败: ' + e) }
             } else {
                 console.log("[PF-NETWORK] 需求已为0，无法减少")
             }
@@ -199,11 +221,17 @@ function setupNetworkHandlers() {
         
         console.log("[PF-SOAK] 收到泡脚点击请求 entityUuid=" + entityUuid)
         
-        // 检查玩家手持水桶
+        // 检查玩家手持水桶（原版水桶 或 任何已注册的洗脚水桶）
         let playerMainHand = player.getMainHandItem()
-        if (!playerMainHand || playerMainHand.id !== 'minecraft:water_bucket') {
-            console.log("[PF-SOAK] 玩家没有手持水桶")
-            player.setStatusMessage("§c需要手持水桶才能开始泡脚！")
+        let bucketId = playerMainHand ? ("" + playerMainHand.id) : ""
+        let isVanillaWater = bucketId === 'minecraft:water_bucket'
+        let soakWaterDef = null
+        if (!isVanillaWater && global.soakWaterRegister) {
+            soakWaterDef = global.soakWaterRegister.getByBucketId(bucketId)
+        }
+        if (!isVanillaWater && !soakWaterDef) {
+            console.log("[PF-SOAK] 玩家没有手持水桶 / 洗脚水桶, 实际手持: " + bucketId)
+            player.setStatusMessage("§c需要手持水桶或洗脚水桶才能开始泡脚！")
             return
         }
         
@@ -223,8 +251,8 @@ function setupNetworkHandlers() {
             return
         }
         
-        // 开始泡脚
-        global.pfSoakManager.pfStartSoak(targetEntity, player)
+        // 开始泡脚（传入桶 id 以便后续根据水种类应用效果）
+        global.pfSoakManager.pfStartSoak(targetEntity, player, bucketId)
 
         // 记录操作玩家 UUID（用于后续结算时回查）
         let soakItem = targetEntity.getMainHandItem()

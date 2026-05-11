@@ -25,8 +25,20 @@ function pfSetSoakStateToItem(ent, state) {
         nbt.pfIsSoaking = state.isSoaking
         nbt.pfSoakDone = state.soakDone
         nbt.pfSoakTimeLeft = state.soakTimeLeft
+        if (state.waterType !== undefined && state.waterType !== null) {
+            nbt.pfSoakWaterType = state.waterType
+        }
         ent.setMainHandItem(item.withNBT(nbt))
     }
+}
+
+// 从手持物品 NBT 读取泡脚使用的水桶 id
+function pfGetSoakWaterType(ent) {
+    let item = ent.getMainHandItem()
+    if (item && item.id === global.pfConstants.SYNC_ITEM_ID && item.nbt) {
+        return "" + (item.nbt.getString('pfSoakWaterType') || "")
+    }
+    return ""
 }
 
 // 是否正在泡脚
@@ -71,6 +83,17 @@ function pfProcessSoaking(ent, currTick) {
             state.soakDone = 1
             state.soakTimeLeft = 0
             console.log("[PF-SOAK] 倒计时结束，泡脚完成！uuid=" + ent.getUuid())
+            pfSetSoakStateToItem(ent, state)
+            // 应用洗脚水附加效果（根据 pfSoakWaterType）
+            try {
+                let bucketId = pfGetSoakWaterType(ent)
+                if (bucketId && global.pfSoakWaterEffects) {
+                    global.pfSoakWaterEffects.pfApplySoakEffects(ent, bucketId)
+                }
+            } catch (e) {
+                console.log("[PF-SOAK] 应用洗脚水效果异常: " + e)
+            }
+            return true
         }
         
         pfSetSoakStateToItem(ent, state)
@@ -81,7 +104,8 @@ function pfProcessSoaking(ent, currTick) {
 }
 
 // 开始泡脚（由网络事件调用）
-function pfStartSoak(ent, player) {
+// bucketId: 玩家使用的桶 id（原版 minecraft:water_bucket 或已注册的洗脚水桶）
+function pfStartSoak(ent, player, bucketId) {
     let state = pfGetSoakStateFromItem(ent)
     
     if (state.isSoaking === 1) {
@@ -97,17 +121,23 @@ function pfStartSoak(ent, player) {
     }
     
     // 开始泡脚
-    console.log("[PF-SOAK] 开始泡脚，设置倒计时10秒")
+    console.log("[PF-SOAK] 开始泡脚，设置倒计时10秒，水桶=" + (bucketId || "minecraft:water_bucket"))
     state.isSoaking = 1
     state.soakTimeLeft = 10
     state.soakDone = 0
+    state.waterType = bucketId || 'minecraft:water_bucket'
     pfSetSoakStateToItem(ent, state)
     
     // 消耗水桶，变成空桶
     player.setMainHandItem(Item.of('minecraft:bucket', 1))
     console.log("[PF-SOAK] 水桶已消耗，变为空桶")
     
-    player.setStatusMessage("§a开始泡脚！倒计时10秒...")
+    let waterName = '清水'
+    if (bucketId && bucketId !== 'minecraft:water_bucket' && global.soakWaterRegister) {
+        let def = global.soakWaterRegister.getByBucketId(bucketId)
+        if (def) waterName = def.nameZH
+    }
+    player.setStatusMessage('§a开始泡脚（' + waterName + '）！倒计时10秒...')
     return true
 }
 
@@ -116,6 +146,7 @@ global.pfSoakManager = {
     pfIsSoaking: pfIsSoaking,
     pfIsSoakDone: pfIsSoakDone,
     pfGetSoakTimeLeft: pfGetSoakTimeLeft,
+    pfGetSoakWaterType: pfGetSoakWaterType,
     pfProcessSoaking: pfProcessSoaking,
     pfStartSoak: pfStartSoak
 }
