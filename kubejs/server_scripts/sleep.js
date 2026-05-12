@@ -119,29 +119,35 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                 let x = entity.x
                 let y = (entity.y + 1)
                 let z = entity.z
-                // 从高到低面额贪心拆分
-                let coinTiers = [
-                    { id: 'coinsje:netherite_coin', value: 6561 },
-                    { id: 'coinsje:diamond_coin',   value: 729 },
-                    { id: 'coinsje:gold_coin',      value: 81 },
-                    { id: 'coinsje:iron_coin',      value: 9 },
-                    { id: 'coinsje:copper_coin',    value: 1 }
-                ]
-                let remainingCopper = totalCopper
-                for (let t = 0; t < coinTiers.length; t++) {
-                    let tier = coinTiers[t]
-                    let cnt = Math.floor(remainingCopper / tier.value)
-                    if (cnt <= 0) continue
-                    remainingCopper -= cnt * tier.value
-                    // 按 ≤64 分批 summon，避免一次性 Count 过大
-                    let batch = cnt
-                    while (batch > 0) {
-                        let c = Math.min(64, batch)
-                        let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"' + tier.id + '",Count:' + c + 'b}}'
-                        level.getServer().runCommandSilent(cmd)
-                        batch -= c
+                // 改为入队到"硬币掉落调度器"，每 2 tick 以随机微小速度弹出一枚
+                // 详见 kubejs/server_scripts/pathfinder/pfCoinDropScheduler.js
+                if (global.pfCoinQueue && typeof global.pfCoinQueue.enqueueCoins === 'function') {
+                    let pushed = global.pfCoinQueue.enqueueCoins(level, x, y, z, totalCopper)
+                    console.log('[SLEEP-JS] 已入队 ' + pushed + ' 枚硬币，交由调度器逐枚弹出')
+                } else {
+                    // 降级：调度器未就绪时回退到一次性 summon
+                    console.log('[SLEEP-JS] pfCoinQueue 未就绪，回退一次性 summon 模式')
+                    let coinTiers = [
+                        { id: 'coinsje:netherite_coin', value: 6561 },
+                        { id: 'coinsje:diamond_coin',   value: 729 },
+                        { id: 'coinsje:gold_coin',      value: 81 },
+                        { id: 'coinsje:iron_coin',      value: 9 },
+                        { id: 'coinsje:copper_coin',    value: 1 }
+                    ]
+                    let remainingCopper = totalCopper
+                    for (let t = 0; t < coinTiers.length; t++) {
+                        let tier = coinTiers[t]
+                        let cnt = Math.floor(remainingCopper / tier.value)
+                        if (cnt <= 0) continue
+                        remainingCopper -= cnt * tier.value
+                        let batch = cnt
+                        while (batch > 0) {
+                            let c = Math.min(64, batch)
+                            let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"' + tier.id + '",Count:' + c + 'b}}'
+                            level.getServer().runCommandSilent(cmd)
+                            batch -= c
+                        }
                     }
-                    console.log('[SLEEP-JS] 掉落 ' + tier.id + ' x' + cnt)
                 }
             }
             

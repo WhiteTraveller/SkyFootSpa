@@ -70,6 +70,14 @@ function pfProcessSleeping(ent, level, currTick) {
     if (remainingSeconds > 10) remainingSeconds = 10
     if (sleepDuration % 20 === 1) {
         global.pfNbtSync.pfSyncCountdown(ent, remainingSeconds)
+        // 床旁 Create Basin 自动泡脚：每秒驱动一次倒计时
+        try {
+            if (global.pfBasinSoakManager) {
+                global.pfBasinSoakManager.pfTickBasinSoak(ent, level, sleepDuration)
+            }
+        } catch (e) {
+            console.log("[PF-SLEEP] basin soak tick 异常: " + e)
+        }
     }
     
     // 调用接口检测是否应该起床

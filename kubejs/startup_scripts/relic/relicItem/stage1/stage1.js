@@ -22,7 +22,7 @@ global.relicRegister.register(function(relic) {
 })
 
 // 2. 基础芯片：脚掌 - 服务任意部位金钱+1
-global.relicRegister.register(function(relic) {e
+global.relicRegister.register(function(relic) {
     relic.setName("basic_chip_sole")
         .setTexture("kubejs:item/chip_lv1_1")
         .setNameZH("基础芯片：敛财")

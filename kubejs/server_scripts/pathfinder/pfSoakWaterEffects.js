@@ -55,6 +55,12 @@ function pfFindActionPlayer(entity) {
 // 把 copper 数量按面额贪心拆分，在坐标掉落硬币实体
 function pfDropCoinsGreedy(level, x, y, z, totalCopper) {
     if (totalCopper <= 0) return
+    // 优先走硬币掉落调度器：每 2 tick 以随机微小速度弹出一枚
+    if (global.pfCoinQueue && typeof global.pfCoinQueue.enqueueCoins === 'function') {
+        global.pfCoinQueue.enqueueCoins(level, x, y, z, totalCopper)
+        return
+    }
+    // 降级：调度器未就绪时使用一次性 summon
     let remaining = Math.floor(totalCopper)
     let server = level.getServer()
     for (let t = 0; t < PF_SOAK_COIN_TIERS.length; t++) {
