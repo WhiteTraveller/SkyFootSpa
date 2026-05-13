@@ -114,6 +114,9 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             mainHand.setCount(mainHand.getCount() - 1)
         }
         global.pfVoucherManager.pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos, voucherCategory)
+        if (global.aTip && typeof global.aTip.advance === 'function') {
+            global.aTip.advance(player, "wait_voucher_click", "wait_soak_click", "pathfinder_water_soak_click_tip")
+        }
         return
     }
     
@@ -132,6 +135,9 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     
     // 开店：保存路线数据，启动定时生成
     global.pfShopManager.pfOpenShop(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos)
+    if (global.aTip && typeof global.aTip.advance === 'function') {
+        global.aTip.advance(player, "wait_pathfinder_click", "wait_voucher_click", "pathfinder_voucher_click_tip")
+    }
 })
 
 console.log("[PF-BLOCK] 方块事件处理器已加载")

@@ -41,4 +41,5 @@ kubejstest/
 /patchouli_books/
 game.json
 game.jar
-
+config/
+game-natives

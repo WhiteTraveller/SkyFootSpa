@@ -252,7 +252,10 @@ function setupNetworkHandlers() {
         }
         
         // 开始泡脚（传入桶 id 以便后续根据水种类应用效果）
-        global.pfSoakManager.pfStartSoak(targetEntity, player, bucketId)
+        let started = global.pfSoakManager.pfStartSoak(targetEntity, player, bucketId)
+        if (started && global.aTip && typeof global.aTip.advance === 'function') {
+            global.aTip.advance(player, "wait_soak_click", "wait_rub_foot", "pathfinder_rub_foot_tip")
+        }
 
         // 记录操作玩家 UUID（用于后续结算时回查）
         let soakItem = targetEntity.getMainHandItem()

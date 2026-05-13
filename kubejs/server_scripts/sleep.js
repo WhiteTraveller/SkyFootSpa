@@ -194,6 +194,16 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                 }
             }
             
+            if (global.aTip && typeof global.aTip.advance === 'function') {
+                let finishPlayer = null
+                if (typeof global.aTip.findActionPlayer === 'function') {
+                    finishPlayer = global.aTip.findActionPlayer(entity, level)
+                }
+                if (finishPlayer) {
+                    global.aTip.advance(finishPlayer, 'wait_rub_foot', 'done', 'pathfinder_service_finish_tip')
+                }
+            }
+
             return true
         }
     }

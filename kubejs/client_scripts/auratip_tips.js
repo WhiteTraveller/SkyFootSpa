@@ -1,5 +1,38 @@
-// AuraTip: persistent informational tips for right-click interactions.
+// AuraTip: teaching tips for the pathfinder service flow.
 global.aTip = global.aTip || {}
+
+global.aTip.tips = [
+    {
+        id: "pathfinder_open_shop_tip",
+        trigger: "kubejs:pathfinder_open_shop",
+        title: "开店提示",
+        content: "右键寻路方块，开始店铺流程。\n系统会引导你进入下一步。"
+    },
+    {
+        id: "pathfinder_voucher_click_tip",
+        trigger: "kubejs:pathfinder_voucher_click",
+        title: "预约凭证提示",
+        content: "手持预约凭证右键寻路方块，消耗凭证并召唤顾客。"
+    },
+    {
+        id: "pathfinder_water_soak_click_tip",
+        trigger: "kubejs:pathfinder_water_soak_click",
+        title: "泡脚提示",
+        content: "手持水桶点击泡脚 UI，成功后会进入搓脚阶段。"
+    },
+    {
+        id: "pathfinder_rub_foot_tip",
+        trigger: "kubejs:pathfinder_rub_foot",
+        title: "搓脚提示",
+        content: "顾客开始泡脚后，继续完成搓脚相关操作。"
+    },
+    {
+        id: "pathfinder_service_finish_tip",
+        trigger: "kubejs:pathfinder_service_finish",
+        title: "流程结束",
+        content: "顾客服务完成并下床，当前教学流程结束。"
+    }
+]
 
 global.aTip.stylePersistentRight = function(builder) {
     return builder
@@ -42,35 +75,24 @@ global.aTip.page = function(page, title, content) {
     )
 }
 
-if (typeof TipEvents !== "undefined") {
-    TipEvents.register(event => {
-        global.aTip.stylePersistentRight(
-            event.create("sign_right_click_tip")
-            .trigger("kubejs:sign_right_click", "repeatable", 0)
-        )
-            .page(0, p => {
-                global.aTip.page(
-                    p,
-                    "\u544a\u793a\u724c\u63d0\u793a",
-                    "\u4f60\u6b63\u5728\u4f7f\u7528\u544a\u793a\u724c\u3002\n\u8fd9\u91cc\u53ef\u4ee5\u653e\u7f6e\u8bf4\u660e\u3001\u89c4\u5219\u6216\u6559\u7a0b\u4fe1\u606f\u3002\n\u6309 Delete \u5173\u95ed\uff1bESC \u4e5f\u80fd\u5173\u95ed\uff0c\u4f46\u4f1a\u6253\u5f00\u6682\u505c\u83dc\u5355\u3002"
-                )
-            })
+global.aTip.register = function(event, tip) {
+    global.aTip.stylePersistentRight(
+        event.create(tip.id)
+            .trigger(tip.trigger, "repeatable", 0)
+    ).page(0, p => {
+        global.aTip.page(p, tip.title, tip.content)
     })
 }
 
-// AuraTip: show the same style of persistent tip when a bed block is used.
+global.aTip.registerAll = function(event) {
+    for (let i = 0; i < global.aTip.tips.length; i++) {
+        global.aTip.register(event, global.aTip.tips[i])
+    }
+}
+
 if (typeof TipEvents !== "undefined") {
     TipEvents.register(event => {
-        global.aTip.stylePersistentRight(
-            event.create("bed_right_click_tip")
-            .trigger("kubejs:bed_right_click", "repeatable", 0)
-        )
-            .page(0, p => {
-                global.aTip.page(
-                    p,
-                    "\u5e8a\u94fa\u63d0\u793a",
-                    "\u662f\u9009\u62e9\u7761\u89c9\u8fd8\u662f\u7ed9\u5ba2\u6237\u6ce1\u811a\uff1f\n\u6309 Delete \u5173\u95ed\uff1bESC \u4e5f\u80fd\u5173\u95ed\uff0c\u4f46\u4f1a\u6253\u5f00\u6682\u505c\u83dc\u5355\u3002"
-                )
-            })
+        console.log("[ATIP-CLIENT] register teaching tips v2 count=" + global.aTip.tips.length)
+        global.aTip.registerAll(event)
     })
 }
