@@ -17,7 +17,7 @@ StartupEvents.registry("item", event => {
             .tooltip("§7搓脚产物")
             .tooltip("§8九个皴可合成一个泥土")
         try { builder.rarity("common") } catch (e) {}
-        try { builder.texture("minecraft:item/dried_kelp") } catch (e) {}
+        // 贴图路径：assets/marguerite/textures/item/cun.png（KubeJS 默认识别）
         console.log("[CUN] 已注册物品: marguerite:cun")
     } catch (e) {
         console.log("[CUN] 物品注册失败: " + e)
