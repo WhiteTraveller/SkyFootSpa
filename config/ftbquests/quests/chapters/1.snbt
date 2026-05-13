@@ -3,106 +3,33 @@
 	default_quest_shape: ""
 	filename: "1"
 	group: "703E058CBE887155"
-	icon: "mekanism:basic_control_circuit"
+	icon: "marguerite:basic_chip_heel"
 	id: "358D848C495AD6C3"
-	order_index: 0
+	order_index: 1
 	quest_links: [ ]
 	quests: [
 		{
-			can_repeat: false
-			icon: "minecraft:beacon"
-			id: "64686425A9752ADB"
+			dependencies: ["7B3A5D9E2F1C8300"]
+			description: ["试营业顺利圆满，是时候挣出§e洗脚店§r的招牌——§6正式开张大吉！§r"]
+			icon: "marguerite:basic_chip_heel"
+			id: "2A5111F47C2D3AF5"
 			rewards: [{
-				command: "/chatbox skip skyfootspa:start start"
-				icon: "minecraft:nether_star"
-				id: "1813C55813EA0453"
-				title: "与爱丽丝对话"
-				type: "command"
+				count: 2
+				id: "7E132A783DF04726"
+				item: "marguerite:voucher_random"
+				type: "item"
 			}]
 			shape: "gear"
 			size: 2.0d
 			tasks: [{
-				id: "192C4AEBE2FA8BF2"
-				title: "我是谁？"
-				type: "checkmark"
-			}]
-			x: 1.0d
-			y: -3.0d
-		}
-		{
-			can_repeat: true
-			dependencies: ["64686425A9752ADB"]
-			description: ["可以在这里重新触发对话"]
-			hide_dependency_lines: false
-			icon: "minecraft:nether_star"
-			id: "28F0FC608CAC5A31"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:start start"
-				icon: "minecraft:nether_star"
-				id: "708DD666D03D893F"
-				silent: true
-				title: "与爱丽丝对话"
-				type: "command"
-			}]
-			shape: "square"
-			tasks: [{
-				id: "380B03C5DF933152"
-				title: "重新触发对话"
-				type: "checkmark"
-			}]
-			x: 1.0d
-			y: -4.5d
-		}
-		{
-			dependencies: ["64686425A9752ADB"]
-			id: "1AD9CACAA44EDA80"
-			tasks: [
-				{
-					id: "33D561B0D6C8BAA4"
-					title: "在白天正常开店"
-					type: "checkmark"
-				}
-				{
-					id: "0BF6F66E3C4128E5"
-					item: "marguerite:voucher_random"
-					title: "使用预约凭证开店"
-					type: "item"
-				}
-			]
-			title: "招揽顾客的两种方式"
-			x: 3.0d
-			y: -3.0d
-		}
-		{
-			dependencies: ["1AD9CACAA44EDA80"]
-			description: [
-				"§6铜币§r(Copper Coin) 是洗脚店经济体系的基础货币——搓脚掉落、任务奖励、商店交易，一切都从它开始。"
-				""
-				"§a获取方式§r："
-				"· §e开店服务§r：顾客结算时按满意度掉落硬币"
-				"· §e任务奖励§r：本任务书几乎每个节点都赠送若干铜币"
-				"· §e搓脚掉落§r：随搓脚获得的小额财富"
-				""
-				"§b小提示§r：攒够 §f9 枚铜币§r 可以在工作台按 3×3 升阶为 §71 枚铁币§r；以此类推直到钻石币。"
-				""
-				"§7任务目标：持有 1 枚 §fcoinsje:copper_coin§r 即可完成。§r"
-			]
-			icon: "coinsje:copper_coin"
-			id: "7B3A5D9E2F1C8300"
-			rewards: [{
-				count: 5
-				id: "7B3A5D9E2F1C8302"
-				item: "coinsje:copper_coin"
+				count: 4L
+				id: "4152DF59FCD93D3C"
+				item: { Count: 4, id: "coinsje:iron_coin" }
 				type: "item"
 			}]
-			tasks: [{
-				id: "7B3A5D9E2F1C8301"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			title: "第一枚铜币"
-			x: 3.0d
-			y: 0.5d
+			title: "正式开张"
+			x: 2.0d
+			y: -11.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8300"]
@@ -163,7 +90,7 @@
 			y: -0.5d
 		}
 		{
-			dependencies: ["1AD9CACAA44EDA80"]
+			dependencies: ["35D76BE2129B55C4"]
 			description: [
 				"「皴」是顾客脚部老去角质的统称，是后续一切合成与产线的基础原料。"
 				""
@@ -354,9 +281,9 @@
 				type: "item"
 			}]
 			tasks: [{
-				icon: "minecraft:quartz"
+				icon: "minecraft:iron_nugget"
 				id: "237316F73A39C1B8"
-				item: ""
+				item: "minecraft:iron_nugget"
 				title: "任一矿粒（铁/铜/金/锌）"
 				type: "item"
 			}]
@@ -366,6 +293,11 @@
 		}
 		{
 			dependencies: ["314C359231516C59"]
+			description: [
+				"筛矿的副产品之一——§f下界石英§r，在筛块产线中低概率出现。"
+				""
+				"石英是红石类代替品、合成日光传感器等的常用材料，留着总会有用。"
+			]
 			icon: "minecraft:quartz"
 			id: "610F10EC9FEE4CE9"
 			rewards: [{
@@ -411,6 +343,11 @@
 		}
 		{
 			dependencies: ["314C359231516C59"]
+			description: [
+				"筛矿产出的铁粒可以在工作台 3×3 压合成§f铁锭§r。"
+				""
+				"铁锭是矿粉、安山合金的重要来源，攒够 16 个解锁下一步。"
+			]
 			icon: "minecraft:iron_ingot"
 			id: "00974D4CCDEC3E45"
 			rewards: [{
@@ -431,6 +368,11 @@
 		}
 		{
 			dependencies: ["314C359231516C59"]
+			description: [
+				"筛矿产出的铜粒压合成§f铜锭§r——铜粉、电路、布线的常用材料。"
+				""
+				"攒够 16 个解锁铜粉产线。"
+			]
 			icon: "minecraft:copper_ingot"
 			id: "5343606BA59A1D03"
 			rewards: [{
@@ -451,6 +393,11 @@
 		}
 		{
 			dependencies: ["314C359231516C59"]
+			description: [
+				"筛矿产出的金粒压合成§f金锭§r——金粉、加工合金的稀缺来源。"
+				""
+				"攒够 16 个解锁金粉产线。"
+			]
 			icon: "minecraft:gold_ingot"
 			id: "3E31FEE7A9E6CA6E"
 			rewards: [{
@@ -471,6 +418,11 @@
 		}
 		{
 			dependencies: ["314C359231516C59"]
+			description: [
+				"筛矿产出的锌粒压合成§f锌锭§r——合成§e黄铜§r的必备原料。"
+				""
+				"锌锭 + 铜锭在动力搅拌器中合成黄铜锭，进而压制黄铜板、精密构件等。"
+			]
 			icon: "create:zinc_ingot"
 			id: "4624E054EC74B95B"
 			rewards: [{
@@ -631,6 +583,11 @@
 		}
 		{
 			dependencies: ["204993835E6F415C"]
+			description: [
+				"§b传动轴§r(Shaft) 是 Create 世界里最基本的动力传输元件。"
+				""
+				"它连接动力源与机械，是所有装置的骨架。攒够 4 根先备着。"
+			]
 			icon: "create:shaft"
 			id: "555B57E84414A97D"
 			rewards: [{
@@ -651,6 +608,11 @@
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
+			description: [
+				"§b齿轮§r(Cogwheel) 是传动系统的核心零件，可以改变旋转方向或串联多台机械。"
+				""
+				"§a合成§r：安山合金 + 木板。与大齿轮配合可实现变速。"
+			]
 			icon: "create:cogwheel"
 			id: "606C31ED5C612D97"
 			rewards: [{
@@ -671,6 +633,11 @@
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
+			description: [
+				"§b大齿轮§r(Large Cogwheel) 是齿轮的升级版，可以实现 2:1 的变速传动。"
+				""
+				"在启动精密构件产线时必不可少。"
+			]
 			icon: "create:large_cogwheel"
 			id: "3EBF0AAB9D5A7B0C"
 			rewards: [{
@@ -779,6 +746,11 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
+			description: [
+				"§b动力辊压机§r(Mechanical Press) 可以将金属锭压制成板材，是黄铜板、铁板等的必备装置。"
+				""
+				"§a合成§r：安山机壳 + 铁锭 + 活塞，工作台合成。"
+			]
 			icon: "create:mechanical_press"
 			id: "7CBD5A2E6AE463D8"
 			rewards: [{
@@ -798,6 +770,11 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
+			description: [
+				"§b机械手§r(Deployer) 可以模拟玩家动作——放置、点击、合成，是自动化产线的核心。"
+				""
+				"合成精密构件时需要 4 台机械手分别持有齿轮、大齿轮、红石依次加工。"
+			]
 			icon: "create:deployer"
 			id: "23A4599D0C5B6BC0"
 			rewards: [{
@@ -818,6 +795,11 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
+			description: [
+				"§b动力搅拌器§r(Mechanical Mixer) 配合 Basin 可以实现流体配方搅拌。"
+				""
+				"泡脚水、黄铜锭、安山合金等配方都需要它。解锁后即可开启泡脚水产线。"
+			]
 			icon: "create:mechanical_mixer"
 			id: "433DE54F04296649"
 			rewards: [{
@@ -1089,6 +1071,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e悦心芯片§r——提升顾客满意度增长率，让每次服务获得更多好评。"]
 			icon: "marguerite:basic_chip_toe"
 			id: "674B9ADA213630DF"
 			rewards: [{
@@ -1107,6 +1090,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e敛财芯片§r——提高顾客结算时的硬币掉落量，攒钱利器。"]
 			icon: "marguerite:basic_chip_sole"
 			id: "0DF25A392F23CFE4"
 			rewards: [{
@@ -1125,6 +1109,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e省力芯片§r——降低搓脚时的体力消耗，让你服务更持久。"]
 			icon: "marguerite:basic_chip_center"
 			id: "3DBE3E048A548984"
 			rewards: [{
@@ -1143,6 +1128,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e逐利芯片§r——提高顾客掉落硬币的上限，配合敛财效果更佳。"]
 			icon: "marguerite:basic_chip_heel"
 			id: "500FC854446A6A3A"
 			rewards: [{
@@ -1162,6 +1148,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e温柔芯片§r——综合效果，小幅提升满意度与硬币掉落。"]
 			icon: "marguerite:general_chip_all"
 			id: "0BE6AD27551F43AE"
 			rewards: [{
@@ -1181,6 +1168,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: ["§e全能芯片§r——各项属性均衡提升，新手友好型芯片。"]
 			icon: "marguerite:synergy_chip_toe"
 			id: "14CB4C02CB81D503"
 			rewards: [{
@@ -1199,98 +1187,111 @@
 			y: -2.0d
 		}
 		{
-			icon: "marguerite:focus_chip_sole"
-			id: "49AE5686F853901D"
-			rewards: [{
-				id: "4612A360CCECEAA8"
-				item: "coinsje:gold_coin"
-				type: "item"
-			}]
+			dependencies: ["2C92FF8892F38FDC"]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:kawasiro_nitori"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "35D76BE2129B55C4"
+			shape: "square"
+			size: 2.0d
 			tasks: [{
-				id: "4E9525643EC4DFEB"
-				item: "marguerite:focus_chip_sole"
+				consume_items: true
+				count: 2L
+				id: "007959956511793E"
+				item: { Count: 2, id: "coinsje:gold_coin" }
 				type: "item"
 			}]
-			title: "基础芯片：沉淀"
-			x: 20.5d
-			y: 3.0d
+			title: "河城荷取的来访"
+			x: 2.0d
+			y: -3.0d
 		}
 		{
-			icon: "marguerite:eco_chip_center"
-			id: "2AC12E5B6586FE58"
-			rewards: [{
-				id: "23CC68A116ED5176"
-				item: "coinsje:gold_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "190AC06E2176C4E9"
-				item: "marguerite:eco_chip_center"
-				type: "item"
-			}]
-			title: "基础芯片：节能"
-			x: 19.5d
-			y: 4.0d
-		}
-		{
-			icon: "marguerite:impact_chip_heel"
-			id: "54D8DB083B5647F1"
-			rewards: [{
-				id: "44D990581ADC28A4"
-				item: "coinsje:gold_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "680CC238FDF1007F"
-				item: "marguerite:impact_chip_heel"
-				type: "item"
-			}]
-			title: "基础芯片：爆发"
-			x: 20.5d
-			y: 4.0d
-		}
-		{
-			icon: "marguerite:refine_chip_sole"
-			id: "3CDD4241EBC44CD5"
-			rewards: [{
-				id: "2CCE40EC70E78089"
-				item: "coinsje:gold_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "0C643106D878F327"
-				item: "marguerite:refine_chip_sole"
-				type: "item"
-			}]
-			title: "基础芯片：精修"
-			x: 20.5d
-			y: 2.0d
-		}
-		{
-			dependencies: [
-				"49AE5686F853901D"
-				"2AC12E5B6586FE58"
-				"54D8DB083B5647F1"
-				"3CDD4241EBC44CD5"
+			dependencies: ["2A5111F47C2D3AF5"]
+			description: ["一般的经营看来已经难不住你了，爱丽丝很高兴！看来她有一些话要对你说"]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:alice_margatroid"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "2C92FF8892F38FDC"
+			rewards: [
+				{
+					id: "343CE3122D322FBC"
+					item: "marguerite:general_chip_all"
+					type: "item"
+				}
+				{
+					count: 2
+					id: "5B316FEC4918F702"
+					item: "marguerite:voucher_random"
+					type: "item"
+				}
 			]
-			icon: "marguerite:chip_blindbox_1"
-			id: "553F617A5A6AAB2B"
-			rewards: [{
-				id: "7788CBDEA3F6EBFE"
-				item: "coinsje:diamond_coin"
+			shape: "square"
+			size: 2.0d
+			tasks: [{
+				id: "1C3483A6DD4D0CA9"
+				item: "coinsje:gold_coin"
 				type: "item"
 			}]
-			shape: "gear"
-			size: 1.5d
+			x: 2.0d
+			y: -7.0d
+		}
+		{
+			dependencies: ["35D76BE2129B55C4"]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:hakurei_reimu"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "0FD9B77E961BFF01"
+			shape: "square"
+			size: 2.0d
 			tasks: [{
-				id: "5B74611B2DC2A922"
-				title: "集齐第一阶段 11 种芯片"
+				id: "5ED92D05392FD2B3"
+				title: "博丽灵梦的来访"
 				type: "checkmark"
 			}]
-			title: "第一阶段·大圆满"
-			x: 19.0d
-			y: 2.0d
+			x: 2.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["0FD9B77E961BFF01"]
+			id: "14A86F5C5305E6FB"
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				count: 20L
+				id: "60D408FEC085B4DD"
+				item: { Count: 20, id: "minecraft:nether_star" }
+				type: "item"
+			}]
+			x: 2.0d
+			y: 4.5d
 		}
 	]
-	title: "序章"
+	title: "第一章"
 }
