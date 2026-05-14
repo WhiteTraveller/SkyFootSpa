@@ -1,39 +1,50 @@
 // AuraTip: teaching tips for the pathfinder service flow.
 global.aTip = global.aTip || {}
 
+const ATIP_DELETE_HINT = "\n按 Delete 可手动关闭当前提示。"
+
+// 注册tip id trigger title content
 global.aTip.tips = [
     {
         id: "pathfinder_open_shop_tip",
         trigger: "kubejs:pathfinder_open_shop",
-        title: "开店提示",
-        content: "右键寻路方块，开始店铺流程。\n系统会引导你进入下一步。"
+        title: "开店引导",
+        content: "右键寻路方块以开店，进入下一流程。\n此消息为教学流程，只展示一次。\n如需回顾请使用 /auratip_openshop 指令。" + ATIP_DELETE_HINT
+    },
+    {
+        id: "pathfinder_night_close_tip",
+        trigger: "kubejs:pathfinder_night_close",
+        title: "夜晚无法开店",
+        content: "现在是夜晚，暂时无法开店；请等待白天后再右键寻路方块。" + ATIP_DELETE_HINT
     },
     {
         id: "pathfinder_voucher_click_tip",
         trigger: "kubejs:pathfinder_voucher_click",
         title: "预约凭证提示",
-        content: "手持预约凭证右键寻路方块，消耗凭证并召唤顾客。"
+        content: "手持预约凭证右键寻路方块，会消耗凭证并召唤顾客。\n顾客会沿红色地毯寻找空闲床位。\n在空闲床位不足时，会在蓝色地毯处排队等候。\n服务结束，顾客会走到黄色地毯处并消失。" + ATIP_DELETE_HINT
     },
     {
         id: "pathfinder_water_soak_click_tip",
         trigger: "kubejs:pathfinder_water_soak_click",
         title: "泡脚提示",
-        content: "手持水桶点击泡脚 UI，成功后会进入搓脚阶段。"
+        content: "手持水桶右击，将泡脚 UI 上的空桶填满。\n不同的泡脚水会有奇妙的效果。\n等待直至泡脚倒计时完成，随后自动跳转搓脚界面。" + ATIP_DELETE_HINT
     },
     {
         id: "pathfinder_rub_foot_tip",
         trigger: "kubejs:pathfinder_rub_foot",
         title: "搓脚提示",
-        content: "顾客开始泡脚后，继续完成搓脚相关操作。"
+        content: "玩家可以选择佩戴不同的遗物，搭配会影响体力消耗、金钱和满意度。" + ATIP_DELETE_HINT
     },
     {
         id: "pathfinder_service_finish_tip",
         trigger: "kubejs:pathfinder_service_finish",
         title: "流程结束",
-        content: "顾客服务完成并下床，当前教学流程结束。"
+        content: "顾客到达路径终点并消失后，本提示会自动关闭；若未触发则 5 秒后自动消失。\n注意收集顾客留下来的奖励。" + ATIP_DELETE_HINT,
+        durationTicks: 100
     }
 ]
 
+// 注册tip样式
 global.aTip.stylePersistentRight = function(builder) {
     return builder
         .visual(v => {
@@ -76,10 +87,21 @@ global.aTip.page = function(page, title, content) {
 }
 
 global.aTip.register = function(event, tip) {
-    global.aTip.stylePersistentRight(
+    let builder = global.aTip.stylePersistentRight(
         event.create(tip.id)
             .trigger(tip.trigger, "repeatable", 0)
-    ).page(0, p => {
+    )
+
+    if (tip.durationTicks != null) {
+        builder = builder.behavior(b => {
+            b.duration(tip.durationTicks)
+            b.pauseOnHover(true)
+            b.closeKey("key.keyboard.delete")
+            b.allowPaging(false)
+        })
+    }
+
+    builder.page(0, p => {
         global.aTip.page(p, tip.title, tip.content)
     })
 }

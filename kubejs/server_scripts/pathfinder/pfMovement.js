@@ -1,7 +1,7 @@
 // priority: 10
 // ============================================================
-// 实体移动与排队模块
-// 实体移动、排队检测、进度管理
+// 实体移动与排队模�?
+// 实体移动、排队检测、进度管�?
 // ============================================================
 
 // 收集所有实体并按phase分类
@@ -11,10 +11,10 @@ function pfCollectEntities(level, pos) {
         pos.getX() + global.pfConstants.GRID_HALF + 5, pos.getY() + 10, pos.getZ() + global.pfConstants.GRID_HALF + 5
     )
     let allEntities = level.getEntitiesWithin(searchRange)
-    let walkers = []      // pfPhase=2 行走中
-    let sleepers = []     // pfPhase=3 躺床中
-    let waiters = []      // pfPhase=4 等待床位中
-    let blueWaiters = []  // pfPhase=5 蓝色地毯等待中
+    let walkers = []      // pfPhase=2 行走�?
+    let sleepers = []     // pfPhase=3 躺床�?
+    let waiters = []      // pfPhase=4 等待床位�?
+    let blueWaiters = []  // pfPhase=5 蓝色地毯等待�?
     
     for (let i = 0; i < allEntities.length; i++) {
         let ent = allEntities[i]
@@ -51,7 +51,7 @@ function pfBuildWalkerInfos(entities) {
     return infos
 }
 
-// 检查是否需要排队
+// 检查是否需要排�?
 function pfCheckQueue(myInfo, allInfos) {
     let myId = myInfo.ent.getId()
     
@@ -97,7 +97,7 @@ function pfCalcCurrentPos(ent) {
     return { x: cx, z: cz }
 }
 
-// 执行一步移动
+// 执行一步移�?
 function pfMoveStep(ent, level) {
     let routeStr = global.pfEntityData.pfGetRoute(ent)
     let routeChars = routeStr.split('')
@@ -123,7 +123,7 @@ function pfMoveStep(ent, level) {
         else if (d === 'W') cx -= 1
     }
     
-    // 当前格内移动：从本格中心向下一格中心插值
+    // 当前格内移动：从本格中心向下一格中心插�?
     let t = sub / 10.0
     let nx = cx, nz = cz
     let yaw = 0
@@ -149,6 +149,15 @@ function pfMoveStep(ent, level) {
             ent.setPositionAndRotation(fx, entY, fz, yaw, 0)
             level.spawnParticles("minecraft:poof", false, fx, entY + 1, fz, 0.5, 1, 0.5, 50, 0)
             console.log("[PF] FINISH at (" + fx.toFixed(1) + "," + fz.toFixed(1) + ")")
+            if (global.aTip && typeof global.aTip.closePlayerTip === "function") {
+                let finishPlayer = null
+                if (typeof global.aTip.findActionPlayer === "function") {
+                    finishPlayer = global.aTip.findActionPlayer(ent, level)
+                }
+                if (finishPlayer) {
+                    global.aTip.closePlayerTip(finishPlayer)
+                }
+            }
             ent.discard()
             return { finished: true, moved: true }
         } else {
