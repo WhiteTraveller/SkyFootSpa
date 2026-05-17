@@ -20,9 +20,13 @@ function pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, routeStr, blueCa
         // Boss 不参与常规顾客类别评价系统（pfShouldWakeUp 里根据 category 判断）
         walker.persistentData.putString('pfCustomerCategory', '')
 
-        // 如果 shop 已开，把 boss uuid 纳入统一管理
-        if (global.pfShopState && global.pfShopState.isOpen && global.pfShopState.spawnedEntities) {
-            global.pfShopState.spawnedEntities.push('' + walker.getUuid())
+        // 如果 shop 已开，把 boss uuid 纳入统一管理（开店状态持久化在 BlockEntity NBT 中）
+        try {
+            if (global.pfShopManager && typeof global.pfShopManager.pfShopAddSpawnedAt === "function") {
+                global.pfShopManager.pfShopAddSpawnedAt(level, baseX, baseY, baseZ, "" + walker.getUuid())
+            }
+        } catch (e) {
+            console.log("[BOSS] 注册到 shop spawnedUuids 失败: " + e)
         }
 
         // 提示玩家

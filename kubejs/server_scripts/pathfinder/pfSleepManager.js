@@ -2,7 +2,23 @@
 // ============================================================
 // 睡眠管理模块
 // 躺床、起床、睡眠状态管理
+// ------------------------------------------------------------
+// 时间状态规范（参照 pfSoakManager 范式）：
+//   - 所有睡眠相关时间状态以"秒/计数"为单位独立存储于实体 persistentData
+//   - 不依赖 server.getTickCount() 差值，避免跨重启失效
+//   - 关键字段：
+//       * pfSleepSubTick    : 0~19 秒内 tick 计数器，每 tick +1，到 20 触发"秒事件"
+//       * pfSleepSeconds    : 已睡累计秒数，秒事件 +1
+//       * pfSleepInitTicks  : 0~60 前 60 tick 设置睡姿计数器，每 tick +1，封顶 60
+//   - 这些字段都存实体 persistentData，跨重启保留
 // ============================================================
+
+// 重置秒驱动相关字段（开始睡眠时调用）
+function pfResetSleepSubTick(ent) {
+    ent.persistentData.putInt("pfSleepSubTick", 0)
+    ent.persistentData.putInt("pfSleepSeconds", 0)
+    ent.persistentData.putInt("pfSleepInitTicks", 0)
+}
 
 // 开始睡眠
 function pfStartSleep(ent, level, bedPos, currTick) {
@@ -30,6 +46,9 @@ function pfStartSleep(ent, level, bedPos, currTick) {
     global.pfEntityData.pfSetPhase(ent, 3)
     global.pfEntityData.pfSetBedInfo(ent, bedPos)
     
+    // 重置秒驱动字段（独立于 currTick）
+    pfResetSleepSubTick(ent)
+    
     // 设置实体位置到床上
     ent.setPositionAndRotation(bedPos.x, bedPos.blockY + 0.2, bedPos.z, bedPos.yaw, 0)
     
@@ -42,51 +61,70 @@ function pfStartSleep(ent, level, bedPos, currTick) {
 }
 
 // 处理睡眠中的实体（每tick调用）
+// 设计：完全按"秒/计数"驱动；不依赖 currTick - sleepStart 差值，跨重启友好
 function pfProcessSleeping(ent, level, currTick) {
     let sleepStart = global.pfEntityData.pfGetSleepStartTick(ent)
-    let sleepDuration = currTick - sleepStart
-    
-    if (sleepStart <= 0 || sleepDuration < 1) {
-        return { shouldWakeUp: false, sleepDuration: sleepDuration }
+    if (sleepStart <= 0) {
+        return { shouldWakeUp: false, sleepDuration: 0 }
     }
     
     let bedPos = global.pfEntityData.pfGetBedInfo(ent)
     let server = level.getServer()
     let uuid = "" + ent.getUuid()
     
-    // 躺下后每tick：设置睡觉姿势NBT和保持朝向
-    if (sleepDuration >= 1 && sleepDuration < 60) {
+    // ---- 前 60 tick 设置睡姿 NBT 与朝向（独立计数器，不依赖差值） ----
+    let initTicks = (ent.persistentData.getInt("pfSleepInitTicks") | 0)
+    if (initTicks < 60) {
         let cmd = "data merge entity " + uuid + " {SleepingX:" + bedPos.blockX + ",SleepingY:" + bedPos.blockY + ",SleepingZ:" + bedPos.blockZ + "}"
-        if (sleepDuration == 1) {
+        if (initTicks === 0) {
             console.log("[PF-SLEEP] 设置躺姿 uuid=" + uuid + " bedPos=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ") yaw=" + bedPos.yaw)
         }
         server.runCommandSilent(cmd)
         ent.setYaw(bedPos.yaw)
+        ent.persistentData.putInt("pfSleepInitTicks", initTicks + 1)
     }
     
-    // 同步倒计时到客户端（每20tick更新一次，即每秒）
-    let remainingSeconds = Math.ceil((200 - sleepDuration) / 20)
-    if (remainingSeconds < 0) remainingSeconds = 0
-    if (remainingSeconds > 10) remainingSeconds = 10
-    if (sleepDuration % 20 === 1) {
+    // ---- 秒驱动：pfSleepSubTick (0~19) → pfSleepSeconds ----
+    let subTick = (ent.persistentData.getInt("pfSleepSubTick") | 0) + 1
+    let sleepSeconds = (ent.persistentData.getInt("pfSleepSeconds") | 0)
+    let secondTriggered = false
+    
+    if (subTick >= 20) {
+        ent.persistentData.putInt("pfSleepSubTick", 0)
+        sleepSeconds = sleepSeconds + 1
+        ent.persistentData.putInt("pfSleepSeconds", sleepSeconds)
+        secondTriggered = true
+    } else {
+        ent.persistentData.putInt("pfSleepSubTick", subTick)
+    }
+    
+    // ---- 秒事件：同步倒计时 + 驱动 basin 自动泡脚 ----
+    if (secondTriggered) {
+        // 倒计时显示：从 10 秒倒数到 0
+        let remainingSeconds = 10 - sleepSeconds
+        if (remainingSeconds < 0) remainingSeconds = 0
+        if (remainingSeconds > 10) remainingSeconds = 10
         global.pfNbtSync.pfSyncCountdown(ent, remainingSeconds)
+        
         // 床旁 Create Basin 自动泡脚：每秒驱动一次倒计时
         try {
             if (global.pfBasinSoakManager) {
-                global.pfBasinSoakManager.pfTickBasinSoak(ent, level, sleepDuration)
+                global.pfBasinSoakManager.pfTickBasinSoak(ent, level, sleepSeconds * 20)
             }
         } catch (e) {
             console.log("[PF-SLEEP] basin soak tick 异常: " + e)
         }
     }
     
-    // 调用接口检测是否应该起床
+    // ---- 调用接口检测是否应该起床 ----
+    // 传入秒数换算的伪 sleepDuration 仅用于兼容旧签名
+    let sleepDurationLike = sleepSeconds * 20
     let shouldWakeUp = false
     if (typeof global.pfShouldWakeUp === "function") {
-        shouldWakeUp = global.pfShouldWakeUp(ent, level, bedPos, sleepDuration)
+        shouldWakeUp = global.pfShouldWakeUp(ent, level, bedPos, sleepDurationLike)
     }
     
-    return { shouldWakeUp: shouldWakeUp, sleepDuration: sleepDuration }
+    return { shouldWakeUp: shouldWakeUp, sleepDuration: sleepDurationLike }
 }
 
 // 执行起床
@@ -146,6 +184,12 @@ function pfWakeUp(ent, level) {
     
     global.pfEntityData.pfSetSleepStartTick(ent, 0)
     global.pfEntityData.pfSetClearSleepTick(ent, 10)
+    
+    // 清理秒驱动字段（与 pfResetSleepSubTick 对应）
+    ent.persistentData.putInt("pfSleepSubTick", 0)
+    ent.persistentData.putInt("pfSleepSeconds", 0)
+    ent.persistentData.putInt("pfSleepInitTicks", 0)
+    
     ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
     global.pfEntityData.pfSetPhase(ent, 2)
     
@@ -182,5 +226,6 @@ function pfWakeUp(ent, level) {
 global.pfSleepManager = {
     pfStartSleep: pfStartSleep,
     pfProcessSleeping: pfProcessSleeping,
-    pfWakeUp: pfWakeUp
+    pfWakeUp: pfWakeUp,
+    pfResetSleepSubTick: pfResetSleepSubTick
 }

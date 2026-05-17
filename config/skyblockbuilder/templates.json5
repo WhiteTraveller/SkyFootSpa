@@ -26,55 +26,14 @@
       "south": [],
       "west": []
     },
-      "spawn1": {
-  "north": [
-    [
-      5,
-      1,
-      10
-    ]
-  ],
-  "east": [],
-  "south": [],
-  "west": []
-},
-    "1": {
-  "north": [],
-  "east": [],
-  "south": [
-    [
-      2,
-      1,
-      7
-    ]
-  ],
-  "west": []
-},
-    "2": {
-  "north": [
-    [
-      5,
-      1,
-      10
-    ]
-  ],
-  "east": [],
-  "south": [],
-  "west": []
-},
-  "3": {
-  "north": [],
-  "east": [],
-  "south": [],
-  "west": [
-    [
-      2,
-      9,
-      2
-    ]
-  ]
-}
-   
+    "overworld_p1": {
+      "north": [],
+      "east": [],
+      "south": [
+        [ 52, 6, 37 ]
+      ],
+      "west": []
+    }
   },
   
   // A list of file names for templates which should spread around an island
@@ -99,42 +58,10 @@
   // The list of templates being available. The first entry is the default template.
   "templates": [
     {
-      "name": "主城",
-      "desc": "§c§l不要选择，否则会确实一些关键物品",
-      "file": "maincity.nbt",
-      "spawns": "default",
-      "surroundingBlocks": "default",
-      "spreads": "default"
-    },
-    {
-      "name": "空岛1",
-      "desc": "§c§l很遗憾你现在只能选这个",
-      "file": "build1.nbt",
-      "spawns": "spawn1",
-      "surroundingBlocks": "default",
-      "spreads": "default"
-    },
-    {
-      "name": "1",
-      "desc": "大写的1",
-      "file": "1.nbt",
-      "spawns": "1",
-      "surroundingBlocks": "default",
-      "spreads": "default"
-    },
-    {
-      "name": "2",
-      "desc": "小写的1",
-      "file": "2.nbt",
-      "spawns": "2",
-      "surroundingBlocks": "default",
-      "spreads": "default"
-    },
-    {
-      "name": "3",
-      "desc": "mll不是1",
-      "file": "3.nbt",
-      "spawns": "3",
+      "name": "主世界",
+      "desc": "§c§l很抱歉现在这个版本只能选这个）",
+      "file": "skyfoot_overworld_player.nbt",
+      "spawns": "overworld_p1",
       "surroundingBlocks": "default",
       "spreads": "default"
     }

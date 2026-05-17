@@ -35,11 +35,8 @@ usernamecache.json
 洗手.json
 resourcepacks/
 kubejstest/
-/.idea/
-/.qoder/
-/ldlib/
-/patchouli_books/
 game.json
 game.jar
+tlm_custom_pack/
 config/
 game-natives

@@ -2,12 +2,12 @@
 // ============================================================
 // 洗脚水元数据 + 流体/桶注册
 // ------------------------------------------------------------
-// 5 种真实洗脚水配方（来源：中医常用保健泡脚方），均可由原版农牧产品合成：
-//   1. 生姜水 (ginger_water)  - 水桶 + 胡萝卜      - 基础需求特化
-//   2. 艾草水 (mugwort_water) - 水桶 + 蕨          - 满意度特化
-//   3. 花椒水 (pepper_water)  - 水桶 + 下界疣      - 财运特化（掉钱）
-//   4. 食盐水 (salt_water)    - 水桶 + 骨粉        - 皴加成特化
-//   5. 茶叶水 (tea_water)     - 水桶 + 干海带      - 深度需求特化
+// 5 种洗脚水配方（来源：中医常用保健泡脚方）：
+//   1. 生姜水   (ginger_water)     - 水桶 + 生姜           - 基础需求特化
+//   2. 草灰水   (grass_ash_water)  - 水桶 + 草灰           - 搓脚掉皴 +1/次
+//   3. 花椒水   (pepper_water)     - 水桶 + 下界疣        - 财运特化（掉钱）
+//   4. 食盐水   (salt_water)       - 水桶 + 骨粉          - 皴加成特化
+//   5. 牛奶水   (milk_water)       - 水 + 牛奶流体      - 泡脚完成立即掉 5 钱
 // ------------------------------------------------------------
 // 效果方向：不改体力；每种水专精一种效果（无药水附加）
 // ============================================================
@@ -18,17 +18,17 @@ global.soakWaterRegister.register(function (w) {
         .setNameZH("§6生姜水")
         .setColor(0xC97F3C)
         .setDescription("§7温通经脉 §8|§7 专精：各部位需求")
-        .setIngredients(['minecraft:carrot'])
+        .setIngredients(['ubesdeight:ginger'])
         .setDemandBonus(3)          // 每部位随机 0~3
 })
 
 global.soakWaterRegister.register(function (w) {
-    w.setName("mugwort_water")
-        .setNameZH("§2艾草水")
-        .setColor(0x5A7A3C)
-        .setDescription("§7祛湿温经 §8|§7 专精：满意度")
-        .setIngredients(['minecraft:fern'])
-        .setSatisfactionBonus(12)
+    w.setName("grass_ash_water")
+        .setNameZH("§8草灰水")
+        .setColor(0x4A4A4A)
+        .setDescription("§7草灰去角质 §8|§7 专精：搓脚掉皴")
+        .setIngredients(['marguerite:grass_ash'])
+        .setCunBonusPerClick(1)     // 每次搓脚掉皴 +1
 })
 
 global.soakWaterRegister.register(function (w) {
@@ -50,12 +50,13 @@ global.soakWaterRegister.register(function (w) {
 })
 
 global.soakWaterRegister.register(function (w) {
-    w.setName("tea_water")
-        .setNameZH("§a茶叶水")
-        .setColor(0x556B2F)
-        .setDescription("§7醒神提气 §8|§7 专精：各部位需求（高级）")
-        .setIngredients(['minecraft:dried_kelp'])
-        .setDemandBonus(4)          // 每部位随机 0~4
+    w.setName("milk_water")
+        .setNameZH("§f牛奶水")
+        .setColor(0xF5F0E8)
+        .setDescription("§7满床乳香 §8|§7 专精：立即掉钱")
+        .setIngredients([])
+        .setExtraFluids([{ id: 'create:milk', amount: 1000 }])  // 与水并列的额外流体输入
+        .setMoneyDrop(5)            // 泡脚完成立即掉 5 铜币
 })
 
 // ---------------- 2) 流体注册 ----------------

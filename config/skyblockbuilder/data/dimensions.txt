@@ -1,5 +1,5 @@
 minecraft:overworld
 dimdungeons:build_dimension
-minecraft:the_nether
 minecraft:the_end
+minecraft:the_nether
 dimdungeons:dungeon_dimension

@@ -54,9 +54,13 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, bl
         )
         walker.persistentData.putString("pfCustomerCategory", chosenKey)
 
-        // 已开店则纳入统一管理
-        if (global.pfShopState && global.pfShopState.isOpen && global.pfShopState.spawnedEntities) {
-            global.pfShopState.spawnedEntities.push("" + walker.getUuid())
+        // 已开店则纳入统一管理（开店状态持久化在 pathfinder_block 的 BlockEntity 中）
+        try {
+            if (global.pfShopManager && typeof global.pfShopManager.pfShopAddSpawnedAt === "function") {
+                global.pfShopManager.pfShopAddSpawnedAt(level, baseX, baseY, baseZ, "" + walker.getUuid())
+            }
+        } catch (e) {
+            console.log("[预约] 注册到 shop spawnedUuids 失败: " + e)
         }
 
         // 反馈

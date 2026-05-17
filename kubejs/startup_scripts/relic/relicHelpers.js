@@ -6,6 +6,36 @@ let COLS = 9
 let ROWS = 6
 let TOTAL_SLOTS = 54
 
+// 背包镶板（虚拟空白槽）id 集合：mk1~mk5
+global.SPACE_PANEL_IDS = [
+    "marguerite:backpack_space_mk1",
+    "marguerite:backpack_space_mk2",
+    "marguerite:backpack_space_mk3",
+    "marguerite:backpack_space_mk4",
+    "marguerite:backpack_space_mk5"
+]
+
+// 判定一个物品 id 是否属于背包镶板（任意 mk 等级）
+global.isSpacePanelId = function(id) {
+    if (!id) return false
+    for (let k = 0; k < global.SPACE_PANEL_IDS.length; k++) {
+        if (id == global.SPACE_PANEL_IDS[k]) return true
+    }
+    return false
+}
+
+// 由 mk 等级取镶板 id（level: 1~5）
+global.getSpacePanelIdByLevel = function(level) {
+    if (level < 1 || level > 5) return null
+    return global.SPACE_PANEL_IDS[level - 1]
+}
+
+// 由 mk 等级取扩大器 id（level: 1~5）
+global.getSlotExpanderIdByLevel = function(level) {
+    if (level < 1 || level > 5) return null
+    return "marguerite:slot_expander_mk" + level
+}
+
 let RELIC_PARTS = ['jiaozhi', 'jiaozhang', 'jiaoxin', 'jiaogen']
 let MONEY_ATTR = 'kubejs:serve.money_gain.'
 let SAT_ATTR = 'kubejs:serve.sat_gain.'
@@ -39,7 +69,7 @@ global.modifyAllStaminaCost = function(player, modName, value) {
 // 判断某一行是否整行都是backpack_space（即该行不存在）
 global.isRowAllSpace = function(row, curiosAll) {
     for (let c = 0; c < COLS; c++) {
-        if (curiosAll.getStackInSlot(row * COLS + c).getId() != "marguerite:backpack_space") {
+        if (!global.isSpacePanelId(curiosAll.getStackInSlot(row * COLS + c).getId())) {
             return false
         }
     }
@@ -53,7 +83,7 @@ global.getSameRowSlots = function(i, curiosAll) {
     for (let c = 0; c < COLS; c++) {
         let idx = row * COLS + c
         if (idx == i) continue
-        if (curiosAll && curiosAll.getStackInSlot(idx).getId() == "marguerite:backpack_space") continue
+        if (curiosAll && global.isSpacePanelId(curiosAll.getStackInSlot(idx).getId())) continue
         slots.push(idx)
     }
     return slots
@@ -66,7 +96,7 @@ global.getSameColSlots = function(i, curiosAll) {
     for (let r = 0; r < ROWS; r++) {
         let idx = r * COLS + col
         if (idx == i) continue
-        if (curiosAll && curiosAll.getStackInSlot(idx).getId() == "marguerite:backpack_space") continue
+        if (curiosAll && global.isSpacePanelId(curiosAll.getStackInSlot(idx).getId())) continue
         slots.push(idx)
     }
     return slots
@@ -122,7 +152,7 @@ global.getBottomTwoRowSlots = function(curiosAll) {
     for (let r = startRow; r <= bottomRow; r++) {
         for (let c = 0; c < COLS; c++) {
             let idx = r * COLS + c
-            if (curiosAll.getStackInSlot(idx).getId() != "marguerite:backpack_space") {
+            if (!global.isSpacePanelId(curiosAll.getStackInSlot(idx).getId())) {
                 slots.push(idx)
             }
         }
@@ -177,7 +207,7 @@ global.getDiagonalSlots = function(i) {
 
 // 判断槽位是否有有效遗物（非空且非backpack_space）
 global.isValidRelic = function(stack) {
-    return !stack.isEmpty() && stack.getId() != "marguerite:backpack_space"
+    return !stack.isEmpty() && !global.isSpacePanelId(stack.getId())
 }
 
 // 计算指定槽位中有效遗物数量
@@ -197,7 +227,7 @@ global.countEmptyInSlots = function(slots, curiosAll) {
     for (let s = 0; s < slots.length; s++) {
         let stack = curiosAll.getStackInSlot(slots[s])
         // backpack_space视为不存在，不计入空位
-        if (stack.getId() == "marguerite:backpack_space") continue
+        if (global.isSpacePanelId(stack.getId())) continue
         // 空的有效格子才算空位
         if (stack.isEmpty() || !global.isValidRelic(stack)) {
             count++

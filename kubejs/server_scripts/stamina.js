@@ -51,3 +51,30 @@ global.pfRestoreStamina = function(player, amount) {
     data.putInt("pfStamina", stamina)
     pfSyncStamina(player)
 }
+
+// ============================================================
+// 自动回复：每秒（20 tick）为所有在线玩家恢复 5 点体力
+// 通过玩家 persistentData 上的 pfStaminaRegenSubTick (0~19) 子 tick 计数器驱动，
+// 跨重启友好；体力封顶 STAMINA_MAX_SERVER。
+// ============================================================
+let STAMINA_REGEN_PER_SECOND = 5
+
+PlayerEvents.tick(event => {
+    let player = event.player
+    if (!player) return
+    let data = player.persistentData
+    let sub = (data.getInt("pfStaminaRegenSubTick") | 0) + 1
+    if (sub < 20) {
+        data.putInt("pfStaminaRegenSubTick", sub)
+        return
+    }
+    data.putInt("pfStaminaRegenSubTick", 0)
+    
+    let stamina = data.getInt("pfStamina")
+    if (stamina >= STAMINA_MAX_SERVER) return
+    let next = Math.min(STAMINA_MAX_SERVER, stamina + STAMINA_REGEN_PER_SECOND)
+    if (next === stamina) return
+    data.putInt("pfStamina", next)
+
+})
+

@@ -15,7 +15,8 @@ global.pathfinderTick = function (entity) {
     
     // ---- 开店定时生成处理 ----
     if (global.pfShopManager) {
-        global.pfShopManager.pfShopTick(level, currentTick)
+        // 把触发方块的 BlockEntity 传入，pfShopTick 从其 NBT 读写持久化状态
+        global.pfShopManager.pfShopTick(level, entity)
     }
     
     // 收集所有实体
@@ -75,6 +76,11 @@ global.pathfinderTick = function (entity) {
             global.pfEntityData.pfSetBedInfo(ent, foundEmptyBed)
             global.pfEntityData.pfSetFromBlueWait(ent, true)
             global.pfEntityData.pfSetWaitPos(ent, currPos.x, ent.getY(), currPos.z)
+            
+            // 重置秒驱动字段（独立于 currTick，跨重启友好）
+            if (global.pfSleepManager && typeof global.pfSleepManager.pfResetSleepSubTick === 'function') {
+                global.pfSleepManager.pfResetSleepSubTick(ent)
+            }
             
             ent.setPositionAndRotation(foundEmptyBed.x, foundEmptyBed.blockY + 0.2, foundEmptyBed.z, foundEmptyBed.yaw, 0)
             console.log("[PF-SLEEP] 蓝色地毯等待后躺床: bedPos=(" + foundEmptyBed.blockX + "," + foundEmptyBed.blockY + "," + foundEmptyBed.blockZ + ")")

@@ -36,13 +36,25 @@
 				}
 			}
 			id: "64686425A9752ADB"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:start start"
-				icon: "minecraft:nether_star"
-				id: "1813C55813EA0453"
-				title: "与爱丽丝对话"
-				type: "command"
-			}]
+			rewards: [
+				{
+					command: "/chatbox skip skyfootspa:start start"
+					icon: "minecraft:nether_star"
+					id: "1813C55813EA0453"
+					title: "与爱丽丝对话"
+					type: "command"
+				}
+				{
+					id: "332BAE6F4C9531F8"
+					item: "marguerite:voucher_random"
+					type: "item"
+				}
+				{
+					id: "35B2DF7F18894BAA"
+					item: "minecraft:water_bucket"
+					type: "item"
+				}
+			]
 			shape: "gear"
 			size: 2.0d
 			tasks: [{
@@ -163,7 +175,7 @@
 				"1.&e泡脚阶段&r：你需要在床正前方下方的&b工作盆&r（洗脚盆）内倒入&b洗脚水&r，顾客在泡脚倒计时后会进入&e搓脚阶段&r"
 				"2.&e搓脚阶段&r：你可以看到顾客对于脚的部位有不同次数的需求，&b点击下方按钮&r即可进行搓脚。全部需求都被满足时，将会给予你对应数量的报酬"
 			]
-			icon: "kubejs:tea_water_bucket"
+			icon: "minecraft:water_bucket"
 			id: "0D3D46BFF19509D8"
 			tasks: [{
 				id: "2AA9AB5A0591E10B"
@@ -173,6 +185,41 @@
 			title: "服务你的顾客"
 			x: 8.5d
 			y: -3.0d
+		}
+		{
+			dependencies: ["1AD9CACAA44EDA80"]
+			dependency_requirement: "all_started"
+			description: [
+				"1.你只能在白天开店"
+				"2.当进入黑夜时，足浴店会自动闭店并清除等待区的顾客，并保留处于床上的顾客"
+				"3.开店属性由触发开店的玩家决定"
+			]
+			icon: "marguerite:phone_s23ultra"
+			id: "556C60C85311BA8E"
+			tasks: [{
+				id: "609AB09F09E7B13F"
+				title: "开店与关店"
+				type: "checkmark"
+			}]
+			x: 3.5d
+			y: -0.5d
+		}
+		{
+			dependencies: ["0D3D46BFF19509D8"]
+			description: [
+				"每当你搓脚，你的体力就会减少一定数量"
+				"体力会随着时间逐渐恢复"
+				"当体力不足时，你将无法再进行搓脚的动作"
+				"在你的屏幕左侧可以查看你当前的体力值"
+			]
+			id: "7A8BA7A73622323C"
+			tasks: [{
+				id: "77CD3454B469C84C"
+				title: "体力值"
+				type: "checkmark"
+			}]
+			x: 8.5d
+			y: -0.5d
 		}
 	]
 	title: "序章"

@@ -88,6 +88,7 @@ function SoakWater() {
     this.color = 0x3F76E4
     this.description = ""
     this.ingredients = []
+    this.extraFluids = []   // 额外流体输入，格式：[{ id: 'create:milk', amount: 1000 }, ...]
     this.satisfactionBonus = 0
     this.demandBonus = 0
     this.demandBonusPerPart = null
@@ -105,6 +106,7 @@ function SoakWater() {
     this.setColor = function (v) { this.color = v; return this }
     this.setDescription = function (v) { this.description = v; return this }
     this.setIngredients = function (v) { this.ingredients = v; return this }
+    this.setExtraFluids = function (v) { this.extraFluids = v; return this }
     this.setSatisfactionBonus = function (v) { this.satisfactionBonus = v; return this }
     this.setDemandBonus = function (v) { this.demandBonus = v; return this }
     this.setDemandBonusPerPart = function (v) { this.demandBonusPerPart = v; return this }

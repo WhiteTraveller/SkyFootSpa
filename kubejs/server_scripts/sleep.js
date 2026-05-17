@@ -102,7 +102,7 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
         let jiaogen = nbt.getInt('pfDemandJiaogen') || 0
         let jiaozhi = nbt.getInt('pfDemandJiaozhi') || 0
         let jiaoxin = nbt.getInt('pfDemandJiaoxin') || 0
-        console.log("[SLEEP-JS] 需求: 脚掌=" + jiaozhang + ", 脚根=" + jiaogen + ", 脚趾=" + jiaozhi + ", 脚心=" + jiaoxin)
+        // console.log("[SLEEP-JS] 需求: 脚掌=" + jiaozhang + ", 脚根=" + jiaogen + ", 脚趾=" + jiaozhi + ", 脚心=" + jiaoxin)
         
         // 所有需求都为0时才能起床
         if (jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
@@ -155,7 +155,16 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
             let customerCategory = '' + entity.persistentData.getString('pfCustomerCategory')
             if (satisfaction >= global.pfCustomerTypes.PF_RATING_SAT_THRESHOLD && customerCategory && customerCategory.length > 0) {
-                let shopPlayer = global.pfShopState ? global.pfShopState.player : null
+                // 通过实体上持久化的 pfSpawnerPlayerUuid 反查开店玩家（不依赖 global.pfShopState 内存状态）
+                let shopPlayer = null
+                try {
+                    let spawnerUuid = "" + entity.persistentData.getString("pfSpawnerPlayerUuid")
+                    if (spawnerUuid && spawnerUuid.length > 0) {
+                        shopPlayer = level.getPlayerByUUID(spawnerUuid)
+                    }
+                } catch (e) {
+                    shopPlayer = null
+                }
                 if (shopPlayer) {
                     let newRating = global.pfCustomerTypes.pfAddRating(shopPlayer, customerCategory)
                     let catName = global.pfCustomerTypes.PF_CUSTOMER_TYPES[customerCategory]

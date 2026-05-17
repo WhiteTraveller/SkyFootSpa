@@ -144,10 +144,14 @@ global.aTip.findActionPlayer = function(entity, level) {
             let player = global.aTip.findPlayerByUuid(level, uuid)
             if (player) return player
         }
-    }
-
-    if (global.pfShopState && global.pfShopState.player) {
-        return global.pfShopState.player
+        // 退化：通过实体上持久化的 pfSpawnerPlayerUuid 反查开店玩家
+        try {
+            let spawnerUuid = "" + entity.persistentData.getString("pfSpawnerPlayerUuid")
+            if (spawnerUuid && spawnerUuid.length > 0) {
+                let p = global.aTip.findPlayerByUuid(level, spawnerUuid)
+                if (p) return p
+            }
+        } catch (e) {}
     }
 
     return null

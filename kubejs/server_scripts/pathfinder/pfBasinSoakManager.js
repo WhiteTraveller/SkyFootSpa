@@ -72,7 +72,8 @@ function pfReadBasinFluid(level, pos) {
     try {
         let block = level.getBlock(pos.x, pos.y, pos.z)
         if (!block) return null
-        if (('' + block.id) !== BASIN_BLOCK_ID) return null
+        let blockId = '' + block.id
+        if (blockId !== BASIN_BLOCK_ID) return null
 
         // -------- 路径 1：Forge Capability --------
         if (PF_JC.BlockPos && PF_JC.ForgeCapabilities) {
@@ -86,18 +87,13 @@ function pfReadBasinFluid(level, pos) {
                             let n = handler.getTanks()
                             for (let i = 0; i < n; i++) {
                                 let fs = handler.getFluidInTank(i)
-                                if (fs && !fs.isEmpty()) {
-                                    let fid = '' + fs.getFluid().builtInRegistryHolder().key().location()
-                                    let amt = fs.getAmount() | 0
-                                    let id = '' + global.soakWaterRegister ? (global.soakWaterRegister.getByFluidId(fid) ? fid : null) : fid
-                                    // 若是已注册泡脚水则优先返回；否则保留第一个非空 tank
-                                    if (global.soakWaterRegister && global.soakWaterRegister.getByFluidId(fid)) {
-                                        return { fluidId: fid, amount: amt, _viaCap: true, _tankIdx: i }
-                                    }
-                                    if (i === 0) {
-                                        return { fluidId: fid, amount: amt, _viaCap: true, _tankIdx: i }
-                                    }
-                                }
+                                let isEmpty = (!fs) || fs.isEmpty()
+                                if (isEmpty) continue
+                                let fid = '' + fs.getFluid().builtInRegistryHolder().key().location()
+                                let amt = fs.getAmount() | 0
+                                // 找到第一个非空 tank 即返回（Basin 暴露 4 个 tank：2 input + 2 output）
+                                // 废水拦截交给 pfBasinContainsUsedWater 处理
+                                return { fluidId: fid, amount: amt, _viaCap: true, _tankIdx: i }
                             }
                             // Capability 可用但所有 tank 空
                             return null
@@ -105,7 +101,7 @@ function pfReadBasinFluid(level, pos) {
                     }
                 }
             } catch (e) {
-                console.log('[PF-BASIN] Capability 读取异常，回退 entityData: ' + e)
+                // Capability 读取异常，静默回退 entityData
             }
         }
 
@@ -126,12 +122,15 @@ function pfReadBasinFluid(level, pos) {
 
         // 注意：Create 实测中顺序是 Amount 在前，FluidName 在后
         let m = segment.match(/Amount:\s*(\d+),\s*FluidName:\s*"([^"]+)"/)
-        if (m && m[2] !== 'minecraft:empty') return { fluidId: m[2], amount: parseInt(m[1]) }
+        if (m && m[2] !== 'minecraft:empty') {
+            return { fluidId: m[2], amount: parseInt(m[1]) }
+        }
         m = segment.match(/FluidName:\s*"([^"]+)",\s*Amount:\s*(\d+)/)
-        if (m && m[1] !== 'minecraft:empty') return { fluidId: m[1], amount: parseInt(m[2]) }
+        if (m && m[1] !== 'minecraft:empty') {
+            return { fluidId: m[1], amount: parseInt(m[2]) }
+        }
         return null
     } catch (e) {
-        console.log('[PF-BASIN] 读取流体异常: ' + e)
         return null
     }
 }
@@ -184,9 +183,65 @@ function pfBasinContainsUsedWater(level, pos) {
     }
 }
 
+// ----------------- 定位 Basin InputTanks 中“可被替换”的槽位（NBT 索引 0 或 1） -----------------
+// 背景：Create Basin 的 Forge combined FluidHandler 暴露顺序为
+//   [OutputTanks[0], OutputTanks[1], InputTanks[0], InputTanks[1]]
+// 所以 Capability 返回的 tankIdx 不能直接用作 /data modify 里 InputTanks[i] 的 i。
+// 这里直接扫 entityData 的 InputTanks 段，返回首个“非空且不是废水”的槽位。
+// 找不到返回 -1。
+function pfFindInputSlotForReplace(level, pos) {
+    try {
+        let block = level.getBlock(pos.x, pos.y, pos.z)
+        if (!block) return -1
+        if (('' + block.id) !== BASIN_BLOCK_ID) return -1
+        let data = block.entityData
+        if (!data) return -1
+        let s = '' + data
+        if (!s) return -1
+
+        let startIdx = s.indexOf('InputTanks:[')
+        if (startIdx < 0) return -1
+        let endIdx = s.indexOf(']', startIdx)
+        if (endIdx < 0) return -1
+        let segment = s.substring(startIdx, endIdx + 1)
+
+        // 依次匹配 0/1 两个 TankContent
+        let re = /TankContent:\{Amount:\s*(\d+),\s*FluidName:\s*"([^"]+)"\}/g
+        let i = 0
+        let m
+        let foundEmptyOrUsedSlot = -1
+        while ((m = re.exec(segment)) !== null) {
+            let amt = parseInt(m[1])
+            let fid = m[2]
+            if (fid !== 'minecraft:empty' && amt > 0 && fid !== OUTPUT_FLUID_ID) {
+                return i
+            }
+            // 备选：空槽或被脱状态的槽位（避免遇到两个都是废水的诡异情况）
+            if (foundEmptyOrUsedSlot < 0) foundEmptyOrUsedSlot = i
+            i++
+            if (i >= 2) break
+        }
+        return foundEmptyOrUsedSlot
+    } catch (e) {
+        return -1
+    }
+}
+
 // ----------------- 判定是否为已注册泡脚水 -----------------
+// 原版 minecraft:water 视为"清水"兜底，返回伪 def，对应桶 id = minecraft:water_bucket
+// （pfSoakManager / pfSoakWaterEffects 已支持 minecraft:water_bucket 作为无附加效果的清水类型）
+let PF_BASIN_PLAIN_WATER_DEF = {
+    name: 'plain_water',
+    nameZH: '清水',
+    getBucketId: function () { return 'minecraft:water_bucket' },
+    getFluidId: function () { return 'minecraft:water' }
+}
+
 function pfGetSoakWaterByFluid(fluidId) {
-    if (!global.soakWaterRegister || !fluidId) return null
+    if (!fluidId) return null
+    // 原版水兜底
+    if (('' + fluidId) === 'minecraft:water') return PF_BASIN_PLAIN_WATER_DEF
+    if (!global.soakWaterRegister) return null
     try {
         let def = global.soakWaterRegister.getByFluidId(fluidId)
         return def || null
@@ -206,29 +261,33 @@ function pfGetSoakWaterByFluid(fluidId) {
 // Forge combined FluidHandler 受 .forbidExtraction() 限制无法 drain input，
 // 改用 /data modify 直接改 BE NBT——原生命令会自动调用
 // BlockEntity.load() + setChanged() + sendBlockUpdated()。
-function pfWriteBasinFluid(level, pos, fluidId, amount) {
+function pfWriteBasinFluid(level, pos, fluidId, amount, tankIdx) {
     let server = level.getServer()
     let x = pos.x, y = pos.y, z = pos.z
+    let idx = (tankIdx | 0)
+    if (idx < 0) idx = 0
 
     // ====== 写入前日志 ======
     try {
         let block = level.getBlock(x, y, z)
-        console.log('[PF-BASIN] [BEFORE] pos=(' + x + ',' + y + ',' + z + ') blockId=' + (block ? block.id : 'null')
+        console.log('[PF-BASIN] [BEFORE] pos=(' + x + ',' + y + ',' + z + ') tankIdx=' + idx
+            + ' blockId=' + (block ? block.id : 'null')
             + ' entityData=' + (block ? block.entityData : 'null'))
     } catch (e) { }
 
     // ====== 命令写入（已验证的正确路径） ======
+    let tankPath = 'InputTanks[' + idx + ']'
     let cmds = [
-        // InputTanks[0].TankContent 是单 Compound，直接改 FluidName / Amount
+        // InputTanks[idx].TankContent 是单 Compound，直接改 FluidName / Amount
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' InputTanks[0].TankContent.FluidName set value "' + fluidId + '"',
+            + ' ' + tankPath + '.TankContent.FluidName set value "' + fluidId + '"',
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' InputTanks[0].TankContent.Amount set value ' + amount,
+            + ' ' + tankPath + '.TankContent.Amount set value ' + amount,
         // 保证视觉层面滿水（Target/Value -> 1.0）
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' InputTanks[0].Level.Target set value 1.0f',
+            + ' ' + tankPath + '.Level.Target set value 1.0f',
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' InputTanks[0].Level.Value set value 1.0f'
+            + ' ' + tankPath + '.Level.Value set value 1.0f'
     ]
     for (let i = 0; i < cmds.length; i++) {
         try { server.runCommandSilent(cmds[i]) } catch (e) { }
@@ -271,7 +330,6 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
     let bedPos = global.pfEntityData.pfGetBedInfo(ent)
     let basinPos = pfComputeBasinPos(bedPos)
     if (!basinPos) {
-        console.log('[PF-BASIN-TICK] 无法计算 basinPos，bedPos=' + JSON.stringify(bedPos))
         return false
     }
 
@@ -285,20 +343,27 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
     }
     // Basin 内只要任何 tank 含“已使用洗脚水”（kubejs:foot_water）就视为废水
     let isUsedWater = pfBasinContainsUsedWater(level, basinPos)
-    // 每秒诊断日志：精简但关键字段齐全
-    console.log('[PF-BASIN-TICK] pos=(' + basinPos.x + ',' + basinPos.y + ',' + basinPos.z
-        + ') fluid=' + (fluid ? (fluid.fluidId + '/' + fluid.amount + 'mb') : 'null')
-        + ' isSoakWater=' + (def ? 'Y' : 'N')
-        + (isUsedWater ? ' isUsedWater=Y' : '')
-        + ' soakState={isSoaking:' + snap.isSoaking + ',done:' + snap.soakDone
-        + ',timeLeft:' + snap.soakTimeLeft + ',auto:' + snap.basinAuto + '}')
 
     // ===== (C) 结算：自动泡脚已完成倒计时 → 替换流体 =====
     if (snap.soakDone === 1 && snap.basinAuto === 1) {
-        pfWriteBasinFluid(level, basinPos, OUTPUT_FLUID_ID, REQUIRED_AMOUNT)
-        pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })
-        console.log('[PF-BASIN] 泡脚完成，Basin ' + basinPos.x + ',' + basinPos.y + ',' + basinPos.z
-            + ' 消耗 ' + REQUIRED_AMOUNT + 'mb 泡脚水 → ' + OUTPUT_FLUID_ID)
+        // 结算前再读一次验证流体还在
+        let curFluid = pfReadBasinFluid(level, basinPos)
+        // 直接扫 entityData 拿到真实的 InputTanks NBT 槽位（不依赖 Capability 顺序）
+        let nbtSlot = pfFindInputSlotForReplace(level, basinPos)
+        if (curFluid && curFluid.amount >= REQUIRED_AMOUNT
+                && pfGetSoakWaterByFluid(curFluid.fluidId)
+                && nbtSlot >= 0) {
+            pfWriteBasinFluid(level, basinPos, OUTPUT_FLUID_ID, REQUIRED_AMOUNT, nbtSlot)
+            pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })
+            console.log('[PF-BASIN] 泡脚完成，Basin ' + basinPos.x + ',' + basinPos.y + ',' + basinPos.z
+                + ' InputTanks[' + nbtSlot + '] 消耗 ' + REQUIRED_AMOUNT + 'mb 泡脚水 → ' + OUTPUT_FLUID_ID)
+        } else {
+            // 流体被取走或未找到可写槽位：仅清状态防止脏数据
+            pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })
+            console.log('[PF-BASIN] 泡脚完成但跳过流体写入'
+                + '（fluid=' + (curFluid ? curFluid.fluidId + '/' + curFluid.amount + 'mb' : 'null')
+                + ', nbtSlot=' + nbtSlot + '）')
+        }
         return true
     }
 

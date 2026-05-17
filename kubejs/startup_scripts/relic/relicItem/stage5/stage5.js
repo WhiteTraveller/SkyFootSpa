@@ -117,7 +117,7 @@ global.relicRegister.register(function(relic) {
                 let slot = r * 9 + col
                 let stack = curiosAll.getStackInSlot(slot)
                 // 跳过backpack_space以外的区域
-                if (stack.getId() == "marguerite:backpack_space") break
+                if (global.isSpacePanelId(stack.getId())) break
                 let hasRelic = global.isValidRelic(stack)
                 if (hasRelic == prevHasRelic) {
                     isAlternating = false

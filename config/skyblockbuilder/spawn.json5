@@ -74,7 +74,7 @@
     // You can set a range from minY to maxY. minY is the bottom spawn position. maxY is the top spawn dimension.
     // If you set the spawn height type to "set", the bottom value will be used for a set height. Otherwise, the height will be calculated.
     "range": {
-      "bottom": 64,
+      "bottom": 90,
       "top": 319
     },
     

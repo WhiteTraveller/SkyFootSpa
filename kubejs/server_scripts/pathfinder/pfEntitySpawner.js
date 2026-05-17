@@ -36,6 +36,15 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     global.pfEntityData.pfSetTime(walker, 0)
     global.pfEntityData.pfSetSubStep(walker, 0)
     
+    // 把寻路方块坐标 + 开店玩家 UUID 持久化到实体本身，
+    // 用于跨重启后从实体反查触发店铺与玩家上下文
+    walker.persistentData.putInt("pfShopBaseX", baseX | 0)
+    walker.persistentData.putInt("pfShopBaseY", baseY | 0)
+    walker.persistentData.putInt("pfShopBaseZ", baseZ | 0)
+    if (player) {
+        walker.persistentData.putString("pfSpawnerPlayerUuid", "" + player.getUuid())
+    }
+    
     // 保存蓝色地毯位置
     global.pfEntityData.pfSetBlueCarpetPos(walker, blueCarpetPos.x, blueCarpetPos.z)
     

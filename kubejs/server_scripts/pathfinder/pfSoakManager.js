@@ -2,7 +2,19 @@
 // ============================================================
 // 泡脚管理模块
 // 泡脚流程、倒计时管理
+// ------------------------------------------------------------
+// 时间状态规范：
+//   - 所有泡脚相关时间状态以"秒"为单位存储（pfSoakTimeLeft = 剩余秒数）
+//   - 不依赖 server.getTickCount() 差值，避免跨重启失效
+//   - 实体侧维护 pfSoakSubTick (0~19) 作为秒内 tick 计数器，
+//     每 tick +1，达到 20 即触发一次"秒事件"：
+//       * 若洗脚水可用：剩余秒数 -1
+//       * 若洗脚水无可用：重置剩余秒数为 PF_SOAK_DEFAULT_SECONDS
+//   - pfSoakSubTick 存在实体 persistentData，不同步给客户端，节省带宽
 // ============================================================
+
+// 默认泡脚倒计时（秒），重置时也使用此值
+let PF_SOAK_DEFAULT_SECONDS = 10
 
 // 从手持物品NBT读取泡脚状态
 function pfGetSoakStateFromItem(ent) {
@@ -59,7 +71,24 @@ function pfGetSoakTimeLeft(ent) {
     return state.soakTimeLeft
 }
 
-// 处理泡脚倒计时（在global.pathfinderTick中调用）
+// 判定当前 bucketId 是否对应一个可用的洗脚水
+//   - 'minecraft:water_bucket' 视为始终可用（清水兜底）
+//   - 其它桶 id 必须能在 global.soakWaterRegister 中查到定义
+function pfIsSoakWaterAvailable(bucketId) {
+    if (!bucketId) return false
+    if (bucketId === 'minecraft:water_bucket') return true
+    try {
+        if (global.soakWaterRegister && typeof global.soakWaterRegister.getByBucketId === 'function') {
+            return !!global.soakWaterRegister.getByBucketId(bucketId)
+        }
+    } catch (e) {
+        console.log("[PF-SOAK] 查询洗脚水注册表异常: " + e)
+    }
+    return false
+}
+
+// 处理泡脚倒计时（在 global.pathfinderTick 中调用）
+// 设计：完全按"秒"驱动；与 sleep 流程的 sleepDuration 解耦
 function pfProcessSoaking(ent, currTick) {
     let state = pfGetSoakStateFromItem(ent)
     
@@ -67,40 +96,52 @@ function pfProcessSoaking(ent, currTick) {
         return false
     }
     
-    let sleepStart = global.pfEntityData.pfGetSleepStartTick(ent)
-    let sleepDuration = currTick - sleepStart
+    // 秒内 tick 计数器（0~19），达到 20 触发"秒事件"
+    let subTick = (ent.persistentData.getInt("pfSoakSubTick") | 0) + 1
+    if (subTick < 20) {
+        ent.persistentData.putInt("pfSoakSubTick", subTick)
+        return false
+    }
+    // 进入秒事件，归零计数器
+    ent.persistentData.putInt("pfSoakSubTick", 0)
     
-    // 每秒减少一次（每20 ticks）
-    if (sleepDuration > 0 && sleepDuration % 20 === 0) {
-        if (state.soakTimeLeft > 0) {
-            state.soakTimeLeft--
-            console.log("[PF-SOAK] 倒计时减少: " + state.soakTimeLeft + "秒 uuid=" + ent.getUuid())
-        }
-        
-        // 倒计时结束
-        if (state.soakTimeLeft <= 0) {
-            state.isSoaking = 0
-            state.soakDone = 1
-            state.soakTimeLeft = 0
-            console.log("[PF-SOAK] 倒计时结束，泡脚完成！uuid=" + ent.getUuid())
-            pfSetSoakStateToItem(ent, state)
-            // 应用洗脚水附加效果（根据 pfSoakWaterType）
-            try {
-                let bucketId = pfGetSoakWaterType(ent)
-                if (bucketId && global.pfSoakWaterEffects) {
-                    global.pfSoakWaterEffects.pfApplySoakEffects(ent, bucketId)
-                }
-            } catch (e) {
-                console.log("[PF-SOAK] 应用洗脚水效果异常: " + e)
-            }
-            return true
-        }
-        
+    // 判定洗脚水是否可用
+    let bucketId = pfGetSoakWaterType(ent)
+    if (!pfIsSoakWaterAvailable(bucketId)) {
+        // 无可用洗脚水 → 重置剩余倒计时秒数
+        let prev = state.soakTimeLeft
+        state.soakTimeLeft = PF_SOAK_DEFAULT_SECONDS
         pfSetSoakStateToItem(ent, state)
+        console.log("[PF-SOAK] 无可用洗脚水(bucketId='" + bucketId + "')，剩余秒数重置 " + prev + "→" + PF_SOAK_DEFAULT_SECONDS + " uuid=" + ent.getUuid())
+        return false
+    }
+    
+    // 洗脚水可用 → 剩余秒数 -1
+    if (state.soakTimeLeft > 0) {
+        state.soakTimeLeft--
+        console.log("[PF-SOAK] 倒计时减少: " + state.soakTimeLeft + "秒 uuid=" + ent.getUuid())
+    }
+    
+    // 倒计时结束
+    if (state.soakTimeLeft <= 0) {
+        state.isSoaking = 0
+        state.soakDone = 1
+        state.soakTimeLeft = 0
+        console.log("[PF-SOAK] 倒计时结束，泡脚完成！uuid=" + ent.getUuid())
+        pfSetSoakStateToItem(ent, state)
+        // 应用洗脚水附加效果（根据 pfSoakWaterType）
+        try {
+            if (bucketId && global.pfSoakWaterEffects) {
+                global.pfSoakWaterEffects.pfApplySoakEffects(ent, bucketId)
+            }
+        } catch (e) {
+            console.log("[PF-SOAK] 应用洗脚水效果异常: " + e)
+        }
         return true
     }
     
-    return false
+    pfSetSoakStateToItem(ent, state)
+    return true
 }
 
 // 开始泡脚（由网络事件调用）
@@ -121,12 +162,15 @@ function pfStartSoak(ent, player, bucketId) {
     }
     
     // 开始泡脚
-    console.log("[PF-SOAK] 开始泡脚，设置倒计时10秒，水桶=" + (bucketId || "minecraft:water_bucket"))
+    console.log("[PF-SOAK] 开始泡脚，设置倒计时" + PF_SOAK_DEFAULT_SECONDS + "秒，水桶=" + (bucketId || "minecraft:water_bucket"))
     state.isSoaking = 1
-    state.soakTimeLeft = 10
+    state.soakTimeLeft = PF_SOAK_DEFAULT_SECONDS
     state.soakDone = 0
     state.waterType = bucketId || 'minecraft:water_bucket'
     pfSetSoakStateToItem(ent, state)
+    
+    // 重置秒内 tick 计数器，确保第一秒完整计时
+    ent.persistentData.putInt("pfSoakSubTick", 0)
     
     // 消耗水桶，变成空桶
     player.setMainHandItem(Item.of('minecraft:bucket', 1))
@@ -137,7 +181,7 @@ function pfStartSoak(ent, player, bucketId) {
         let def = global.soakWaterRegister.getByBucketId(bucketId)
         if (def) waterName = def.nameZH
     }
-    player.setStatusMessage('§a开始泡脚（' + waterName + '）！倒计时10秒...')
+    player.setStatusMessage('§a开始泡脚（' + waterName + '）！倒计时' + PF_SOAK_DEFAULT_SECONDS + '秒...')
     return true
 }
 

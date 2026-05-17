@@ -28,9 +28,13 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     }
     
     // 非 voucher / boss 模式下，已开店则手动关店
-    if (!bossDef && !voucherCategory && global.pfShopState && global.pfShopState.isOpen) {
-        global.pfShopManager.pfCloseShop(level, "手动关店")
-        return
+    // 状态持久化在被点击方块自身的 BlockEntity NBT 中
+    if (!bossDef && !voucherCategory) {
+        let be = level.getBlockEntity(blockPos)
+        if (be && global.pfShopManager.pfShopGetIsOpen(be)) {
+            global.pfShopManager.pfCloseShop(level, be, "手动关店")
+            return
+        }
     }
     
     // 白天检测（boss/开店需白天；voucher 绕过）
