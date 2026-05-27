@@ -169,32 +169,21 @@ global.aTip.findActionPlayer = function(entity, level) {
 }
 
 ServerEvents.commandRegistry(event => {
-    let Commands = event.commands
+    const { commands, arguments: args } = event
 
     event.register(
-        Commands.literal("auratip_openshop")
-            .executes(context => global.aTip.startOpenShop(context.source.player))
-    )
-
-    event.register(
-        Commands.literal("auratip_reset")
-            .executes(context => global.aTip.resetCommand(context))
-    )
-
-    event.register(
-        Commands.literal("auratip_debug_show")
-            .then(Commands.literal("pathfinder_open_shop_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_open_shop_tip")))
-            .then(Commands.literal("pathfinder_night_close_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_night_close_tip")))
-            .then(Commands.literal("pathfinder_voucher_click_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_voucher_click_tip")))
-            .then(Commands.literal("pathfinder_water_soak_click_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_water_soak_click_tip")))
-            .then(Commands.literal("pathfinder_rub_foot_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_rub_foot_tip")))
-            .then(Commands.literal("pathfinder_service_finish_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_service_finish_tip")))
+        commands.literal("auratip")
+            .then(commands.literal("openshop")
+                .executes(context => global.aTip.startOpenShop(context.source.player)))
+            .then(commands.literal("reset")
+                .executes(context => global.aTip.resetCommand(context)))
+            .then(commands.literal("debug")
+                .then(commands.literal("show")
+                    .then(commands.argument("tip_id", args.STRING.create(event))
+                        .executes(context => {
+                            let tipId = "" + args.STRING.getResult(context, "tip_id")
+                            return global.aTip.debugShowCommand(context, tipId)
+                        }))))
     )
 })
 
