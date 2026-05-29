@@ -1,7 +1,7 @@
 // AuraTip: teaching tips for the pathfinder service flow.
 global.aTip = global.aTip || {}
 
-const ATIP_DELETE_HINT = "\ndelete 关闭"
+const ATIP_DELETE_BADGE_TEXT = "delete 关闭"
 
 function atipCodepointUnits(codePoint) {
     if (codePoint === 10 || codePoint === 13) {
@@ -41,8 +41,9 @@ global.aTip.measureUnits = function(text) {
 
 global.aTip.stripDeleteHint = function(content) {
     let raw = "" + (content == null ? "" : content)
-    if (raw.endsWith(ATIP_DELETE_HINT)) {
-        return raw.substring(0, raw.length - ATIP_DELETE_HINT.length)
+    let legacyHint = "\n" + ATIP_DELETE_BADGE_TEXT
+    if (raw.endsWith(legacyHint)) {
+        return raw.substring(0, raw.length - legacyHint.length)
     }
     return raw
 }
@@ -121,7 +122,7 @@ global.aTip.wrapContent = function(content, wrapUnits) {
         }
     }
 
-    return wrappedLines.join("\n") + ATIP_DELETE_HINT
+    return wrappedLines.join("\n")
 }
 
 global.aTip.estimateCardSize = function(title, content, wrapUnits, minWidth, maxWidth, minHeight, maxHeight) {
@@ -138,12 +139,12 @@ global.aTip.estimateCardSize = function(title, content, wrapUnits, minWidth, max
     }
 
     let layoutUnits = wrapUnits == null ? widestUnits : Math.min(widestUnits, wrapUnits)
-    let width = 34 + layoutUnits * 2.6
+    let width = 22 + layoutUnits * 2.6
     if (width < minWidth) width = minWidth
     if (width > maxWidth) width = maxWidth
 
     let contentLineCount = contentLines.length === 0 ? 1 : contentLines.length
-    let height = 43 + contentLineCount * 7
+    let height = 42 + contentLineCount * 7
     if (height < minHeight) height = minHeight
     if (height > maxHeight) height = maxHeight
 
@@ -153,7 +154,7 @@ global.aTip.estimateCardSize = function(title, content, wrapUnits, minWidth, max
 function atipResolveLayout(tip) {
     let title = "" + (tip.title == null ? "" : tip.title)
     let content = global.aTip.wrapContent(tip.content, tip.wrapUnits)
-    let size = global.aTip.estimateCardSize(title, content, tip.wrapUnits, 104, 124, 54, 86)
+    let size = global.aTip.estimateCardSize(title, content, tip.wrapUnits, 96, 120, 52, 86)
 
     return {
         title: title,
@@ -169,42 +170,42 @@ global.aTip.tips = [
         id: "pathfinder_open_shop_tip",
         trigger: "kubejs:pathfinder_open_shop",
         title: "开店引导",
-        content: "右键寻路方块以开店，进入下一流程。" + ATIP_DELETE_HINT,
+        content: "右键寻路方块以开店，进入下一流程。",
         wrapUnits: 34
     },
     {
         id: "pathfinder_night_close_tip",
         trigger: "kubejs:pathfinder_night_close",
         title: "开店引导",
-        content: "现在是夜晚，暂时无法开店；请等待白天后再右键寻路方块。" + ATIP_DELETE_HINT,
+        content: "现在是夜晚，暂时无法开店；请等待白天后再右键寻路方块。",
         wrapUnits: 26
     },
     {
         id: "pathfinder_voucher_click_tip",
         trigger: "kubejs:pathfinder_voucher_click",
         title: "预约凭证提示",
-        content: "手持预约凭证右键寻路方块，会消耗凭证并立即召唤顾客。" + ATIP_DELETE_HINT,
+        content: "手持预约凭证右键寻路方块，会消耗凭证并立即召唤顾客。",
         wrapUnits: 28
     },
     {
         id: "pathfinder_water_soak_click_tip",
         trigger: "kubejs:pathfinder_water_soak_click",
         title: "泡脚提示",
-        content: "手持水桶右击，将泡脚 UI 上的空桶填满，等待倒计时完成。" + ATIP_DELETE_HINT,
+        content: "手持水桶右击，将泡脚 UI 上的空桶填满，等待倒计时完成。",
         wrapUnits: 26
     },
     {
         id: "pathfinder_rub_foot_tip",
         trigger: "kubejs:pathfinder_rub_foot",
         title: "搓脚提示",
-        content: "玩家可以选择佩戴不同的遗物，搭配会影响体力消耗、金钱和满意度。" + ATIP_DELETE_HINT,
+        content: "玩家可以选择佩戴不同的遗物，搭配会影响体力消耗、金钱和满意度。",
         wrapUnits: 28
     },
     {
         id: "pathfinder_service_finish_tip",
         trigger: "kubejs:pathfinder_service_finish",
         title: "流程结束",
-        content: "顾客到达路径终点后，提示会自动关闭；如需回顾教程使用/auratip openshop。" + ATIP_DELETE_HINT,
+        content: "顾客到达路径终点后，提示会自动关闭；如需回顾教程使用/auratip openshop。",
         durationTicks: 100,
         wrapUnits: 28
     }
@@ -212,8 +213,8 @@ global.aTip.tips = [
 
 // 注册tip样式（教学卡片）
 global.aTip.styleTeachingCard = function(builder, layout) {
-        let width = layout && layout.width ? layout.width : 116
-        let height = layout && layout.height ? layout.height : 42
+        let width = layout && layout.width ? layout.width : 108
+        let height = layout && layout.height ? layout.height : 54
 
     return builder
         .visual(v => {
@@ -226,6 +227,9 @@ global.aTip.styleTeachingCard = function(builder, layout) {
             v.themeColor("#DDE3C95F")
             v.background("gradient", ["#DA282F38", "#C43A4550"], 12)
             v.backgroundRounded(true)
+            v.padding(6, 6, 6, 6)
+            v.elementSpacing(2)
+            v.shadow(true, "#55000000", 3, 3, 1)
             v.hoverAnimationStyle("auratip:none")
             v.stripeWidth(0)
             v.stripeLengthFactor(0)
@@ -249,13 +253,23 @@ global.aTip.page = function(page, title, content) {
         1.08,
         0
     )
-    page.titleDivider(1, 4, -4, 0.78, "#A8E3C95F")
+    page.titleDivider(1, 2, 2, 0.78, "#A8E3C95F")
     page.content(
         TipText.of(content)
             .colorHex("#FFE8E5D8")
             .build(),
         0.70,
         0
+    )
+    page.badge(
+        TipText.of(ATIP_DELETE_BADGE_TEXT)
+            .colorHex("#FFE8E5D8")
+            .build(),
+        0.64,
+        0,
+        "#66282F38",
+        3,
+        "BOTTOM_RIGHT"
     )
 }
 
@@ -291,7 +305,7 @@ global.aTip.registerAll = function(event) {
 
 if (typeof TipEvents !== "undefined") {
     TipEvents.register(event => {
-        console.log("[ATIP-CLIENT] register teaching tips v8 wrap-content count=" + global.aTip.tips.length)
+        console.log("[ATIP-CLIENT] register teaching tips v10 badge-tune count=" + global.aTip.tips.length)
         global.aTip.registerAll(event)
     })
 }
