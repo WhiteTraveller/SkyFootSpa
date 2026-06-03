@@ -1,4 +1,4 @@
-65 possible biomes found:
+66 possible biomes found:
 - "minecraft:badlands"
 - "minecraft:bamboo_jungle"
 - "minecraft:basalt_deltas"
@@ -50,6 +50,7 @@
 - "minecraft:snowy_taiga"
 - "minecraft:soul_sand_valley"
 - "minecraft:sparse_jungle"
+- "ae2:spatial_storage"
 - "minecraft:stony_peaks"
 - "minecraft:stony_shore"
 - "minecraft:sunflower_plains"

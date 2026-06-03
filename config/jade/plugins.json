@@ -67,9 +67,15 @@
     "energy": true,
     "tooltip_renderer": true
   },
+  "immersiveengineering": {
+    "multiblock_icon": true
+  },
   "touhou_little_maid": {
     "maid": true,
     "shrine_lamp": true
+  },
+  "createsifter": {
+    "sifter_data": true
   },
   "jade": {
     "coordinates.rel": false,
@@ -78,5 +84,17 @@
     "coordinates": false,
     "registry_name": "OFF",
     "mod_name": true
+  },
+  "ae2": {
+    "part_icon": true,
+    "charger": true,
+    "debug": true,
+    "part_tooltip": true,
+    "grid_node_state": true,
+    "pattern_provider": true,
+    "part_mod_name": true,
+    "power_storage": true,
+    "crafting_monitor": true,
+    "part_name": true
   }
 }
