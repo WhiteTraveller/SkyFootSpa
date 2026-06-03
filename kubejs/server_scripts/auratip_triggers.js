@@ -6,17 +6,21 @@ global.aTip.stageKey = "aTipTeaching.stage"
 global.aTip.serverTick = 0
 global.aTip.pendingShows = global.aTip.pendingShows || []
 
+// 注册tip触发器
 global.aTip.triggers = {
     pathfinder_open_shop_tip: "kubejs:pathfinder_open_shop",
+    pathfinder_night_close_tip: "kubejs:pathfinder_night_close",
     pathfinder_voucher_click_tip: "kubejs:pathfinder_voucher_click",
     pathfinder_water_soak_click_tip: "kubejs:pathfinder_water_soak_click",
     pathfinder_rub_foot_tip: "kubejs:pathfinder_rub_foot",
     pathfinder_service_finish_tip: "kubejs:pathfinder_service_finish"
 }
-
+// 教学流程---设置了状态机，后续注册普通tip可以直接trigger
 global.aTip.getStage = function(player) {
     if (!player || !player.persistentData) return ""
-    return "" + player.persistentData.getString(global.aTip.stageKey)
+    let stage = "" + player.persistentData.getString(global.aTip.stageKey)
+    if (stage === "night_blocked") return "wait_pathfinder_click"
+    return stage
 }
 
 global.aTip.setStage = function(player, stage) {
@@ -26,6 +30,10 @@ global.aTip.setStage = function(player, stage) {
 
 global.aTip.clearStage = function(player) {
     global.aTip.setStage(player, "")
+}
+
+global.aTip.isStage = function(player, stage) {
+    return global.aTip.getStage(player) === stage
 }
 
 global.aTip.canClose = function() {
@@ -81,6 +89,13 @@ global.aTip.startOpenShop = function(player) {
 
     global.aTip.setStage(player, "wait_pathfinder_click")
     global.aTip.closeThenShow(player, "pathfinder_open_shop_tip", 1)
+    return 1
+}
+
+global.aTip.showNightClose = function(player) {
+    if (!player) return 0
+
+    global.aTip.closeThenShow(player, "pathfinder_night_close_tip", 1)
     return 1
 }
 
@@ -158,30 +173,21 @@ global.aTip.findActionPlayer = function(entity, level) {
 }
 
 ServerEvents.commandRegistry(event => {
-    let Commands = event.commands
+    const { commands, arguments: args } = event
 
     event.register(
-        Commands.literal("auratip_openshop")
-            .executes(context => global.aTip.startOpenShop(context.source.player))
-    )
-
-    event.register(
-        Commands.literal("auratip_reset")
-            .executes(context => global.aTip.resetCommand(context))
-    )
-
-    event.register(
-        Commands.literal("auratip_debug_show")
-            .then(Commands.literal("pathfinder_open_shop_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_open_shop_tip")))
-            .then(Commands.literal("pathfinder_voucher_click_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_voucher_click_tip")))
-            .then(Commands.literal("pathfinder_water_soak_click_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_water_soak_click_tip")))
-            .then(Commands.literal("pathfinder_rub_foot_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_rub_foot_tip")))
-            .then(Commands.literal("pathfinder_service_finish_tip")
-                .executes(context => global.aTip.debugShowCommand(context, "pathfinder_service_finish_tip")))
+        commands.literal("auratip")
+            .then(commands.literal("openshop")
+                .executes(context => global.aTip.startOpenShop(context.source.player)))
+            .then(commands.literal("reset")
+                .executes(context => global.aTip.resetCommand(context)))
+            .then(commands.literal("debug")
+                .then(commands.literal("show")
+                    .then(commands.argument("tip_id", args.STRING.create(event))
+                        .executes(context => {
+                            let tipId = "" + args.STRING.getResult(context, "tip_id")
+                            return global.aTip.debugShowCommand(context, tipId)
+                        }))))
     )
 })
 
