@@ -23,6 +23,31 @@ let trackedEntities = new Map()
 let entityCountdowns = new Map()  // 存储每个实体的上次倒计时值
 let entitySoakState = new Map()   // 存储每个实体的泡脚状态 { isSoaking: boolean, soakTimeLeft: number }
 
+// 安全移除队列：延迟移除 WorldWindow，避免框架 mousePosition NPE
+let windowRemovalQueue = []
+
+/**
+ * 安全移除 WorldWindow：延迟 2 tick 后实际移除
+ * 避免在鼠标悬停时立即移除窗口导致框架内部 NPE
+ */
+function safeRemoveWorldWindow(window) {
+    windowRemovalQueue.push({ window: window, ticksLeft: 2 })
+}
+
+// 拖动状态：每个 window 独立
+// （dragState 已弃用，交互状态存储在各 window 闭包的 tracking 对象中）
+
+// 手物品ID → 动画素材文件名
+let HAND_TO_FLOAT_IMG = {
+    'marguerite:hand_jiaozhang': 'hand_jiaozhang.png',
+    'marguerite:hand_jiaoxin':   'hand_jiaoxin.png',
+    'marguerite:hand_jiaogen':   'hand_jiaogen.png',
+    'marguerite:hand_jiaozhi':   'hand_jiaozhi.png'
+}
+
+// 拖动距离阈值（像素）：累计路程 >= 此值视为一次有效搓脚
+let DRAG_THRESHOLD = 200
+
 // UI配置
 let BAR_WIDTH = 100.0
 let BAR_HEIGHT = 150.0
@@ -104,39 +129,94 @@ function createSleepWindow(entity) {
     sleepWindows.set(uuid, window)
     trackedEntities.set(uuid, entity)
 
-    // 给各个部位按钮添加点击事件
-    // 部位按钮ID与需求键的映射
-    let partButtonMap = {
-        'jiaozhang': 'pfDemandJiaozhang', // 脚掌
-        'jiaogen': 'pfDemandJiaogen',    // 脚后跟
-        'jiaozhi': 'pfDemandJiaozhi',    // 脚趾
-        'jiaoxin': 'pfDemandJiaoxin'     // 脚心
-    }
-    
-    // 为每个部位按钮绑定点击事件
-    for (let btnId in partButtonMap) {
-        let btn = window.document.getElementById(btnId)
-        if (btn != null) {
-            btn.addEventListener("mousedown", (function(partKey) {
-                return function(event) {
-                    // 确保实体仍然存在且存活
-                    if (!entity || !entity.isAlive()) {
-                        console.log("[FOOT-UI] 实体不存在或死亡，无法执行操作")
-                        return
-                    }
-                    
-                    console.log("[FOOT-UI] 点击" + partKey + "按钮，发送请求到服务端 uuid=" + uuid)
-                    // 发送网络包到服务端，包含部位信息
-                    let player = Minecraft.getInstance().player
-                    if (player != null) {
-                        player.sendData('foot_click_demand', { 
-                            entityUuid: uuid,
-                            partKey: partKey
-                        })
-                    }
+    // 脚图片交互：鼠标移入即显示物品图标跟随，累计距离达标自动触发搓脚
+    let footImage = window.document.getElementById("footImage")
+    let floatAnimEl = window.document.getElementById("floatAnim")
+    if (footImage != null && floatAnimEl != null) {
+        // 拖动状态存储在闭包内
+        let tracking = { active: false, lastX: 0, lastY: 0, totalDist: 0 }
+
+        footImage.addEventListener("mousemove", function(event) {
+            if (!entity || !entity.isAlive()) return
+            let player = Minecraft.getInstance().player
+            if (!player) return
+            let handId = "" + player.getMainHandItem().id
+            let imgFile = HAND_TO_FLOAT_IMG[handId]
+            if (!imgFile) {
+                // 手中没有搓脚工具，隐藏图标
+                if (tracking.active) {
+                    tracking.active = false
+                    floatAnimEl.setAttribute("style", "opacity:0; left:-9999px;")
+                    let imgEl = window.document.getElementById("floatImg")
+                    if (imgEl) imgEl.setAttribute("src", "")
                 }
-            })(partButtonMap[btnId]))
-        }
+                return
+            }
+
+            // 获取鼠标坐标（直接使用 offsetX/offsetY，过滤无效值）
+            let ox = event.offsetX
+            let oy = event.offsetY
+            if (ox === undefined || ox === null || oy === undefined || oy === null) return
+            if (ox === 0 && oy === 0 && tracking.active) return  // 过滤异常(0,0)帧
+
+            let mouseX = ox
+            let mouseY = oy
+
+            if (!tracking.active) {
+                tracking.active = true
+                tracking.lastX = mouseX
+                tracking.lastY = mouseY
+                tracking.totalDist = 0
+            } else {
+                let dx = mouseX - tracking.lastX
+                let dy = mouseY - tracking.lastY
+                let moved = Math.sqrt(dx * dx + dy * dy)
+                tracking.totalDist += moved
+                tracking.lastX = mouseX
+                tracking.lastY = mouseY
+
+                // 达阈触发：发送搓脚事件
+                if (tracking.totalDist >= DRAG_THRESHOLD) {
+                    player.sendData('foot_click_demand', { entityUuid: uuid })
+                    tracking.totalDist = 0
+                }
+            }
+
+            // 每帧更新图标（切换手持物品时实时变化）
+            let imgEl = window.document.getElementById("floatImg")
+            if (imgEl) imgEl.setAttribute("src", imgFile)
+
+            // 图标跟随鼠标位置（元素中心对齐光标，直接用 footImage 内坐标）
+            let elemLeft = mouseX - 50
+            let elemTop = mouseY - 50
+            floatAnimEl.setAttribute("style", "opacity:1; left:" + elemLeft + "px; top:" + elemTop + "px; z-index:-10; width:100px; height:100px; display:flex; justify-content:center; align-items:center; transform:translateZ(1px); pointer-events:none;")
+        })
+
+        footImage.addEventListener("mouseleave", function(event) {
+            if (tracking.active) {
+                tracking.active = false
+                tracking.totalDist = 0
+                floatAnimEl.setAttribute("style", "opacity:0; left:-9999px;")
+                let imgEl = window.document.getElementById("floatImg")
+                if (imgEl) imgEl.setAttribute("src", "")
+            }
+        })
+    }
+
+    // 送客按钮：点击后顾客直接起床（服务端跳过结算分支）
+    let dismissBtn = window.document.getElementById("dismissBtn")
+    if (dismissBtn != null) {
+        dismissBtn.addEventListener("mousedown", function(event) {
+            if (!entity || !entity.isAlive()) {
+                console.log("[FOOT-UI] 送客：实体不存在或死亡")
+                return
+            }
+            console.log("[FOOT-UI] 点击送客按钮 uuid=" + uuid)
+            let player = Minecraft.getInstance().player
+            if (player != null) {
+                player.sendData('foot_dismiss_customer', { entityUuid: uuid })
+            }
+        })
     }
 
     // 设置初始倒计时、需求清单、满意度和步骤显示
@@ -156,7 +236,7 @@ function createSleepWindow(entity) {
 function removeSleepWindow(uuid) {
     let window = sleepWindows.get(uuid)
     if (window != null) {
-        WorldWindow.removeWindow(window)
+        safeRemoveWorldWindow(window)
         sleepWindows.delete(uuid)
         console.log("[FOOT-UI] 移除UI窗口 uuid=" + uuid)
     }
@@ -171,7 +251,7 @@ function removeSleepWindow(uuid) {
 function removeSoakWindow(uuid) {
     let window = soakWindows.get(uuid)
     if (window != null) {
-        WorldWindow.removeWindow(window)
+        safeRemoveWorldWindow(window)
         soakWindows.delete(uuid)
         console.log("[FOOT-UI] 移除泡脚UI窗口 uuid=" + uuid)
     }
@@ -270,7 +350,7 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
         } else {
             // 未泡脚：恢复初始文案，进度条透明
             if (titleEl != null) titleEl.innerText = "待泡脚...."
-            if (tipsEl != null) tipsEl.innerText = "手持水桶右键"
+            if (tipsEl != null) tipsEl.innerText = "请在工作盆内放入泡脚水"
             if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 0")
             if (textEl != null) textEl.innerText = ""
             if (fillEl != null) fillEl.setAttribute("style", "width: 0%")
@@ -603,6 +683,8 @@ function getOilInfo(entity) {
     return null
 }
 
+
+
 function updateOilDisplay(window, oilInfo) {
     if (window == null || window.document == null) {
         return
@@ -632,6 +714,15 @@ ClientEvents.tick(event => {
     let player = event.player
     if (player == null) {
         return
+    }
+
+    // 处理延迟移除队列
+    for (let i = windowRemovalQueue.length - 1; i >= 0; i--) {
+        windowRemovalQueue[i].ticksLeft--
+        if (windowRemovalQueue[i].ticksLeft <= 0) {
+            try { WorldWindow.removeWindow(windowRemovalQueue[i].window) } catch (e) {}
+            windowRemovalQueue.splice(i, 1)
+        }
     }
 
     clientTickCount++
@@ -788,13 +879,21 @@ ClientEvents.loggedIn(event => {
     entitySoakState.clear()
 })
 
+/**
+ * 玩家离开世界时清理所有窗口
+ */
 ClientEvents.loggedOut(event => {
     sleepWindows.forEach(function (window, uuid) {
-        WorldWindow.removeWindow(window)
+        try { WorldWindow.removeWindow(window) } catch (e) {}
     })
     soakWindows.forEach(function (window, uuid) {
-        WorldWindow.removeWindow(window)
+        try { WorldWindow.removeWindow(window) } catch (e) {}
     })
+    // 清空待移除队列（登出时直接清理不再延迟）
+    for (let i = 0; i < windowRemovalQueue.length; i++) {
+        try { WorldWindow.removeWindow(windowRemovalQueue[i].window) } catch (e) {}
+    }
+    windowRemovalQueue = []
     sleepWindows.clear()
     soakWindows.clear()
     trackedEntities.clear()
@@ -805,4 +904,16 @@ ClientEvents.loggedOut(event => {
         ApricityUI.removeDocument("kubejs/footui.html")
         ApricityUI.removeDocument("kubejs/footsoak.html")
     } catch (e) {}
+})
+
+
+// 服务端搓脚成功回调（动画已在 mouseup 时乐观触发，此处仅作日志确认）
+NetworkEvents.dataReceived('pf_serve_success', event => {
+    try {
+        let data = event.data
+        if (data == null) return
+        let entityUuid = "" + data.getString('entityUuid')
+        let part = "" + data.getString('part')
+        console.log("[FOOT-UI] pf_serve_success uuid=" + entityUuid + " part=" + part)
+    } catch (e) { console.log("[FOOT-UI] pf_serve_success 处理失败: " + e) }
 })

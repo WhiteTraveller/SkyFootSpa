@@ -22,6 +22,13 @@ festival_delicacies:patch_persimmon
 festival_delicacies:patch_tangerine
 festival_delicacies:patch_walnut
 festival_delicacies:patch_wild_garlic
+immersiveengineering:bauxite
+immersiveengineering:deep_nickel
+immersiveengineering:lead
+immersiveengineering:mineral_veins
+immersiveengineering:nickel
+immersiveengineering:silver
+immersiveengineering:uranium
 mekanism:ore_fluorite_buried
 mekanism:ore_fluorite_buried_retrogen
 mekanism:ore_fluorite_normal

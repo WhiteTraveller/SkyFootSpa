@@ -22,6 +22,9 @@ let BASIN_BLOCK_ID = 'create:basin'
 let COUNTDOWN_SECONDS = 10
 let REQUIRED_AMOUNT = 1000
 let OUTPUT_FLUID_ID = 'kubejs:foot_water'
+let OUTPUT_FUMA_FLUID_ID = 'kubejs:fuma_foot_water'
+// 妖怪/妖精顾客产出富魔洗脚水的类别列表
+let FUMA_CUSTOMER_CATEGORIES = ['youkai', 'yousei']
 
 // ----------------- Forge / Create 反射类加载（用于直接操作 FluidHandler） -----------------
 let PF_JC = {} // JavaClasses
@@ -137,7 +140,11 @@ function pfReadBasinFluid(level, pos) {
 
 // ----------------- 判定 Basin 内是否包含已使用洗脚水 -----------------
 // Basin 可能同时存在多个 tank（InputTanks x2 + OutputTanks x2），
-// 只要任何一个 tank 含 kubejs:foot_water 就视为有废水，禁止泡脚。
+// 只要任何一个 tank 含 kubejs:foot_water 或 kubejs:fuma_foot_water 就视为有废水，禁止泡脚。
+function pfIsUsedWaterFluid(fid) {
+    return fid === OUTPUT_FLUID_ID || fid === OUTPUT_FUMA_FLUID_ID
+}
+
 function pfBasinContainsUsedWater(level, pos) {
     try {
         let block = level.getBlock(pos.x, pos.y, pos.z)
@@ -158,7 +165,7 @@ function pfBasinContainsUsedWater(level, pos) {
                                 let fs = handler.getFluidInTank(i)
                                 if (fs && !fs.isEmpty()) {
                                     let fid = '' + fs.getFluid().builtInRegistryHolder().key().location()
-                                    if (fid === OUTPUT_FLUID_ID) return true
+                                    if (pfIsUsedWaterFluid(fid)) return true
                                 }
                             }
                             return false
@@ -175,8 +182,9 @@ function pfBasinContainsUsedWater(level, pos) {
         if (!data) return false
         let s = '' + data
         if (!s || s.length === 0) return false
-        // 只要整段 NBT 中出现 FluidName:"kubejs:foot_water" 就视为有废水
+        // 只要整段 NBT 中出现任一废水流体 ID 就视为有废水
         if (s.indexOf('FluidName:"' + OUTPUT_FLUID_ID + '"') >= 0) return true
+        if (s.indexOf('FluidName:"' + OUTPUT_FUMA_FLUID_ID + '"') >= 0) return true
         return false
     } catch (e) {
         return false
@@ -213,7 +221,7 @@ function pfFindInputSlotForReplace(level, pos) {
         while ((m = re.exec(segment)) !== null) {
             let amt = parseInt(m[1])
             let fid = m[2]
-            if (fid !== 'minecraft:empty' && amt > 0 && fid !== OUTPUT_FLUID_ID) {
+            if (fid !== 'minecraft:empty' && amt > 0 && !pfIsUsedWaterFluid(fid)) {
                 return i
             }
             // 备选：空槽或被脱状态的槽位（避免遇到两个都是废水的诡异情况）
@@ -353,10 +361,21 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
         if (curFluid && curFluid.amount >= REQUIRED_AMOUNT
                 && pfGetSoakWaterByFluid(curFluid.fluidId)
                 && nbtSlot >= 0) {
-            pfWriteBasinFluid(level, basinPos, OUTPUT_FLUID_ID, REQUIRED_AMOUNT, nbtSlot)
+            // 根据顾客种族决定产出的废水类型
+            let customerCat = ''
+            try { customerCat = '' + ent.persistentData.getString('pfCustomerCategory') } catch (e) { }
+            let outputFluid = OUTPUT_FLUID_ID
+            for (let i = 0; i < FUMA_CUSTOMER_CATEGORIES.length; i++) {
+                if (customerCat === FUMA_CUSTOMER_CATEGORIES[i]) {
+                    outputFluid = OUTPUT_FUMA_FLUID_ID
+                    break
+                }
+            }
+            pfWriteBasinFluid(level, basinPos, outputFluid, REQUIRED_AMOUNT, nbtSlot)
             pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })
             console.log('[PF-BASIN] 泡脚完成，Basin ' + basinPos.x + ',' + basinPos.y + ',' + basinPos.z
-                + ' InputTanks[' + nbtSlot + '] 消耗 ' + REQUIRED_AMOUNT + 'mb 泡脚水 → ' + OUTPUT_FLUID_ID)
+                + ' InputTanks[' + nbtSlot + '] 消耗 ' + REQUIRED_AMOUNT + 'mb 泡脚水 → ' + outputFluid
+                + ' (category=' + customerCat + ')')
         } else {
             // 流体被取走或未找到可写槽位：仅清状态防止脏数据
             pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })

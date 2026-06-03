@@ -273,11 +273,11 @@ function pfShopTick(level, entity) {
     try {
         let walker = global.pfEntitySpawner.pfSpawnWalker(
             level, base.x, base.y, base.z,
-            routeStr, blueCarpetPos, player, result.model
+            routeStr, blueCarpetPos, player, result.model, null, true
         )
         walker.persistentData.putString('pfCustomerCategory', result.category)
         pfShopAddSpawnedUuid(be, "" + walker.getUuid())
-        if (player) player.tell("§e⚡ " + result.name + "§e类顾客来了！")
+        // 自动开店不再发送“××类顾客来了！”，只保留 pfSpawnWalker 内部的顾客话语广播
     } catch (e) {
         console.log("[PF-SHOP] 生成顾客失败: " + e)
     }

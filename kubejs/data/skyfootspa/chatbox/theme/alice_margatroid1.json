@@ -188,11 +188,11 @@
       "type": "texture",
       "texture": "skyfootspa:textures/names/name_kawashiro_nitori.png"
     },
-    "nitori_potrait1": {
+    "hchq_1": {
       "x": 5,
       "y": -2,
-      "width": 40,
-      "height": 64,
+      "width": 31,
+      "height": 58,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -200,13 +200,13 @@
       "heightReference": "screen_height",
       "renderOrder": 10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/nitori_potrait1.png"
+      "texture": "skyfootspa:textures/portrait/hchq_1.png"
     },
-    "nitori_potrait2": {
+    "hchq_2": {
       "x": 5,
       "y": -2,
-      "width": 40,
-      "height": 64,
+      "width": 31,
+      "height": 58,
       "scale": 1.1,
       "alignX": "left",
       "alignY": "bottom",
@@ -214,7 +214,35 @@
       "heightReference": "screen_height",
       "renderOrder": 10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/nitori_potrait2.png"
+      "texture": "skyfootspa:textures/portrait/hchq_2.png"
+    },
+    "hchq_think_1": {
+      "x": 5,
+      "y": -2,
+      "width": 31,
+      "height": 58,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_think_1.png"
+    },
+    "hchq_think_2": {
+      "x": 5,
+      "y": -2,
+      "width": 31,
+      "height": 58,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_think.png"
     },
     "hakurei_reimu_name": {
       "x": 12,

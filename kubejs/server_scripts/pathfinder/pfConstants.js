@@ -21,12 +21,16 @@ const PF_DEMAND_TYPES = ['脚掌', '脚后跟', '脚趾', '脚心']
 let PF_DIRLIST = ['N', 'S', 'W', 'E']
 let PF_OPPODIRLIST = ['S', 'N', 'E', 'W']
 
-// 羊毛颜色与部位对应关系（4部位，已移除脚背）
+// 羊毛颜色/手物品与部位对应关系（4部位）
 let WOOL_TO_DEMAND = {
     'minecraft:white_wool': 'pfDemandJiaozhang', // 白色羊毛 → 脚掌
     'minecraft:green_wool': 'pfDemandJiaogen',   // 绿色羊毛 → 脚后跟
     'minecraft:black_wool': 'pfDemandJiaozhi',   // 黑色羊毛 → 脚趾
-    'minecraft:yellow_wool': 'pfDemandJiaoxin'   // 黄色羊毛 → 脚心
+    'minecraft:yellow_wool': 'pfDemandJiaoxin',  // 黄色羊毛 → 脚心
+    'marguerite:hand_jiaozhang': 'pfDemandJiaozhang', // 搓脚掌的手
+    'marguerite:hand_jiaogen': 'pfDemandJiaogen',     // 搓脚跟的手
+    'marguerite:hand_jiaozhi': 'pfDemandJiaozhi',     // 搓脚趾的手
+    'marguerite:hand_jiaoxin': 'pfDemandJiaoxin'      // 搓脚心的手
 }
 
 // 需求键值与后缀映射（4部位）

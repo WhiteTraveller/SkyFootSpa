@@ -1,5 +1,7 @@
 <body>
   <div class="foot-ui-container">
+    <!-- 送客按钮：右上角小按钮，点击后顾客直接起床（不结算、不发奖励） -->
+    <div id="dismissBtn" class="dismiss-btn">送客</div>
     <div class="up">
       <div class="header">
         <span class="title">需求清单</span>
@@ -47,12 +49,14 @@
     </div>
 
     <div class="down">
-      <!-- 脚部位按钮4部位） -->
-      <div class="btn-container">
-        <div id="jiaozhi" class="jiaozhi box">脚趾</div>
-        <div id="jiaozhang" class="jiaozhang box">脚掌</div>
-        <div id="jiaoxin" class="jiaoxin box">脚心</div>
-        <div id="jiaogen" class="jiaogen box">脚跟</div>
+                  <!-- 拖动跟随物品图标：初始隐藏，由 JS 在拖动/缩放动画期间控制 -->
+      <div id="floatAnim" class="float-anim" style="opacity: 0; left: -9999px;">
+        <img id="floatImg" class="float-img" src="" />
+      </div>
+      <!-- 脚图片：手持不同物品点击 = 搓不同部位，服务端根据手持物品判断 -->
+      <div id="footImage" class="foot-image">
+        <div class="foot-label">顾客的脚</div>
+        <img src="foot.png" class="foot-img" />
       </div>
     </div>
   </div>
@@ -243,63 +247,102 @@
     color: #844c24;
   }
 
-  /* 脚部位按钮 */
-  .btn-container {
-    position: relative;
-    width: 100px;
-    height: 70px;
-    background: url('text.png') no-repeat center center;
-    margin: 0 10px;
-    margin-top: 4px;
-
-    color: #844c24;
-    cursor: pointer;
-    background-size: contain;
-    background-position: center;
-  }
-
-  /* 按钮样式 */
-  .box {
+  /* 送客按钮（尺寸小于部位按钮 20x15） */
+  .dismiss-btn {
     position: absolute;
-    width: 20px;
-    height: 15px;
+    top: 0px;
+    right: 0px;
+    padding-left: 2px;
+    width: 10px;
+    height: 9px;
     border-radius: 2px;
     border: 1px solid #844c24;
-    transform: translateZ(10px);
-    background-size: contain;
+    background: rgba(255, 235, 200, 0.85);
+    color: #844c24;
+    font-size: 8px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 9px;
+    cursor: pointer;
+    transform: translateZ(0px);
+    z-index: 0;
+  }
+
+  .dismiss-btn:active {
+    transform: scale(0.85) translateZ(0px);
+  }
+
+  /* 脚图片区域 */
+  .foot-image {
+    position: relative;
+    width: 93px;
+    height: 50px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.08s ease;
+    border: 1px solid #844c24;
+    border-radius: 6px;
+    background: rgba(231, 214, 188, 0.432);
+    overflow: hidden;
+    padding: 2px 4px;
+  }
+
+  /* 拖动模式下不再使用 :active 缩放，避免触发 mouseleave */
+  /* .foot-image:active {
+    transform: scale(0.9);
+  } */
+
+  .foot-img {
+    margin-left: 21px;
+    width: 53px;
+    height: 29px;
+    z-index: -10px;
+    image-rendering: pixelated;
+    align-self: center;
+    margin-top: -2px;
+    pointer-events: none;
+  }
+
+  .foot-label {
+    font-size: 8px;
+    color: #5a2e10;
+    font-weight: bold;
+    margin-left: 4px;
+    text-shadow: 0 0 2px rgba(255, 248, 230, 0.8);
+    pointer-events: none;
+    letter-spacing: 0.5px;
+    line-height: 10px;
+  }
+
+  /* 拖动跟随物品图标：不受 .foot-image overflow 裁剪 */
+  .down {
+    position: relative;
+  }
+
+  .float-anim {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    opacity: 0;
+    z-index: 10;
+    width: 100px;
+    height: 100px;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    transform: translateZ(0px);
+    pointer-events: none;
   }
 
-  /* 点击动画 - 缩小再放大 */
-  .box:active {
-    transform: scale(0.85);
-  }
-
-  /* 方案一（4部位）
-     [脚掌]  [脚趾]
-     [脚心]  [脚跟]
-  */
-  .btn-container .jiaozhang {
-    top: 13px;
-    left: 20px;
-  }
-
-  .btn-container .jiaozhi {
-    top: 13px;
-    left: 60px;
-  }
-
-
-  .btn-container .jiaoxin {
-    top: 41px;
-    left: 20px;
-  }
-
-  .btn-container .jiaogen {
-    top: 41px;
-    left: 60px;
+  .float-img {
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
+    pointer-events: none;
   }
 
 

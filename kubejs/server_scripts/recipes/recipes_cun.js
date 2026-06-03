@@ -55,11 +55,11 @@ ServerEvents.recipes(event => {
                 ],
                 processingTime: 500,
                 results: [
-                    { chance: +(cunSiftBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget' },
-                    { chance: +(cunSiftBaseChances.copper * m.mult).toFixed(4), item: 'create:copper_nugget' },
-                    { chance: +(cunSiftBaseChances.zinc   * m.mult).toFixed(4), item: 'create:zinc_nugget' },
-                    { chance: +(cunSiftBaseChances.gold   * m.mult).toFixed(4), item: 'minecraft:gold_nugget' },
-                    { chance: +(cunSiftBaseChances.quartz * m.mult).toFixed(4), item: 'minecraft:quartz' }
+                    { chance: +(cunSiftBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget',   count: 3 },
+                    { chance: +(cunSiftBaseChances.copper * m.mult).toFixed(4), item: 'create:copper_nugget',     count: 3 },
+                    { chance: +(cunSiftBaseChances.zinc   * m.mult).toFixed(4), item: 'create:zinc_nugget',       count: 3 },
+                    { chance: +(cunSiftBaseChances.gold   * m.mult).toFixed(4), item: 'minecraft:gold_nugget',   count: 3 },
+                    { chance: +(cunSiftBaseChances.quartz * m.mult).toFixed(4), item: 'minecraft:quartz',         count: 3 }
                 ]
             }).id('kubejs:sift_cun_block_' + m.idTag)
             console.log('[CUN] 筛网配方已注册: 皴块 + ' + m.mesh + ' ×' + m.mult)

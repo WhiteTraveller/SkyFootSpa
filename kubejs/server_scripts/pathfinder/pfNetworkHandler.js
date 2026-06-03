@@ -141,6 +141,8 @@ function setupNetworkHandlers() {
                 nbt.pfMoney = money + totalMoneyGain
                 
                 player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + satApplied + "§d❤ §e(一键满足)")
+                // 撳脚成功音效：叮
+                try { player.getLevel().getServer().runCommandSilent('playsound minecraft:block.note_block.bell master ' + player.getUsername() + ' ~ ~ ~ 1 2 1') } catch (e) {}
                 console.log("[PF-NETWORK] 一键满足所有需求, 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
 
                 // 掉落"皴"：一键满足按总清零次数结算
@@ -161,6 +163,25 @@ function setupNetworkHandlers() {
                     targetEntity.setMainHandItem(item.withNBT(nbt))
                     return
                 }
+                // 筋膜枪：副手持有时消耗 250 FE (PowerfulJS Capability)
+                try {
+                    let offhand = player.getOffHandItem()
+                    if (offhand && offhand.getId() === 'marguerite:fascia_gun') {
+                        if (global.pfConsumeFE && global.pfConsumeFE(player, 250, 'offhand')) {
+                            // 电力消耗成功
+                            let currentFE = global.pfGetItemFE ? global.pfGetItemFE(offhand) : 0
+                            console.log('[PF-NETWORK] 筋膜枪消耗 250 FE, 剩余: ' + currentFE + ' FE')
+                        } else {
+                            // 电力不足
+                            player.setStatusMessage("§c⚡ 筋膜枪电力不足！请连接电缆充电")
+                            player.getLevel().getServer().runCommandSilent(
+                                'playsound minecraft:block.note_block.bass master ' + player.getUsername() + ' ~ ~ ~ 1 0.5 1'
+                            )
+                            targetEntity.setMainHandItem(item.withNBT(nbt))
+                            return
+                        }
+                    }
+                } catch (e) { console.log('[PF-NETWORK] 筋膜枪电力消耗失败: ' + e) }
                 currentValue--
                 nbt[demandKey] = currentValue
                 
@@ -194,7 +215,7 @@ function setupNetworkHandlers() {
                 console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue + 
                     ", 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
 
-                // 掉落"皴"：正常模式每次点击结算一次
+                // 掉落“皴”：正常模式每次点击结算一次
                 try {
                     if (global.pfCunDrop) {
                         let dropCount = global.pfCunDrop.getDropCount(player, targetEntity, part, 1)
@@ -203,8 +224,15 @@ function setupNetworkHandlers() {
                         }
                     }
                 } catch (e) { console.log('[PF-NETWORK] 皴掉落失败: ' + e) }
+            
+                // 通知客户端：撳脚成功（仅此处触发漂浮动画）
+                try { player.sendData('pf_serve_success', { entityUuid: entityUuid, part: part }) } catch (e) { }
+                // 撳脚成功音效：叮
+                try { player.getLevel().getServer().runCommandSilent('playsound minecraft:block.note_block.bell master ' + player.getUsername() + ' ~ ~ ~ 1 2 1') } catch (e) {}
             } else {
-                console.log("[PF-NETWORK] 需求已为0，无法减少")
+                // 需求已为0：不消耗体力，仅提示
+                player.setStatusMessage("§7该部位已满足，无额外收益")
+                console.log("[PF-NETWORK] 需求已为0，不消耗体力")
             }
             
             // 记录操作玩家 UUID（用于后续结算时回查，避免依赖商店方块状态）
@@ -263,6 +291,44 @@ function setupNetworkHandlers() {
             let soakNbt = soakItem.nbt
             soakNbt.pfActionPlayerUuid = "" + player.getUuid()
             targetEntity.setMainHandItem(soakItem.withNBT(soakNbt))
+        }
+    })
+
+    // 客户端点击送客按钮：顾客直接起床，不结算、不发奖励、不计评价
+    // 实现思路：绕开 sleep.js 里“需求全零 → 掊硚币 + 记评价”的结算分支，
+    //   直接调 pfSleepManager.pfWakeUp。pfWakeUp 只清醒熟状、设 phase=2，不参与金钱/评价。
+    NetworkEvents.dataReceived('foot_dismiss_customer', event => {
+        let entityUuid = event.data.entityUuid
+        let player = event.player
+        let level = player.level
+
+        console.log("[PF-DISMISS] 收到送客请求 entityUuid=" + entityUuid)
+
+        let entities = level.getEntities()
+        let targetEntity = null
+        for (let i = 0; i < entities.size(); i++) {
+            let ent = entities.get(i)
+            if ("" + ent.getUuid() === entityUuid) {
+                targetEntity = ent
+                break
+            }
+        }
+        if (!targetEntity) {
+            console.log("[PF-DISMISS] 未找到实体 uuid=" + entityUuid)
+            return
+        }
+
+        if (!global.pfSleepManager || typeof global.pfSleepManager.pfWakeUp !== 'function') {
+            console.log("[PF-DISMISS] pfSleepManager.pfWakeUp 未就绪")
+            return
+        }
+
+        try {
+            global.pfSleepManager.pfWakeUp(targetEntity, level)
+            player.tell("§7已送客（未结算，无奖励）")
+            console.log("[PF-DISMISS] 送客成功 uuid=" + entityUuid)
+        } catch (e) {
+            console.log("[PF-DISMISS] pfWakeUp 调用异常: " + e)
         }
     })
 }

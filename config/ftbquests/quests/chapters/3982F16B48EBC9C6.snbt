@@ -1,0 +1,788 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "3982F16B48EBC9C6"
+	group: "703E058CBE887155"
+	icon: "marguerite:magic_dust"
+	id: "3982F16B48EBC9C6"
+	order_index: 2
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["03C8DAD2E99EBB5C"]
+			description: [
+				"妖怪和妖精顾客泡完脚后，工作盆中的废水会变成§5富魔洗脚水§r——这可不是普通的脏水。"
+				""
+				"§e获取方式§r：让§d妖怪§r或§a妖精§r类顾客完成泡脚，Basin 中的泡脚水会自动转化为§5富魔洗脚水§r。"
+				""
+				"用空桶右键 Basin 取出即可获得桶装富魔洗脚水。"
+			]
+			icon: "kubejs:fuma_foot_water_bucket"
+			id: "4BEFB16FC39E75E1"
+			rewards: [{
+				count: 3
+				id: "3D45D9B2AF99FC51"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "445D5828F58B4BDE"
+				item: "kubejs:fuma_foot_water_bucket"
+				type: "item"
+			}]
+			title: "魔力的残余"
+			x: 0.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["278496C9B8E57CE7"]
+			description: [
+				"§6植物油§r是沉浸工程的基础流体，可通过 IE 挤压机从种子中榨取。"
+				""
+				"§e获取方式§r："
+				"· 沉浸工程§b挤压机§r：投入各种种子（小麦种子、南瓜种子等）即可产出植物油"
+				"· 也可从§bSDM 商店§r购买植物油桶"
+				""
+				"准备好植物油桶，接下来就要开始提炼了。"
+			]
+			icon: "immersiveengineering:plantoil_bucket"
+			id: "32EEB5550476917A"
+			rewards: [{
+				count: 2
+				id: "4731472A055A0DA9"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "338CFDF22BBA6583"
+				item: "immersiveengineering:plantoil_bucket"
+				type: "item"
+			}]
+			title: "植物的精华"
+			x: -1.5d
+			y: 2.0d
+		}
+		{
+			dependencies: [
+				"4BEFB16FC39E75E1"
+				"32EEB5550476917A"
+			]
+			description: [
+				"将§5富魔洗脚水§r与§6植物油§r在§bCreate 动力搅拌机§r中混合。"
+				""
+				"§e配方§r："
+				"· 输入：§5富魔洗脚水§r 1000mb + §6植物油§r 1000mb"
+				"· 输出：§8洗脚水§r 1000mb + §5富魔植物油§r 1000mb"
+				""
+				"魔力从废水转移到了植物油中，形成了§5富魔植物油§r——进一步提纯的基础。"
+			]
+			icon: "kubejs:fuma_plantoil_bucket"
+			id: "3B96F690D5622FC9"
+			rewards: [{
+				count: 5
+				id: "73D81B11D18A2AE5"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "4516FE180FE476DA"
+				item: "kubejs:fuma_plantoil_bucket"
+				type: "item"
+			}]
+			title: "萃取魔力"
+			x: -1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["3B96F690D5622FC9"]
+			description: [
+				"使用§b沉浸工程的工业搅拌机§r，将§5富魔植物油§r与§f盐§r充分搅拌。"
+				""
+				"§e配方§r："
+				"· 输入：§5富魔植物油§r 1000mb + §f盐§r ×1"
+				"· 输出：§d植物油-魔力悬浊液§r 1000mb"
+				""
+				"盐作为结晶核，使油中分散的魔力微粒聚集成悬浊状态。"
+				""
+				"§c注意§r：此步骤必须使用§bIE 搅拌机§r（工业搅拌机），Create 动力搅拌机无法完成。"
+			]
+			icon: "kubejs:plantoil_magic_suspension_bucket"
+			id: "4EA32F34294FB40F"
+			rewards: [{
+				count: 5
+				id: "62D5A50045EE957C"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "6F19EE579CFED720"
+				item: "kubejs:plantoil_magic_suspension_bucket"
+				type: "item"
+			}]
+			title: "盐析悬浊"
+			x: -3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4EA32F34294FB40F"]
+			description: [
+				"最后一步：将§d植物油-魔力悬浊液§r送入§bCreate 动力搅拌机§r进行离心分离。"
+				""
+				"§e配方§r："
+				"· 输入：§d植物油-魔力悬浊液§r 1000mb"
+				"· 输出：§d魔力粉§r ×1 + §e含盐植物油§r 1000mb"
+				""
+				"恭喜！你成功从妖怪的洗脚水中提取出了§d魔力粉§r。"
+				"这是后续高阶合成的关键材料。"
+			]
+			icon: "marguerite:magic_dust"
+			id: "44D77937A91A4423"
+			rewards: [
+				{
+					count: 10
+					id: "3D835E09935FF60F"
+					item: "coinsje:copper_coin"
+					type: "item"
+				}
+				{
+					count: 3
+					id: "6C0681235F4532DD"
+					item: "marguerite:magic_dust"
+					type: "item"
+				}
+			]
+			shape: "gear"
+			size: 1.5d
+			tasks: [{
+				id: "5A9521AF9A329EA8"
+				item: "marguerite:magic_dust"
+				type: "item"
+			}]
+			title: "魔力结晶"
+			x: -6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["6171A558E05FF332"]
+			description: [
+				"粗糙的§f皴块§r中裹挟着泥沙与杂质，直接筛选效率低下。加水搅洗后可同时获得纯净基体与含矿废水。"
+				""
+				"§a配方§r："
+				"· §f皴块§r ×1 + §b水§r 1000mb"
+				"· → §f洗净的皴块§r ×1 + §7皴水§r 1000mb"
+				""
+				"§b需要机器§r：§bCreate 动力搅拌机§r（不加热）"
+				"· 工作盆(Basin) + 搅拌器(Whisk) + 轴(Shaft)"
+				"· Basin：§f铜板§r ×5 U型摆放"
+				"· Whisk：§f轴§r ×1 + §f铁板§r ×4"
+				""
+				"§e材料来源§r："
+				"· 皴块：9×皴 → 工作台无序合成"
+				"· 皴：第一章「意外的副产物」派送顾客扣下"
+				""
+				"两种产物都有大用处——别浪费了。"
+			]
+			icon: "marguerite:cleaned_cun_block"
+			id: "4E7F608D0ECF2063"
+			rewards: [{
+				count: 3
+				id: "6A1B2C3D4E5F6101"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "hexagon"
+			size: 1.0d
+			tasks: [{
+				id: "5A1B2C3D4E5F6101"
+				item: "marguerite:cleaned_cun_block"
+				type: "item"
+			}]
+			title: "水洗净化"
+			x: 9.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["4E7F608D0ECF2063"]
+			description: [
+				"水洗皴块后浑浊的废水中暗藏玄机——§7皴水§r蕴含着微量的矿物结晶因子。"
+				""
+				"积攒足够的皴水（§c8000mb = 8桶§r），后续可通过加热搅拌析出§d赛特斯石英§r。"
+				""
+				"§e获取方式§r："
+				"· §f皴块§r + §b水§r → §bCreate 动力搅拌§r → §7皴水§r + §f洗净皴块§r"
+				"· 用空桶右键 Basin 取出"
+				""
+				"§7多开几组搅拌线并行运行可加快积累速度。§r"
+			]
+			icon: "kubejs:cun_water_bucket"
+			id: "0211429888BD4184"
+			rewards: [{
+				count: 2
+				id: "6A1B2C3D4E5F6102"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5A1B2C3D4E5F6102"
+				item: "kubejs:cun_water_bucket"
+				type: "item"
+			}]
+			title: "浊水留魂"
+			x: 9.0d
+			y: -4.0d
+		}
+		{
+			dependencies: ["4E7F608D0ECF2063"]
+			description: [
+				"洗净的皴块中隐藏着碳质沉积——用更高级的筛网仔细筛选，有概率获取珍贵的§f煤炭§r。"
+				""
+				"§a配方§r："
+				"· §f洗净的皴块§r + §b黄铜筛网§r → §f煤炭§r (§a30%§r) + 矿粒"
+				"· §f洗净的皴块§r + §b进阶黄铜筛网§r → §f煤炭§r (§a45%§r) + 矿粒"
+				""
+				"§b需要机器§r：§bCreate-Sifter 筛网机§r"
+				"· 黄铜筛网：§f黄铜板§r ×4 + §f线§r ×1 → JEI 查看具体排布"
+				"· 进阶黄铜筛网：§f黄铜筛网§r + §f铁锭§r → JEI 查看"
+				""
+				"§e材料来源§r："
+				"· 洗净皴块：「水洗净化」产出"
+				"· 黄铜板：黄铜锭 → §bCreate 动力辊压机§r"
+				""
+				"煤炭是炼钢的关键燃料，多筛几次吧。"
+			]
+			icon: "minecraft:coal"
+			id: "6A65B65CC1B2FADD"
+			rewards: [{
+				count: 5
+				id: "6A1B2C3D4E5F6103"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5A1B2C3D4E5F6103"
+				item: "minecraft:coal"
+				type: "item"
+			}]
+			title: "黑金之源"
+			x: 11.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["24CA67A02EFFBECE"]
+			description: [
+				"§f地狱岩§r送入熔炉烧炼，可以得到§f下界砖§r——构建高炉的基础材料。"
+				""
+				"§a配方§r："
+				"· §f地狱岩§r ×1 → §b熔炉§r → §f下界砖§r ×1"
+				""
+				"§e材料来源§r："
+				"· 地狱岩：下界开采即可获得，量大管够"
+				""
+				"多烧一些备用，后续建高炉需要大量下界砖。"
+			]
+			icon: "minecraft:nether_brick"
+			id: "7A8B9C0D1E2F3A01"
+			rewards: [{
+				count: 2
+				id: "7B1C2D3E4F5A6B01"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 8L
+				id: "5B1C2D3E4F5A6B01"
+				item: "minecraft:nether_brick"
+				type: "item"
+			}]
+			title: "下界之砖"
+			x: 7.0d
+			y: -0.5d
+		}
+		{
+			dependencies: [
+				"7A8B9C0D1E2F3A01"
+				"0479E99FC1EC40C4"
+				"249CE4C9C237AB9B"
+			]
+			description: [
+				"将§f下界砖§r与§f烈焰粉§r在工作台上组合，烧制出耐高温的§f高炉砖§r。"
+				""
+				"§a配方§r："
+				"· §f下界砖§r ×4（四角） + §f砖块§r ×4（十字） + §f烈焰粉§r ×1（中心）"
+				"· → §f高炉砖§r ×4"
+				""
+				"§b需要机器§r：工作台 (shaped)"
+				""
+				"§e材料来源§r："
+				"· 下界砖：「下界之砖」产出"
+				"· 烈焰粉：烈焰人掉落 / SDM商店购买"
+				""
+				"§c注意§r：建造一座高炉需要§c26块§r高炉砖(3×3×3空心)。"
+				"换算：约 26 下界砖 + 26 砖块 + 7 烈焰粉。"
+			]
+			icon: "immersiveengineering:blastbrick"
+			id: "7A8B9C0D1E2F3A02"
+			rewards: [{
+				count: 4
+				id: "7B1C2D3E4F5A6B02"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				count: 26L
+				id: "5B1C2D3E4F5A6B02"
+				item: "immersiveengineering:blastbrick"
+				type: "item"
+			}]
+			title: "高炉筑基"
+			x: 9.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6A65B65CC1B2FADD"
+				"7A8B9C0D1E2F3A02"
+			]
+			description: [
+				"将§f铁锭§r与§f煤炭§r送入§bIE 高炉§r，在极高温度下碳渗入铁基体，锻造出坚韧的§f钢锭§r。"
+				""
+				"§a配方§r："
+				"· §bIE 高炉§r：§f铁锭§r ×1 + §f煤炭§r ×1"
+				"· → §f钢锭§r ×1 + §8矿渣§r ×1"
+				""
+				"§b需要机器§r：§bIE 高炉§r（多方块结构）"
+				"· 用§f高炉砖§r堆砌 3×3×3 空心结构"
+				"· 建成后右键激活，投入材料自动炼制"
+				""
+				"§e材料来源§r："
+				"· 铁锭：筛网产出铁粒 → 9×铁粒 = 1铁锭"
+				"· 煤炭：「黑金之源」洗净皴块筛选产出"
+				"· 高炉砖：「高炉筑基」产出"
+				""
+				"钢是第二章的核心材料，大量储备吧。"
+			]
+			icon: "immersiveengineering:ingot_steel"
+			id: "4E7398C3EB622791"
+			rewards: [{
+				count: 5
+				id: "6A1B2C3D4E5F6104"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			size: 1.0d
+			tasks: [{
+				id: "5A1B2C3D4E5F6104"
+				item: "immersiveengineering:ingot_steel"
+				type: "item"
+			}]
+			title: "淬火成钢"
+			x: 11.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E7398C3EB622791"]
+			description: [
+				"钢锭通过§bIE 辊压机§r配合§e线缆模具§r，拉制成细密的钢线卷绕成线圈。"
+				""
+				"§a配方§r："
+				"· §bIE 辊压机§r + §e线缆模具§r：§f钢锭§r ×1"
+				"· → §f钢线圈§r ×2"
+				""
+				"§b需要机器§r：§bIE 辊压机(Metal Press)§r（多方块）"
+				"· §f钢块§r ×3 + §f活塞§r ×1 + §f红石工程方块§r ×1"
+				"· 线缆模具：§bIE 工程师装配台§r制作，JEI 查看"
+				""
+				"§e材料来源§r："
+				"· 钢锭：「淬火成钢」产出"
+				"· 钢块：9×钢锭 → 工作台压缩"
+				""
+				"钢线圈是电子元件的关键导线材料。"
+			]
+			icon: "immersiveengineering:wire_steel"
+			id: "1ADD1CD4A985C478"
+			rewards: [{
+				count: 3
+				id: "6A1B2C3D4E5F6105"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5A1B2C3D4E5F6105"
+				item: "immersiveengineering:wire_steel"
+				type: "item"
+			}]
+			title: "钢丝拉线"
+			x: 13.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["0211429888BD4184"]
+			description: [
+				"大量§7皴水§r在高温加热下析出了奇异的晶体——§d赛特斯石英§r，AE2 系统的核心材料。"
+				""
+				"§a配方§r："
+				"· §bCreate 动力搅拌§r（§c加热§r）："
+				"· §7皴水§r 8000mb"
+				"· → §d赛特斯石英§r ×1"
+				""
+				"§b需要机器§r：§bCreate 动力搅拌机§r + §c烈焰人燃烧器§r"
+				"· 加热需在 Basin 下方放置§c烈焰人燃烧器§r"
+				"· 燃烧器：§f空烈焰人燃烧器§r + §f烈焰棒§r → JEI 查看"
+				""
+				"§e材料来源§r："
+				"· 皴水：「浊水留魂」积累，需要整整§c8桶§r"
+				""
+				"只需要皴水加热即可析出石英，但每次消耗8000mb，产量珍贵。"
+			]
+			icon: "ae2:certus_quartz_crystal"
+			id: "3DCBFF31AD380519"
+			rewards: [
+				{
+					count: 8
+					id: "6A1B2C3D4E5F6106"
+					item: "coinsje:copper_coin"
+					type: "item"
+				}
+				{
+					count: 2
+					id: "6A1B2C3D4E5F6116"
+					item: "ae2:certus_quartz_crystal"
+					type: "item"
+				}
+			]
+			size: 1.0d
+			tasks: [{
+				id: "5A1B2C3D4E5F6106"
+				item: "ae2:certus_quartz_crystal"
+				type: "item"
+			}]
+			title: "芯的基石"
+			x: 11.0d
+			y: -4.0d
+		}
+		{
+			dependencies: [
+				"1ADD1CD4A985C478"
+				"0614EF618E882A75"
+				"5D838761E54C5BD1"
+			]
+			description: [
+				"将§f精密构件§r、§f钢线§r(wire_steel)、§f红石§r与§f铁板§r在§bIE 工程师装配台§r上精心组装，完成§e电子元件§r的制造。"
+				""
+				"§a配方§r（工程师装配台 + §e元件蓝图§r）："
+				"· §f精密构件§r ×2 + §f钢线§r ×4 + §f红石§r ×2 + §f铁板§r ×1"
+				"· → §e电子元件§r ×1"
+				""
+				"§b需要机器§r：§bIE 工程师装配台§r"
+				"· §f木板§r + §f铁板§r + §f脚手架§r → JEI 查看"
+				"· 还需要§e元件蓝图(Components)§r，在装配台制作"
+				""
+				"§e材料来源§r："
+				"· 精密构件：§bCreate 序列组装机§r"
+				"  §f黄铜板§r + [齿轮/大齿轮/铁粒/红石] ×5循环"
+				"· 钢线：钢锭 → §bIE 辊压机§r（线缆模具）"
+				"· 铁板：铁锭 → §bIE 辊压机§r（板材模具）"
+				""
+				"恭喜！这是第二章的核心零件——后续的高级设备都需要它。"
+			]
+			icon: "immersiveengineering:component_electronic"
+			id: "2B0E993997E2AD3D"
+			rewards: [
+				{
+					count: 10
+					id: "6A1B2C3D4E5F6107"
+					item: "coinsje:copper_coin"
+					type: "item"
+				}
+				{
+					id: "6A1B2C3D4E5F6117"
+					item: "immersiveengineering:component_electronic"
+					type: "item"
+				}
+			]
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "5A1B2C3D4E5F6107"
+				item: "immersiveengineering:component_electronic"
+				type: "item"
+			}]
+			title: "精控之芯"
+			x: 15.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["03C8DAD2E99EBB5C"]
+			id: "24CA67A02EFFBECE"
+			tasks: [{
+				id: "18E48C1872DDE885"
+				item: "minecraft:blaze_powder"
+				type: "item"
+			}]
+			x: 5.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["24CA67A02EFFBECE"]
+			id: "0479E99FC1EC40C4"
+			tasks: [{
+				id: "03AB311159BA3D26"
+				item: "minecraft:magma_block"
+				type: "item"
+			}]
+			x: 7.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["03C8DAD2E99EBB5C"]
+			id: "07E133C79F6092F4"
+			tasks: [{
+				id: "4A576CD60B448909"
+				item: "create:empty_blaze_burner"
+				type: "item"
+			}]
+			x: 5.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["3DFAF4B09DA7ECC9"]
+			id: "03C8DAD2E99EBB5C"
+			shape: "square"
+			size: 2.0d
+			tasks: [{
+				id: "52F2E34B988EC032"
+				item: {
+					Count: 1
+					id: "touhou_little_maid:garage_kit"
+					tag: {
+						EntityInfo: {
+							IsYsmModel: 0b
+							MaidTaskDataMaps: { }
+							ModelId: "touhou_little_maid:komeiji_satori"
+							id: "touhou_little_maid:maid"
+						}
+					}
+				}
+				type: "item"
+			}]
+			x: 3.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["0FD9B77E961BFF01"]
+			id: "3DFAF4B09DA7ECC9"
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "16285AD301CB106E"
+				item: {
+					Count: 1
+					id: "touhou_little_maid:garage_kit"
+					tag: {
+						EntityInfo: {
+							IsYsmModel: 0b
+							MaidTaskDataMaps: { }
+							ModelId: "touhou_little_maid:alice_margatroid"
+							id: "touhou_little_maid:maid"
+						}
+					}
+				}
+				type: "item"
+			}]
+			x: 3.0d
+			y: -4.0d
+		}
+		{
+			dependencies: [
+				"07E133C79F6092F4"
+				"24CA67A02EFFBECE"
+			]
+			id: "6171A558E05FF332"
+			tasks: [{
+				id: "781C9FA6063689FC"
+				item: "create:blaze_burner"
+				type: "item"
+			}]
+			x: 7.0d
+			y: -2.0d
+		}
+		{
+			dependencies: [
+				"24CA67A02EFFBECE"
+				"249CE4C9C237AB9B"
+			]
+			id: "2A0C6366191A08E5"
+			tasks: [{
+				id: "77339A90A33C8B91"
+				item: "immersiveengineering:cokebrick"
+				type: "item"
+			}]
+			x: 7.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2A0C6366191A08E5"]
+			id: "25F362B94983EE23"
+			tasks: [{
+				id: "6708C8321C8B3BB9"
+				item: "immersiveengineering:creosote_bucket"
+				type: "item"
+			}]
+			x: 9.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["25F362B94983EE23"]
+			id: "3486F1837B97719C"
+			tasks: [{
+				id: "44DF4D4E7A179557"
+				item: "immersiveengineering:treated_wood_horizontal"
+				type: "item"
+			}]
+			x: 11.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["3486F1837B97719C"]
+			id: "0614EF618E882A75"
+			tasks: [{
+				id: "7709EBF8E4A0B857"
+				item: "immersiveengineering:workbench"
+				type: "item"
+			}]
+			x: 13.0d
+			y: 1.5d
+		}
+		{
+			id: "5D838761E54C5BD1"
+			tasks: [{
+				id: "149370D278E4E387"
+				item: {
+					Count: 1
+					id: "immersiveengineering:blueprint"
+					tag: {
+						blueprint: "components"
+					}
+				}
+				type: "item"
+			}]
+			x: 13.0d
+			y: -1.5d
+		}
+		{
+			id: "249CE4C9C237AB9B"
+			tasks: [{
+				id: "1E03FBA959132096"
+				item: {
+					Count: 1
+					id: "immersiveengineering:hammer"
+					tag: {
+						Damage: 0
+					}
+				}
+				type: "item"
+			}]
+			x: 9.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "10E775B4347AC325"
+			tasks: [{
+				id: "14A4D3D2D90C1E68"
+				item: "immersiveengineering:heavy_engineering"
+				type: "item"
+			}]
+			x: 16.0d
+			y: -2.5d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "4087D579ABDD545C"
+			tasks: [{
+				id: "28F7AD046C8FBF2E"
+				item: "immersiveengineering:light_engineering"
+				type: "item"
+			}]
+			x: 17.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "68D723B8133C00C7"
+			tasks: [{
+				id: "44696A981DEAD657"
+				item: "immersiveengineering:rs_engineering"
+				type: "item"
+			}]
+			x: 15.0d
+			y: -2.5d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "2AB2C05D6B05B87A"
+			tasks: [{
+				id: "5303ADAF9329FE71"
+				item: "marguerite:precise_chip_toe"
+				type: "item"
+			}]
+			x: 17.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "4E6C654AA90CEDC5"
+			tasks: [{
+				id: "4F3234C49172C62B"
+				item: "marguerite:light_chip_center"
+				type: "item"
+			}]
+			x: 17.5d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "2C9BEBB159DAECC3"
+			tasks: [{
+				id: "14F6CB81AA9BFD13"
+				item: "marguerite:resonance_chip_heel"
+				type: "item"
+			}]
+			x: 16.0d
+			y: 2.5d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "27AC4CF9DC1BC32A"
+			tasks: [{
+				id: "11C639FD44A8F92F"
+				item: "marguerite:heal_chip_sole"
+				type: "item"
+			}]
+			x: 17.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2B0E993997E2AD3D"]
+			id: "584076660CC7280C"
+			tasks: [{
+				id: "650F9EC366AF00D1"
+				item: "marguerite:boost_chip_toe"
+				type: "item"
+			}]
+			x: 15.0d
+			y: 2.5d
+		}
+		{
+			icon: "immersiveengineering:squeezer"
+			id: "278496C9B8E57CE7"
+			tasks: [{
+				id: "7ABD0C0B0918536B"
+				type: "checkmark"
+			}]
+			x: 0.5d
+			y: 2.0d
+		}
+	]
+	title: "第二章"
+}

@@ -5,7 +5,7 @@
 // ============================================================
 
 // 生成寻路实体
-function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride, bossDef) {
+function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride, bossDef, silent) {
     let walker = level.createEntity(global.pfConstants.PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
@@ -93,8 +93,44 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     }
     
     level.spawnParticles("minecraft:poof", false, spawnX, baseY + 1, spawnZ, 0.5, 1, 0.5, 50, 0)
-    player.setStatusMessage("§a寻路开始！路径长度：" + routeStr.length + " 格")
-    
+    // 自动开店场景传 silent=true，跳过状态栏提示，只保留顾客话语广播
+    if (!silent) {
+        player.setStatusMessage("§a寻路开始！路径长度：" + routeStr.length + " 格")
+    }
+
+    // 顾客生成后向 100 格内玩家广播话语
+    try {
+        let lines = [
+            "今天天气不错，我来看看。",
+            "这家店看起来蛮不错的，好期待~",
+            "听说这家洗脚店的手艺很棒呢。",
+            "走了一天的路，正好脚酸。",
+            "嗯哼，老板看起来很专业。",
+            "希望能有舒服的服务。",
+            "终于有一家像样的店了。",
+            "这家店人气挺旺的呀。",
+            "诶，这里就是传说中的洗脚名店？",
+            "我可是慕名而来哦~"
+        ]
+        let line = lines[Math.floor(Math.random() * lines.length)]
+        let msg = "§e顾客：§f" + line
+        let cx = baseX + 0.5
+        let cy = baseY + 0.5
+        let cz = baseZ + 0.5
+        let players = level.getPlayers()
+        let radius = 100
+        let radiusSq = radius * radius
+        for (let i = 0; i < players.size(); i++) {
+            let p = players.get(i)
+            let dx = p.x - cx
+            let dy = p.y - cy
+            let dz = p.z - cz
+            if (dx * dx + dy * dy + dz * dz <= radiusSq) {
+                p.tell(msg)
+            }
+        }
+    } catch (e) { console.log("[PF-SPAWN] 顾客话语广播失败: " + e) }
+
     return walker
 }
 

@@ -57,7 +57,7 @@ global.pfRestoreStamina = function(player, amount) {
 // 通过玩家 persistentData 上的 pfStaminaRegenSubTick (0~19) 子 tick 计数器驱动，
 // 跨重启友好；体力封顶 STAMINA_MAX_SERVER。
 // ============================================================
-let STAMINA_REGEN_PER_SECOND = 5
+let STAMINA_REGEN_PER_SECOND = 4
 
 PlayerEvents.tick(event => {
     let player = event.player

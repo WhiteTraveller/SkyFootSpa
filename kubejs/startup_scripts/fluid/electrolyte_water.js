@@ -12,6 +12,7 @@ StartupEvents.registry("fluid", event => {
         let builder = event.create('electrolyte_water')
             .displayName('§b电解质水')
             .bucketColor(0x7FD9E0)
+            .thinTexture(0x7FD9E0)
             .stillTexture('minecraft:block/water_still')
             .flowingTexture('minecraft:block/water_flow')
         try { builder.textColor(0x7FD9E0) } catch (e) { }

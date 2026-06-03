@@ -58,14 +58,20 @@ StartupEvents.registry('item', event => {
         )
         .maxStackSize(1)
         .tag("curios:package")
-        // 按阶段统一芯片外观（贴图使用 Mekanism 控制电路）
-        // 若遗物通过 setTexture 设置了专属材质，优先使用
+        // 按阶段+部位自动分配芯片材质
+        // 命名规则: chip_lv{stage}_pt{part}  part映射: toe→1, sole→2, center→3, heel→4, all→5
+        let partMap = { '_toe': 1, '_sole': 2, '_center': 3, '_heel': 4, '_all': 5 }
+        let chipPart = 0
+        for (let suffix in partMap) {
+            if (relic.name.endsWith(suffix)) {
+                chipPart = partMap[suffix]
+                break
+            }
+        }
         if (relic.texture) {
             e.texture(relic.texture)
-        } else if (relic.stage === 1) {
-            e.texture("mekanism:item/basic_control_circuit")
-        } else if (relic.stage === 2) {
-            e.texture("mekanism:item/advanced_control_circuit")
+        } else if (relic.stage >= 1 && relic.stage <= 5 && chipPart > 0) {
+            e.texture("kubejs:item/chip_lv" + relic.stage + "_pt" + chipPart)
         }
         for (let j = 0; j < relic.tags.length; j ++) {
             let tag = relic.tags[j]

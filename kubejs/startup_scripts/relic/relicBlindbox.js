@@ -14,11 +14,7 @@ StartupEvents.registry('item', event => {
         let box = event.create('marguerite:chip_blindbox_' + stage)
             .displayName(BLINDBOX_STAGE_NAMES[stage])
             .maxStackSize(16)
-        // 盲盒外观（贴图使用 Mekanism 合金）
-        if (stage === 1) {
-            box.texture('mekanism:item/alloy_infused')
-        } else if (stage === 2) {
-            box.texture('mekanism:item/alloy_reinforced')
-        }
+        // 盲盒外观（使用对应阶段芯片材质 pt3 作为代表）
+        box.texture('kubejs:item/chip_lv' + stage + '_pt3')
     }
 })

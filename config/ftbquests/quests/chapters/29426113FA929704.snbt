@@ -173,10 +173,32 @@
 			description: [
 				"当&1蓝色地毯&r后面的&4红色地毯&r有临近的&b空床位&r时，顾客便会自动上床接受服务"
 				"1.&e泡脚阶段&r：你需要在床正前方下方的&b工作盆&r（洗脚盆）内倒入&b洗脚水&r，顾客在泡脚倒计时后会进入&e搓脚阶段&r"
-				"2.&e搓脚阶段&r：你可以看到顾客对于脚的部位有不同次数的需求，&b点击下方按钮&r即可进行搓脚。全部需求都被满足时，将会给予你对应数量的报酬"
+				"2.&e搓脚阶段&r：你可以看到顾客对于脚的部位有不同次数的需求，&b使用对应的手在下方“脚”的部位晃动鼠标（无需点击）&r即可进行搓脚。全部需求都被满足时，将会给予你对应数量的报酬"
 			]
 			icon: "minecraft:water_bucket"
 			id: "0D3D46BFF19509D8"
+			rewards: [
+				{
+					id: "3A74E9FB41FBA2BD"
+					item: "marguerite:hand_jiaozhang"
+					type: "item"
+				}
+				{
+					id: "56B5D7E466E44B5B"
+					item: "marguerite:hand_jiaozhi"
+					type: "item"
+				}
+				{
+					id: "73FD82F5FF95577F"
+					item: "marguerite:hand_jiaoxin"
+					type: "item"
+				}
+				{
+					id: "1E3016CCCB4AADD3"
+					item: "marguerite:hand_jiaogen"
+					type: "item"
+				}
+			]
 			tasks: [{
 				id: "2AA9AB5A0591E10B"
 				title: "服务你的顾客"

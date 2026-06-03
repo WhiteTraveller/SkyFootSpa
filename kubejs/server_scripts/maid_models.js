@@ -3,6 +3,185 @@
 // 用于 pathfinder.js 随机选择模型
 // ============================================================
 
+// 种族分类（对应评分系统6种族）: 人类/妖精/妖怪/神/灵/鬼
+// 角色信息映射：model_id后缀 → { name: 中文名, race: 游戏种族, species: 原作种族 }
+let MAID_MODEL_INFO = {
+    // ===== 东方红魔乡 (TH06) =====
+    'hakurei_reimu':          { name: '博丽灵梦',     race: '人类', species: '人类(巫女)' },
+    'hakurei_reimu_2':        { name: '博丽灵梦',     race: '人类', species: '人类(巫女)' },
+    'hakurei_reimu_type_b':   { name: '博丽灵梦',     race: '人类', species: '人类(巫女)' },
+    'kirisame_marisa':        { name: '雾雨魔理沙',   race: '人类', species: '人类(魔法使)' },
+    'kirisame_marisa_2':      { name: '雾雨魔理沙',   race: '人类', species: '人类(魔法使)' },
+    'rumia':                  { name: '露米娅',       race: '妖怪', species: '妖怪(暗)' },
+    'daiyousei':              { name: '大妖精',       race: '妖精', species: '妖精' },
+    'cirno':                  { name: '琪露诺',       race: '妖精', species: '妖精(冰精)' },
+    'cirno_maid':             { name: '琪露诺',       race: '妖精', species: '妖精(冰精)' },
+    'cirno_tan':              { name: '琪露诺',       race: '妖精', species: '妖精(冰精)' },
+    'cirno_slim':             { name: '琪露诺',       race: '妖精', species: '妖精(冰精)' },
+    'hong_meiling':           { name: '红美铃',       race: '妖怪', species: '妖怪(龙)' },
+    'koakuma':                { name: '小恶魔',       race: '妖怪', species: '恶魔' },
+    'patchouli_knowledge':    { name: '帕秋莉',       race: '妖怪', species: '魔法使(妖怪)' },
+    'patchouli_knowledge_2':  { name: '帕秋莉',       race: '妖怪', species: '魔法使(妖怪)' },
+    'izayoi_sakuya':          { name: '十六夜咲夜',   race: '人类', species: '人类' },
+    'remilia_scarlet':        { name: '蕾米莉亚',     race: '妖怪', species: '吸血鬼' },
+    'remilia_scarlet_2':      { name: '蕾米莉亚',     race: '妖怪', species: '吸血鬼' },
+    'flandre_scarlet':        { name: '芙兰朵露',     race: '妖怪', species: '吸血鬼' },
+    // ===== 东方妖妖梦 (TH07) =====
+    'letty_whiterock':        { name: '蕾蒂',         race: '妖怪', species: '雪女' },
+    'chen':                   { name: '橙',           race: '妖怪', species: '化猫' },
+    'alice_margatroid':       { name: '爱丽丝',       race: '妖怪', species: '魔法使(妖怪)' },
+    'shanghai_doll':          { name: '上海人形',     race: '妖怪', species: '人形' },
+    'hourai_doll':            { name: '蓬莱人形',     race: '妖怪', species: '人形' },
+    'goliath_doll':           { name: '哥利亚人形',   race: '妖怪', species: '人形' },
+    'lily_white':             { name: '莉莉白',       race: '妖精', species: '妖精(春告精)' },
+    'lily_black':             { name: '莉莉黑',       race: '妖精', species: '妖精' },
+    'lunasa_prismriver':      { name: '露娜萨',       race: '灵',   species: '骚灵' },
+    'merlin_prismriver':      { name: '梅露兰',       race: '灵',   species: '骚灵' },
+    'lyrica_prismriver':      { name: '莉莉卡',       race: '灵',   species: '骚灵' },
+    'konpaku_youmu':          { name: '魂魄妖梦',     race: '灵',   species: '半人半灵' },
+    'saigyouji_yuyuko':       { name: '西行寺幽幽子', race: '灵',   species: '亡灵' },
+    'yakumo_ran':             { name: '八云蓝',       race: '妖怪', species: '妖狐' },
+    'yukari_yakumo':          { name: '八云紫',       race: '妖怪', species: '妖怪(境界)' },
+    // ===== 东方萃梦想 (TH07.5) =====
+    'ibuki_suika':            { name: '伊吹萃香',     race: '鬼',   species: '鬼' },
+    // ===== 东方永夜抄 (TH08) =====
+    'wriggle_nightbug':       { name: '莉格露',       race: '妖怪', species: '妖虫' },
+    'mystia_lorelei':         { name: '米斯蒂娅',     race: '妖怪', species: '夜雀' },
+    'keine_kamishirasawa':    { name: '上白泽慧音',   race: '妖怪', species: '半兽(白泽)' },
+    'keine_kamishirasawa_2':  { name: '上白泽慧音',   race: '妖怪', species: '半兽(白泽)' },
+    'tewi_inaba':             { name: '因幡帝',       race: '妖怪', species: '妖兔' },
+    'reisen_udongein_inaba':  { name: '铃仙',         race: '妖怪', species: '月兔' },
+    'yagokoro_eirin':         { name: '八意永琳',     race: '人类', species: '月人' },
+    'houraisan_kaguya':       { name: '蓬莱山辉夜',   race: '人类', species: '蓬莱人' },
+    'fujiwara_no_mokou':      { name: '藤原妹红',     race: '人类', species: '蓬莱人' },
+    // ===== 东方花映塚 (TH09) =====
+    'syameimaru_aya':         { name: '射命丸文',     race: '妖怪', species: '天狗(鸦天狗)' },
+    'medicine_melancholy':    { name: '梅蒂欣',       race: '妖怪', species: '付丧神(人形)' },
+    'kazami_yuka':            { name: '风见幽香',     race: '妖怪', species: '妖怪(花)' },
+    'onozuka_komachi':        { name: '小野塚小町',   race: '灵',   species: '死神' },
+    'shikieiki_yamaxanadu':   { name: '四季映姬',     race: '神',   species: '阎魔' },
+    // ===== 东方风神录 (TH10) =====
+    'aki_sizuha':             { name: '秋静叶',       race: '神',   species: '神(秋神)' },
+    'minoriko_aki':           { name: '秋穰子',       race: '神',   species: '神(丰收神)' },
+    'kagiyama_hina':          { name: '键山雏',       race: '神',   species: '神(厄神)' },
+    'kawasiro_nitori':        { name: '河城荷取',     race: '妖怪', species: '河童' },
+    'inubashiri_momizi':      { name: '犬走椛',       race: '妖怪', species: '天狗(白狼天狗)' },
+    'kochiya_sanae':          { name: '东风谷早苗',   race: '人类', species: '人类(现人神)' },
+    'yasaka_kanako':          { name: '八坂神奈子',   race: '神',   species: '神' },
+    'moriya_suwako':          { name: '洩矢诹访子',   race: '神',   species: '神(祟神)' },
+    // ===== 东方绯想天 (TH10.5) =====
+    'nagae_iku':              { name: '永江衣玖',     race: '妖怪', species: '妖怪(龙宫使)' },
+    'hinanawi_tenshi':        { name: '比那名居天子', race: '神',   species: '天人' },
+    // ===== 东方地灵殿 (TH11) =====
+    'kisume':                 { name: '琪斯美',       race: '妖怪', species: '妖怪(钓瓶落)' },
+    'kurodani_yamame':        { name: '黑谷山女',     race: '妖怪', species: '妖怪(土蜘蛛)' },
+    'mizuhashi_parsee':       { name: '水桥帕露西',   race: '妖怪', species: '妖怪(桥姬)' },
+    'hoshiguma_yugi':         { name: '星熊勇仪',     race: '鬼',   species: '鬼' },
+    'komeiji_satori':         { name: '古明地觉',     race: '妖怪', species: '妖怪(觉)' },
+    'kaenbyou_rin':           { name: '火焰猫燐',     race: '妖怪', species: '妖怪(火车猫)' },
+    'reiuji_utsuho':          { name: '灵乌路空',     race: '妖怪', species: '妖怪(地狱鸦)' },
+    'komeiji_koishi':         { name: '古明地恋',     race: '妖怪', species: '妖怪(觉)' },
+    'komeiji_koishi_2':       { name: '古明地恋',     race: '妖怪', species: '妖怪(觉)' },
+    // ===== 东方星莲船 (TH12) =====
+    'nazrin':                 { name: '纳兹琳',       race: '妖怪', species: '妖怪(鼠)' },
+    'tatara_kogasa':          { name: '多多良小伞',   race: '妖怪', species: '付丧神(唐伞)' },
+    'kumoi_ichirin':          { name: '云居一轮',     race: '妖怪', species: '妖怪' },
+    'murasa_minamitsu':       { name: '村纱水蜜',     race: '灵',   species: '幽灵(船幽灵)' },
+    'toramaru_shou':          { name: '寅丸星',       race: '妖怪', species: '妖怪(虎)' },
+    'hijiri_byakuren':        { name: '圣白莲',       race: '妖怪', species: '魔法使(妖怪)' },
+    'houjuu_nue':             { name: '封兽鵺',       race: '妖怪', species: '妖怪(鵺)' },
+    // ===== 东方文花帖DS (TH12.5) =====
+    'himekaidou_hatate':      { name: '�的海棠果',     race: '妖怪', species: '天狗(鸦天狗)' },
+    // ===== 东方神灵庙 (TH13) =====
+    'kasodani_kyouko':        { name: '幽谷响子',     race: '妖怪', species: '妖怪(山彦)' },
+    'miyako_yoshika':         { name: '宫古芳香',     race: '灵',   species: '僵尸' },
+    'kaku_seiga':             { name: '霍青娥',       race: '人类', species: '邪仙' },
+    'mononobe_no_futo':       { name: '物部布都',     race: '人类', species: '尸解仙' },
+    'toyosatomimi_no_miko':   { name: '丰聪耳神子',   race: '人类', species: '圣人(尸解仙)' },
+    'soga_no_toziko':         { name: '苏我屠自古',   race: '灵',   species: '亡灵' },
+    'hata_no_kokoro':         { name: '秦心',         race: '妖怪', species: '付丧神(面)' },
+    'hutatsuiwa_mamizou':     { name: '二岩猯藏',     race: '妖怪', species: '妖怪(狸)' },
+    // ===== 东方�的城传 (TH14) =====
+    'wakasagihime':           { name: '若�的姬',       race: '妖怪', species: '人鱼' },
+    'sekibanki':              { name: '赤蛮奇',       race: '妖怪', species: '妖怪(飞头蛮)' },
+    'imaizumi_kagerou':       { name: '今泉影狼',     race: '妖怪', species: '狼女' },
+    'tsukumo_yatsuhashi':     { name: '九十九八桥',   race: '妖怪', species: '付丧神(琴)' },
+    'tsukumo_benben':         { name: '九十九弁弁',   race: '妖怪', species: '付丧神(琵琶)' },
+    'kijin_seija':            { name: '鬼人正邪',     race: '妖怪', species: '天邪鬼' },
+    'sukuna_shinmyoumaru':    { name: '少名针妙丸',   race: '妖怪', species: '小人族' },
+    'horikawa_raiko':         { name: '堀川雷鼓',     race: '妖怪', species: '付丧神(太鼓)' },
+    // ===== 东方深秘录 (TH14.5) =====
+    'usami_sumireko':         { name: '宇佐见菫子',   race: '人类', species: '人类(超能力者)' },
+    // ===== 东方绀珠传 (TH15) =====
+    'seiran':                 { name: '清兰',         race: '妖怪', species: '月兔' },
+    'ringo':                  { name: '铃瑚',         race: '妖怪', species: '月兔' },
+    'doremy_sweet':           { name: '哆来咪',       race: '妖怪', species: '獏' },
+    'kisin_sagume':           { name: '稀神探女',     race: '神',   species: '月人(神)' },
+    'clownpiece':             { name: '克劳恩皮丝',   race: '妖精', species: '妖精(地狱妖精)' },
+    'junko':                  { name: '纯狐',         race: '神',   species: '神灵' },
+    'hecatia_lapislazuli':    { name: '赫卡提亚',     race: '神',   species: '神(地狱女神)' },
+    // ===== 东方�的异闻 (TH15.5) =====
+    'yorigami_jyoon':         { name: '依神女苑',     race: '神',   species: '疫病神' },
+    'yorigami_shion':         { name: '依神紫苑',     race: '神',   species: '贫穷神' },
+    // ===== 东方天空璋 (TH16) =====
+    'eternity_larva':         { name: '爱塔妮缇',     race: '妖精', species: '妖精(蝶)' },
+    'sakata_nemuno':          { name: '坂田合欢乃',   race: '妖怪', species: '山姥' },
+    'komano_aunn':            { name: '高丽野阿吽',   race: '妖怪', species: '狛犬' },
+    'yatadera_narumi':        { name: '矢田寺成美',   race: '妖怪', species: '魔法使(地藏)' },
+    'nishida_satono':         { name: '尔子田里乃',   race: '人类', species: '人类(秘神侍)' },
+    'teireid_mai':            { name: '丁礼田舞',     race: '人类', species: '人类(秘神侍)' },
+    'matara_okina':           { name: '摩多罗隐岐奈', race: '神',   species: '神(秘神)' },
+    // ===== 东方鬼形兽 (TH17) =====
+    'ebisu_eika':             { name: '戎瑛花',       race: '灵',   species: '幽灵' },
+    'ushizaki_urumi':         { name: '牛崎润美',     race: '妖怪', species: '妖怪(牛鬼)' },
+    'niwatari_kutaka':        { name: '庭渡久侘歌',   race: '神',   species: '神(鸡神)' },
+    'kitcho_yachie':          { name: '吉弔八千慧',   race: '妖怪', species: '妖兽(水獭)' },
+    'joutougu_mayumi':        { name: '杖刀偶磨弓',   race: '妖怪', species: '埴轮' },
+    'haniyasushin_keiki':     { name: '埴安神袿姬',   race: '神',   species: '神(造形神)' },
+    'kurokoma_saki':          { name: '骊驹早鬼',     race: '妖怪', species: '妖兽(马)' },
+    // ===== 东方虹龙洞 (TH18) =====
+    'toutetsu_yuma':          { name: '饕餮尤魔',     race: '妖怪', species: '妖兽(饕餮)' },
+    'goutokuzi_mike':         { name: '豪德寺三花',   race: '妖怪', species: '招财猫' },
+    'yamashiro_takane':       { name: '山城高岭',     race: '妖怪', species: '山童' },
+    'komakusa_sannyo':        { name: '驹草山如',     race: '妖怪', species: '妖怪' },
+    'tamatsukuri_misumaru':   { name: '玉造魅须丸',   race: '神',   species: '神(�的造神)' },
+    'kudamaki_tsukasa':       { name: '菅牧典',       race: '妖怪', species: '管狐' },
+    'iizunamaru_megumu':      { name: '饭纲丸龙',     race: '妖怪', species: '天狗(大天狗)' },
+    'tenkyu_chimata':         { name: '天弓千亦',     race: '神',   species: '神(市场神)' },
+    // ===== 东方刚欲异闻 (TH18.5) =====
+    'himemushi_momoyo':       { name: '姬虫百百世',   race: '妖怪', species: '妖怪(蜈蚣)' },
+    // ===== 东方兽王园 (TH19) =====
+    'son_biten':              { name: '孙美天',       race: '妖怪', species: '妖兽(猿)' },
+    'mitsugashira_enoko':     { name: '三头慧之子',   race: '妖怪', species: '妖兽(犬)' },
+    'tenkajin_chiyari':       { name: '天火人血枪',   race: '妖怪', species: '妖怪(天火)' },
+    'yomotsu_hisami':         { name: '豫母都日狭美', race: '妖怪', species: '黄泉丑女' },
+    'nippaku_zanmu':          { name: '日白残无',     race: '妖怪', species: '破戒僧(妖化)' },
+    // ===== 东方锦上京 (TH19.5) =====
+    'ubame_chirizuka':        { name: '尘塚姥芽',     race: '妖怪', species: '山姥' },
+    'chimi_houjuu':           { name: '封兽魑魅',     race: '妖怪', species: '魑魅' },
+    'nareko_michigami':       { name: '道神驯子',     race: '神',   species: '道祖神' },
+    'ariya_iwanaga':          { name: '磐永阿梨夜',   race: '神',   species: '神(石神)' },
+    // ===== 书籍/其他作品 =====
+    'morichika_rinnosuke':    { name: '森近霖之助',   race: '妖怪', species: '半人半妖' },
+    'tokiko':                 { name: '朱鹭子',       race: '妖怪', species: '妖怪(朱鹭)' },
+    'sunny_milk':             { name: '桑尼米尔克',   race: '妖精', species: '妖精(日光)' },
+    'luna_child':             { name: '露娜切露德',   race: '妖精', species: '妖精(月光)' },
+    'star_sapphire':          { name: '斯塔萨菲雅',   race: '妖精', species: '妖精(星光)' },
+    'watatsuki_no_toyohime':  { name: '绵月丰姬',     race: '人类', species: '月人' },
+    'watatsuki_no_yorihime':  { name: '绵月依姬',     race: '人类', species: '月人' },
+    'reisen':                 { name: '铃仙(二号)',   race: '妖怪', species: '月兔' },
+    'hieda_no_akyuu':         { name: '稗田阿求',     race: '人类', species: '人类' },
+    'ibaraki_kasen':          { name: '茨木华扇',     race: '鬼',   species: '鬼' },
+    'ibaraki_kasen_2':        { name: '茨木华扇',     race: '鬼',   species: '鬼' },
+    'motoori_kosuzu':         { name: '本居小铃',     race: '人类', species: '人类' },
+    'miyadeguchi_mizuchi':    { name: '宫出口瑞灵',   race: '灵',   species: '蛟(罪灵)' },
+    'miyoi_okunoda':          { name: '奥野田美宵',   race: '妖怪', species: '座敷童子' },
+    'usami_renko':            { name: '宇佐见莲子',   race: '人类', species: '人类' },
+    'maribel_hearn':          { name: '梅莉·赫恩',   race: '人类', species: '人类' },
+    'satsuki_rin':            { name: '冴月麟',       race: '人类', species: '人类(未实装)' },
+    'moesumika':              { name: '萌澄果',       race: '人类', species: '特殊(彩蛋)' }
+}
+
 // 女仆模型ID列表
 let MAID_MODELS = [
     "touhou_little_maid:hakurei_reimu",
@@ -164,6 +343,21 @@ function getRandomMaidModel() {
     return MAID_MODELS[Math.floor(Math.random() * MAID_MODELS.length)]
 }
 
+// 根据模型ID获取角色信息 { name, race, species }
+function getMaidModelInfo(modelId) {
+    let key = modelId.replace('touhou_little_maid:', '')
+    return MAID_MODEL_INFO[key] || { name: '未知', race: '妖怪', species: '未知' }
+}
+
+// 根据模型ID获取种族（游戏分类）
+function getMaidModelRace(modelId) {
+    let info = getMaidModelInfo(modelId)
+    return info.race
+}
+
 // 导出到全局
 global.MAID_MODELS = MAID_MODELS
+global.MAID_MODEL_INFO = MAID_MODEL_INFO
 global.getRandomMaidModel = getRandomMaidModel
+global.getMaidModelInfo = getMaidModelInfo
+global.getMaidModelRace = getMaidModelRace

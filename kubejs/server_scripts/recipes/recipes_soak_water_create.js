@@ -31,7 +31,7 @@ ServerEvents.recipes(event => {
                 }
             }
             for (let j = 0; j < w.ingredients.length; j++) {
-                inputs.push(w.ingredients[j])
+                inputs.push(Item.of(w.ingredients[j]))
             }
             // 输出：对应洗脚水流体 1000mb（= 1 桶）
             let output = Fluid.of(w.getFluidId(), 1000)

@@ -153,6 +153,97 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
             
             // 评价系统：满意度 >= 60 时，该类顾客评价+1
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
+
+            // 满意度粒子特效：在顾客所在位置按满意度等级生成不同粒子
+            try {
+                let px = entity.x
+                let py = entity.y + 1
+                let pz = entity.z
+                let particleType, particleCount
+                if (satisfaction >= 80) {
+                    // 非常满意：爱心
+                    particleType = "minecraft:heart"
+                    particleCount = 30
+                } else if (satisfaction >= 60) {
+                    // 满意：开心村民（绿色加号）
+                    particleType = "minecraft:happy_villager"
+                    particleCount = 25
+                } else if (satisfaction >= 30) {
+                    // 一般：浅烟雾
+                    particleType = "minecraft:cloud"
+                    particleCount = 15
+                } else {
+                    // 不满：生气村民
+                    particleType = "minecraft:angry_villager"
+                    particleCount = 10
+                }
+                level.spawnParticles(particleType, false, px, py, pz, 0.6, 0.8, 0.6, particleCount, 0.05)
+                console.log("[SLEEP-JS] 满意度粒子: " + particleType + " x" + particleCount + " (sat=" + satisfaction + ")")
+            } catch (e) { console.log("[SLEEP-JS] 满意度粒子生成失败: " + e) }
+
+            // 服务完成对话：按满意度等级抽取一条，仅发送给操作玩家（pfActionPlayerUuid）
+            try {
+                let dialogPool
+                if (satisfaction >= 80) {
+                    // 非常满意
+                    dialogPool = [
+                        "啊~~太舒服了！下次还来！",
+                        "老板手艺真是绝了！",
+                        "感觉脚都飘起来了，谢谢老板！",
+                        "这是我搓过最舒服的一次！",
+                        "我要把这家店推荐给所有朋友！",
+                        "老板的手简直有魔力！"
+                    ]
+                } else if (satisfaction >= 60) {
+                    // 满意
+                    dialogPool = [
+                        "嗯，挺不错的，下次还会再来。",
+                        "服务很到位，感谢。",
+                        "比我想象的好~",
+                        "舒服了，谢啦~",
+                        "可以可以，值这个价。"
+                    ]
+                } else if (satisfaction >= 30) {
+                    // 一般
+                    dialogPool = [
+                        "嗯...还行吧。",
+                        "凑合凑合。",
+                        "下次再说吧。",
+                        "也就那样。",
+                        "嗯，那我先走了。"
+                    ]
+                } else {
+                    // 不满
+                    dialogPool = [
+                        "这就完了？",
+                        "哎，不太行啊。",
+                        "感觉没怎么舒服...",
+                        "下次不会再来了。",
+                        "希望老板能多练练。"
+                    ]
+                }
+                let line = dialogPool[Math.floor(Math.random() * dialogPool.length)]
+
+                // 从实体手持物品 NBT 反查“操作玩家 UUID”
+                let dialogPlayer = null
+                let dialogUuid = '' + nbt.getString('pfActionPlayerUuid')
+                if (dialogUuid && dialogUuid.length > 0) {
+                    let allPlayers = level.getPlayers()
+                    for (let i = 0; i < allPlayers.size(); i++) {
+                        let p = allPlayers.get(i)
+                        if (('' + p.getUuid()) === dialogUuid) {
+                            dialogPlayer = p
+                            break
+                        }
+                    }
+                }
+                if (dialogPlayer) {
+                    dialogPlayer.tell("§e顾客：§f" + line)
+                    console.log("[SLEEP-JS] 服务完成对话已发送 (sat=" + satisfaction + "): " + line)
+                } else {
+                    console.log("[SLEEP-JS] 服务完成对话: 未找到操作玩家 uuid=" + dialogUuid)
+                }
+            } catch (e) { console.log("[SLEEP-JS] 服务完成对话发送失败: " + e) }
             let customerCategory = '' + entity.persistentData.getString('pfCustomerCategory')
             if (satisfaction >= global.pfCustomerTypes.PF_RATING_SAT_THRESHOLD && customerCategory && customerCategory.length > 0) {
                 // 通过实体上持久化的 pfSpawnerPlayerUuid 反查开店玩家（不依赖 global.pfShopState 内存状态）

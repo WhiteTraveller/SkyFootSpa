@@ -1,3 +1,4 @@
+ae2:meteorite
 lemoned:lemon_farm
 minecraft:ancient_city
 minecraft:bastion_remnant

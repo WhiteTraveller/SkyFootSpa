@@ -18,7 +18,7 @@ global.soakWaterRegister.register(function (w) {
         .setNameZH("§6生姜水")
         .setColor(0xC97F3C)
         .setDescription("§7温通经脉 §8|§7 专精：各部位需求")
-        .setIngredients(['ubesdeight:ginger'])
+        .setIngredients(['ubesdelight:ginger'])
         .setDemandBonus(3)          // 每部位随机 0~3
 })
 
@@ -55,7 +55,7 @@ global.soakWaterRegister.register(function (w) {
         .setColor(0xF5F0E8)
         .setDescription("§7满床乳香 §8|§7 专精：立即掉钱")
         .setIngredients([])
-        .setExtraFluids([{ id: 'create:milk', amount: 1000 }])  // 与水并列的额外流体输入
+        .setExtraFluids([{ id: 'minecraft:milk', amount: 1000 }])  // 与水并列的额外流体输入
         .setMoneyDrop(5)            // 泡脚完成立即掉 5 铜币
 })
 
@@ -69,6 +69,7 @@ StartupEvents.registry("fluid", event => {
             let builder = event.create(w.name)
                 .displayName(w.nameZH)
                 .bucketColor(w.color)
+                .thinTexture(w.color)
                 .stillTexture("minecraft:block/water_still")
                 .flowingTexture("minecraft:block/water_flow")
             // 某些 KubeJS 版本支持 textColor

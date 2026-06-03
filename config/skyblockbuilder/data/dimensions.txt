@@ -1,5 +1,6 @@
 minecraft:overworld
-dimdungeons:build_dimension
 minecraft:the_end
 minecraft:the_nether
+dimdungeons:build_dimension
 dimdungeons:dungeon_dimension
+ae2:spatial_storage
