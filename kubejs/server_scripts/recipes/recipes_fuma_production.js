@@ -41,7 +41,7 @@ ServerEvents.recipes(event => {
         inputs: [
             { item: 'mekanism:salt' }
         ],
-        fluid: { tag: 'kubejs:fuma_plantoil', amount: 1000 },
+        fluid: { tag: 'forge:fuma_plantoil', amount: 1000 },
         result: { fluid: 'kubejs:plantoil_magic_suspension', amount: 1000 },
         energy: 3200
     }).id('kubejs:fuma_ie_mixer_step2')
@@ -63,8 +63,8 @@ ServerEvents.recipes(event => {
     event.custom({
         type: "immersiveindustry:chemical",
         input_fluids: [
-            { tag: 'kubejs:grass_ash_water', amount: 1000 },
-            { tag: 'kubejs:fuma_foot_water', amount: 1000 }
+            { tag: 'forge:grass_ash_water', amount: 1000 },
+            { tag: 'forge:fuma_foot_water', amount: 1000 }
         ],
         result_fluids: [
             { fluid: 'kubejs:fuma_low_PH_foot_water', amount: 1000 }
@@ -76,7 +76,7 @@ ServerEvents.recipes(event => {
     event.custom({
         type: "immersiveindustry:chemical",
         input_fluids: [
-            { tag: 'kubejs:fuma_low_PH_foot_water', amount: 1000 },
+            { tag: 'forge:fuma_low_ph_foot_water', amount: 1000 },
             { tag: 'forge:plantoil', amount: 1000 }
         ],
         result_fluids: [
@@ -89,7 +89,7 @@ ServerEvents.recipes(event => {
     event.custom({
         type: "immersiveindustry:chemical",
         input_fluids: [
-            { tag: 'kubejs:salted_plantoil', amount: 1000 },
+            { tag: 'forge:salted_plantoil', amount: 1000 },
         ],
         result_fluids: [
             { fluid: 'immersiveengineering:plantoil', amount: 1000 }
