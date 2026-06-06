@@ -1,0 +1,10 @@
+{
+  "click_diamond_block": {
+    "sounds": [
+      {
+        "name": "skyfootspa:sound_music/click_diamond_block",
+        "stream": true
+      }
+    ]
+  }
+}
