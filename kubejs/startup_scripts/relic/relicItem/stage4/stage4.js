@@ -7,6 +7,7 @@ global.relicRegister.currentStage = 4
 // 40. 罗盘 - 金属/人工制品 - 脚后跟+4💰，脚趾+4💰；中心2×3内有遗物时全部位+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("compass")
+    .setTexture("compass.png")
         .setNameZH("罗盘")
         .setDescription(Text.gray("脚后跟/脚趾金钱").append(Text.green("+4")))
         .setSpecialDescription(Text.gray("中心2×3内有遗物时，全部位金钱").append(Text.green("+2")))
@@ -37,6 +38,7 @@ global.relicRegister.register(function(relic) {
 // 41. 死蝶标本 - 人工制品 - 脚心+7💰，全部位-5%满意度；底部2行每有1遗物，惩罚-1%
 global.relicRegister.register(function(relic) {
     relic.setName("dead_butterfly")
+    .setTexture("dead_butterfly.png")
         .setNameZH("死蝶标本")
         .setDescription(Text.gray("脚心金钱").append(Text.green("+7")).append(Text.gray(" 全部位满意度")).append(Text.red("-5%")))
         .setSpecialDescription(Text.gray("底部2行每有1个遗物，满意度惩罚").append(Text.green("-1%")))
@@ -65,6 +67,7 @@ global.relicRegister.register(function(relic) {
 // 42. 宝塔 - 金属/魔法 - 脚心+5💰，脚趾+5💰，全部位-6%满意度；九宫格有"魔法"遗物时惩罚-3%
 global.relicRegister.register(function(relic) {
     relic.setName("pagoda")
+    .setTexture("pagoda.png")
         .setNameZH("宝塔")
         .setDescription(Text.gray("脚心/脚趾金钱").append(Text.green("+5")).append(Text.gray(" 全部位满意度")).append(Text.red("-6%")))
         .setSpecialDescription(Text.gray("九宫格有").append(Text.yellow("魔法")).append(Text.gray("遗物时，惩罚")).append(Text.green("-3%")))
@@ -96,6 +99,7 @@ global.relicRegister.register(function(relic) {
 // 43. 锡杖 - 金属/魔法 - 全部位+3💰；中心2×3每有1"魔法"遗物，全部位+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("tin_staff")
+    .setTexture("tin_staff.png")
         .setNameZH("锡杖")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("中心2×3每有1个").append(Text.yellow("魔法")).append(Text.gray("遗物，全部位金钱")).append(Text.green("+1")))
@@ -125,6 +129,7 @@ global.relicRegister.register(function(relic) {
 // 44. 写真集 - 书 - 脚趾+5💰；对角线每有1遗物，脚趾+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("photo_album")
+    .setTexture("photo_album.png")
         .setNameZH("写真集")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+5")))
         .setSpecialDescription(Text.gray("对角线方向每有1个遗物，脚趾金钱").append(Text.green("+2")))
@@ -151,6 +156,7 @@ global.relicRegister.register(function(relic) {
 // 45. 境界线 - 魔法 - 脚心+4💰，脚背-4💰；对角线每有1遗物，脚背+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("boundary_line")
+    .setTexture("boundary_line.png")
         .setNameZH("境界线")
         .setDescription(Text.gray("脚心金钱").append(Text.green("+4")).append(Text.gray(" 脚背金钱")).append(Text.red("-4")))
         .setSpecialDescription(Text.gray("对角线方向每有1个遗物，脚背金钱").append(Text.green("+2")))
@@ -178,6 +184,7 @@ global.relicRegister.register(function(relic) {
 // 46. 式神札 - 魔法/书 - 脚背+4💰，脚掌+4💰；同行遗物标签全不相同时全部位+3💰
 global.relicRegister.register(function(relic) {
     relic.setName("shikigami_tag")
+    .setTexture("shikigami_tag.png")
         .setNameZH("式神札")
         .setDescription(Text.gray("脚背/脚掌金钱").append(Text.green("+4")))
         .setSpecialDescription(Text.gray("同行遗物标签全不相同时，全部位金钱").append(Text.green("+3")))
@@ -230,6 +237,7 @@ global.relicRegister.register(function(relic) {
 // 47. 逆十字 - 金属 - 全部位满意度效果反转（正变负、负变正）
 global.relicRegister.register(function(relic) {
     relic.setName("inverted_cross")
+    .setTexture("inverted_cross.png")
         .setNameZH("逆十字")
         .setDescription(Text.gray("全部位满意度效果").append(Text.lightPurple("反转")))
         .setSpecialDescription(Text.gray("满意度正效果变负，负效果变正"))
@@ -254,6 +262,7 @@ global.relicRegister.register(function(relic) {
 // 48. 万宝槌 - 木制/魔法 - 脚背+6💰，脚心+6💰，脚掌-5💰；同行有"木制"遗物时脚掌惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("miracle_mallet")
+    .setTexture("miracle_mallet.png")
         .setNameZH("万宝槌")
         .setDescription(Text.gray("脚背/脚心金钱").append(Text.green("+6")).append(Text.gray(" 脚掌金钱")).append(Text.red("-5")))
         .setSpecialDescription(Text.gray("同行有").append(Text.yellow("木制")).append(Text.gray("遗物时，脚掌惩罚消失")))
@@ -284,6 +293,7 @@ global.relicRegister.register(function(relic) {
 // 49. 秘术书 - 书/魔法 - 全部位+2💰；背包遗物标签种类≥4时全部位+3💰
 global.relicRegister.register(function(relic) {
     relic.setName("arcane_book")
+    .setTexture("arcane_book.png")
         .setNameZH("秘术书")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("背包遗物标签种类≥4时，全部位金钱").append(Text.green("+3")))
@@ -312,6 +322,7 @@ global.relicRegister.register(function(relic) {
 // 50. 望远镜 - 人工制品 - 全部位+3💰；中心2×3内遗物数≤2时全部位+4💰
 global.relicRegister.register(function(relic) {
     relic.setName("telescope")
+    .setTexture("telescope.png")
         .setNameZH("望远镜")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("中心2×3内遗物数≤2时，全部位金钱").append(Text.green("+4")))

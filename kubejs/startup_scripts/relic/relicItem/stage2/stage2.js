@@ -8,6 +8,7 @@ global.relicRegister.currentStage = 2
 // 13. 增幅芯片：脚趾 - 脚趾金钱+3，全部位满意度-3；九宫格每有1遗物，脚趾满意度+1
 global.relicRegister.register(function(relic) {
     relic.setName("boost_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("增幅芯片：脚趾")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+3")).append(Text.gray(" 全部位满意度")).append(Text.red("-3")))
         .setSpecialDescription(Text.gray("九宫格每有1个遗物，脚趾满意度").append(Text.green("+1")))
@@ -38,6 +39,7 @@ global.relicRegister.register(function(relic) {
 // 14. 治愈芯片：脚掌 - 全部位满意度+3，脚心金钱-1
 global.relicRegister.register(function(relic) {
     relic.setName("heal_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("治愈芯片：脚掌")
         .setDescription(Text.gray("全部位满意度").append(Text.green("+3")).append(Text.gray(" 脚心金钱")).append(Text.red("-1")))
         .setStory("温和的治愈芯片，全面提升满意度，但会削弱脚心的收入。")
@@ -61,6 +63,7 @@ global.relicRegister.register(function(relic) {
 // 15. 共振芯片：脚跟 - 脚跟金钱+3，全部位满意度-3；相邻有"金属"遗物时惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("resonance_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("共振芯片：脚跟")
         .setDescription(Text.gray("脚跟金钱").append(Text.green("+3")).append(Text.gray(" 全部位满意度")).append(Text.red("-3")))
         .setSpecialDescription(Text.gray("相邻有").append(Text.yellow("金属")).append(Text.gray("遗物时，惩罚消失")))
@@ -90,6 +93,7 @@ global.relicRegister.register(function(relic) {
 // 16. 轻载芯片：脚心 - 全部位体力-10，脚心满意度-2
 global.relicRegister.register(function(relic) {
     relic.setName("light_chip_center")
+        .setTexture("chip_lv2_pt3.png")
         .setNameZH("轻载芯片：脚心")
         .setDescription(Text.gray("全部位体力消耗").append(Text.green("-10")).append(Text.gray(" 脚心满意度")).append(Text.red("-2")))
         .setStory("轻量化芯片，全面降低体力消耗，但脚心满意度略有下降。")
@@ -113,6 +117,7 @@ global.relicRegister.register(function(relic) {
 // 17. 精准芯片：脚趾 - 脚心金钱+2，脚趾金钱-1；九宫格每空位，脚趾金钱+1
 global.relicRegister.register(function(relic) {
     relic.setName("precise_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("精准芯片：脚趾")
         .setDescription(Text.gray("脚心金钱").append(Text.green("+2")).append(Text.gray(" 脚趾金钱")).append(Text.red("-1")))
         .setSpecialDescription(Text.gray("九宫格每有1个空位，脚趾金钱").append(Text.green("+1")))
@@ -142,6 +147,7 @@ global.relicRegister.register(function(relic) {
 // 18. 超频芯片：脚趾 - 脚趾金钱+4，脚心满意度-4；相邻有"金属"遗物时惩罚减半
 global.relicRegister.register(function(relic) {
     relic.setName("overclock_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("超频芯片：脚趾")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+4")).append(Text.gray(" 脚心满意度")).append(Text.red("-4")))
         .setSpecialDescription(Text.gray("相邻有").append(Text.yellow("金属")).append(Text.gray("遗物时，惩罚减半")))
@@ -170,6 +176,7 @@ global.relicRegister.register(function(relic) {
 // 19. 延伸芯片：脚掌 - 脚掌金钱+3；同列每有1遗物，脚掌满意度+1
 global.relicRegister.register(function(relic) {
     relic.setName("extend_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("延伸芯片：脚掌")
         .setDescription(Text.gray("脚掌金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("同列每有1个遗物，脚掌满意度").append(Text.green("+1")))
@@ -199,6 +206,7 @@ global.relicRegister.register(function(relic) {
 // 20. 回收芯片：脚心 - 脚心满意度+5；九宫格每有2遗物，脚心体力-10
 global.relicRegister.register(function(relic) {
     relic.setName("recycle_chip_center")
+        .setTexture("chip_lv2_pt3.png")
         .setNameZH("回收芯片：脚心")
         .setDescription(Text.gray("脚心满意度").append(Text.green("+5")))
         .setSpecialDescription(Text.gray("九宫格每有2个遗物，脚心体力消耗").append(Text.green("-10")))
@@ -229,6 +237,7 @@ global.relicRegister.register(function(relic) {
 // 21. 强化芯片：脚跟 - 脚趾满意度+2，脚跟满意度+2；同行每有1遗物，脚跟金钱+1
 global.relicRegister.register(function(relic) {
     relic.setName("enhance_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("强化芯片：脚跟")
         .setDescription(Text.gray("脚趾/脚跟满意度").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("同行每有1个遗物，脚跟金钱").append(Text.green("+1")))
@@ -261,6 +270,7 @@ global.relicRegister.register(function(relic) {
 // 22. 知识芯片：全部 - 全部位满意度+2；九宫格每空位，脚掌金钱+1
 global.relicRegister.register(function(relic) {
     relic.setName("knowledge_chip_all")
+        .setTexture("chip_lv2_pt5.png")
         .setNameZH("知识芯片：全部")
         .setDescription(Text.gray("全部位满意度").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("九宫格每有1个空位，脚掌金钱").append(Text.green("+1")))
@@ -290,6 +300,7 @@ global.relicRegister.register(function(relic) {
 // 23. 统御芯片：脚掌 - 脚掌金钱+2；位于首行时，全部位满意度+3
 global.relicRegister.register(function(relic) {
     relic.setName("command_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("统御芯片：脚掌")
         .setDescription(Text.gray("脚掌金钱").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("首行")).append(Text.gray("时，全部位满意度")).append(Text.green("+3")))
@@ -317,6 +328,7 @@ global.relicRegister.register(function(relic) {
 // 24. 扎根芯片：脚跟 - 脚跟金钱+2，脚掌金钱+2；位于末行时，全部位金钱+2
 global.relicRegister.register(function(relic) {
     relic.setName("root_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("扎根芯片：脚跟")
         .setDescription(Text.gray("脚跟/脚掌金钱").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("末行")).append(Text.gray("时，全部位金钱")).append(Text.green("+2")))
@@ -345,6 +357,7 @@ global.relicRegister.register(function(relic) {
 // 25. 共鸣芯片：全部 - 脚掌金钱+2，脚趾金钱+2；同行有"魔法"遗物时全部位金钱+2
 global.relicRegister.register(function(relic) {
     relic.setName("harmony_chip_all")
+        .setTexture("chip_lv2_pt5.png")
         .setNameZH("共鸣芯片：全部")
         .setDescription(Text.gray("脚掌/脚趾金钱").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("同行有").append(Text.yellow("魔法")).append(Text.gray("遗物时，全部位金钱")).append(Text.green("+2")))
@@ -377,6 +390,7 @@ global.relicRegister.register(function(relic) {
 // 26. 锐利芯片：脚趾 - 脚趾金钱+2，脚趾满意度-2，脚趾体力+15
 global.relicRegister.register(function(relic) {
     relic.setName("sharp_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("锐利芯片：脚趾")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+2")).append(Text.gray(" 脚趾满意度")).append(Text.red("-2")).append(Text.gray(" 脚趾体力消耗")).append(Text.red("+15")))
         .setStory("锐利型芯片，牺牲满意度换取金钱，脚趾特色的高收益高消耗。")
@@ -401,6 +415,7 @@ global.relicRegister.register(function(relic) {
 // 27. 按压芯片：脚掌 - 脚掌满意度+4，脚掌体力+20
 global.relicRegister.register(function(relic) {
     relic.setName("press_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("按压芯片：脚掌")
         .setDescription(Text.gray("脚掌满意度").append(Text.green("+4")).append(Text.gray(" 脚掌体力消耗")).append(Text.red("+20")))
         .setStory("按压型芯片，强力的满意度提升需要更多的体力支撑。")
@@ -424,6 +439,7 @@ global.relicRegister.register(function(relic) {
 // 28. 舒缓芯片：脚心 - 脚心满意度+2，全部位体力-5
 global.relicRegister.register(function(relic) {
     relic.setName("soothe_chip_center")
+        .setTexture("chip_lv2_pt3.png")
         .setNameZH("舒缓芯片：脚心")
         .setDescription(Text.gray("脚心满意度").append(Text.green("+2")).append(Text.gray(" 全部位体力消耗")).append(Text.green("-5")))
         .setStory("舒缓型芯片，脚心的放松感延伸到全身，降低整体负担。")
@@ -447,6 +463,7 @@ global.relicRegister.register(function(relic) {
 // 29. 稳固芯片：脚跟 - 脚跟金钱+2，脚跟满意度+1，脚跟体力+10
 global.relicRegister.register(function(relic) {
     relic.setName("solid_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("稳固芯片：脚跟")
         .setDescription(Text.gray("脚跟金钱").append(Text.green("+2")).append(Text.gray(" 脚跟满意度")).append(Text.green("+1")).append(Text.gray(" 脚跟体力消耗")).append(Text.red("+10")))
         .setStory("稳固型芯片，脚跟的均衡特性得到全面提升。")
@@ -471,6 +488,7 @@ global.relicRegister.register(function(relic) {
 // 30. 泛用芯片：全部 - 全部位金钱+1，全部位体力+10
 global.relicRegister.register(function(relic) {
     relic.setName("versatile_chip_all")
+        .setTexture("chip_lv2_pt5.png")
         .setNameZH("泛用芯片：全部")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+1")).append(Text.gray(" 全部位体力消耗")).append(Text.red("+10")))
         .setStory("泛用型芯片，广播式的金钱加成，但体力负担也全面提升。")
@@ -496,6 +514,7 @@ global.relicRegister.register(function(relic) {
 // 31. 贪婪芯片：脚趾 - 脚趾金钱+5，脚趾体力+35；位于末行时体力惩罚减半
 global.relicRegister.register(function(relic) {
     relic.setName("greed_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("贪婪芯片：脚趾")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+5")).append(Text.gray(" 脚趾体力消耗")).append(Text.red("+35")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("末行")).append(Text.gray("时，体力惩罚减半")))
@@ -522,6 +541,7 @@ global.relicRegister.register(function(relic) {
 // 32. 抚慰芯片：脚掌 - 脚掌满意度+3，脚掌金钱+1；相邻有"布制品"遗物时，脚掌满意度额外+3
 global.relicRegister.register(function(relic) {
     relic.setName("comfort_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("抚慰芯片：脚掌")
         .setDescription(Text.gray("脚掌满意度").append(Text.green("+3")).append(Text.gray(" 脚掌金钱")).append(Text.green("+1")))
         .setSpecialDescription(Text.gray("相邻有").append(Text.yellow("布制品")).append(Text.gray("遗物时，脚掌满意度额外")).append(Text.green("+3")))
@@ -552,6 +572,7 @@ global.relicRegister.register(function(relic) {
 // 33. 吐纳芯片：脚心 - 脚心满意度+3，脚心体力-15；九宫格每有1空位，脚心金钱+1
 global.relicRegister.register(function(relic) {
     relic.setName("breathe_chip_center")
+        .setTexture("chip_lv2_pt3.png")
         .setNameZH("吐纳芯片：脚心")
         .setDescription(Text.gray("脚心满意度").append(Text.green("+3")).append(Text.gray(" 脚心体力消耗")).append(Text.green("-15")))
         .setSpecialDescription(Text.gray("九宫格每有1个空位，脚心金钱").append(Text.green("+1")))
@@ -582,6 +603,7 @@ global.relicRegister.register(function(relic) {
 // 34. 平衡芯片：脚跟 - 脚跟金钱+2，脚跟满意度+2；同列每有1遗物，全部位体力-3
 global.relicRegister.register(function(relic) {
     relic.setName("equilibrium_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("平衡芯片：脚跟")
         .setDescription(Text.gray("脚跟金钱").append(Text.green("+2")).append(Text.gray(" 脚跟满意度")).append(Text.green("+2")))
         .setSpecialDescription(Text.gray("同列每有1个遗物，全部位体力消耗").append(Text.green("-3")))
@@ -614,6 +636,7 @@ global.relicRegister.register(function(relic) {
 // 35. 压榨芯片：脚趾 - 脚趾金钱+6，脚趾体力+50；背包不同标签每≥2种，脚趾体力-10
 global.relicRegister.register(function(relic) {
     relic.setName("exploit_chip_toe")
+        .setTexture("chip_lv2_pt1.png")
         .setNameZH("压榨芯片：脚趾")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+6")).append(Text.gray(" 脚趾体力消耗")).append(Text.red("+50")))
         .setSpecialDescription(Text.gray("背包中每有2种不同标签，脚趾体力消耗").append(Text.green("-10")))
@@ -641,6 +664,7 @@ global.relicRegister.register(function(relic) {
 // 36. 涌泉芯片：脚掌 - 脚掌满意度+5，脚掌体力+25；位于首行时全部位满意度+2
 global.relicRegister.register(function(relic) {
     relic.setName("spring_chip_sole")
+        .setTexture("chip_lv2_pt2.png")
         .setNameZH("涌泉芯片：脚掌")
         .setDescription(Text.gray("脚掌满意度").append(Text.green("+5")).append(Text.gray(" 脚掌体力消耗")).append(Text.red("+25")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("首行")).append(Text.gray("时，全部位满意度")).append(Text.green("+2")))
@@ -669,6 +693,7 @@ global.relicRegister.register(function(relic) {
 // 37. 宁静芯片：脚心 - 全部位体力-15；对角线每有1遗物，脚心满意度+1
 global.relicRegister.register(function(relic) {
     relic.setName("serene_chip_center")
+        .setTexture("chip_lv2_pt3.png")
         .setNameZH("宁静芯片：脚心")
         .setDescription(Text.gray("全部位体力消耗").append(Text.green("-15")))
         .setSpecialDescription(Text.gray("对角线每有1个遗物，脚心满意度").append(Text.green("+1")))
@@ -698,6 +723,7 @@ global.relicRegister.register(function(relic) {
 // 38. 磐石芯片：脚跟 - 脚跟金钱+3，脚跟满意度+3，脚跟体力+20；位于末行时全部位体力-10
 global.relicRegister.register(function(relic) {
     relic.setName("bedrock_chip_heel")
+        .setTexture("chip_lv2_pt4.png")
         .setNameZH("磐石芯片：脚跟")
         .setDescription(Text.gray("脚跟金钱").append(Text.green("+3")).append(Text.gray(" 脚跟满意度")).append(Text.green("+3")).append(Text.gray(" 脚跟体力消耗")).append(Text.red("+20")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("末行")).append(Text.gray("时，全部位体力消耗")).append(Text.green("-10")))

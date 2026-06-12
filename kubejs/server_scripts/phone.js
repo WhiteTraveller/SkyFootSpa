@@ -13,7 +13,7 @@ ItemEvents.rightClicked(event => {
     if (player == null) return
 
     // 使用 Screen 类型打开手机UI
-    ApricityUIServer.openScreen(player, 'kubejs/phone.html', null)
+    ApricityUI.openScreen(player, 'kubejs/phone.html', null)
     console.log("[PHONE] 玩家 " + player.getName().getString() + " 右键使用手机")
 
     // 同步手机设置到客户端

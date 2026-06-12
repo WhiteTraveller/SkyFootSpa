@@ -9,11 +9,11 @@
 // ============================================================
 
 let EXPANDER_TEXTURES = {
-    1: "mekanism:item/basic_control_circuit",
-    2: "mekanism:item/advanced_control_circuit",
-    3: "mekanism:item/elite_control_circuit",
-    4: "mekanism:item/ultimate_control_circuit",
-    5: "mekanism:item/ultimate_control_circuit"
+    1: "marguerite:item/wrench_copper",
+    2: "marguerite:item/wrench_iron",
+    3: "marguerite:item/wrench_gold",
+    4: "marguerite:item/wrench_diamond",
+    5: "marguerite:item/wrench_amethyst"
 }
 
 StartupEvents.registry("item", event => {

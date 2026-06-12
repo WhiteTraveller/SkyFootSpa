@@ -1,0 +1,186 @@
+<body>
+  <div id="tooltip">
+    <div id="header">
+        <span id="title"></span>
+    </div>
+    <div id="content">
+      <div id="desc-area">
+        <div id="main-desc">
+            <span id="main-desc-text"></span>
+        </div>
+        <div id="sub-desc">
+            <span id="sub-desc-text"></span>
+        </div>
+        <div id="story">
+            <span id="story-text">
+                
+            </span>
+        </div>
+      </div>
+      <div id="guide-area">
+        <div id="guide-grid">
+          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc" id="guide-center"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<style>
+  body {
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  body.shown {
+    animation: tooltip-fade-in 0.15s ease-out forwards;
+  }
+
+  body.hiding {
+    animation: tooltip-fade-out 0.15s ease forwards;
+  }
+
+  @keyframes tooltip-fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes tooltip-fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  #tooltip {
+    position: fixed;
+    font-family: "default";
+    font-size: 13px;
+    transform: translateZ(1000px);
+    min-width: 180px;
+    max-width: 260px;
+    margin-left: 11px;
+  }
+
+  #header {
+    --red: rgb(142, 50, 50);
+    --blue: rgb(193, 193, 193);
+    --purple: rgb(163, 77, 132);
+    --green: rgb(88, 149, 88);
+    --gold: rgb(189, 180, 61);
+    background-color: var(--gold);
+    color: #fff;
+    line-height: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-stroke: 2px #555;
+    margin-bottom: 2px;
+  }
+
+  #content {
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+  }
+
+  #desc-area {
+    display: flex;
+    flex-direction: column;
+    width: 80px;
+    color: #ddd;
+    text-stroke: 0px;
+  }
+
+  #main-desc {
+    margin-bottom: 3px;
+    line-height: 11px;
+  }
+
+  #sub-desc {
+    line-height: 11px;
+    color: #aaa;
+  }
+
+  #guide-area {
+    padding-left: 6px;
+    margin-left: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #guide-grid {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    padding: 3px;
+  }
+
+  .gr {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2px;
+  }
+
+  .gr:last-child {
+    margin-bottom: 0;
+  }
+
+  .gc {
+    width: 11px;
+    height: 11px;
+    margin-right: 2px;
+    background-color: rgba(255, 255, 255, 0.25);
+    transform-origin: center;
+    animation: gc-pop 0.2s ease-out forwards;
+    transform: scale(0);
+  }
+
+  @keyframes gc-pop {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* 对角线延迟：行+列 */
+  .gr:nth-child(1) .gc:nth-child(1) { animation-delay: 0ms; }
+  .gr:nth-child(1) .gc:nth-child(2), .gr:nth-child(2) .gc:nth-child(1) { animation-delay: 30ms; }
+  .gr:nth-child(1) .gc:nth-child(3), .gr:nth-child(2) .gc:nth-child(2), .gr:nth-child(3) .gc:nth-child(1) { animation-delay: 60ms; }
+  .gr:nth-child(1) .gc:nth-child(4), .gr:nth-child(2) .gc:nth-child(3), .gr:nth-child(3) .gc:nth-child(2), .gr:nth-child(4) .gc:nth-child(1) { animation-delay: 90ms; }
+  .gr:nth-child(1) .gc:nth-child(5), .gr:nth-child(2) .gc:nth-child(4), .gr:nth-child(3) .gc:nth-child(3), .gr:nth-child(4) .gc:nth-child(2), .gr:nth-child(5) .gc:nth-child(1) { animation-delay: 120ms; }
+  .gr:nth-child(2) .gc:nth-child(5), .gr:nth-child(3) .gc:nth-child(4), .gr:nth-child(4) .gc:nth-child(3), .gr:nth-child(5) .gc:nth-child(2) { animation-delay: 150ms; }
+  .gr:nth-child(3) .gc:nth-child(5), .gr:nth-child(4) .gc:nth-child(4), .gr:nth-child(5) .gc:nth-child(3) { animation-delay: 180ms; }
+  .gr:nth-child(4) .gc:nth-child(5), .gr:nth-child(5) .gc:nth-child(4) { animation-delay: 210ms; }
+  .gr:nth-child(5) .gc:nth-child(5) { animation-delay: 240ms; }
+
+  .gc:last-child {
+    margin-right: 0;
+  }
+
+  #guide-center {
+    background-size: 11px 11px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  #story {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.144);
+    color: #9f9f9f;
+    padding: 4px;
+  }
+</style>

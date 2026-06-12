@@ -5,14 +5,6 @@
 	group: "703E058CBE887155"
 	icon: "minecraft:nether_star"
 	id: "29426113FA929704"
-	images: [{
-		height: 6.17d
-		image: "marguerite:textures/query/query_alice_foot.png"
-		rotation: 0.0d
-		width: 7.0d
-		x: 6.0d
-		y: -6.5d
-	}]
 	order_index: 0
 	quest_links: [ ]
 	quests: [

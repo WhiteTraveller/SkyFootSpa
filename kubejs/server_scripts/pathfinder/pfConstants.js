@@ -30,7 +30,11 @@ let WOOL_TO_DEMAND = {
     'marguerite:hand_jiaozhang': 'pfDemandJiaozhang', // 搓脚掌的手
     'marguerite:hand_jiaogen': 'pfDemandJiaogen',     // 搓脚跟的手
     'marguerite:hand_jiaozhi': 'pfDemandJiaozhi',     // 搓脚趾的手
-    'marguerite:hand_jiaoxin': 'pfDemandJiaoxin'      // 搓脚心的手
+    'marguerite:hand_jiaoxin': 'pfDemandJiaoxin',     // 搓脚心的手
+    'marguerite:fascia_gun_jiaozhang': 'pfDemandJiaozhang', // 筋膜枪(脚掌)
+    'marguerite:fascia_gun_jiaogen': 'pfDemandJiaogen',     // 筋膜枪(脚跟)
+    'marguerite:fascia_gun_jiaozhi': 'pfDemandJiaozhi',     // 筋膜枪(脚趾)
+    'marguerite:fascia_gun_jiaoxin': 'pfDemandJiaoxin'      // 筋膜枪(脚心)
 }
 
 // 需求键值与后缀映射（4部位）

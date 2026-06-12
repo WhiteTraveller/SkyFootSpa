@@ -30,6 +30,7 @@ function applyAll(player, i, name, money, sat, stamina) {
 global.relicRegister.register(function(relic) {
     relic.setName("basic_chip_toe")
         .setNameZH("基础芯片：敛财")
+        .setTexture("chip_lv1_pt1.png")
         .setDescription(descMoney(1).append(descSat(-1)))
         .setStory("敛财型芯片：薄利多收，代价是顾客对价格的一丝不满。")
         .setTags([])
@@ -45,6 +46,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("basic_chip_sole")
         .setNameZH("基础芯片：勤劳")
+        .setTexture("chip_lv1_pt2.png")
         .setDescription(descMoney(1).append(descStamina(10)))
         .setStory("勤劳型芯片：多赚的每一分钱，都是用自己多流的汗水换来的。")
         .setTags([])
@@ -60,6 +62,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("basic_chip_center")
         .setNameZH("基础芯片：懈怠")
+        .setTexture("chip_lv1_pt3.png")
         .setDescription(descStamina(-10).append(descSat(-1)))
         .setStory("懈怠型芯片：省下的力气，从顾客的满意度里偷偷扣。")
         .setTags([])
@@ -75,6 +78,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("basic_chip_heel")
         .setNameZH("基础芯片：躺平")
+        .setTexture("chip_lv1_pt4.png")
         .setDescription(descStamina(-10).append(descMoney(-1)))
         .setStory("躺平型芯片：少赚一点换来的清闲，主打一个性价比。")
         .setTags([])
@@ -90,6 +94,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("general_chip_all")
         .setNameZH("基础芯片：用心")
+        .setTexture("chip_lv1_pt5.png")
         .setDescription(descSat(1).append(descStamina(10)))
         .setStory("用心型芯片：用多一分耐心换来顾客的微笑，也就更累一分。")
         .setTags([global.margueriteTags.metal])
@@ -107,6 +112,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("synergy_chip_toe")
         .setNameZH("基础芯片：奸商")
+        .setTexture("chip_lv1_pt1.png")
         .setDescription(descMoney(2).append(descSat(-2)))
         .setStory("奸商型芯片：掏空顾客钱包的同时，也悄悄榨取他们的好心情。")
         .setTags([])
@@ -122,6 +128,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("focus_chip_sole")
         .setNameZH("基础芯片：佛系")
+        .setTexture("chip_lv1_pt2.png")
         .setDescription(descStamina(-20).append(descSat(-1)).append(descMoney(-1)))
         .setStory("佛系型芯片：大幅节省体力，代价是顾客的期待与钱包一起缩水。")
         .setTags([global.margueriteTags.metal])
@@ -137,6 +144,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("eco_chip_center")
         .setNameZH("基础芯片：热情")
+        .setTexture("chip_lv1_pt3.png")
         .setDescription(descSat(2).append(descStamina(20)))
         .setStory("热情型芯片：多费些力气，换来顾客由衷的满意。")
         .setTags([global.margueriteTags.artifact])
@@ -154,6 +162,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("impact_chip_heel")
         .setNameZH("基础芯片：聚财")
+        .setTexture("chip_lv1_pt4.png")
         .setDescription(descMoney(1))
         .setStory("聚财型稀世之作：赚得更多，却无需任何代价——市面上买不到，只能在特殊奖励中获得。")
         .setTags([])
@@ -169,6 +178,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("link_chip_toe")
         .setNameZH("基础芯片：献身")
+        .setTexture("chip_lv1_pt1.png")
         .setDescription(descSat(3).append(descStamina(40)))
         .setStory("献身型稀世之作：让顾客获得前所未有的体验，代价是巨大的体力消耗。")
         .setTags([global.margueriteTags.metal])
@@ -184,6 +194,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("refine_chip_sole")
         .setNameZH("基础芯片：罢工")
+        .setTexture("chip_lv1_pt2.png")
         .setDescription(descStamina(-40).append(descSat(-4)).append(descMoney(-2)))
         .setStory("罢工型稀世之作：几乎不耗体力，但顾客与收益双双大幅牺牲——摆烂到极致的艺术。")
         .setTags([global.margueriteTags.magic])
@@ -199,6 +210,7 @@ global.relicRegister.register(function(relic) {
 global.relicRegister.register(function(relic) {
     relic.setName("relief_chip_all")
         .setNameZH("基础芯片：悠然")
+        .setTexture("chip_lv1_pt5.png")
         .setDescription(descStamina(-10))
         .setStory("悠然型稀世佳作：轻盈省力，无任何副作用——只会出现在稀有奖励池中。")
         .setTags([])

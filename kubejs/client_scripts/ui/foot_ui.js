@@ -42,7 +42,11 @@ let HAND_TO_FLOAT_IMG = {
     'marguerite:hand_jiaozhang': 'hand_jiaozhang.png',
     'marguerite:hand_jiaoxin':   'hand_jiaoxin.png',
     'marguerite:hand_jiaogen':   'hand_jiaogen.png',
-    'marguerite:hand_jiaozhi':   'hand_jiaozhi.png'
+    'marguerite:hand_jiaozhi':   'hand_jiaozhi.png',
+    'marguerite:fascia_gun_jiaozhang': 'hand_jiaozhang.png',
+    'marguerite:fascia_gun_jiaoxin':   'hand_jiaoxin.png',
+    'marguerite:fascia_gun_jiaogen':   'hand_jiaogen.png',
+    'marguerite:fascia_gun_jiaozhi':   'hand_jiaozhi.png'
 }
 
 // 拖动距离阈值（像素）：累计路程 >= 此值视为一次有效搓脚

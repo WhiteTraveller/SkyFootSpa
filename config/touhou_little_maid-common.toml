@@ -2,7 +2,7 @@
 [maid]
 	#This is a global config that applies to all maids: how often maids speak
 	#Range: 0 ~ 100
-	GlobalMaidSoundFrequency = 100
+	GlobalMaidSoundFrequency = 6
 	#This is a global config that applies to all maids: Whether or not to display chat bubbles
 	GlobalMaidShowChatBubble = true
 	#The item that can tamed maid
@@ -190,7 +190,7 @@
 	#Allowed Values: PLAYER2, ALIYUN, SILICONFLOW
 	STTType = "PLAYER2"
 	#The name of the microphone device, empty is default
-	STTMicrophone = ""
+	STTMicrophone = "主声音捕获驱动程序"
 	#The range of search when chatting with the maid
 	#Range: 1 ~ 256
 	MaidCanChatDistance = 12

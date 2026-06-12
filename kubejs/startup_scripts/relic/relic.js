@@ -69,9 +69,21 @@ StartupEvents.registry('item', event => {
             }
         }
         if (relic.texture) {
-            e.texture(relic.texture)
+            // setTexture 存储的是 ApricityUI 格式 (如 "chip_lv1_pt1.png" 或 "pushcart.png")
+            // 需要转换为 Minecraft 资源路径格式
+            let fileName = ("" + relic.texture).replace(".png", "")
+            if (fileName.startsWith("chip_lv")) {
+                // 芯片类: kubejs:item/chip_lv1_pt1
+                e.texture("kubejs:item/" + fileName)
+            } else {
+                // 独特遗物: marguerite:item/pushcart
+                e.texture("marguerite:item/" + fileName)
+            }
         } else if (relic.stage >= 1 && relic.stage <= 5 && chipPart > 0) {
             e.texture("kubejs:item/chip_lv" + relic.stage + "_pt" + chipPart)
+        } else {
+            // 默认使用遗物名称作为材质路径
+            e.texture("marguerite:item/" + relic.name)
         }
         for (let j = 0; j < relic.tags.length; j ++) {
             let tag = relic.tags[j]

@@ -156,32 +156,33 @@ function setupNetworkHandlers() {
                 } catch (e) { console.log('[PF-NETWORK] 皴掉落失败(一键满足): ' + e) }
             } else if (currentValue > 0) {
                 // 正常模式：只减少当前部位
-                // 从对应部位属性读取体力消耗
+                // ============================================================
+                // 筋膜枪优先消耗FE逻辑 (通过 pfFasciaGunInterface 接口)
+                // FE消耗量 = 该部位体力消耗值，FE不足时回退到体力消耗
+                // ============================================================
                 let staminaCost = part ? Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
-                if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, staminaCost)) {
-                    player.setStatusMessage("§c体力不足，无法搛脚！")
-                    targetEntity.setMainHandItem(item.withNBT(nbt))
-                    return
-                }
-                // 筋膜枪：副手持有时消耗 250 FE (PowerfulJS Capability)
-                try {
-                    let offhand = player.getOffHandItem()
-                    if (offhand && offhand.getId() === 'marguerite:fascia_gun') {
-                        if (global.pfConsumeFE && global.pfConsumeFE(player, 250, 'offhand')) {
-                            // 电力消耗成功
-                            let currentFE = global.pfGetItemFE ? global.pfGetItemFE(offhand) : 0
-                            console.log('[PF-NETWORK] 筋膜枪消耗 250 FE, 剩余: ' + currentFE + ' FE')
-                        } else {
-                            // 电力不足
-                            player.setStatusMessage("§c⚡ 筋膜枪电力不足！请连接电缆充电")
-                            player.getLevel().getServer().runCommandSilent(
-                                'playsound minecraft:block.note_block.bass master ' + player.getUsername() + ' ~ ~ ~ 1 0.5 1'
-                            )
-                            targetEntity.setMainHandItem(item.withNBT(nbt))
-                            return
+                let fasciaGunUsed = false
+                if (global.pfFasciaGunInterface) {
+                    let gunInfo = global.pfFasciaGunInterface.getMatchingGun(player, demandKey)
+                    if (gunInfo) {
+                        // 优先尝试消耗FE（消耗量等于该部位体力值）
+                        if (global.pfFasciaGunInterface.tryConsumeFE(player, gunInfo, staminaCost)) {
+                            fasciaGunUsed = true
+                            let currentFE = global.pfFasciaGunInterface.getCurrentFE(gunInfo.item)
+                            console.log('[PF-NETWORK] 筋膜枪(' + part + ')消耗 ' + staminaCost + ' FE, 剩余: ' + currentFE + ' FE')
                         }
+                        // FE不足时不阻断，继续走体力消耗兜底
                     }
-                } catch (e) { console.log('[PF-NETWORK] 筋膜枪电力消耗失败: ' + e) }
+                }
+
+                // 如果没有使用筋膜枪FE，消耗体力
+                if (!fasciaGunUsed) {
+                    if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, staminaCost)) {
+                        player.setStatusMessage("§c体力不足，无法搛脚！")
+                        targetEntity.setMainHandItem(item.withNBT(nbt))
+                        return
+                    }
+                }
                 currentValue--
                 nbt[demandKey] = currentValue
                 

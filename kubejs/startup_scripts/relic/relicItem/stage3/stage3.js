@@ -7,6 +7,7 @@ global.relicRegister.currentStage = 3
 // 26. 推车 - 金属/人工制品 - 脚趾+3💰；同行每有1"金属"遗物，脚趾+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("pushcart")
+    .setTexture("pushcart.png")
         .setNameZH("推车")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("同行每有1个").append(Text.yellow("金属")).append(Text.gray("遗物，脚趾金钱")).append(Text.green("+2")))
@@ -33,6 +34,7 @@ global.relicRegister.register(function(relic) {
 // 27. 经卷 - 书 - 脚心+4%满意度；同行每有1遗物，脚心+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("scripture")
+    .setTexture("scripture.png")
         .setNameZH("经卷")
         .setDescription(Text.gray("脚心满意度").append(Text.green("+4%")))
         .setSpecialDescription(Text.gray("同行每有1个遗物，脚心金钱").append(Text.green("+1")))
@@ -62,6 +64,7 @@ global.relicRegister.register(function(relic) {
 // 28. 羽笔 - 无标签 - 脚掌+3💰；同行每有1遗物，脚掌+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("quill_pen")
+    .setTexture("quill_pen.png")
         .setNameZH("羽笔")
         .setDescription(Text.gray("脚掌金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("同行每有1个遗物，脚掌金钱").append(Text.green("+1")))
@@ -88,6 +91,7 @@ global.relicRegister.register(function(relic) {
 // 29. 水晶球 - 魔法 - 脚心+3💰；同行遗物数为奇数时脚心额外+3💰
 global.relicRegister.register(function(relic) {
     relic.setName("crystal_ball")
+    .setTexture("crystal_ball.png")
         .setNameZH("水晶球")
         .setDescription(Text.gray("脚心金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("同行遗物数为奇数时，脚心金钱额外").append(Text.green("+3")))
@@ -115,6 +119,7 @@ global.relicRegister.register(function(relic) {
 // 30. 扳手 - 金属/导电 - 脚掌+3💰，脚后跟+2💰；九宫格每空位，脚掌+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("wrench")
+    .setTexture("wrench.png")
         .setNameZH("扳手")
         .setDescription(Text.gray("脚掌金钱").append(Text.green("+3")).append(Text.gray(" 脚后跟金钱")).append(Text.green("+2")))
         .setSpecialDescription(Text.gray("九宫格每有1个空位，脚掌金钱").append(Text.green("+1")))
@@ -144,6 +149,7 @@ global.relicRegister.register(function(relic) {
 // 31. 反应炉 - 导电/人工制品 - 脚后跟+5💰，全部位-5%满意度；底部行时惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("reactor")
+    .setTexture("reactor.png")
         .setNameZH("反应炉")
         .setDescription(Text.gray("脚后跟金钱").append(Text.green("+5")).append(Text.gray(" 全部位满意度")).append(Text.red("-5%")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("底部行")).append(Text.gray("时，惩罚消失")))
@@ -172,6 +178,7 @@ global.relicRegister.register(function(relic) {
 // 32. 相机 - 人工制品 - 脚背+4💰；同行每有1遗物，脚背+1%满意度
 global.relicRegister.register(function(relic) {
     relic.setName("camera")
+    .setTexture("camera.png")
         .setNameZH("相机")
         .setDescription(Text.gray("脚背金钱").append(Text.green("+4")))
         .setSpecialDescription(Text.gray("同行每有1个遗物，脚背满意度").append(Text.green("+1%")))
@@ -201,6 +208,7 @@ global.relicRegister.register(function(relic) {
 // 33. 铁扇 - 金属 - 脚后跟+3💰，脚掌+3💰；九宫格每有1"金属"遗物，全部位+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("iron_fan")
+    .setTexture("iron_fan.png")
         .setNameZH("铁扇")
         .setDescription(Text.gray("脚后跟/脚掌金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("九宫格每有1个").append(Text.yellow("金属")).append(Text.gray("遗物，全部位金钱")).append(Text.green("+2")))
@@ -231,6 +239,7 @@ global.relicRegister.register(function(relic) {
 // 34. 法轮 - 金属/魔法 - 全部位+2💰；九宫格每有1"魔法"遗物，全部位+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("dharma_wheel")
+    .setTexture("dharma_wheel.png")
         .setNameZH("法轮")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+2")))
         .setSpecialDescription(Text.gray("九宫格每有1个").append(Text.yellow("魔法")).append(Text.gray("遗物，全部位金钱")).append(Text.green("+1")))
@@ -260,6 +269,7 @@ global.relicRegister.register(function(relic) {
 // 35. 竹笛 - 木制 - 脚趾+4💰，脚心+4💰；同行遗物数为偶数时全部位+2%满意度
 global.relicRegister.register(function(relic) {
     relic.setName("bamboo_flute")
+    .setTexture("bamboo_flute.png")
         .setNameZH("竹笛")
         .setDescription(Text.gray("脚趾/脚心金钱").append(Text.green("+4")))
         .setSpecialDescription(Text.gray("同行遗物数为偶数时，全部位满意度").append(Text.green("+2%")))
@@ -292,6 +302,7 @@ global.relicRegister.register(function(relic) {
 // 36. 勾玉 - 魔法 - 脚背+3💰，脚掌+3💰；同行有"魔法"或"书"遗物时全部位+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("magatama")
+    .setTexture("magatama.png")
         .setNameZH("勾玉")
         .setDescription(Text.gray("脚背/脚掌金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("同行有").append(Text.yellow("魔法")).append(Text.gray("或")).append(Text.yellow("书")).append(Text.gray("遗物时，全部位金钱")).append(Text.green("+2")))
@@ -323,6 +334,7 @@ global.relicRegister.register(function(relic) {
 // 37. 怨灵瓶 - 魔法/人工制品 - 全部位+4💰，全部位-8%满意度；九宫格有"魔法"遗物时惩罚-3%
 global.relicRegister.register(function(relic) {
     relic.setName("grudge_bottle")
+    .setTexture("grudge_bottle.png")
         .setNameZH("怨灵瓶")
         .setDescription(Text.gray("全部位金钱").append(Text.green("+4")).append(Text.gray(" 全部位满意度")).append(Text.red("-8%")))
         .setSpecialDescription(Text.gray("九宫格有").append(Text.yellow("魔法")).append(Text.gray("遗物时，惩罚")).append(Text.green("-3%")))
@@ -351,6 +363,7 @@ global.relicRegister.register(function(relic) {
 // 38. 保温杯 - 人工制品 - 脚趾+5💰，脚心-4%满意度；中心2×3时惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("thermos_cup")
+    .setTexture("thermos_cup.png")
         .setNameZH("保温杯")
         .setDescription(Text.gray("脚趾金钱").append(Text.green("+5")).append(Text.gray(" 脚心满意度")).append(Text.red("-4%")))
         .setSpecialDescription(Text.gray("位于").append(Text.yellow("中心2×3")).append(Text.gray("区域时，惩罚消失")))
@@ -378,6 +391,7 @@ global.relicRegister.register(function(relic) {
 // 39. 龙珠 - 魔法 - 脚心+3💰，脚掌+3💰；对角线每有1遗物，脚心+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("dragon_pearl")
+    .setTexture("dragon_pearl.png")
         .setNameZH("龙珠")
         .setDescription(Text.gray("脚心/脚掌金钱").append(Text.green("+3")))
         .setSpecialDescription(Text.gray("对角线方向每有1个遗物，脚心金钱").append(Text.green("+1")))
