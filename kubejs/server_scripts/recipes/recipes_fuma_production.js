@@ -67,7 +67,7 @@ ServerEvents.recipes(event => {
             { tag: 'forge:fuma_foot_water', amount: 1000 }
         ],
         result_fluids: [
-            { fluid: 'kubejs:fuma_low_PH_foot_water', amount: 1000 }
+            { fluid: 'kubejs:fuma_low_ph_foot_water', amount: 1000 }
         ],
         time: 100
     }).id('effective_fuma_production_recipe_step1')
