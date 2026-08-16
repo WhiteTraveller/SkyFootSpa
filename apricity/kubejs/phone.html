@@ -1,5 +1,13 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <meta name="aui-mouse-events" content="intercept">
+</head>
 <body>
-  <div class="rt-overlay" id="ratingOverlay" style="top: -9999; left: -9999;">
+  <div class="rt-overlay" id="ratingOverlay" style="top: -9999px; left: -9999px; opacity: 0; pointer-events: none;">
     <div class="rt-card">
       <!-- 顶部标题栏 -->
       <div class="rt-header">
@@ -60,7 +68,7 @@
 
   
   <!-- ===== 抽卡弹窗 ===== -->
-  <div class="gc-overlay" id="gachaOverlay" style="top: -9999; left: -9999;">
+  <div class="gc-overlay" id="gachaOverlay" style="top: -9999px; left: -9999px; opacity: 0; pointer-events: none;">
     <div class="gc-card">
       <!-- 标题栏 -->
       <div class="gc-header">
@@ -68,14 +76,14 @@
         <span class="gc-close" id="gachaClose">x</span>
       </div>
         <div class="gc-poster">
-          <img class="gc-poster-header" src="poster.png"></img>
+          <img class="gc-poster-header" src="poster.png">
         </div>
       <!-- 两列卡片区域 -->
       <div class="gc-body">
         <div class="gc-item">
           <div class="gc-item-header">补给获得物品数量</div>
           <div class="gc-item-icon-area">
-            <img class="gc-question" src="ck.png"></img>
+            <img class="gc-question" src="ck.png">
             <span class="gc-times">x 2</span>
           </div>
           <div class="gc-item-desc">可获得Stage1-Stage2芯片、道具或材料</div>
@@ -87,7 +95,7 @@
         <div class="gc-item">
           <div class="gc-item-header">补给获得物品数量</div>
           <div class="gc-item-icon-area">
-            <img class="gc-question" src="ck.png"></img>
+            <img class="gc-question" src="ck.png">
             <span class="gc-times">x 20</span>
           </div>
           <div class="gc-item-desc">可获得Stage1-Stage2芯片、道具或材料</div>
@@ -176,6 +184,18 @@
 </body>
 
 <style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
     padding: 0;
@@ -183,22 +203,33 @@
     overflow: hidden;
   }
 
-  /* 外层容器 - 靠下靠右显示 */
   .phone-wrapper {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1;
+    pointer-events: auto;
   }
 
   .phone-frame {
-    width: 110px;
-    height: 224px;
+    width: 30%;
+    min-width: 260px;
+    max-width: 430px;
+    height: 100%;
     background-color: #000000;
-    border-radius: 2;
-    border: 1px solid #444444;
+    border-radius: 8px;
+    border: 2px solid #444444;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
   }
 
   /* 内侧黑边 */
@@ -212,14 +243,14 @@
 
   /* 屏幕区域 - 全面屏，直角 */
   .phone-screen {
-    width: 97%;
-    height: 98.5%;
-    border: 2px solid #000000;
+    width: 100%;
+    height: 100%;
+    border: 3px solid #000000;
     background-color: #000000;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: 5;
+    border-radius: 6px;
     position: relative;
     background-image: url(phone_wallpaper.jpg);
     background-size: cover;
@@ -228,13 +259,13 @@
 
   /* 状态栏 - 摄像头嵌入中间 */
   .status-bar {
-    height: 12px;
+    height: 28px;
     width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 8px;
+    font-size: 12px;
     color: #ffffff;
     font-family: monospace;
     z-index: 1;
@@ -242,26 +273,26 @@
 
   .status-left {
     position: absolute;
-    left: 4px;
-    top: 2px;
+    left: 16px;
+    top: 7px;
   }
 
   /* 挖孔摄像头 - 居中嵌入状态栏 */
   .camera-hole {
     position: relative;
-    top: -1px;
-    width: 4px;
-    height: 4px;
+    top: 0px;
+    width: 10px;
+    height: 10px;
     background-color: #0a0a0a;
-    border-radius: 0;
+    border-radius: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .camera-lens {
-    width: 4px;
-    height: 4px;
+    width: 8px;
+    height: 8px;
     background-color: #1b1b1b;
     border-radius: 100%;
     border: 1px solid #333;
@@ -270,11 +301,11 @@
 
   .status-right {
     position: absolute;
-    right: 10px;
-    top: 2px;
+    right: 16px;
+    top: 7px;
     display: flex;
     gap: 4px;
-    font-size: 8px;
+    font-size: 12px;
   }
 
   .signal {
@@ -285,7 +316,7 @@
     font-size: 8px;
   }
   .battery {
-    font-size: 8px;
+    font-size: 12px;
   }
 
   /* 时间显示区域 */
@@ -293,12 +324,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0 0 0;
+    padding: 42px 0 0 0;
     z-index: 1;
   }
 
   .time-main {
-    font-size: 24px;
+    font-size: 44px;
     color: #ffffff;
     font-family: monospace;
     font-weight: bold;
@@ -306,7 +337,7 @@
   }
 
   .time-traditional {
-    font-size: 10px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.8);
     font-family: sans-serif;
     margin-top: 2px;
@@ -318,7 +349,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 18px;
     z-index: 1;
   }
 
@@ -327,6 +358,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 0 18px;
   }
 
   /* 应用图标 */
@@ -334,26 +366,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
     cursor: pointer;
   }
 
   .icon {
-    width: 19px;
-    height: 19px;
-    border-radius: 4px;
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 11px;
+    font-size: 22px;
   }
 
+  .app-icon:active .icon,
   .icon:active {
     transform: scale(0.85);
   }
 
   .app-name {
-    font-size: 8px;
+    font-size: 13px;
     font-weight: bold;
     color: #ffffff;
     text-align: center;
@@ -405,24 +438,28 @@
 
   /* ===== 美团风评价弹窗 ===== */
   .rt-overlay {
-    position: absolute;
+    position: fixed;
+    left: 0px;
+    top: 0px;
     width: 100% ;
     height: 100%;
-    z-index: 20;
+    z-index: 80;
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
   }
   .rt-card {
-    position: absolute;
-    bottom: 20px;
-    right: 200px;
-    width: 100px;
-    height: 220px;
-    background: #fff;
-    border-radius: 6px;
-    padding-right: 10px;
+    position: relative;
+    width: 460px;
+    height: 340px;
+    background: rgba(18, 18, 22, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: #f7f2ec;
+    padding: 0;
     overflow: hidden;
+    pointer-events: auto;
   }
   /* 标题栏 */
   .rt-header {
@@ -430,26 +467,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 8px;
-    margin-right: 8px;
-    border-bottom: 1px solid #eee;
+    padding: 12px 14px;
+    margin-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
   .rt-shop-name {
-    font-size: 11px;
+    font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
     font-family: sans-serif;
     flex: 1;
   }
   .rt-close {
-    font-size: 16px;
-    color: #999;
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.72);
     cursor: pointer;
     font-family: sans-serif;
     padding: 2px 6px;
   }
   .rt-close:active {
-    color: #333;
+    color: #ffffff;
   }
   /* 评分主区域 */
   .rt-score-area {
@@ -464,26 +501,26 @@
     width: 100%;
   }
   .rt-stars {
-    font-size: 8px;
-    color: #ff6633;
+    font-size: 18px;
+    color: #ffcc66;
     font-family: sans-serif;
   }
   .rt-big-score {
-    font-size: 28px;
+    font-size: 40px;
     font-weight: bold;
-    color: #ff6633;
+    color: #ffcc66;
     font-family: sans-serif;
-    line-height: 30px;
+    line-height: 42px;
   }
   .rt-score-label {
-    font-size: 7px;
-    color: #999;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.62);
     font-family: sans-serif;
   }
   /* 分割线 */
   .rt-divider {
     height: 1px;
-    background: #eee;
+    background: rgba(255, 255, 255, 0.14);
     margin: 0 8px;
   }
   /* 区块标题 */
@@ -496,38 +533,38 @@
   .rt-section-mark {
     width: 3px;
     height: 10px;
-    background: #ff6633;
+    background: #ffcc66;
     border-radius: 1px;
   }
   .rt-section-title {
-    font-size: 9px;
+    font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
     font-family: sans-serif;
   }
   /* 种族评价列表 */
   .rt-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 3px 8px 6px 8px;
+    gap: 5px;
+    padding: 4px 16px 8px 16px;
   }
   .rt-row {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
   }
   .rt-name {
-    font-size: 8px;
-    color: #666;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
     font-family: sans-serif;
-    width: 14px;
+    width: 32px;
     text-align: right;
   }
   .rt-bar-bg {
-    width: 70px;
-    height: 6px;
-    background: #eee;
+    flex: 1;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.14);
     border-radius: 3px;
     overflow: hidden;
     position: relative;
@@ -538,66 +575,71 @@
     top: 0;
     height: 100%;
     width: 0%;
-    background: #ff6633;
+    background: #ffcc66;
     border-radius: 3px;
   }
   .rt-val {
-    font-size: 8px;
+    font-size: 12px;
     font-weight: bold;
-    color: #ff6633;
+    color: #ffcc66;
     font-family: sans-serif;
-    width: 6px;
+    width: 24px;
     text-align: right;
   }
 
   /* ===== 抽卡弹窗 ===== */
   .gc-overlay {
-    position: absolute;
+    position: fixed;
+    left: 0px;
+    top: 0px;
     width: 100%;
     height: 100%;
-    z-index: 20;
+    z-index: 80;
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
   }
   .gc-card {
-    position: absolute;
-    bottom: 20px;
-    right: 140px;
-    height: 226px;
-    width: 210px;
-    padding-right: 20px;
-    background: #a6000000;
-    border-radius: 3px;
+    position: relative;
+    height: 500px;
+    width: 680px;
+    padding: 14px;
+    background: rgba(18, 18, 22, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    overflow: hidden;
+    pointer-events: auto;
   }
   .gc-header {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 6px;
-    margin-left: 10px;
-                border-bottom: 0.5px solid #ddd;
+    padding: 0 0 8px 0;
+    margin-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   }
   .gc-title {
-    font-size: 10px;
+    font-size: 18px;
     font-weight: bold;
     color: #ffffff;
     font-family: sans-serif;
     flex-grow: 1;
   }
   .gc-close {
-    font-size: 14px;
+    font-size: 22px;
     color: #ffffff;
     cursor: pointer;
     font-family: sans-serif;
     padding: 2px 4px;
   }
   .gc-close:active {
-    color: #333;
+    color: #ffffff;
   }
   .gc-body {
     display: flex;
-    padding: 6px;
+    padding: 12px 0 0 0;
+    gap: 12px;
   }
   .gc-item {
     width: 46.5%;
@@ -605,14 +647,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 4px;
-    margin-right: 6px;
+    padding: 10px;
+    margin-right: 0;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
   }
   .gc-item:last-child {
     margin-right: 0;
   }
   .gc-item-header {
-    font-size: 10px;
+    font-size: 15px;
     color: #ffffff;
     font-family: sans-serif;
     display: flex;
@@ -624,33 +668,37 @@
   .gc-item-icon-area {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
     padding: 6px 0;
   }
   .gc-question {
-    margin-left: 16px;
-    width: 22px;
-    height: 22px;
+    margin-left: 0;
+    width: 44px;
+    height: 44px;
     background: url(ck.png);
     background-size: cover;
     background-position: center;
   }
   .gc-times {
-    width: 16px;
-    font-size: 12px;
+    width: 56px;
+    font-size: 18px;
     font-weight: bold;
     padding-left: 4px;
     color: #ffffff;
     font-family: sans-serif;
+    white-space: nowrap;
+    display: inline-block;
   }
   .gc-item-desc {
-    font-size: 8px;
-    color: #999;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.68);
     font-family: sans-serif;
     display: flex;
     justify-content: center;
   }
   .gc-btn {
-    width: 50%;
+    width: 58%;
     background: #ffcc00;
     justify-content: center;
     border-radius: 3px;
@@ -670,7 +718,7 @@
     background: #e68900;
   }
   .gc-btn-text {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: bold;
     color: #fff;
     font-family: sans-serif;
@@ -678,15 +726,15 @@
   .gc-btn-sub {
     padding-left: 2px;
     font-weight: bold;
-    font-size: 10px;
+    font-size: 14px;
     color: rgba(255,255,255,0.8);
     font-family: sans-serif;
   }
   .gc-poster-header {
     width: 100%;
-    height: 110px;
+    height: 170px;
     border-radius: 3px;
-    margin-left: 10px;
+    margin-left: 0;
     margin-top: 10px;
     object-fit: cover;
     background-size: cover;
@@ -695,15 +743,15 @@
 
   /* 底部手势条（S23 Ultra全面屏手势导航） */
   .gesture-bar {
-    height: 8px;
+    height: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .gesture-line {
-    width: 28px;
-    height: 2px;
+    width: 72px;
+    height: 4px;
     background-color: rgba(255, 255, 255, 0.4);
     border-radius: 2px;
   }
@@ -819,6 +867,7 @@
   window.setTimeout(function () {
     initSoakToggle();
     initOneClickToggle();
+    initHudToggle();
   }, 500);
 
   // ===== 一键满足开关 =====
@@ -867,7 +916,7 @@
   }
 
   // ===== 清除所有WorldWindow =====
-  var WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow");
+  var WorldWindow = Java.loadClass("com.sighs.apricityui.world.WorldWindow");
   var clearUIBtn = document.querySelector("#appClearUI");
   if (clearUIBtn) {
     clearUIBtn.addEventListener("mousedown", function () {
@@ -880,16 +929,47 @@
     });
   }
 
-  // ===== 隐藏体力HUD =====
+  // ===== 体力HUD开关 =====
   var ApricityUIRef = Java.loadClass("com.sighs.apricityui.ApricityUI");
+  var hudVisible = 1;
+
+  function initHudToggle() {
+    try {
+      if (typeof global !== "undefined" && global.pfStaminaHudVisible !== undefined) {
+        hudVisible = global.pfStaminaHudVisible;
+      }
+    } catch (e) {}
+    updateHudToggleUI();
+  }
+
+  function updateHudToggleUI() {
+    var icon = document.querySelector("#appHideHud .icon");
+    var label = document.querySelector("#appHideHud .app-name");
+    if (!icon || !label) return;
+    if (hudVisible === 1) {
+      icon.setAttribute("class", "icon gray-icon");
+      label.innerText = "体力HUD";
+    } else {
+      icon.setAttribute("class", "icon dark-icon");
+      label.innerText = "HUD:关";
+    }
+  }
+
   var hideHudBtn = document.querySelector("#appHideHud");
   if (hideHudBtn) {
     hideHudBtn.addEventListener("mousedown", function () {
+      hudVisible = hudVisible === 1 ? 0 : 1;
       try {
-        ApricityUIRef.removeDocument("kubejs/stamina_hud.html");
-        console.log("[PHONE] 已移除体力HUD");
+        if (typeof global !== "undefined") {
+          global.pfStaminaHudVisible = hudVisible;
+        }
+        if (hudVisible === 0) {
+          ApricityUIRef.removeDocument("kubejs/stamina_hud.html");
+        }
+        updateHudToggleUI();
+        console.log("[PHONE] 体力HUD显示状态=" + hudVisible);
       } catch (e) {
-        console.log("[PHONE] 移除体力HUD失败: " + e);
+        console.log("[PHONE] 切换体力HUD失败: " + e);
       }
     });
   }
@@ -921,12 +1001,12 @@
     var frameInterval = 16;
     var totalFrames = duration / frameInterval;
     var currentFrame = 0;
-    var startTop = 30;
-    var endTop = 10;
+    var startTop = 0;
+    var endTop = 0;
     // 初始帧立即应用起始状态，避免首帧跳变
-    ratingOverlay.setAttribute(
+      ratingOverlay.setAttribute(
       "style",
-      "top: " + startTop + "; left: 10; opacity: 0;"
+      "top: " + startTop + "px; left: 0px; opacity: 0; pointer-events: auto; z-index: 80;"
     );
     window.setInterval(function () {
       // 版本号失效或已隐藏则空转退出
@@ -942,7 +1022,7 @@
       var op = eased;
       ratingOverlay.setAttribute(
         "style",
-        "top: " + Math.round(top) + "; left: 10; opacity: " + op.toFixed(2) + ";"
+        "top: " + Math.round(top) + "px; left: 0px; opacity: " + op.toFixed(2) + "; pointer-events: auto; z-index: 80;"
       );
     }, frameInterval);
   }
@@ -950,7 +1030,7 @@
   function hideOverlay() {
     if (!ratingOverlay) return;
     ratingAnimVer++; // 让进行中动画失效
-    ratingOverlay.setAttribute("style", "top: -9999; left: -9999;");
+    ratingOverlay.setAttribute("style", "top: -9999px; left: -9999px; opacity: 0; pointer-events: none;");
     ratingVisible = false;
   }
 
@@ -1060,11 +1140,11 @@
     var frameInterval = 16;
     var totalFrames = duration / frameInterval;
     var currentFrame = 0;
-    var startTop = 30;
-    var endTop = 10;
+    var startTop = 0;
+    var endTop = 0;
     gachaOverlay.setAttribute(
       "style",
-      "top: " + startTop + "; left: 10; opacity: 0;"
+      "top: " + startTop + "px; left: 0px; opacity: 0; pointer-events: auto; z-index: 80;"
     );
     window.setInterval(function () {
       if (myVer !== gachaAnimVer || !gachaVisible) return;
@@ -1079,7 +1159,7 @@
       var op = eased;
       gachaOverlay.setAttribute(
         "style",
-        "top: " + Math.round(top) + "; left: 10; opacity: " + op.toFixed(2) + ";"
+        "top: " + Math.round(top) + "px; left: 0px; opacity: " + op.toFixed(2) + "; pointer-events: auto; z-index: 80;"
       );
     }, frameInterval);
   }
@@ -1087,7 +1167,7 @@
   function hideGacha() {
     if (!gachaOverlay) return;
     gachaAnimVer++;
-    gachaOverlay.setAttribute("style", "top: -9999; left: -9999;");
+    gachaOverlay.setAttribute("style", "top: -9999px; left: -9999px; opacity: 0; pointer-events: none;");
     gachaVisible = false;
   }
 
@@ -1166,3 +1246,4 @@
     }, frameInterval);
   }
 </script>
+</html>

@@ -30,7 +30,7 @@ Remove-Item "C:\path\to\file.txt"
 - `kubejs/server_scripts`：服务端玩法逻辑、网络事件、配方、Pathfinder 主流程、体力、手机、抽卡、音效等。
 - `kubejs/client_scripts`：客户端 UI、tooltip、AuraTip 卡片注册、HUD 和网络同步显示。
 - `kubejs/assets`、`kubejs/data`：资源、语言、模型、贴图、结构、tag、数据包内容。
-- `components`：模块级说明文档。当前 AuraTip 详见 `components/auratip.md`。
+- `components`：模块级说明文档。AuraTip 详见 `components/auratip.md`，ApricityUI/KubeJS UI 适配详见 `components/apricityui-ui.md`。
 
 ## 模块划分
 
@@ -63,6 +63,26 @@ Remove-Item "C:\path\to\file.txt"
 能力边界：只负责提示注册、展示、关闭和阶段推进，不负责 Pathfinder 成功条件和结算。
 
 简单调用：游戏内使用 `/auratip openshop`、`/auratip reset`、`/auratip debug show <tip_id>`；代码侧使用 `global.aTip.startOpenShop(player)`、`global.aTip.advance(...)`、`global.aTip.closeThenShow(...)`。
+
+### ApricityUI / KubeJS UI
+
+功能：WorldWindow、Screen、HUD、手机、泡脚/搓脚 HTML UI 的客户端展示和交互适配。
+
+主要入口：
+
+- `kubejs/client_scripts/ui/foot_ui.js`
+- `kubejs/client_scripts/ui/phone_ui.js`
+- `kubejs/client_scripts/ui/stamina_hud.js`
+- `apricity/kubejs/footui.html`
+- `apricity/kubejs/footsoak.html`
+- `apricity/kubejs/footsoak_button.html`
+- `apricity/kubejs/phone.html`
+- `apricity/kubejs/stamina_hud.html`
+- `components/apricityui-ui.md`
+
+能力边界：UI 模块负责展示、点击/鼠标事件和客户端同步，不直接决定 Pathfinder 业务流程、顾客状态、奖励结算或物品消耗。
+
+简单调用：WorldWindow 使用 `ApricityUI.createWorldWindow(...)`，Screen 使用 `ApricityUI.openScreen(...)`。AUI 1.2.2-hotfix1 的类路径、鼠标拦截、重载歧义和热加载限制必须先看 `components/apricityui-ui.md`。
 
 ### Tooltip
 

@@ -15,6 +15,10 @@ let staminaDoc = null
 let staminaInitialized = false
 let staminaTickCount = 0
 
+if (global.pfStaminaHudVisible === undefined) {
+    global.pfStaminaHudVisible = 1
+}
+
 /**
  * 更新体力条显示
  */
@@ -53,6 +57,9 @@ function updateStaminaBar(doc, stamina, max) {
 NetworkEvents.dataReceived('stamina_sync', event => {
     let stamina = event.data.getInt('stamina')
     staminaValue = stamina
+    if (staminaInitialized && staminaDoc != null) {
+        updateStaminaBar(staminaDoc, staminaValue, STAMINA_MAX)
+    }
 })
 
 // ===== 客户端Tick =====
@@ -61,11 +68,30 @@ ClientEvents.tick(event => {
     let player = event.player
     if (player == null) return
 
+    if (global.pfStaminaHudVisible === 0) {
+        if (staminaInitialized) {
+            try {
+                ApricityUI.removeDocument("kubejs/stamina_hud.html")
+            } catch (e) {}
+            staminaDoc = null
+            staminaInitialized = false
+            staminaTickCount = 0
+        }
+        return
+    }
+
     // 首次创建Overlay
     if (!staminaInitialized) {
         try {
             staminaDoc = ApricityUI.createDocument("kubejs/stamina_hud.html")
             staminaInitialized = true
+            staminaTickCount = 0
+            updateStaminaBar(staminaDoc, staminaValue, STAMINA_MAX)
+            try {
+                player.sendData('stamina_request', {})
+            } catch (e) {
+                console.log("[STAMINA-HUD] 请求体力失败: " + e)
+            }
             console.log("[STAMINA-HUD] Overlay已创建")
         } catch (e) {
             console.log("[STAMINA-HUD] 创建Overlay失败: " + e)

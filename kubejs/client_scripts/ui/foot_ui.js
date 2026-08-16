@@ -10,21 +10,32 @@ let OIL_ID_TO_NAME = {
     'marguerite:oil': '精油'
 }
 
-let WorldWindow = Java.loadClass("com.sighs.apricityui.instance.WorldWindow")
+let WorldWindow = Java.loadClass("com.sighs.apricityui.world.WorldWindow")
 let ApricityUI = Java.loadClass("com.sighs.apricityui.ApricityUI")
 let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
+let Vec3 = Java.loadClass("net.minecraft.world.phys.Vec3")
+
+console.log("[FOOT-UI] client script loaded: soak single-window button-hit v5")
 
 // WorldWindow.clear()
 
-// 全局状态管理
-let sleepWindows = new Map()
-let soakWindows = new Map()       // 泡脚UI窗口
-let trackedEntities = new Map()
-let entityCountdowns = new Map()  // 存储每个实体的上次倒计时值
-let entitySoakState = new Map()   // 存储每个实体的泡脚状态 { isSoaking: boolean, soakTimeLeft: number }
+// 全局状态管理：放在 global 上，避免 KubeJS 热重载后多个 tick 处理器各自持有一套 Map。
+global.pfFootUiClientState = global.pfFootUiClientState || {
+    sleepWindows: new Map(),
+    soakWindows: new Map(),
+    trackedEntities: new Map(),
+    entityCountdowns: new Map(),
+    entitySoakState: new Map(),
+    windowRemovalQueue: []
+}
+let sleepWindows = global.pfFootUiClientState.sleepWindows
+let soakWindows = global.pfFootUiClientState.soakWindows
+let trackedEntities = global.pfFootUiClientState.trackedEntities
+let entityCountdowns = global.pfFootUiClientState.entityCountdowns
+let entitySoakState = global.pfFootUiClientState.entitySoakState
 
 // 安全移除队列：延迟移除 WorldWindow，避免框架 mousePosition NPE
-let windowRemovalQueue = []
+let windowRemovalQueue = global.pfFootUiClientState.windowRemovalQueue
 
 /**
  * 安全移除 WorldWindow：延迟 2 tick 后实际移除
@@ -32,6 +43,15 @@ let windowRemovalQueue = []
  */
 function safeRemoveWorldWindow(window) {
     windowRemovalQueue.push({ window: window, ticksLeft: 2 })
+}
+
+function clearAuiDebugDocuments() {
+    try {
+        ApricityUI.removeDocument("devtools/devtools.html")
+    } catch (e) {}
+    try {
+        ApricityUI.removeDocument("devtools/resource.html")
+    } catch (e) {}
 }
 
 // 拖动状态：每个 window 独立
@@ -57,6 +77,7 @@ let BAR_WIDTH = 100.0
 let BAR_HEIGHT = 150.0
 let SCALE = 0.01
 let MAX_DISTANCE = 16
+let WINDOW_LIFT = 1.35
 let PI = 3.1415926
 
 /**
@@ -65,24 +86,28 @@ let PI = 3.1415926
 function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
     let footX = bedX
     let footZ = bedZ
-
-    // 计算顾客中心位置，而不是床尾位置
-    // 床的长度为2格，顾客中心在床的中间
     if (yaw === 0) {
-        // 床朝向北方，顾客中心在z-0.5
-        footZ = bedZ - 0.5
+        footZ = bedZ - 1
     } else if (yaw === 180 || yaw === -180) {
-        // 床朝向南方，顾客中心在z+0.5
-        footZ = bedZ + 0.5
+        footZ = bedZ + 1
     } else if (yaw === 90) {
-        // 床朝向东方，顾客中心在x+0.5
-        footX = bedX + 0.5
+        footX = bedX + 1
     } else if (yaw === -90) {
-        // 床朝向西方，顾客中心在x-0.5
-        footX = bedX - 0.5
+        footX = bedX - 1
     }
 
-    return { x: footX, y: bedY + 1, z: footZ + 1 }
+    return { x: footX + 0.5, y: bedY, z: footZ + 0.5 }
+}
+
+function liftWorldWindow(window, footPos) {
+    if (window == null || footPos == null) {
+        return
+    }
+    try {
+        window.setPosition(new Vec3(footPos.x, footPos.y + WINDOW_LIFT, footPos.z))
+    } catch (e) {
+        console.log("[FOOT-UI] 调整WorldWindow位置失败: " + e)
+    }
 }
 
 /**
@@ -110,8 +135,6 @@ function createSleepWindow(entity) {
 
     // 计算脚的位置
     let footPos = pfGetFootPosition(bedX, bedY, bedZ, bedYaw)
-    let footBlockPos = new BlockPos(footPos.x, footPos.y, footPos.z)
-
     // 读取当前倒计时、需求清单、满意度和步骤
     let countdown = getCountdown(entity)
     entityCountdowns.set(uuid, countdown)
@@ -122,13 +145,20 @@ function createSleepWindow(entity) {
     console.log("[FOOT-UI-DATA] 最终需求清单: " + JSON.stringify(demandList) + ", 满意度=" + satisfaction + "%, 步骤=" + steps)
 
     // 注意：路径是相对于 apricity/ 目录的 footui
-    let window = new WorldWindow("kubejs/footui.html", footBlockPos, BAR_WIDTH, BAR_HEIGHT, MAX_DISTANCE)
+    let window = ApricityUI.createWorldWindow(
+        "kubejs/footui.html",
+        new Vec3(footPos.x, footPos.y, footPos.z),
+        MAX_DISTANCE
+    )
+    if (window == null) {
+        console.log("[FOOT-UI] 创建睡眠UI失败: window=null")
+        return null
+    }
     if (bedYaw == -90) bedYaw = 270
     window.setRotation(360 - bedYaw, 0)
+    liftWorldWindow(window, footPos)
     console.log("[FOOT-UI-DATA] 设置窗口旋转角度: " + bedYaw + " -> " + (360 - bedYaw))
     window.setScale(SCALE)
-
-    WorldWindow.addWindow(window)
 
     sleepWindows.set(uuid, window)
     trackedEntities.set(uuid, entity)
@@ -285,15 +315,21 @@ function createSoakWindow(entity) {
 
     // 计算脚的位置
     let footPos = pfGetFootPosition(bedX, bedY, bedZ, bedYaw)
-    let footBlockPos = new BlockPos(footPos.x, footPos.y, footPos.z)
-
     // 创建泡脚UI窗口
-    let window = new WorldWindow("kubejs/footsoak.html", footBlockPos, 120.0, 80.0, MAX_DISTANCE)
+    let window = ApricityUI.createWorldWindow(
+        "kubejs/footsoak.html",
+        new Vec3(footPos.x, footPos.y, footPos.z),
+        MAX_DISTANCE
+    )
+    if (window == null) {
+        console.log("[FOOT-UI] 创建泡脚UI失败: window=null")
+        return null
+    }
     if (bedYaw == -90) bedYaw = 270
     window.setRotation(360 - bedYaw, 0)
+    liftWorldWindow(window, footPos)
     window.setScale(SCALE)
 
-    WorldWindow.addWindow(window)
     soakWindows.set(uuid, window)
     trackedEntities.set(uuid, entity)
 
@@ -301,10 +337,14 @@ function createSoakWindow(entity) {
     let soakState = entitySoakState.get(uuid) || { isSoaking: false, soakTimeLeft: 10 }
     entitySoakState.set(uuid, soakState)
 
-    // 给泡脚按钮添加点击事件
-    let soakBtn = window.document.getElementById("soakContainer")
+    // 给空桶按钮添加点击事件：只接受右键，避免整张 HTML 都触发泡脚。
+    let soakBtn = window.document.getElementById("soakBtn")
     if (soakBtn != null) {
         soakBtn.addEventListener("mousedown", event => {
+            let button = event.button
+            if (button !== undefined && button !== null && button !== 1 && button !== 2) {
+                return
+            }
             console.log("[FOOT-UI] 点击泡脚按钮 uuid=" + uuid)
             // 发送网络包到服务端请求开始泡脚
             let player = Minecraft.getInstance().player
@@ -337,7 +377,7 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
 
         if (isSoaking) {
             // 泡脚中：标题切换、tips清空、进度条显示
-            if (titleEl != null) titleEl.innerText = "泡脚中"
+            if (titleEl != null) titleEl.innerText = "开始泡脚"
             if (tipsEl != null) tipsEl.innerText = ""
             if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 1")
 
@@ -352,9 +392,9 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
 
             console.log("[FOOT-UI] 泡脚UI更新 title=" + (titleEl != null) + " tips=" + (tipsEl != null) + " wrapper=" + (wrapperEl != null) + " fill=" + (fillEl != null) + " text=" + (textEl != null) + " percent=" + percent)
         } else {
-            // 未泡脚：恢复初始文案，进度条透明
-            if (titleEl != null) titleEl.innerText = "待泡脚...."
-            if (tipsEl != null) tipsEl.innerText = "请在工作盆内放入泡脚水"
+            // 未泡脚：只显示水桶贴图，右键水桶区域后再显示进度。
+            if (titleEl != null) titleEl.innerText = ""
+            if (tipsEl != null) tipsEl.innerText = ""
             if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 0")
             if (textEl != null) textEl.innerText = ""
             if (fillEl != null) fillEl.setAttribute("style", "width: 0%")
@@ -720,6 +760,8 @@ ClientEvents.tick(event => {
         return
     }
 
+    clearAuiDebugDocuments()
+
     // 处理延迟移除队列
     for (let i = windowRemovalQueue.length - 1; i >= 0; i--) {
         windowRemovalQueue[i].ticksLeft--
@@ -875,6 +917,7 @@ ClientEvents.loggedIn(event => {
     try {
         ApricityUI.removeDocument("kubejs/footui.html")
         ApricityUI.removeDocument("kubejs/footsoak.html")
+        clearAuiDebugDocuments()
     } catch (e) {}
     sleepWindows.clear()
     soakWindows.clear()
@@ -897,7 +940,7 @@ ClientEvents.loggedOut(event => {
     for (let i = 0; i < windowRemovalQueue.length; i++) {
         try { WorldWindow.removeWindow(windowRemovalQueue[i].window) } catch (e) {}
     }
-    windowRemovalQueue = []
+    windowRemovalQueue.length = 0
     sleepWindows.clear()
     soakWindows.clear()
     trackedEntities.clear()
@@ -907,6 +950,7 @@ ClientEvents.loggedOut(event => {
     try {
         ApricityUI.removeDocument("kubejs/footui.html")
         ApricityUI.removeDocument("kubejs/footsoak.html")
+        clearAuiDebugDocuments()
     } catch (e) {}
 })
 
