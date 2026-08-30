@@ -82,6 +82,8 @@
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
+			shape: "square"
+			size: 1.5d
 			tasks: [{
 				id: "14E3750B8BFDFEAA"
 				item: "marguerite:cun"
@@ -239,6 +241,8 @@
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
+			shape: "square"
+			size: 1.5d
 			tasks: [{
 				icon: "minecraft:iron_nugget"
 				id: "237316F73A39C1B8"
@@ -317,7 +321,7 @@
 				type: "item"
 			}]
 			x: 9.0d
-			y: -5.0d
+			y: -5.5d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -335,7 +339,7 @@
 				type: "item"
 			}]
 			x: 9.0d
-			y: -6.0d
+			y: -6.5d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -353,7 +357,7 @@
 				type: "item"
 			}]
 			x: 9.0d
-			y: -7.0d
+			y: -7.5d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -371,7 +375,7 @@
 				type: "item"
 			}]
 			x: 9.0d
-			y: -4.0d
+			y: -4.5d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
@@ -1326,6 +1330,7 @@
 				"62E4C654ECE2E45B"
 			]
 			id: "13E6F23D19349B09"
+			shape: "square"
 			size: 1.5d
 			tasks: [{
 				id: "7D973E4BCFCA47DB"
@@ -1410,7 +1415,7 @@
 				type: "item"
 			}]
 			x: -6.5d
-			y: -6.0d
+			y: -6.5d
 		}
 		{
 			dependencies: ["4F97186849B00F06"]

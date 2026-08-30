@@ -1,6 +1,8 @@
 create:striated_ores_nether
 create:striated_ores_overworld
 create:zinc_ore
+create_new_age:magnetite_block
+create_new_age:thorium_ore
 farmersdelight:patch_brown_mushroom_colony
 farmersdelight:patch_red_mushroom_colony
 farmersdelight:patch_sandy_shrub

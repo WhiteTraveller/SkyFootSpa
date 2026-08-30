@@ -1,144 +1,182 @@
 {
   "portrait": {
-    "alice_hammer": {
+    "alice": {
       "x": 5,
-      "y": -2,
-      "width": 40,
-      "height": 64,
-      "scale": 1.1,
-      "alignX": "left",
-      "alignY": "bottom",
-      "widthReference": "screen_height",
-      "heightReference": "screen_height",
-      "renderOrder": -10,
-      "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_hammer.png"
-    },
-    "alice_liuhan": {
-      "x": 5,
-      "y": -2,
-      "width": 36,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_liuhan.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png"
     },
-    "alice_sad": {
+    "alice_grin": {
       "x": 5,
-      "y": -2,
-      "width": 36,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_sad.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_grin.png",
+          "alignX": "left",
+          "alignY": "bottom",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_sad_2": {
+    "alice_sullen": {
       "x": 5,
-      "y": -2,
-      "width": 36,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_sad_2png.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_sullen_face.png",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_smile": {
+    "alice_close_eyes": {
       "x": 5,
-      "y": -2,
-      "width": 37,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_smile.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_close_eyes.png",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_smile_open": {
+    "alice_raise_eyebrow": {
       "x": 5,
-      "y": -2,
-      "width": 36,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_smile_open_mouth.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_raise_eyebow.png",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_shack_hand": {
+    "alice_flowers": {
       "x": 5,
-      "y": -2,
-      "width": 43,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_shack_hand.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_flowers.png",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_shack_hand_smile": {
+    "alice_confuse": {
       "x": 5,
-      "y": -2,
-      "width": 43,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_shack_hand_smile.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_compose_confuse.png",
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
-    "alice_talk_1": {
+    "alice_grin_eyebrow": {
       "x": 5,
-      "y": -2,
-      "width": 36,
+      "y": 25,
+      "width": 29.5,
       "height": 59,
-      "scale": 1.1,
+      "scale": 2,
       "alignX": "left",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "renderOrder": -10,
       "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_talk_1.png"
-    },
-    "alice_talk_2": {
-      "x": 5,
-      "y": -2,
-      "width": 36,
-      "height": 59,
-      "scale": 1.1,
-      "alignX": "left",
-      "alignY": "bottom",
-      "widthReference": "screen_height",
-      "heightReference": "screen_height",
-      "renderOrder": -10,
-      "type": "texture",
-      "texture": "skyfootspa:textures/portrait/alice_talk_2.png"
+      "texture": "skyfootspa:textures/portrait/alice_illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_grin.png",
+          "width": 29.5,
+          "height": 59
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice_component_raise_eyebow.png",
+          "x": 0,
+          "y": 0,
+          "width": 29.5,
+          "height": 59
+        }
+      ]
     },
     "sh1": {
       "x": -3,
@@ -164,15 +202,15 @@
       "texture": "@s"
     },
     "names": {
-      "x": 12,
-      "y": -36.5,
+      "x": 10,
+      "y": -35,
       "width": 80,
       "scale": 1.7,
       "alignX": "center",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
-      "renderOrder": 0,
+      "renderOrder": 20,
       "texture": "skyfootspa:textures/names/alice_name.png"
     },
     "nitori_name": {
@@ -305,9 +343,9 @@
   },
   "dialogBox": {
     "x": 3,
-    "y": -1,
-    "width": 100,
-    "height": 35,
+    "y": 15,
+    "width": 136,
+    "height": 68,
     "alignX": "center",
     "alignY": "bottom",
     "widthReference": "screen_height",
@@ -319,16 +357,16 @@
         "value": "@Options"
       }
     ],
-    "texture": "chatbox:textures/chatbox/default_dialog_box.png",
-    "lineWidth": 50,
+    "texture": "skyfootspa:textures/chatbox/dialog_box.png",
+    "lineWidth": 100,
     "nameX": 4,
     "nameY": 2,
-    "textX": 5,
-    "textY": 6
+    "textX": 8,
+    "textY": 23
   },
   "functionalButton": [
     {
-      "x": 37,
+      "x": 25,
       "y": -1.5,
       "width": 8,
       "height": 8,
@@ -341,7 +379,7 @@
       "hoverTexture": "skyfootspa:textures/button/log.png"
     },
     {
-      "x": 40,
+      "x": 28,
       "y": -1.5,
       "width": 8,
       "height": 8,
@@ -354,7 +392,7 @@
       "hoverTexture": "skyfootspa:textures/button/fast_forward.png"
     },
     {
-      "x": 43,
+      "x": 31,
       "y": -1.5,
       "width": 8,
       "height": 8,
@@ -402,15 +440,51 @@
         "time": 1,
         "yOffset": 2,
         "xOffset": -1,
+        "renderOrder": -10,
         "easing": "EASE_OUT_SINE"
       },
       {
         "time": 10,
         "yOffset": -2,
         "xOffset": 1,
+        "brightness": 100,
+        "renderOrder": 9,
         "easing": "EASE_IN_SINE"
       }
+    ],
+    "NOT_TALK": [
+      {
+        "time": 1,
+        "yOffset": -2,
+        "xOffset": 1,
+        "renderOrder": 9,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 10,
+        "yOffset": 2,
+        "xOffset": -1,
+        "brightness": 70,
+        "renderOrder": -10,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "PAN_DOWN": [
+      {
+        "time": 1,
+        "scale": 3,
+        "xOffset": 37,
+        "yOffset": 20,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 140,
+        "yOffset": -110,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 240
+      }
     ]
-  },
-  "注释": "如果不在这里填写功能按钮，在对话框界面将不会显示功能按钮，对应的功能也无法使用"
+  }
 }

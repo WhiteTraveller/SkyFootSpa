@@ -5,829 +5,1735 @@
   "dialogues": {
     "start": [
       {
-        "dialogBox": { "text": "喂喂喂" },
+        "dialogBox": {
+          "text": "喂喂喂"
+        },
         "portrait": [
-          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "清醒了吗？" },
+        "dialogBox": {
+          "text": "清醒了吗？"
+        },
         "portrait": [
-          { "id": "alice_hammer", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "能听见我说话吗" },
+        "dialogBox": {
+          "text": "能听见我说话吗"
+        },
         "portrait": [
-          { "id": "alice_hammer", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "呃……按照说明书，唤醒流程应该没错啊" },
+        "dialogBox": {
+          "text": "呃……按照说明书，唤醒流程应该没错啊"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "……" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "……我来看看，\u201c若出现故障请前往畜生界灵长园联系埴安神袿姬\u201d" },
+        "dialogBox": {
+          "text": "……"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true }
+          {
+            "brightness": 70,
+            "id": "alice_sullen",
+            "animation": "NOT_TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "这维修服务难道还要我自己把东西搬过去吗？" },
+        "dialogBox": {
+          "text": "……我来看看，“若出现故障请前往畜生界灵长园联系埴安神袿姬”"
+        },
         "portrait": [
-          { "id": "alice_sad_2", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "只能自己解决了。" },
+        "dialogBox": {
+          "text": "这维修服务难道还要我自己把东西搬过去吗？"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "不过我对这种构造不是很熟，直接拆开可能会坏。" },
+        "dialogBox": {
+          "text": "只能自己解决了。"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "那就试试土办法好了。" },
+        "dialogBox": {
+          "text": "不过我对这种构造不是很熟，直接拆开可能会坏。"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true }
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "魔理沙说，不管是什么设备，只要敲一下就会变好。" },
+        "dialogBox": {
+          "text": "那就试试土办法好了。"
+        },
         "portrait": [
-          { "id": "alice_hammer", "renderOrder": 10, "replace": true, "animation": "BOUNCE" }
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          }
         ]
       },
       {
-        "dialogBox": { "text": "停停停停停停！" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "哎呀，原来没坏吗。" },
+        "dialogBox": {
+          "text": "魔理沙说，不管是什么设备，只要敲一下就会变好。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "呃，不好意思，刚刚头有点晕。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "所以能不能劳烦您先把大锤收起来。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "啊……不好意思，我刚刚还以为你需要维修，没吓着你吧。" },
+        "dialogBox": {
+          "text": "停停停停停停！"
+        },
         "portrait": [
-          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
         ]
       },
       {
-        "dialogBox": { "text": "（我看上去像是没被吓到的样子吗？）" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "所以这位小姐，能不能问一下现在是什么情况？" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "我现在似乎什么也不知道。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "没有写入初始状态设定吗……埴安神女士真是……" },
+        "dialogBox": {
+          "text": "哎呀，原来没坏吗。"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "那就先从我的自我介绍开始吧。" },
+        "dialogBox": {
+          "text": ""
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "PAN_DOWN"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "我的名字是爱丽丝·玛格特罗伊德，是居住在魔法森林的魔法使，严格来说是人偶师。" },
+        "dialogBox": {
+          "text": "呃，不好意思，刚刚头有点晕。"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "所以能不能劳烦您先把大锤收起来。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "啊……不好意思，我刚刚还以为你需要维修，没吓着你吧。"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "（我看上去像是没被吓到的样子吗？）"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "所以这位小姐，能不能问一下现在是什么情况？"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我现在似乎什么也不知道。"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "没有写入初始状态设定吗……埴安神女士真是……"
+        },
+        "portrait": [
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那就先从我的自我介绍开始吧。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我的名字是爱丽丝·玛格特罗伊德，是居住在魔法森林的魔法使，严格来说是人偶师。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "而你呢，是一个土偶，简单的来说应该是类似于仿生人和机器人之类的……仿生人这种词你应该还听得懂吧，我不知道你的知识库储备怎么样。" },
+        "dialogBox": {
+          "text": "而你呢，是一个土偶，简单的来说应该是类似于仿生人和机器人之类的……仿生人这种词你应该还听得懂吧，我不知道你的知识库储备怎么样。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "大致能听得懂。" },
-        "portrait": []
+        "dialogBox": {
+          "text": "大致能听得懂。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "在地狱的畜生界有一位名叫埴安神袿姬的女士很擅长制作土偶，由于跟我用的人偶有些许共同之处……事实上我以前也想过要不要用土偶，所以她之前送了我一个作为礼物，也就是现在在我面前的你。" },
+        "dialogBox": {
+          "text": "在地狱的畜生界有一位名叫埴安神袿姬的女士很擅长制作土偶，由于跟我用的人偶有些许共同之处……事实上我以前也想过要不要用土偶，所以她之前送了我一个作为礼物，也就是现在在我面前的你。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "不过由于我用自制的人偶已经养成习惯了，所以收到后就一直堆在仓库里。" },
+        "dialogBox": {
+          "text": "不过由于我用自制的人偶已经养成习惯了，所以收到后就一直堆在仓库里。"
+        },
         "portrait": [
-          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_confuse",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "简单的来说，我是你的主人，而你是我的下属。" },
+        "dialogBox": {
+          "text": "简单的来说，我是你的主人，而你是我的下属。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "那你现在是有什么活要我干吗？" },
-        "portrait": []
+        "dialogBox": {
+          "text": "那你现在是有什么活要我干吗？"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，各方面都几乎如同它的名字般梦幻。但在这平和温馨的日常下，总是潜藏着浑浊的污秽。" },
+        "dialogBox": {
+          "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，各方面都几乎如同它的名字般梦幻。但在这平和温馨的日常下，总是潜藏着浑浊的污秽。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种黑暗不断生根发芽。而如今对于这个幻想乡所积攒的陈腐习气我已经无法忍受了。" },
+        "dialogBox": {
+          "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种黑暗不断生根发芽。而如今对于这个幻想乡所积攒的陈腐习气我已经无法忍受了。"
+        },
         "portrait": [
-          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "于是，现在我准备对幻想乡进行一场彻底的创新性变革。" },
+        "dialogBox": {
+          "text": "于是，现在我准备对幻想乡进行一场彻底的创新性变革。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "而为此，我需要更多人手的协助。" },
+        "dialogBox": {
+          "text": "而为此，我需要更多人手的协助。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "你是我能想到的最佳人选，所以请务必借给我你的力量。" },
+        "dialogBox": {
+          "text": "你是我能想到的最佳人选，所以请务必借给我你的力量。"
+        },
         "portrait": [
-          { "id": "alice_shack_hand_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin_eyebrow",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "难道你是想……" },
-        "portrait": []
+        "dialogBox": {
+          "text": "难道你是想……"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin_eyebrow",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "所以，我现在命令你为洗脚城大店长，统率全城。" },
+        "dialogBox": {
+          "text": "所以，我现在命令你为洗脚城大店长，统率全城。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "然后把这家足浴店打造成全幻想乡人尽皆知的超人气品牌！" },
+        "dialogBox": {
+          "text": "然后把这家足浴店打造成全幻想乡人尽皆知的超人气品牌！"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "幻想乡崭新的未来就靠你了！" },
+        "dialogBox": {
+          "text": "幻想乡崭新的未来就靠你了！"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "……" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "我好像不是很懂你想表达什么。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "不好意思，我的说明可能跳过了一些步骤。" },
+        "dialogBox": {
+          "text": "……"
+        },
         "portrait": [
-          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我好像不是很懂你想表达什么。"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "不好意思，我的说明可能跳过了一些步骤。"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "幻想乡在某种角度上是一个怀旧的产物。" },
+        "dialogBox": {
+          "text": "幻想乡在某种角度上是一个怀旧的产物。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的，地球上的避风港。" },
+        "dialogBox": {
+          "text": "这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的，地球上的避风港。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "但关键在于，隔绝幻想乡与外界的\u201c博丽大结界\u201d是于明治年间升起的。在此之后，两边就无法随意往来。" },
+        "dialogBox": {
+          "text": "但关键在于，隔绝幻想乡与外界的“博丽大结界”是于明治年间升起的。在此之后，两边就无法随意往来。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "而幻想乡内是有人类存在的，他们也就在同一时间和外界断绝了联系。" },
+        "dialogBox": {
+          "text": "而幻想乡内是有人类存在的，他们也就在同一时间和外界断绝了联系。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "所以现在幻想乡内的人类聚落——人间之里还大体保留着明治时期乡间的风貌和生活习俗。" },
+        "dialogBox": {
+          "text": "所以现在幻想乡内的人类聚落——人间之里还大体保留着明治时期乡间的风貌和生活习俗。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "也就是说，幻想乡人类的卫生状态以外界的现代标准来看有点不达标。" },
+        "dialogBox": {
+          "text": "也就是说，幻想乡人类的卫生状态以外界的现代标准来看有点不达标。"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "于是，就需要我来掀起一场轰轰烈烈的讲卫生树新风行动！" },
+        "dialogBox": {
+          "text": "于是，就需要我来掀起一场轰轰烈烈的讲卫生树新风行动！"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "那为什么是足浴店，正常情况下不是应该开澡堂或者卖卫浴用品又或当水管工加装自来水管道吗？" },
-        "portrait": []
+        "dialogBox": {
+          "text": "那为什么是足浴店，正常情况下不是应该开澡堂或者卖卫浴用品又或当水管工加装自来水管道吗？"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "呃……因为这里其实还有另一个问题。" },
+        "dialogBox": {
+          "text": "呃……因为这里其实还有另一个问题。"
+        },
         "portrait": [
-          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_confuse",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "不知道怎么回事，也不知道是谁先开的头，有一股……令人尴尬的流言正在传播。" },
+        "dialogBox": {
+          "text": "不知道怎么回事，也不知道是谁先开的头，有一股……令人尴尬的流言正在传播。"
+        },
         "portrait": [
-          { "id": "alice_shack_hand", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_raise_eyebrow",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "什么流言？" },
-        "portrait": []
+        "dialogBox": {
+          "text": "什么流言？"
+        },
+        "portrait": [
+          {
+            "id": "alice_raise_eyebrow",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "……是说幻想乡里的人都不怎么洗脚，所以幻想乡里的美少女脚都很臭……" },
+        "dialogBox": {
+          "text": "……是说幻想乡里的人都不怎么洗脚，所以幻想乡里的美少女脚都很臭……"
+        },
         "portrait": [
-          { "id": "alice_liuhan", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_confuse",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "……" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "所以真的很臭吗？" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "你觉得呢。" },
+        "dialogBox": {
+          "text": "……"
+        },
         "portrait": [
-          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "所以真的很臭吗？"
+        },
+        "portrait": [
+          {
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "你觉得呢。"
+        },
+        "portrait": [
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "……我觉得应该是香的，至少不是臭。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "原来前面的污秽指的是字面意义上的卫生问题吗。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "总之，要是给我捉到是谁在散布这种谣言，我绝对要把他钉在魔法森林的树上让他瘴气吸到饱。" },
+        "dialogBox": {
+          "text": "……我觉得应该是香的，至少不是臭。"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_sullen",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "原来前面的污秽指的是字面意义上的卫生问题吗。"
+        },
+        "portrait": [
+          {
+            "id": "alice_sullen",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "总之，要是给我捉到是谁在散布这种谣言，我绝对要把他钉在魔法森林的树上让他瘴气吸到饱。"
+        },
+        "portrait": [
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "不过现在既然抓不到人，就只能用其他方式来解决这个谣言了。" },
+        "dialogBox": {
+          "text": "不过现在既然抓不到人，就只能用其他方式来解决这个谣言了。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "靠开洗脚店？" },
-        "portrait": []
+        "dialogBox": {
+          "text": "靠开洗脚店？"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "没错，足浴店！" },
+        "dialogBox": {
+          "text": "没错，足浴店！"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "这可是我好不容易才想出来的完美方案，既能改善幻想乡里的卫生条件，又能展现我们非常在乎个人卫生。简直是一举两得。" },
+        "dialogBox": {
+          "text": "这可是我好不容易才想出来的完美方案，既能改善幻想乡里的卫生条件，又能展现我们非常在乎个人卫生。简直是一举两得。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "（这种做法……怎么感觉有种此地无银三百两的既视感）" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "所以就让我来经营这家足浴店吗？" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "没错，毕竟我自己的人偶都是需要我手动操纵的，而我现在又有其它事要做，所以还是作为土偶可以自主行动的你更加适合。" },
+        "dialogBox": {
+          "text": "（这种做法……怎么感觉有种此地无银三百两的既视感）"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "所以就让我来经营这家足浴店吗？"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "没错，毕竟我自己的人偶都是需要我手动操纵的，而我现在又有其它事要做，所以还是作为土偶可以自主行动的你更加适合。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "那行吧，毕竟在我的立场上也没有拒绝的能力。" },
-        "portrait": []
+        "dialogBox": {
+          "text": "那行吧，毕竟在我的立场上也没有拒绝的能力。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "你也别想的这么悲观了，如果你高标准地完成了工作的话，我肯定不会亏待你。" },
+        "dialogBox": {
+          "text": "你也别想的这么悲观了，如果你高标准地完成了工作的话，我肯定不会亏待你。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我觉得我和她们间的差别还是不小的。" },
+        "dialogBox": {
+          "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我觉得我和她们间的差别还是不小的。"
+        },
         "portrait": [
-          { "id": "alice_shack_hand_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin_eyebrow",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "真是无法被常识束缚的世界观……" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "我们还是先进入正题，让我学习一下具体的经营操作吧。" },
-        "portrait": []
-      },
-      {
-        "dialogBox": { "text": "好的，不过在经营的时候要小心脚下。为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。" },
+        "dialogBox": {
+          "text": "真是无法被常识束缚的世界观……"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin_eyebrow",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我们还是先进入正题，让我学习一下具体的经营操作吧。"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin_eyebrow",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "好的，不过在经营的时候要小心脚下。为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。"
+        },
+        "portrait": [
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "我已经不知道该说什么了。" },
-        "portrait": []
+        "dialogBox": {
+          "text": "我已经不知道该说什么了。"
+        },
+        "portrait": [
+          {
+            "id": "alice_close_eyes",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "接下来，我会帮你熟悉一遍必要的经营步骤。" },
+        "dialogBox": {
+          "text": "接下来，我会帮你熟悉一遍必要的经营步骤。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       }
     ],
     "chapter1": [
       {
-        "dialogBox": { "text": "你比我想象的要熟练多了。" },
+        "dialogBox": {
+          "text": "你比我想象的要熟练多了。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "我原本还以为要多给你留几天时间培训。" },
+        "dialogBox": {
+          "text": "我原本还以为要多给你留几天时间培训。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "按照现在的表现你已经可以出师了。" },
+        "dialogBox": {
+          "text": "按照现在的表现你已经可以出师了。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "我都有点好奇你是怎么学这么快的。" },
+        "dialogBox": {
+          "text": "我都有点好奇你是怎么学这么快的。"
+        },
         "portrait": [
-          { "id": "alice_talk_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "其实我没觉得这个有多难。" },
-        "portrait": []
+        "dialogBox": {
+          "text": "其实我没觉得这个有多难。"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "看来你的基础性能确实优异。" },
+        "dialogBox": {
+          "text": "看来你的基础性能确实优异。"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "之前在唤醒你的时候我大致检查了一下你的身体。" },
+        "dialogBox": {
+          "text": "之前在唤醒你的时候我大致检查了一下你的身体。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "你的身体上似乎预留了一些接口。" },
+        "dialogBox": {
+          "text": "你的身体上似乎预留了一些接口。"
+        },
         "portrait": [
-          { "id": "alice_talk_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_close_eyes",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "接口？是干什么用的？" },
-        "portrait": []
+        "dialogBox": {
+          "text": "接口？是干什么用的？"
+        },
+        "portrait": [
+          {
+            "id": "alice_close_eyes",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "看来这些信息没有提前输入给你。" },
+        "dialogBox": {
+          "text": "看来这些信息没有提前输入给你。"
+        },
         "portrait": [
-          { "id": "alice_sad", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "明明制作能力很强，为什么埴安神女士总是在这种小地方如此随性。" },
+        "dialogBox": {
+          "text": "明明制作能力很强，为什么埴安神女士总是在这种小地方如此随性。"
+        },
         "portrait": [
-          { "id": "alice_sad_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "简单的来说就是你的身上预留了饰品栏位。可以将一些特殊道具装载在身上以强化自身能力。" },
+        "dialogBox": {
+          "text": "简单的来说就是你的身上预留了饰品栏位。可以将一些特殊道具装载在身上以强化自身能力。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "刚刚你在熟悉操作时我回家里找了点匹配的东西，你可以先试试看。" },
+        "dialogBox": {
+          "text": "刚刚你在熟悉操作时我回家里找了点匹配的东西，你可以先试试看。"
+        },
         "portrait": [
-          { "id": "alice_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "这些孩子是很得力的帮手，要好好对待她们哦。" },
+        "dialogBox": {
+          "text": "这些孩子是很得力的帮手，要好好对待她们哦。"
+        },
         "portrait": [
-          { "id": "alice_smile_open", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin",
+            "renderOrder": 10,
+            "replace": true
+          },
           "names"
         ]
       },
       {
-        "dialogBox": { "text": "解锁饰品系统，给予玩家部分初始饰品。" },
-        "portrait": []
+        "dialogBox": {
+          "text": "解锁饰品系统，给予玩家部分初始饰品。"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
       },
       {
-        "dialogBox": { "text": "接下来你可以开始正式经营了，我现在还走不开身，具体的经营方针就由你自己来决定吧，不要忘记我们的最终目标。" },
+        "dialogBox": {
+          "text": "接下来你可以开始正式经营了，我现在还走不开身，具体的经营方针就由你自己来决定吧，不要忘记我们的最终目标。"
+        },
         "portrait": [
-          { "id": "alice_shack_hand_smile", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "alice_grin_eyebrow",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "names"
         ]
       }
     ],
     "chapter2": [
       {
-        "dialogBox": { "text": "喂喂，小兄弟。" },
+        "dialogBox": {
+          "text": "喂喂，小兄弟。"
+        },
         "portrait": [
-          { "id": "hchq_1", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "hchq_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "你这家足浴店感觉生意挺红火的啊。" },
+        "dialogBox": {
+          "text": "你这家足浴店感觉生意挺红火的啊。"
+        },
         "portrait": [
-          { "id": "hchq_think_1", "renderOrder": 10, "replace": true, "animation": "BOUNCE" }
+          {
+            "id": "hchq_think_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "你是？" },
+        "dialogBox": {
+          "text": "你是？"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "我是河童荷城河取。" },
+        "dialogBox": {
+          "text": "我是河童荷城河取。"
+        },
         "portrait": [
-          { "id": "hchq_1", "renderOrder": 10, "replace": true, "animation": "TALK" }, 
+          {
+            "id": "hchq_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "这话看起来怎么这么绕。" },
+        "dialogBox": {
+          "text": "这话看起来怎么这么绕。"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "这不重要，重要的是你的店现在相当有名哦。" },
+        "dialogBox": {
+          "text": "这不重要，重要的是你的店现在相当有名哦。"
+        },
         "portrait": [
-          { "id": "hchq_think_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "既然你是河童，那就说明你是妖怪吧，这家店应该是面向人间之里的人类居民开的，为什么妖怪会知道。" },
+        "dialogBox": {
+          "text": "既然你是河童，那就说明你是妖怪吧，这家店应该是面向人间之里的人类居民开的，为什么妖怪会知道。"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "可不要小瞧了幻想乡的消息流通，人类之间产生的新奇事物，过不了多久就会传到妖怪们耳中。" },
-        "portrait": [{ "id": "hchq_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
-          "nitori_name"
-        ]
-      },
-      {
-        "dialogBox": { "text": "其实你的店里已经有妖怪客人了，幻想乡的大部分妖怪长得和人类本就差不多，如果伪装一下就更难区分了。" },
+        "dialogBox": {
+          "text": "可不要小瞧了幻想乡的消息流通，人类之间产生的新奇事物，过不了多久就会传到妖怪们耳中。"
+        },
         "portrait": [
-          { "id": "hchq_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "所以你也是来体验服务的吗？" },
+        "dialogBox": {
+          "text": "其实你的店里已经有妖怪客人了，幻想乡的大部分妖怪长得和人类本就差不多，如果伪装一下就更难区分了。"
+        },
+        "portrait": [
+          {
+            "id": "hchq_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "nitori_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "所以你也是来体验服务的吗？"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "可以说是但也不完全是。" },
+        "dialogBox": {
+          "text": "可以说是但也不完全是。"
+        },
         "portrait": [
-          { "id": "hchq_think_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "幻想乡最先进的技术是仅由我们河童掌握的。虽然幻想乡整体的科技并不发达，但我们河童的技术不比外界差。" },
+        "dialogBox": {
+          "text": "幻想乡最先进的技术是仅由我们河童掌握的。虽然幻想乡整体的科技并不发达，但我们河童的技术不比外界差。"
+        },
         "portrait": [
-          { "id": "hchq_think_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "而我们平时会和人类做生意，这次也是同样的目的。你的足浴店如果要为顾客提供优质服务的话，肯定需要不少材料供应吧。" },
+        "dialogBox": {
+          "text": "而我们平时会和人类做生意，这次也是同样的目的。你的足浴店如果要为顾客提供优质服务的话，肯定需要不少材料供应吧。"
+        },
         "portrait": [
-          { "id": "hchq_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "我们的机器可以帮你实现这一点。如果你现在手头比较紧的话我们还可以给你提供免费试用和首次购买优惠。" },
+        "dialogBox": {
+          "text": "我们的机器可以帮你实现这一点。如果你现在手头比较紧的话我们还可以给你提供免费试用和首次购买优惠。"
+        },
         "portrait": [
-          { "id": "hchq_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "但前提是，你必须向我们证明你拥有足够的实力。" },
+        "dialogBox": {
+          "text": "但前提是，你必须向我们证明你拥有足够的实力。"
+        },
         "portrait": [
-          { "id": "hchq_think_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "如果在把机器卖给你之后，顾客对你的服务产生不满也会牵连到我们的产品口碑。" },
+        "dialogBox": {
+          "text": "如果在把机器卖给你之后，顾客对你的服务产生不满也会牵连到我们的产品口碑。"
+        },
         "portrait": [
-          { "id": "hchq_think_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "那我该怎么进行这个实力证明？" },
+        "dialogBox": {
+          "text": "那我该怎么进行这个实力证明？"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "这个简单，你给我洗个脚，让我切身体会一下你的手艺就行。" },
+        "dialogBox": {
+          "text": "这个简单，你给我洗个脚，让我切身体会一下你的手艺就行。"
+        },
         "portrait": [
-          { "id": "hchq_think_2", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "hchq_think_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "事先说明，我会以相当严谨的态度来体验，可没有普通顾客那么好对付。" },
+        "dialogBox": {
+          "text": "事先说明，我会以相当严谨的态度来体验，可没有普通顾客那么好对付。"
+        },
         "portrait": [
-          { "id": "hchq_think_2", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_think_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "不过我也给你一些准备时间，你拿着这个，准备好之后就用它右击 方块通知我来。" },
+        "dialogBox": {
+          "text": "不过我也给你一些准备时间，你拿着这个，准备好之后就用它右击 方块通知我来。"
+        },
         "options": [
           {
-            "text": "感谢", 
-            "click": {"type": "command", "value": "give @s marguerite:boss_seal_hchq"}
+            "text": "感谢",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_hchq"
+            }
           }
         ],
         "portrait": [
-          { "id": "hchq_2", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "hchq_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "nitori_name"
         ]
       }
     ],
-    "end_boss_seal_hchq":[
+    "end_boss_seal_hchq": [
       {
-        "dialogBox": { "text": "小兄弟你的手艺确实不错嘛。" },
+        "dialogBox": {
+          "text": "小兄弟你的手艺确实不错嘛。"
+        },
         "portrait": [
-          { "id": "hchq_think_2", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "hchq_think_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "nitori_name"
         ]
       },
       {
-        "dialogBox": { "text": "这样一来我们也能放心地跟你合作了。" },
+        "dialogBox": {
+          "text": "这样一来我们也能放心地跟你合作了。"
+        },
         "portrait": [
-          { "id": "hchq_1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hchq_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "nitori_name"
         ],
         "options": [
           {
             "text": "好哦",
-            "click": {"type": "command", "value": "auratip_openshop"}
+            "click": {
+              "type": "command",
+              "value": "auratip_openshop"
+            }
           }
         ]
       }
     ],
-    "chapter3":[
+    "chapter3": [
       {
-        "dialogBox": { "text": "你就是这家店的店长吧。" },
+        "dialogBox": {
+          "text": "你就是这家店的店长吧。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "这位小姐，请问您是？" },
+        "dialogBox": {
+          "text": "这位小姐，请问您是？"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "明明在幻想乡内，却连这个都不知道吗。" },
+        "dialogBox": {
+          "text": "明明在幻想乡内，却连这个都不知道吗。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" }
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
         ]
       },
       {
-        "dialogBox": { "text": "我是负责管理幻想乡的巫女博丽灵梦。" },
+        "dialogBox": {
+          "text": "我是负责管理幻想乡的巫女博丽灵梦。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "开门见山的来说，我需要对你的店进行监管。" },
+        "dialogBox": {
+          "text": "开门见山的来说，我需要对你的店进行监管。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
-          "hakurei_reimu_name"]
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "hakurei_reimu_name"
+        ]
       },
       {
-        "dialogBox": { "text": "原来是城管吗，我没听说需要营业执照。" },
+        "dialogBox": {
+          "text": "原来是城管吗，我没听说需要营业执照。"
+        },
         "portrait": []
       },
       {
-        "dialogBox": { "text": "不是营业执照这么简单的问题。" },
+        "dialogBox": {
+          "text": "不是营业执照这么简单的问题。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "如果只是在人间之里内营业的话我是不会怎么管。" },
+        "dialogBox": {
+          "text": "如果只是在人间之里内营业的话我是不会怎么管。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "但这家店的服务范围太广了，人类、妖精、妖怪……各种种族全都共处一室，万一出什么事极有可能危害到幻想乡的人妖关系。" },
+        "dialogBox": {
+          "text": "但这家店的服务范围太广了，人类、妖精、妖怪……各种种族全都共处一室，万一出什么事极有可能危害到幻想乡的人妖关系。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "不过既然是在空岛上开店，说不定从最开始就是想达成这种状态。" },
+        "dialogBox": {
+          "text": "不过既然是在空岛上开店，说不定从最开始就是想达成这种状态。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "爱丽丝到底在想什么啊，采取这么激进的方式……" },
+        "dialogBox": {
+          "text": "爱丽丝到底在想什么啊，采取这么激进的方式……"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "言归正传，为了保证幻想乡的安定，我必须通过我的亲身经历来确认你的店具有抵御风险稳定运营的能力。" },
+        "dialogBox": {
+          "text": "言归正传，为了保证幻想乡的安定，我必须通过我的亲身经历来确认你的店具有抵御风险稳定运营的能力。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "虽然爱丽丝跟我说不要太刁难你，但这是巫女的职责，如果发现了什么问题，我不会因此就网开一面的。" },
+        "dialogBox": {
+          "text": "虽然爱丽丝跟我说不要太刁难你，但这是巫女的职责，如果发现了什么问题，我不会因此就网开一面的。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "准备充分后就用这个叫我来。" },
+        "dialogBox": {
+          "text": "准备充分后就用这个叫我来。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait1", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ],
         "options": [
           {
-            "text": "来吧", 
-            "click": {"type": "command", "value": "give @s marguerite:boss_seal_reimu"}
+            "text": "来吧",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_reimu"
+            }
           }
         ]
       }
     ],
-    "end_boss_seal_reimu":[
+    "end_boss_seal_reimu": [
       {
-        "dialogBox": { "text": "你过关了。" },
+        "dialogBox": {
+          "text": "你过关了。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "BOUNCE" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "运营流程上没有问题，设施很完善，服务也很周到，应该不用担心出问题。" },
+        "dialogBox": {
+          "text": "运营流程上没有问题，设施很完善，服务也很周到，应该不用担心出问题。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "如此一来这里也算是成了由我背书认证的幻想乡正规企业了。消息传开后说不定会有更多类型的顾客慕名而来吧。" },
+        "dialogBox": {
+          "text": "如此一来这里也算是成了由我背书认证的幻想乡正规企业了。消息传开后说不定会有更多类型的顾客慕名而来吧。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "你小心点别闹出什么乱子了，到时候还要找到我头上来。" },
+        "dialogBox": {
+          "text": "你小心点别闹出什么乱子了，到时候还要找到我头上来。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "保险起见，我也会时不时来巡视一下。" },
+        "dialogBox": {
+          "text": "保险起见，我也会时不时来巡视一下。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "……" },
+        "dialogBox": {
+          "text": "……"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       },
       {
-        "dialogBox": { "text": "……钱我还是会给的啦，这点钱我还是出得起的。" },
+        "dialogBox": {
+          "text": "……钱我还是会给的啦，这点钱我还是出得起的。"
+        },
         "portrait": [
-          { "id": "hakurei_reimu_potrait3", "renderOrder": 10, "replace": true, "animation": "TALK" },
+          {
+            "id": "hakurei_reimu_potrait3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
           "hakurei_reimu_name"
         ]
       }
