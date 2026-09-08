@@ -26,13 +26,17 @@ global.pfFootUiClientState = global.pfFootUiClientState || {
     trackedEntities: new Map(),
     entityCountdowns: new Map(),
     entitySoakState: new Map(),
-    windowRemovalQueue: []
+    windowRemovalQueue: [],
+    pendingWindowTransitions: new Map()
 }
+global.pfFootUiClientState.pendingWindowTransitions =
+    global.pfFootUiClientState.pendingWindowTransitions || new Map()
 let sleepWindows = global.pfFootUiClientState.sleepWindows
 let soakWindows = global.pfFootUiClientState.soakWindows
 let trackedEntities = global.pfFootUiClientState.trackedEntities
 let entityCountdowns = global.pfFootUiClientState.entityCountdowns
 let entitySoakState = global.pfFootUiClientState.entitySoakState
+let pendingWindowTransitions = global.pfFootUiClientState.pendingWindowTransitions
 
 // 安全移除队列：延迟移除 WorldWindow，避免框架 mousePosition NPE
 let windowRemovalQueue = global.pfFootUiClientState.windowRemovalQueue
@@ -41,8 +45,8 @@ let windowRemovalQueue = global.pfFootUiClientState.windowRemovalQueue
  * 安全移除 WorldWindow：延迟 2 tick 后实际移除
  * 避免在鼠标悬停时立即移除窗口导致框架内部 NPE
  */
-function safeRemoveWorldWindow(window) {
-    windowRemovalQueue.push({ window: window, ticksLeft: 2 })
+function safeRemoveWorldWindow(window, onRemoved) {
+    windowRemovalQueue.push({ window: window, ticksLeft: 2, onRemoved: onRemoved || null })
 }
 
 function clearAuiDebugDocuments() {
@@ -267,12 +271,14 @@ function createSleepWindow(entity) {
 /**
  * 移除睡眠实体的UI窗口
  */
-function removeSleepWindow(uuid) {
+function removeSleepWindow(uuid, onRemoved) {
     let window = sleepWindows.get(uuid)
     if (window != null) {
-        safeRemoveWorldWindow(window)
+        safeRemoveWorldWindow(window, onRemoved)
         sleepWindows.delete(uuid)
         console.log("[FOOT-UI] 移除UI窗口 uuid=" + uuid)
+    } else if (onRemoved) {
+        onRemoved()
     }
     trackedEntities.delete(uuid)
     entityCountdowns.delete(uuid)
@@ -282,12 +288,40 @@ function removeSleepWindow(uuid) {
 /**
  * 移除泡脚UI窗口
  */
-function removeSoakWindow(uuid) {
+function removeSoakWindow(uuid, onRemoved) {
     let window = soakWindows.get(uuid)
     if (window != null) {
-        safeRemoveWorldWindow(window)
+        safeRemoveWorldWindow(window, onRemoved)
         soakWindows.delete(uuid)
         console.log("[FOOT-UI] 移除泡脚UI窗口 uuid=" + uuid)
+    } else if (onRemoved) {
+        onRemoved()
+    }
+}
+
+/**
+ * 等旧 WorldWindow 真正移除后，再创建目标窗口。
+ * AUI 需要延迟移除以避免 mousePosition NPE，但不能在等待期间创建第二个窗口。
+ */
+function scheduleWindowTransition(uuid, fromType, toType, entity) {
+    if (pendingWindowTransitions.has(uuid)) return
+    pendingWindowTransitions.set(uuid, toType)
+
+    let afterRemoved = function() {
+        pendingWindowTransitions.delete(uuid)
+        if (!entity || !entity.isAlive()) return
+
+        if (toType === "soak" && isSleeping(entity) && !isSoakDone(entity)) {
+            createSoakWindow(entity)
+        } else if (toType === "sleep" && isSleeping(entity) && isSoakDone(entity)) {
+            createSleepWindow(entity)
+        }
+    }
+
+    if (fromType === "soak") {
+        removeSoakWindow(uuid, afterRemoved)
+    } else {
+        removeSleepWindow(uuid, afterRemoved)
     }
 }
 
@@ -617,10 +651,10 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaozhang != null) {
             let count = demandList['脚掌'] || 0
             if (count === 0) {
-                countJiaozhang.innerText = "✓"
+                countJiaozhang.textContent = "✓"
                 countJiaozhang.setAttribute("class", "count done")
             } else {
-                countJiaozhang.innerText = count + "次"
+                countJiaozhang.textContent = count + "次"
                 countJiaozhang.setAttribute("class", "count")
             }
         }
@@ -630,10 +664,10 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaogen != null) {
             let count = demandList['脚后跟'] || 0
             if (count === 0) {
-                countJiaogen.innerText = "✓"
+                countJiaogen.textContent = "✓"
                 countJiaogen.setAttribute("class", "count done")
             } else {
-                countJiaogen.innerText = count + "次"
+                countJiaogen.textContent = count + "次"
                 countJiaogen.setAttribute("class", "count")
             }
         }
@@ -643,10 +677,10 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaozhi != null) {
             let count = demandList['脚趾'] || 0
             if (count === 0) {
-                countJiaozhi.innerText = "✓"
+                countJiaozhi.textContent = "✓"
                 countJiaozhi.setAttribute("class", "count done")
             } else {
-                countJiaozhi.innerText = count + "次"
+                countJiaozhi.textContent = count + "次"
                 countJiaozhi.setAttribute("class", "count")
             }
         }
@@ -656,10 +690,10 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaoxin != null) {
             let count = demandList['脚心'] || 0
             if (count === 0) {
-                countJiaoxin.innerText = "✓"
+                countJiaoxin.textContent = "✓"
                 countJiaoxin.setAttribute("class", "count done")
             } else {
-                countJiaoxin.innerText = count + "次"
+                countJiaoxin.textContent = count + "次"
                 countJiaoxin.setAttribute("class", "count")
             }
         }
@@ -686,7 +720,7 @@ function updateSatisfactionDisplay(window, satisfaction) {
             fillElement.setAttribute("style", "width: " + percent + "%")
         }
         if (percentElement != null) {
-            percentElement.innerText = satisfaction + "%"
+            percentElement.textContent = satisfaction + "%"
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新满意度失败: " + e)
@@ -766,8 +800,14 @@ ClientEvents.tick(event => {
     for (let i = windowRemovalQueue.length - 1; i >= 0; i--) {
         windowRemovalQueue[i].ticksLeft--
         if (windowRemovalQueue[i].ticksLeft <= 0) {
-            try { WorldWindow.removeWindow(windowRemovalQueue[i].window) } catch (e) {}
+            let removal = windowRemovalQueue[i]
+            try { WorldWindow.removeWindow(removal.window) } catch (e) {}
             windowRemovalQueue.splice(i, 1)
+            if (removal.onRemoved) {
+                try { removal.onRemoved() } catch (e) {
+                    console.log("[FOOT-UI] 窗口切换回调失败: " + e)
+                }
+            }
         }
     }
 
@@ -808,11 +848,11 @@ ClientEvents.tick(event => {
             if (!soakDone) {
                 // 未泡脚或泡脚中，显示泡脚UI
                 if (!soakWindows.has(uuid)) {
-                    // 移除主UI（如果存在）
                     if (sleepWindows.has(uuid)) {
-                        removeSleepWindow(uuid)
+                        scheduleWindowTransition(uuid, "sleep", "soak", entity)
+                    } else if (!pendingWindowTransitions.has(uuid)) {
+                        createSoakWindow(entity)
                     }
-                    createSoakWindow(entity)
                 } else {
                     // 更新泡脚UI倒计时
                     let window = soakWindows.get(uuid)
@@ -835,11 +875,11 @@ ClientEvents.tick(event => {
             } else {
                 // 已完成泡脚，显示主UI
                 if (!sleepWindows.has(uuid)) {
-                    // 移除泡脚UI（如果存在）
                     if (soakWindows.has(uuid)) {
-                        removeSoakWindow(uuid)
+                        scheduleWindowTransition(uuid, "soak", "sleep", entity)
+                    } else if (!pendingWindowTransitions.has(uuid)) {
+                        createSleepWindow(entity)
                     }
-                    createSleepWindow(entity)
                 } else {
                     // 检查倒计时是否变化
                     let window = sleepWindows.get(uuid)
@@ -924,6 +964,7 @@ ClientEvents.loggedIn(event => {
     trackedEntities.clear()
     entityCountdowns.clear()
     entitySoakState.clear()
+    pendingWindowTransitions.clear()
 })
 
 /**
@@ -946,6 +987,7 @@ ClientEvents.loggedOut(event => {
     trackedEntities.clear()
     entityCountdowns.clear()
     entitySoakState.clear()
+    pendingWindowTransitions.clear()
 
     try {
         ApricityUI.removeDocument("kubejs/footui.html")
@@ -962,6 +1004,16 @@ NetworkEvents.dataReceived('pf_serve_success', event => {
         if (data == null) return
         let entityUuid = "" + data.getString('entityUuid')
         let part = "" + data.getString('part')
+        let window = sleepWindows.get(entityUuid)
+        if (window != null) {
+            updateDemandListDisplay(window, {
+                '脚掌': data.getInt('demandJiaozhang'),
+                '脚后跟': data.getInt('demandJiaogen'),
+                '脚趾': data.getInt('demandJiaozhi'),
+                '脚心': data.getInt('demandJiaoxin')
+            })
+            updateSatisfactionDisplay(window, data.getInt('satisfaction'))
+        }
         console.log("[FOOT-UI] pf_serve_success uuid=" + entityUuid + " part=" + part)
     } catch (e) { console.log("[FOOT-UI] pf_serve_success 处理失败: " + e) }
 })

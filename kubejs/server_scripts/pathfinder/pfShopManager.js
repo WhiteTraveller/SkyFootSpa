@@ -10,6 +10,8 @@
 //   pfShopBlueX/Z       (double) 蓝色地毯位置
 //   pfShopBlueSet       (int 0/1) 蓝色地毯是否已写入
 //   pfShopSpawnedUuids  (string) 已生成顾客 UUID，逗号分隔
+//   pfShopBedList       (string) 合法床位表，含坐标、占用状态和 ownerUuid
+//   pfShopBedCount      (int)    当前合法床总数
 // 不再使用 global.pfShopState 作为状态源（仅保留空对象做兼容防御）
 // 不再使用 server.getTickCount() 差值（跨重启会失效）
 // ============================================================
@@ -115,6 +117,61 @@ function pfShopSetSpawnedUuids(be, arr) {
     be.persistentData.putString("pfShopSpawnedUuids", (arr || []).join(","))
 }
 
+function pfShopGetBedList(be) {
+    return "" + be.persistentData.getString("pfShopBedList")
+}
+
+function pfShopGetBedCount(be) {
+    return be ? (be.persistentData.getInt("pfShopBedCount") | 0) : 0
+}
+
+function pfShopSetBedList(be, bedListStr) {
+    be.persistentData.putString("pfShopBedList", bedListStr || "")
+    let beds = global.pfBedManager ? global.pfBedManager.pfParseBeds(bedListStr || "") : []
+    be.persistentData.putInt("pfShopBedCount", beds.length)
+}
+
+function pfShopRefreshBeds(level, baseX, baseY, baseZ, routeStr) {
+    let be = pfShopGetBE(level, baseX, baseY, baseZ)
+    if (!be || !global.pfBedManager) return []
+    let scanned = global.pfBedManager.pfScanBedsAlongRoute(level, routeStr, baseX + 0.5, baseY, baseZ + 0.5)
+    let old = global.pfBedManager.pfParseBeds(pfShopGetBedList(be))
+    let merged = global.pfBedManager.pfMergeBeds(level, scanned, old)
+    pfShopSetBedList(be, global.pfBedManager.pfSerializeBeds(merged))
+    console.log("[PF-BED] 刷新合法床位：" + merged.length + " 张")
+    return merged
+}
+
+function pfShopReserveBed(level, baseX, baseY, baseZ, bedKey, ownerUuid) {
+    let be = pfShopGetBE(level, baseX, baseY, baseZ)
+    if (!be || !global.pfBedManager) return null
+    let beds = global.pfBedManager.pfParseBeds(pfShopGetBedList(be))
+    for (let i = 0; i < beds.length; i++) {
+        if (global.pfBedManager.pfBedKey(beds[i]) !== bedKey) continue
+        if (beds[i].used) return null
+        beds[i].used = true
+        beds[i].ownerUuid = "" + ownerUuid
+        pfShopSetBedList(be, global.pfBedManager.pfSerializeBeds(beds))
+        return beds[i]
+    }
+    return null
+}
+
+function pfShopReleaseBed(level, baseX, baseY, baseZ, bedKey, ownerUuid) {
+    let be = pfShopGetBE(level, baseX, baseY, baseZ)
+    if (!be || !global.pfBedManager) return false
+    let beds = global.pfBedManager.pfParseBeds(pfShopGetBedList(be))
+    for (let i = 0; i < beds.length; i++) {
+        if (global.pfBedManager.pfBedKey(beds[i]) !== bedKey) continue
+        if (beds[i].ownerUuid !== ("" + ownerUuid)) return false
+        beds[i].used = false
+        beds[i].ownerUuid = ""
+        pfShopSetBedList(be, global.pfBedManager.pfSerializeBeds(beds))
+        return true
+    }
+    return false
+}
+
 function pfShopAddSpawnedUuid(be, uuid) {
     let arr = pfShopGetSpawnedUuids(be)
     arr.push("" + uuid)
@@ -162,8 +219,13 @@ function pfOpenShop(player, level, baseX, baseY, baseZ, routeStr, blueCarpetPos)
     pfShopSetBase(be, baseX, baseY, baseZ)
     pfShopSetBluePos(be, blueCarpetPos)
     pfShopSetSpawnedUuids(be, [])
+    let shopBeds = pfShopRefreshBeds(level, baseX, baseY, baseZ, routeStr)
+    if (global.pfBedManager && global.pfBedManager.pfHighlightBeds) {
+        global.pfBedManager.pfHighlightBeds(level, shopBeds)
+    }
 
     player.tell("§a☀ 开店成功！每5秒将判定是否有顾客光临")
+    player.tell("§b有效床位数量：§e" + shopBeds.length + "§b 张")
     player.tell("§7日落后将自动关店，也可再次右键手动关店")
     console.log("[PF-SHOP] 开店 player=" + player.getName().getString() +
         " base=(" + baseX + "," + baseY + "," + baseZ + ")")
@@ -218,6 +280,7 @@ function pfCloseShop(level, beOrPosOrReason, reasonMaybe) {
 
     pfShopSetIsOpen(be, false)
     pfShopSetSpawnedUuids(be, [])
+    pfShopSetBedList(be, "")
     pfShopSetTickCounter(be, 0)
 
     let playerUuid = pfShopGetPlayerUuid(be)
@@ -293,7 +356,14 @@ global.pfShopManager = {
     pfShopIsOpenAt: pfShopIsOpenAt,
     pfShopAddSpawnedAt: pfShopAddSpawnedAt,
     pfShopGetIsOpen: pfShopGetIsOpen,
-    pfShopAddSpawnedUuid: pfShopAddSpawnedUuid
+    pfShopAddSpawnedUuid: pfShopAddSpawnedUuid,
+    pfShopGetBE: pfShopGetBE,
+    pfShopGetBedList: pfShopGetBedList,
+    pfShopGetBedCount: pfShopGetBedCount,
+    pfShopSetBedList: pfShopSetBedList,
+    pfShopRefreshBeds: pfShopRefreshBeds,
+    pfShopReserveBed: pfShopReserveBed,
+    pfShopReleaseBed: pfShopReleaseBed
 }
 
 console.log("[PF-SHOP] 开店管理模块已加载")

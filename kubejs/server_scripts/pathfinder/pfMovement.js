@@ -158,6 +158,14 @@ function pfMoveStep(ent, level) {
                     global.aTip.closePlayerTip(finishPlayer)
                 }
             }
+            let bedPos = global.pfEntityData.pfGetBedInfo(ent)
+            if (bedPos && global.pfShopManager && global.pfShopManager.pfShopReleaseBed) {
+                let bx = ent.persistentData.getInt("pfShopBaseX") | 0
+                let by = ent.persistentData.getInt("pfShopBaseY") | 0
+                let bz = ent.persistentData.getInt("pfShopBaseZ") | 0
+                global.pfShopManager.pfShopReleaseBed(level, bx, by, bz,
+                    global.pfBedManager.pfBedKey(bedPos), "" + ent.getUuid())
+            }
             ent.discard()
             return { finished: true, moved: true }
         } else {

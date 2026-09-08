@@ -1,0 +1,114 @@
+<!--
+  开店方块配置界面交接说明：
+  - 由 Shift+右键 kubejs:pathfinder_block 打开。
+  - 当前是视觉上的 9x3 箱子布局，共 27 个空白格，不是真实 Minecraft 容器。
+  - 当前只有关闭按钮；按钮通过 player.sendData("pathfinder_config_close", {})
+    通知服务端，再由客户端脚本移除文档。
+  - 后续若增加背包整理、床位管理等功能，应先设计服务端数据协议，
+    不要依赖 HTML 本地变量作为持久化状态。
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <meta name="aui-mouse-events" content="intercept">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      color: #f3f3f3;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.48);
+    }
+    .chest {
+      width: 560px;
+      padding: 18px 20px 22px;
+      border: 3px solid #17120d;
+      border-radius: 6px;
+      background: #8b5a32;
+      box-shadow: 0 8px 0 #382316, 0 12px 24px rgba(0,0,0,.65);
+    }
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 42px;
+      margin-bottom: 13px;
+      padding: 0 12px;
+      border: 2px solid #4a2c19;
+      background: #c28a4d;
+      color: #fff5d6;
+      text-shadow: 2px 2px #543018;
+      font-size: 21px;
+      font-weight: bold;
+    }
+    .close {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #4a2c19;
+      background: #9c3f32;
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      text-shadow: 1px 1px #4a1711;
+    }
+    .close:hover { background: #c65340; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 5px;
+      padding: 10px;
+      border: 3px solid #4a2c19;
+      background: #6e4428;
+    }
+    .slot {
+      aspect-ratio: 1;
+      border: 3px solid #392416;
+      border-top-color: #d09a5b;
+      border-left-color: #b87942;
+      background: #a76f3d;
+      box-shadow: inset 0 0 0 2px rgba(62, 35, 18, .35);
+    }
+    .hint {
+      margin-top: 12px;
+      color: #f6d9a0;
+      font-size: 13px;
+      text-align: center;
+      text-shadow: 1px 1px #4a2c19;
+    }
+  </style>
+</head>
+<body>
+  <div class="chest">
+    <div class="titlebar">
+      <span>开店方块配置</span>
+      <button class="close" id="closeButton">×</button>
+    </div>
+    <div class="grid" id="slotGrid"></div>
+    <div class="hint">配置功能将在后续版本加入</div>
+  </div>
+  <script>
+    var grid = document.getElementById("slotGrid");
+    for (var i = 0; i < 27; i++) {
+      var slot = document.createElement("div");
+      slot.className = "slot";
+      grid.appendChild(slot);
+    }
+    document.getElementById("closeButton").addEventListener("click", function () {
+      player.sendData("pathfinder_config_close", {});
+    });
+  </script>
+</body>
+</html>

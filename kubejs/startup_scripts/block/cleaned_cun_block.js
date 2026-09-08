@@ -17,8 +17,6 @@ StartupEvents.registry("block", event => {
             .resistance(0.6)
             .requiresTool(false)
             .tagBlock("minecraft:mineable/shovel")
-            .tooltip("§7经过水洗净化的皴块")
-            .tooltip("§8筛网可额外产出煤炭")
         // 贴图路径：assets/marguerite/textures/block/cleaned_cun_block.png
         console.log("[CUN] 已注册方块: marguerite:cleaned_cun_block")
     } catch (e) {

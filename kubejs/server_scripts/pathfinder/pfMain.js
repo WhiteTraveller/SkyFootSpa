@@ -48,8 +48,21 @@ global.pathfinderTick = function (entity) {
         let routeStr = global.pfEntityData.pfGetRoute(ent)
         let routeChars = routeStr.split('')
         
-        // 获取床位列表
-        let allBeds = global.pfBedManager.pfParseBeds(global.pfEntityData.pfGetBedList(ent))
+        // 获取店铺统一床位表；旧实体列表仅作为兼容回退。
+        let allBeds = []
+        let shopManager = global.pfShopManager
+        let shopBase = {
+            x: ent.persistentData.getInt("pfShopBaseX") | 0,
+            y: ent.persistentData.getInt("pfShopBaseY") | 0,
+            z: ent.persistentData.getInt("pfShopBaseZ") | 0
+        }
+        let shopBe = shopManager && shopManager.pfShopGetBE
+            ? shopManager.pfShopGetBE(level, shopBase.x, shopBase.y, shopBase.z) : null
+        if (shopBe && shopManager.pfShopGetBedList) {
+            allBeds = global.pfBedManager.pfParseBeds(shopManager.pfShopGetBedList(shopBe))
+        } else {
+            allBeds = global.pfBedManager.pfParseBeds(global.pfEntityData.pfGetBedList(ent))
+        }
         
         // 计算当前位置
         let currPos = global.pfMovement.pfCalcCurrentPos(ent)
@@ -61,10 +74,16 @@ global.pathfinderTick = function (entity) {
             let dx = bed.x - currPos.x
             let dz = bed.z - currPos.z
             let dist = Math.sqrt(dx * dx + dz * dz)
-            if (dist >= 2 && dist <= 200 && !global.pfBedManager.pfIsBedOccupied(level, bed, ent)) {
+            if (dist < 2 || dist > 200 || bed.used) continue
+            if (shopBe && shopManager.pfShopReserveBed) {
+                let reserved = shopManager.pfShopReserveBed(level, shopBase.x, shopBase.y, shopBase.z,
+                    global.pfBedManager.pfBedKey(bed), "" + ent.getUuid())
+                if (!reserved) continue
+                foundEmptyBed = reserved
+            } else if (!global.pfBedManager.pfIsBedOccupied(level, bed, ent)) {
                 foundEmptyBed = bed
-                break
             }
+            if (foundEmptyBed !== null) break
         }
         
         if (foundEmptyBed !== null) {
@@ -74,6 +93,7 @@ global.pathfinderTick = function (entity) {
             global.pfEntityData.pfSetHasSlept(ent, true)
             global.pfEntityData.pfSetPhase(ent, 3)
             global.pfEntityData.pfSetBedInfo(ent, foundEmptyBed)
+            ent.persistentData.putString("pfBedOwnerUuid", "" + ent.getUuid())
             global.pfEntityData.pfSetFromBlueWait(ent, true)
             global.pfEntityData.pfSetWaitPos(ent, currPos.x, ent.getY(), currPos.z)
             

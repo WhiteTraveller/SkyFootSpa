@@ -17,8 +17,6 @@ StartupEvents.registry("block", event => {
             .resistance(0.6)
             .requiresTool(false)
             .tagBlock("minecraft:mineable/shovel")
-            .tooltip("§7九个皴压缩而成")
-            .tooltip("§8可放入筛网筛出金属颗粒")
         // 贴图路径：assets/marguerite/textures/block/cun_block.png（KubeJS 默认识别）
         console.log("[CUN] 已注册方块: marguerite:cun_block")
     } catch (e) {

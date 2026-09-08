@@ -5,7 +5,7 @@
 let curiosApi = Java.loadClass('top.theillusivec4.curios.api.CuriosApi');
 
 // mk 等级 → 镶板贴图（统一沿用原 backpack_space 材质）
-let SPACE_TEXTURE = "marguerite:item/backpack_space"
+let SPACE_TEXTURE = "backpack_space.png"
 
 function registerSpacePanel(level) {
     let expanderId = "marguerite:slot_expander_mk" + level

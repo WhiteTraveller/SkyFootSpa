@@ -48,10 +48,17 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
     // 保存蓝色地毯位置
     global.pfEntityData.pfSetBlueCarpetPos(walker, blueCarpetPos.x, blueCarpetPos.z)
     
-    // 预扫描床位
-    let pathBeds = global.pfBedManager.pfScanBedsAlongRoute(level, routeStr, spawnX, baseY, spawnZ)
+    // 顾客出场时刷新店铺统一床位表；未挂靠营业店铺时保留实体本地列表兼容逻辑。
+    let pathBeds = []
+    let shopBe = global.pfShopManager && global.pfShopManager.pfShopGetBE
+        ? global.pfShopManager.pfShopGetBE(level, baseX, baseY, baseZ) : null
+    if (shopBe && global.pfShopManager.pfShopRefreshBeds) {
+        pathBeds = global.pfShopManager.pfShopRefreshBeds(level, baseX, baseY, baseZ, routeStr)
+    } else {
+        pathBeds = global.pfBedManager.pfScanBedsAlongRoute(level, routeStr, spawnX, baseY, spawnZ)
+    }
     global.pfEntityData.pfSetBedList(walker, global.pfBedManager.pfSerializeBeds(pathBeds))
-    console.log("[PF] 预扫描床位数量=" + pathBeds.length)
+    console.log("[PF] 出场时刷新床位数量=" + pathBeds.length)
     
     // 生成需求清单
     let demandList = global.pfEntityData.pfGenerateDemandList()

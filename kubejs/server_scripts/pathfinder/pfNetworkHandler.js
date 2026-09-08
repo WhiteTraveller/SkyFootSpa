@@ -33,6 +33,19 @@ function pfApplyBossSatMul(entity, gain) {
     }
 }
 
+// 搓脚成功后把最新需求值直接推送给客户端，避免只依赖实体手持物品的延迟同步。
+function pfSendDemandSync(player, entityUuid, nbt, part) {
+    player.sendData('pf_serve_success', {
+        entityUuid: entityUuid,
+        part: part || '',
+        demandJiaozhang: nbt.getInt('pfDemandJiaozhang'),
+        demandJiaogen: nbt.getInt('pfDemandJiaogen'),
+        demandJiaozhi: nbt.getInt('pfDemandJiaozhi'),
+        demandJiaoxin: nbt.getInt('pfDemandJiaoxin'),
+        satisfaction: nbt.getInt('pfSatisfaction')
+    })
+}
+
 // 设置网络事件监听
 function setupNetworkHandlers() {
     // 客户端点击需求按钮
@@ -129,14 +142,16 @@ function setupNetworkHandlers() {
                         totalSatGain += Math.max(0, Math.floor(satPer)) * val
                         totalMoneyGain += Math.floor(moneyPer) * val
                         totalClicks += val
-                        nbt[dk] = 0
+                        let clearPatch = {}
+                        clearPatch[dk] = 0
+                        nbt.merge(clearPatch)
                     }
                 }
                 
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
                 let satApplied = pfApplyBossSatMul(targetEntity, totalSatGain)
                 satisfaction = Math.min(100, satisfaction + satApplied)
-                nbt.pfSatisfaction = satisfaction
+                nbt.merge({ pfSatisfaction: satisfaction })
                 let money = nbt.getInt('pfMoney') || 0
                 nbt.pfMoney = money + totalMoneyGain
                 
@@ -154,6 +169,10 @@ function setupNetworkHandlers() {
                         }
                     }
                 } catch (e) { console.log('[PF-NETWORK] 皴掉落失败(一键满足): ' + e) }
+
+                try { pfSendDemandSync(player, entityUuid, nbt, part) } catch (e) {
+                    console.log('[PF-NETWORK] 需求同步失败(一键满足): ' + e)
+                }
             } else if (currentValue > 0) {
                 // 正常模式：只减少当前部位
                 // ============================================================
@@ -184,7 +203,9 @@ function setupNetworkHandlers() {
                     }
                 }
                 currentValue--
-                nbt[demandKey] = currentValue
+                let demandPatch = {}
+                demandPatch[demandKey] = currentValue
+                nbt.merge(demandPatch)
                 
                 // 计算收益
                 let satPart = part ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + part, 10.0) : 10.0
@@ -196,7 +217,7 @@ function setupNetworkHandlers() {
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
                 let satApplied = pfApplyBossSatMul(targetEntity, satGain)
                 satisfaction = Math.min(100, satisfaction + satApplied)
-                nbt.pfSatisfaction = satisfaction
+                nbt.merge({ pfSatisfaction: satisfaction })
                 
                 let money = nbt.getInt('pfMoney') || 0
                 nbt.pfMoney = money + moneyGain
@@ -227,7 +248,9 @@ function setupNetworkHandlers() {
                 } catch (e) { console.log('[PF-NETWORK] 皴掉落失败: ' + e) }
             
                 // 通知客户端：撳脚成功（仅此处触发漂浮动画）
-                try { player.sendData('pf_serve_success', { entityUuid: entityUuid, part: part }) } catch (e) { }
+                try { pfSendDemandSync(player, entityUuid, nbt, part) } catch (e) {
+                    console.log('[PF-NETWORK] 需求同步失败: ' + e)
+                }
                 // 撳脚成功音效：叮
                 try { player.getLevel().getServer().runCommandSilent('playsound minecraft:block.note_block.bell master ' + player.getUsername() + ' ~ ~ ~ 1 2 1') } catch (e) {}
             } else {

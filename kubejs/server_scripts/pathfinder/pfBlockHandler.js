@@ -1,5 +1,18 @@
 // priority: 10
+// ============================================================
 // 方块事件处理模块
+//
+// 开店方块配置界面交接说明：
+// 1. 普通右键继续执行原有开店/关店、预约凭证和 Boss 触发逻辑。
+// 2. Shift+右键只打开配置界面，不得进入开店/关店流程。
+// 3. 当前界面文件为 apricity/kubejs/pathfinder_config.html，资源路径传给
+//    ApricityUI 时使用 "kubejs/pathfinder_config.html"。
+// 4. ApricityUI-forge 1.2.2-hotfix1 的服务端打开方式是：
+//    ApricityUI.menu(player, path).bind(null)
+//    不要改回 openScreen(player, path, null)，该重载不存在。
+// 5. 当前界面只是视觉上的 9x3 箱子布局，没有真实物品槽位。
+//    后续若接入背包整理或配置功能，应通过独立 NetworkEvents 数据事件通信。
+// ============================================================
 
 BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     console.log("[PF] 右键触发方块")
@@ -8,6 +21,16 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let player = event.player
     let blockPos = event.block.pos
     let level = event.level
+
+    // Shift+右键只打开配置界面，不触发开店/关店流程。
+    if (player.isCrouching()) {
+        let ApricityUIPathfinder = Java.loadClass("com.sighs.apricityui.ApricityUI")
+        // ApricityUI 1.2.2-hotfix1 的服务端 Screen API 使用 menu(...).bind(...)
+        ApricityUIPathfinder.menu(player, "kubejs/pathfinder_config.html").bind(null)
+        event.cancel()
+        console.log("[PF] 打开开店方块配置界面")
+        return
+    }
     let teachingStage = global.aTip && typeof global.aTip.getStage === 'function'
         ? global.aTip.getStage(player)
         : ""

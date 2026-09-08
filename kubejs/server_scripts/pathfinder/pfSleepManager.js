@@ -192,6 +192,16 @@ function pfWakeUp(ent, level) {
     
     ent.setPositionAndRotation(bsx, bsy, bsz, 0, 0)
     global.pfEntityData.pfSetPhase(ent, 2)
+
+    // 释放顾客占用的店铺床位。
+    if (bedPos && global.pfShopManager && global.pfShopManager.pfShopReleaseBed) {
+        let bx = ent.persistentData.getInt("pfShopBaseX") | 0
+        let by = ent.persistentData.getInt("pfShopBaseY") | 0
+        let bz = ent.persistentData.getInt("pfShopBaseZ") | 0
+        global.pfShopManager.pfShopReleaseBed(level, bx, by, bz,
+            global.pfBedManager.pfBedKey(bedPos), uuid)
+    }
+    ent.persistentData.putString("pfBedOwnerUuid", "")
     
     // 根据下床位置更新 pfTime
     let routeStr = global.pfEntityData.pfGetRoute(ent)
