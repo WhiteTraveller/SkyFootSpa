@@ -58,6 +58,8 @@ function pfCheckQueue(myInfo, allInfos) {
     for (let j = 0; j < allInfos.length; j++) {
         let other = allInfos[j]
         if (other.ent === myInfo.ent) continue
+        // 已经上床的女仆不再占用路线位置，不能阻挡后续顾客排队移动。
+        if (other.ent.persistentData.getInt("pfPhase") === 3) continue
         
         let dx = other.x - myInfo.x
         let dz = other.z - myInfo.z
