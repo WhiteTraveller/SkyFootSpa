@@ -74,7 +74,7 @@ global.pathfinderTick = function (entity) {
             let dx = bed.x - currPos.x
             let dz = bed.z - currPos.z
             let dist = Math.sqrt(dx * dx + dz * dz)
-            if (dist < 2 || dist > 200 || bed.used) continue
+            if (dist > 200 || bed.used) continue
             if (shopBe && shopManager.pfShopReserveBed) {
                 let reserved = shopManager.pfShopReserveBed(level, shopBase.x, shopBase.y, shopBase.z,
                     global.pfBedManager.pfBedKey(bed), "" + ent.getUuid())
