@@ -14,7 +14,7 @@ function pfCollectEntities(level, pos) {
     let walkers = []      // pfPhase=2 行走�?
     let sleepers = []     // pfPhase=3 躺床�?
     let waiters = []      // pfPhase=4 等待床位�?
-    let blueWaiters = []  // pfPhase=5 蓝色地毯等待�?
+    let queueWaiters = []  // pfPhase=5 固定排队区等待
     
     for (let i = 0; i < allEntities.length; i++) {
         let ent = allEntities[i]
@@ -26,11 +26,11 @@ function pfCollectEntities(level, pos) {
         } else if (phase === 4) {
             waiters.push(ent)
         } else if (phase === 5) {
-            blueWaiters.push(ent)
+            queueWaiters.push(ent)
         }
     }
     
-    return { walkers: walkers, sleepers: sleepers, waiters: waiters, blueWaiters: blueWaiters }
+    return { walkers: walkers, sleepers: sleepers, waiters: waiters, queueWaiters: queueWaiters }
 }
 
 // 构建排队信息
@@ -149,6 +149,15 @@ function pfMoveStep(ent, level) {
             else if (stepChar === 'E') fx += 1
             else if (stepChar === 'W') fx -= 1
             ent.setPositionAndRotation(fx, entY, fz, yaw, 0)
+            let queuePos = global.pfEntityData.pfGetQueuePos(ent)
+            if (Math.sqrt((fx - queuePos.x) * (fx - queuePos.x) +
+                (fz - queuePos.z) * (fz - queuePos.z)) < 0.5 &&
+                !global.pfEntityData.pfHasSlept(ent)) {
+                global.pfEntityData.pfSetWaitPos(ent, fx, entY, fz)
+                global.pfEntityData.pfSetPhase(ent, 5)
+                console.log("[PF] 到达终点排队区，进入等待状态 pos=(" + fx.toFixed(1) + "," + fz.toFixed(1) + ")")
+                return { finished: false, moved: true }
+            }
             level.spawnParticles("minecraft:poof", false, fx, entY + 1, fz, 0.5, 1, 0.5, 50, 0)
             console.log("[PF] FINISH at (" + fx.toFixed(1) + "," + fz.toFixed(1) + ")")
             if (global.aTip && typeof global.aTip.closePlayerTip === "function") {

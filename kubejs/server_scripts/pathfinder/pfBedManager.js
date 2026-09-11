@@ -70,6 +70,7 @@ function pfScanBedsAlongRoute(level, routeStr, startX, startY, startZ) {
 
                 beds.push({ blockX: headX, blockY: ay, blockZ: headZ,
                     footX: ax, footY: ay, footZ: az, yaw: 180,
+                    queueX: cx + 0.5, queueZ: cz + 0.5,
                     used: false, ownerUuid: "" })
                 break
             }

@@ -86,7 +86,8 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             if (block.id == "minecraft:red_carpet") {
                 pfMap[idx] = 0
             } else if (block.id == "minecraft:blue_carpet") {
-                pfMap[idx] = 0
+                // 蓝色地毯已取消路径与排队功能，视为不可通行。
+                pfMap[idx] = -1
             } else if (block.id == "minecraft:yellow_carpet") {
                 pfMap[idx] = 0
                 finishSet.add(idx)
@@ -110,30 +111,29 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     }
     console.log("[PF] 路径=" + result[0] + " 长度=" + result[0].length)
 
-    // 检测蓝色地毯
-    let routeChars = result[0].split('')
-    let blueCarpetPos = null
-    let cx = baseX, cz = baseZ
-    for (let i = 0; i <= routeChars.length; i++) {
-        let block = level.getBlock(cx, baseY, cz)
-        if (block.id == "minecraft:blue_carpet") {
-            blueCarpetPos = { x: cx + 0.5, z: cz + 0.5 }
-            console.log("[PF] 找到蓝色地毯位置: (" + cx + "," + cz + ")")
-            break
-        }
-        if (i < routeChars.length) {
-            let d = routeChars[i]
-            if (d === 'N') cz -= 1
-            else if (d === 'S') cz += 1
-            else if (d === 'E') cx += 1
-            else if (d === 'W') cx -= 1
-        }
-    }
-
-    if (blueCarpetPos === null) {
-        player.setStatusMessage("§c路径中未找到蓝色地毯！")
+    // 按路径顺序扫描合法床位；第一张床所在的路径地毯作为固定排队区。
+    let routeBeds = global.pfBedManager.pfScanBedsAlongRoute(
+        level, result[0], baseX + 0.5, baseY, baseZ + 0.5)
+    if (routeBeds.length === 0) {
+        player.tell("§c至少得有一张符合规则的床")
         return
     }
+    let queuePos = {
+        x: routeBeds[0].queueX,
+        z: routeBeds[0].queueZ
+    }
+    // 如果第一张床紧邻寻路触发器，不使用触发器所在格，改用路径上的第一块地毯。
+    if (queuePos.x === baseX + 0.5 && queuePos.z === baseZ + 0.5 && result[0].length > 0) {
+        let firstDirection = result[0].charAt(0)
+        let firstX = baseX
+        let firstZ = baseZ
+        if (firstDirection === 'N') firstZ -= 1
+        else if (firstDirection === 'S') firstZ += 1
+        else if (firstDirection === 'E') firstX += 1
+        else if (firstDirection === 'W') firstX -= 1
+        queuePos = { x: firstX + 0.5, z: firstZ + 0.5 }
+    }
+    console.log("[PF] 固定排队区位置: (" + queuePos.x + "," + queuePos.z + ")")
 
     // Voucher 分支：消耗凭证，立即生成指定类别顾客，不改变 shop 状态
     if (voucherCategory) {
@@ -144,7 +144,7 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         if (!player.isCreative() && mainHand && mainHand.getCount() > 0) {
             mainHand.setCount(mainHand.getCount() - 1)
         }
-        global.pfVoucherManager.pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos, voucherCategory)
+        global.pfVoucherManager.pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, result[0], queuePos, voucherCategory)
         if (voucherTeaching && global.aTip && typeof global.aTip.advance === 'function') {
             global.aTip.advance(player, "wait_voucher_click", "wait_soak_click", "pathfinder_water_soak_click_tip")
         }
@@ -157,7 +157,7 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             mainHand.setCount(mainHand.getCount() - 1)
         }
         if (global.pfBossManager && typeof global.pfBossManager.pfSpawnBossOnRoute === 'function') {
-            global.pfBossManager.pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos, bossDef)
+            global.pfBossManager.pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, result[0], queuePos, bossDef)
         } else {
             player.tell("§c[Boss] 管理模块未加载！")
         }
@@ -165,7 +165,7 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     }
 
     // 开店：保存路线数据，启动定时生成顾客
-    global.pfShopManager.pfOpenShop(player, level, baseX, baseY, baseZ, result[0], blueCarpetPos)
+    global.pfShopManager.pfOpenShop(player, level, baseX, baseY, baseZ, result[0], queuePos)
     if (openShopTeaching && global.aTip && typeof global.aTip.advance === 'function') {
         global.aTip.advance(player, "wait_pathfinder_click", "wait_voucher_click", "pathfinder_voucher_click_tip")
     }

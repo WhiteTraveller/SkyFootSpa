@@ -113,26 +113,26 @@ function pfSetHasSlept(ent, hasSlept) {
     ent.persistentData.putInt("pfHasSlept", hasSlept ? 1 : 0)
 }
 
-function pfIsFromBlueWait(ent) {
-    return (ent.persistentData.getInt("pfFromBlueWait") | 0) === 1
+function pfIsFromQueueWait(ent) {
+    return (ent.persistentData.getInt("pfFromQueueWait") | 0) === 1
 }
 
-function pfSetFromBlueWait(ent, fromBlue) {
-    ent.persistentData.putInt("pfFromBlueWait", fromBlue ? 1 : 0)
+function pfSetFromQueueWait(ent, fromQueue) {
+    ent.persistentData.putInt("pfFromQueueWait", fromQueue ? 1 : 0)
 }
 
-// ========== 蓝色地毯位置 ==========
+// ========== 固定排队区位置 ==========
 
-function pfGetBlueCarpetPos(ent) {
+function pfGetQueuePos(ent) {
     return {
-        x: ent.persistentData.getFloat("pfBlueCarpetX"),
-        z: ent.persistentData.getFloat("pfBlueCarpetZ")
+        x: ent.persistentData.getFloat("pfQueueX"),
+        z: ent.persistentData.getFloat("pfQueueZ")
     }
 }
 
-function pfSetBlueCarpetPos(ent, x, z) {
-    ent.persistentData.putFloat("pfBlueCarpetX", x)
-    ent.persistentData.putFloat("pfBlueCarpetZ", z)
+function pfSetQueuePos(ent, x, z) {
+    ent.persistentData.putFloat("pfQueueX", x)
+    ent.persistentData.putFloat("pfQueueZ", z)
 }
 
 // ========== 等待位置 ==========
@@ -202,10 +202,10 @@ global.pfEntityData = {
     pfSetBeforeSleepPos: pfSetBeforeSleepPos,
     pfHasSlept: pfHasSlept,
     pfSetHasSlept: pfSetHasSlept,
-    pfIsFromBlueWait: pfIsFromBlueWait,
-    pfSetFromBlueWait: pfSetFromBlueWait,
-    pfGetBlueCarpetPos: pfGetBlueCarpetPos,
-    pfSetBlueCarpetPos: pfSetBlueCarpetPos,
+    pfIsFromQueueWait: pfIsFromQueueWait,
+    pfSetFromQueueWait: pfSetFromQueueWait,
+    pfGetQueuePos: pfGetQueuePos,
+    pfSetQueuePos: pfSetQueuePos,
     pfGetWaitPos: pfGetWaitPos,
     pfSetWaitPos: pfSetWaitPos,
     pfGetLastTick: pfGetLastTick,

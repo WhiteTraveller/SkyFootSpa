@@ -8,13 +8,13 @@
 // 若 shop 已开，boss 会注册到 spawnedEntities，统一随关店清理。
 // ============================================================
 
-function pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, routeStr, blueCarpetPos, bossDef) {
+function pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, routeStr, queuePos, bossDef) {
     if (!bossDef) return
     try {
         // 走 pfEntitySpawner 主流程，通过 bossDef 参数走 boss 分支
         // （需求倍率应用 + pfBossId 写入 persistentData）
         let walker = global.pfEntitySpawner.pfSpawnWalker(
-            level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, bossDef.model, bossDef
+            level, baseX, baseY, baseZ, routeStr, queuePos, player, bossDef.model, bossDef
         )
 
         // Boss 不参与常规顾客类别评价系统（pfShouldWakeUp 里根据 category 判断）

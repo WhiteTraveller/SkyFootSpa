@@ -24,11 +24,11 @@ global.pathfinderTick = function (entity) {
     let walkers = entities.walkers
     let sleepers = entities.sleepers
     let waiters = entities.waiters
-    let blueWaiters = entities.blueWaiters
+    let queueWaiters = entities.queueWaiters
     
-    // ---- 处理蓝色地毯等待中的实体 ----
-    for (let i = 0; i < blueWaiters.length; i++) {
-        let ent = blueWaiters[i]
+    // ---- 处理固定排队区等待中的实体 ----
+    for (let i = 0; i < queueWaiters.length; i++) {
+        let ent = queueWaiters[i]
         
         // 防止重复处理
         let lastTick = global.pfEntityData.pfGetLastTick(ent)
@@ -39,7 +39,7 @@ global.pathfinderTick = function (entity) {
         // 检查是否已经上过床
         if (global.pfEntityData.pfHasSlept(ent)) {
             global.pfEntityData.pfSetPhase(ent, 2)
-            console.log("[PF] 蓝色地毯等待：已上过床，继续行走")
+            console.log("[PF] 排队区等待：已上过床，继续行走")
             continue
         }
         
@@ -94,7 +94,7 @@ global.pathfinderTick = function (entity) {
             global.pfEntityData.pfSetPhase(ent, 3)
             global.pfEntityData.pfSetBedInfo(ent, foundEmptyBed)
             ent.persistentData.putString("pfBedOwnerUuid", "" + ent.getUuid())
-            global.pfEntityData.pfSetFromBlueWait(ent, true)
+            global.pfEntityData.pfSetFromQueueWait(ent, true)
             global.pfEntityData.pfSetWaitPos(ent, currPos.x, ent.getY(), currPos.z)
             
             // 重置秒驱动字段（独立于 currTick，跨重启友好）
@@ -103,7 +103,7 @@ global.pathfinderTick = function (entity) {
             }
             
             ent.setPositionAndRotation(foundEmptyBed.x, foundEmptyBed.blockY + 0.2, foundEmptyBed.z, foundEmptyBed.yaw, 0)
-            console.log("[PF-SLEEP] 蓝色地毯等待后躺床: bedPos=(" + foundEmptyBed.blockX + "," + foundEmptyBed.blockY + "," + foundEmptyBed.blockZ + ")")
+            console.log("[PF-SLEEP] 排队区等待后躺床: bedPos=(" + foundEmptyBed.blockX + "," + foundEmptyBed.blockY + "," + foundEmptyBed.blockZ + ")")
             
             // 调用睡眠开始回调
             if (typeof global.pfOnStartSleep === "function") {
@@ -138,7 +138,7 @@ global.pathfinderTick = function (entity) {
     allWalkerInfos = allWalkerInfos.concat(global.pfMovement.pfBuildWalkerInfos(walkers))
     allWalkerInfos = allWalkerInfos.concat(global.pfMovement.pfBuildWalkerInfos(waiters))
     allWalkerInfos = allWalkerInfos.concat(global.pfMovement.pfBuildWalkerInfos(sleepers))
-    allWalkerInfos = allWalkerInfos.concat(global.pfMovement.pfBuildWalkerInfos(blueWaiters))
+    allWalkerInfos = allWalkerInfos.concat(global.pfMovement.pfBuildWalkerInfos(queueWaiters))
     
     // ---- 处理行走的实体 ----
     for (let i = 0; i < walkers.length; i++) {
@@ -152,6 +152,20 @@ global.pathfinderTick = function (entity) {
         
         // 清除残留的睡眠NBT
         global.pfMovement.pfClearSleepNbt(ent, level)
+
+        // 排队区可能就在起始路径格，移动前也要检查一次。
+        let currentPathPos = global.pfMovement.pfCalcCurrentPos(ent)
+        let queuePos = global.pfEntityData.pfGetQueuePos(ent)
+        let startDx = currentPathPos.x - queuePos.x
+        let startDz = currentPathPos.z - queuePos.z
+        if (Math.sqrt(startDx * startDx + startDz * startDz) < 0.5 &&
+            !global.pfEntityData.pfHasSlept(ent)) {
+            global.pfEntityData.pfSetWaitPos(ent, currentPathPos.x, ent.getY(), currentPathPos.z)
+            global.pfEntityData.pfSetPhase(ent, 5)
+            console.log("[PF] 起始位置就是固定排队区，进入等待状态 pos=(" +
+                currentPathPos.x.toFixed(1) + "," + currentPathPos.z.toFixed(1) + ")")
+            continue
+        }
         
         // 检查排队
         let myInfo = {
@@ -170,24 +184,19 @@ global.pathfinderTick = function (entity) {
             continue
         }
         
-        // 检查是否到达蓝色地毯（在pfMoveStep的sub===0时）
+        // 检查是否到达固定排队区（在pfMoveStep的sub===0时）
         let sub = global.pfEntityData.pfGetSubStep(ent)
         if (sub === 0) {
             let currPos = global.pfMovement.pfCalcCurrentPos(ent)
-            let bluePos = global.pfEntityData.pfGetBlueCarpetPos(ent)
-            let dx = currPos.x - bluePos.x
-            let dz = currPos.z - bluePos.z
-            let distToBlue = Math.sqrt(dx * dx + dz * dz)
-            
-            let blockX = Math.floor(currPos.x)
-            let blockZ = Math.floor(currPos.z)
-            let currentBlock = level.getBlock(blockX, ent.getY(), blockZ)
-            let isBlueCarpet = (currentBlock.id == "minecraft:blue_carpet") || (distToBlue < 0.5)
-            
-            if (isBlueCarpet && !global.pfEntityData.pfHasSlept(ent)) {
+        let arrivedQueuePos = global.pfEntityData.pfGetQueuePos(ent)
+        let dx = currPos.x - arrivedQueuePos.x
+        let dz = currPos.z - arrivedQueuePos.z
+        let distToQueue = Math.sqrt(dx * dx + dz * dz)
+
+            if (distToQueue < 0.5 && !global.pfEntityData.pfHasSlept(ent)) {
                 global.pfEntityData.pfSetWaitPos(ent, currPos.x, ent.getY(), currPos.z)
                 global.pfEntityData.pfSetPhase(ent, 5)
-                console.log("[PF] 到达蓝色地毯，进入等待状态 pos=(" + currPos.x.toFixed(1) + "," + currPos.z.toFixed(1) + ")")
+                console.log("[PF] 到达固定排队区，进入等待状态 pos=(" + currPos.x.toFixed(1) + "," + currPos.z.toFixed(1) + ")")
             }
         }
     }

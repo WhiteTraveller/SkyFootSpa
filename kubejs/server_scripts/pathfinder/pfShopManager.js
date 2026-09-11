@@ -7,8 +7,8 @@
 //   pfShopPlayerUuid    (string) 开店玩家 UUID
 //   pfShopRouteStr      (string) 路径字符串
 //   pfShopBaseX/Y/Z     (int)    寻路方块坐标（与方块自身一致，便于自检）
-//   pfShopBlueX/Z       (double) 蓝色地毯位置
-//   pfShopBlueSet       (int 0/1) 蓝色地毯是否已写入
+//   pfShopQueueX/Z      (double) 开店时确定的固定排队区位置
+//   pfShopQueueSet      (int 0/1) 排队区是否已写入
 //   pfShopSpawnedUuids  (string) 已生成顾客 UUID，逗号分隔
 //   pfShopBedList       (string) 合法床位表，含坐标、占用状态和 ownerUuid
 //   pfShopBedCount      (int)    当前合法床总数
@@ -84,21 +84,21 @@ function pfShopSetBase(be, x, y, z) {
     be.persistentData.putInt("pfShopBaseZ", z | 0)
 }
 
-function pfShopGetBluePos(be) {
-    if ((be.persistentData.getInt("pfShopBlueSet") | 0) !== 1) return null
+function pfShopGetQueuePos(be) {
+    if ((be.persistentData.getInt("pfShopQueueSet") | 0) !== 1) return null
     return {
-        x: be.persistentData.getDouble("pfShopBlueX"),
-        z: be.persistentData.getDouble("pfShopBlueZ")
+        x: be.persistentData.getDouble("pfShopQueueX"),
+        z: be.persistentData.getDouble("pfShopQueueZ")
     }
 }
 
-function pfShopSetBluePos(be, pos) {
+function pfShopSetQueuePos(be, pos) {
     if (pos) {
-        be.persistentData.putDouble("pfShopBlueX", pos.x)
-        be.persistentData.putDouble("pfShopBlueZ", pos.z)
-        be.persistentData.putInt("pfShopBlueSet", 1)
+        be.persistentData.putDouble("pfShopQueueX", pos.x)
+        be.persistentData.putDouble("pfShopQueueZ", pos.z)
+        be.persistentData.putInt("pfShopQueueSet", 1)
     } else {
-        be.persistentData.putInt("pfShopBlueSet", 0)
+        be.persistentData.putInt("pfShopQueueSet", 0)
     }
 }
 
@@ -205,7 +205,7 @@ function pfIsDaytime(level) {
 /**
  * 开店：将状态写入触发方块 BE 的 persistentData
  */
-function pfOpenShop(player, level, baseX, baseY, baseZ, routeStr, blueCarpetPos) {
+function pfOpenShop(player, level, baseX, baseY, baseZ, routeStr, queuePos) {
     let be = pfShopGetBE(level, baseX, baseY, baseZ)
     if (!be) {
         console.log("[PF-SHOP] 开店失败：找不到寻路方块实体 at (" + baseX + "," + baseY + "," + baseZ + ")")
@@ -217,7 +217,7 @@ function pfOpenShop(player, level, baseX, baseY, baseZ, routeStr, blueCarpetPos)
     pfShopSetPlayerUuid(be, "" + player.getUuid())
     pfShopSetRouteStr(be, routeStr)
     pfShopSetBase(be, baseX, baseY, baseZ)
-    pfShopSetBluePos(be, blueCarpetPos)
+    pfShopSetQueuePos(be, queuePos)
     pfShopSetSpawnedUuids(be, [])
     let shopBeds = pfShopRefreshBeds(level, baseX, baseY, baseZ, routeStr)
     if (global.pfBedManager && global.pfBedManager.pfHighlightBeds) {
@@ -331,12 +331,12 @@ function pfShopTick(level, entity) {
 
     let base = pfShopGetBase(be)
     let routeStr = pfShopGetRouteStr(be)
-    let blueCarpetPos = pfShopGetBluePos(be)
+    let queuePos = pfShopGetQueuePos(be)
 
     try {
         let walker = global.pfEntitySpawner.pfSpawnWalker(
             level, base.x, base.y, base.z,
-            routeStr, blueCarpetPos, player, result.model, null, true
+            routeStr, queuePos, player, result.model, null, true
         )
         walker.persistentData.putString('pfCustomerCategory', result.category)
         pfShopAddSpawnedUuid(be, "" + walker.getUuid())
@@ -359,6 +359,7 @@ global.pfShopManager = {
     pfShopAddSpawnedUuid: pfShopAddSpawnedUuid,
     pfShopGetBE: pfShopGetBE,
     pfShopGetBedList: pfShopGetBedList,
+    pfShopGetQueuePos: pfShopGetQueuePos,
     pfShopGetBedCount: pfShopGetBedCount,
     pfShopSetBedList: pfShopSetBedList,
     pfShopRefreshBeds: pfShopRefreshBeds,

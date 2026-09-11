@@ -11,7 +11,7 @@
 //   - 不改变 pfShopState.isOpen；若已开店则纳入 spawnedEntities 统一清理
 // ============================================================
 
-function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, blueCarpetPos, voucherKey) {
+function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, queuePos, voucherKey) {
     if (!global.pfCustomerTypes || !global.pfCustomerTypes.PF_CUSTOMER_TYPES) {
         player.tell("§c[预约] 顾客类型系统未加载")
         return
@@ -50,7 +50,7 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, bl
     // ===== 调用实体生成 =====
     try {
         let walker = global.pfEntitySpawner.pfSpawnWalker(
-            level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, chosenModel, null
+            level, baseX, baseY, baseZ, routeStr, queuePos, player, chosenModel, null
         )
         walker.persistentData.putString("pfCustomerCategory", chosenKey)
 

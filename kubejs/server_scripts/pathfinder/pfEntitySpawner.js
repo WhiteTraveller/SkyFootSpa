@@ -5,7 +5,7 @@
 // ============================================================
 
 // 生成寻路实体
-function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, player, modelOverride, bossDef, silent) {
+function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, modelOverride, bossDef, silent) {
     let walker = level.createEntity(global.pfConstants.PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
@@ -45,8 +45,8 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, blueCarpetPos, play
         walker.persistentData.putString("pfSpawnerPlayerUuid", "" + player.getUuid())
     }
     
-    // 保存蓝色地毯位置
-    global.pfEntityData.pfSetBlueCarpetPos(walker, blueCarpetPos.x, blueCarpetPos.z)
+    // 保存开店时确定的固定排队区位置
+    global.pfEntityData.pfSetQueuePos(walker, queuePos.x, queuePos.z)
     
     // 顾客出场时刷新店铺统一床位表；未挂靠营业店铺时保留实体本地列表兼容逻辑。
     let pathBeds = []

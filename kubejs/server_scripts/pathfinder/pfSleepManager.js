@@ -144,11 +144,11 @@ function pfWakeUp(ent, level) {
     server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
     
     // 计算下床位置
-    let fromBlueWait = global.pfEntityData.pfIsFromBlueWait(ent)
+    let fromQueueWait = global.pfEntityData.pfIsFromQueueWait(ent)
     let bsx, bsy, bsz
     
-    if (fromBlueWait) {
-        // 从蓝色地毯等待后躺床，查找床位周围的红色地毯
+    if (fromQueueWait) {
+        // 从固定排队区等待后躺床，查找床位周围的红色地毯
         let redCarpetPos = null
         for (let dx = -2; dx <= 2 && redCarpetPos === null; dx++) {
             for (let dz = -2; dz <= 2 && redCarpetPos === null; dz++) {
@@ -166,7 +166,7 @@ function pfWakeUp(ent, level) {
             bsx = redCarpetPos.x
             bsy = bedPos.blockY
             bsz = redCarpetPos.z
-            console.log("[PF-SLEEP] 从蓝色地毯等待后下床，定位到红色地毯: (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
+            console.log("[PF-SLEEP] 从排队区等待后下床，定位到红色地毯: (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ")")
         } else {
             let beforePos = global.pfEntityData.pfGetBeforeSleepPos(ent)
             bsx = beforePos.x
@@ -174,7 +174,7 @@ function pfWakeUp(ent, level) {
             bsz = beforePos.z
             console.log("[PF-SLEEP] 未找到床位旁红色地毯，使用原位置")
         }
-        global.pfEntityData.pfSetFromBlueWait(ent, false)
+        global.pfEntityData.pfSetFromQueueWait(ent, false)
     } else {
         let beforePos = global.pfEntityData.pfGetBeforeSleepPos(ent)
         bsx = beforePos.x
