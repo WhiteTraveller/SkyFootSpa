@@ -149,6 +149,9 @@ function pfShopReserveBed(level, baseX, baseY, baseZ, bedKey, ownerUuid) {
     for (let i = 0; i < beds.length; i++) {
         if (global.pfBedManager.pfBedKey(beds[i]) !== bedKey) continue
         if (beds[i].used) return null
+        // 床位表可能在关店时被清空，而正在服务中的实体仍然存在。
+        // 锁床前再次检查世界实体，防止新顾客与旧顾客重叠上床。
+        if (global.pfBedManager.pfIsBedOccupied(level, beds[i], null)) return null
         beds[i].used = true
         beds[i].ownerUuid = "" + ownerUuid
         pfShopSetBedList(be, global.pfBedManager.pfSerializeBeds(beds))

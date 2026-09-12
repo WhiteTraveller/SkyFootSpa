@@ -96,7 +96,13 @@ function pfMergeBeds(level, scannedBeds, oldBeds) {
     for (let i = 0; i < scannedBeds.length; i++) {
         let bed = scannedBeds[i]
         let old = oldByKey[pfBedKey(bed)]
-        if (old && old.used && old.ownerUuid) {
+        // 关店会清空店铺床位表，但正在服务中的实体（phase=3）会保留。
+        // 重新开店时优先从世界中的实体恢复真实占用状态，避免床位表被清空后重用。
+        let occupant = pfFindBedOccupant(level, bed, null)
+        if (occupant) {
+            bed.used = true
+            bed.ownerUuid = "" + occupant.getUuid()
+        } else if (old && old.used && old.ownerUuid) {
             let owner = null
             try { owner = level.getEntity(old.ownerUuid) } catch (e) { owner = null }
             if (owner && owner.isAlive() && global.pfEntityData.pfGetPhase(owner) === 3) {
@@ -170,17 +176,38 @@ function pfReleaseBed(level, bedKey, ownerUuid) {
     manager.pfShopReleaseBed(level, bedKey, ownerUuid)
 }
 
-// 检查指定床是否被占用（pfPhase=3 的实体在床附近）
-function pfIsBedOccupied(level, bed, selfEnt) {
+// 查找指定床对应的睡眠实体。
+// 优先使用实体保存的床位坐标，避免相邻床位的检测范围互相误判；
+// 对没有完整床位NBT的旧实体，仅按实体实际位置做窄范围兼容检测。
+function pfFindBedOccupant(level, bed, selfEnt) {
     let bedArea = new AABB.of(bed.blockX - 1, bed.blockY, bed.blockZ - 1,
         bed.blockX + 1, bed.blockY + 1, bed.blockZ + 1)
     let nearbyEnts = level.getEntitiesWithin(bedArea)
+    let bedKey = pfBedKey(bed)
     for (let e = 0; e < nearbyEnts.length; e++) {
         let other = nearbyEnts[e]
         if (other === selfEnt) continue
-        if (other.persistentData.getInt("pfPhase") === 3) return true
+        if (other.persistentData.getInt("pfPhase") !== 3) continue
+
+        try {
+            let otherBed = global.pfEntityData.pfGetBedInfo(other)
+            if (pfBedKey(otherBed) === bedKey) return other
+        } catch (e) {
+            // 旧实体可能没有可读取的床位信息，继续按实际位置兼容检测。
+        }
+
+        // 不能把床位周围的任意 phase=3 实体算到当前床，
+        // 否则相邻床位会互相误判。旧实体必须实际位于当前床中心附近。
+        let dx = other.getX() - (bed.blockX + 0.5)
+        let dz = other.getZ() - (bed.blockZ + 0.5)
+        if (dx * dx + dz * dz <= 0.75 * 0.75) return other
     }
-    return false
+    return null
+}
+
+// 检查指定床是否被占用（pfPhase=3 的实体在床附近）
+function pfIsBedOccupied(level, bed, selfEnt) {
+    return pfFindBedOccupant(level, bed, selfEnt) !== null
 }
 
 // 导出到全局
@@ -191,6 +218,7 @@ global.pfBedManager = {
     pfHighlightBeds: pfHighlightBeds,
     pfSerializeBeds: pfSerializeBeds,
     pfParseBeds: pfParseBeds,
+    pfFindBedOccupant: pfFindBedOccupant,
     pfIsBedOccupied: pfIsBedOccupied,
     pfReleaseBed: pfReleaseBed
 }
