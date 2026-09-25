@@ -1,4 +1,4 @@
-66 possible biomes found:
+67 possible biomes found:
 - "minecraft:badlands"
 - "minecraft:bamboo_jungle"
 - "minecraft:basalt_deltas"
@@ -39,6 +39,7 @@
 - "minecraft:old_growth_birch_forest"
 - "minecraft:old_growth_pine_taiga"
 - "minecraft:old_growth_spruce_taiga"
+- "marguerite:old_hell"
 - "minecraft:plains"
 - "minecraft:river"
 - "minecraft:savanna"

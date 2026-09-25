@@ -1,0 +1,6 @@
+{
+    "item.deceased_expansion.pity_slip":"怜悯券",
+    "item.deceased_expansion.pity_slip.desc":"很不幸。",
+    "item.deceased_expansion.pity_slip.desc.use":"使用后获得少量钱，以示怜悯。",
+    "item.deceased_expansion.pity_slip.use.fail":"无法将钱放入物品栏"
+}

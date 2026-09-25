@@ -1,0 +1,18 @@
+{
+  "type": "marguerite:old_hell",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [
+        {
+          "block": "minecraft:stone",
+          "height": 256
+        }
+      ],
+      "biome": "marguerite:old_hell",
+      "features": false,
+      "lakes": false,
+      "structure_overrides": []
+    }
+  }
+}

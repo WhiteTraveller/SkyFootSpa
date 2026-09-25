@@ -9,80 +9,7 @@
 	quest_links: [ ]
 	quests: [
 		{
-			can_repeat: false
-			description: [
-				"你缓缓睡开双眼，发现自己身处一间陌生的小店铺。"
-				""
-				"空气里弥漫着草药的气息，面对着你的是一个陌生的面孔……"
-			]
-			icon: {
-				Count: 1
-				id: "touhou_little_maid:garage_kit"
-				tag: {
-					EntityInfo: {
-						IsYsmModel: 0b
-						MaidTaskDataMaps: { }
-						ModelId: "touhou_little_maid:joutougu_mayumi"
-						id: "touhou_little_maid:maid"
-					}
-				}
-			}
-			id: "64686425A9752ADB"
-			rewards: [
-				{
-					command: "/chatbox skip skyfootspa:start start"
-					icon: "minecraft:nether_star"
-					id: "1813C55813EA0453"
-					title: "与爱丽丝对话"
-					type: "command"
-				}
-				{
-					id: "332BAE6F4C9531F8"
-					item: "marguerite:voucher_random"
-					type: "item"
-				}
-				{
-					id: "35B2DF7F18894BAA"
-					item: "minecraft:water_bucket"
-					type: "item"
-				}
-			]
-			shape: "gear"
-			size: 2.0d
-			tasks: [{
-				id: "192C4AEBE2FA8BF2"
-				title: "我是谁？"
-				type: "checkmark"
-			}]
-			x: 1.0d
-			y: -3.0d
-		}
-		{
-			can_repeat: true
-			dependencies: ["64686425A9752ADB"]
-			description: ["可以在这里重新触发对话"]
-			hide_dependency_lines: false
-			icon: "minecraft:nether_star"
-			id: "28F0FC608CAC5A31"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:start start"
-				icon: "minecraft:nether_star"
-				id: "708DD666D03D893F"
-				silent: true
-				title: "与爱丽丝对话"
-				type: "command"
-			}]
-			shape: "square"
-			tasks: [{
-				id: "380B03C5DF933152"
-				title: "重新触发对话"
-				type: "checkmark"
-			}]
-			x: 1.0d
-			y: -5.5d
-		}
-		{
-			dependencies: ["64686425A9752ADB"]
+			dependencies: ["13CFD333B3A16B05"]
 			description: [
 				"洗脚店有两种方式招揽顾客："
 				""
@@ -234,6 +161,55 @@
 			}]
 			x: 8.5d
 			y: -0.5d
+		}
+		{
+			can_repeat: false
+			description: [
+				"你缓缓睡开双眼，发现自己身处一间陌生的小店铺。"
+				""
+				"空气里弥漫着草药的气息，面对着你的是一个陌生的面孔……"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:alice_margatroid"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "13CFD333B3A16B05"
+			rewards: [
+				{
+					command: "/chatbox skip skyfootspa:start start"
+					icon: "minecraft:nether_star"
+					id: "4D306CC4A23BC136"
+					title: "与爱丽丝对话"
+					type: "command"
+				}
+				{
+					id: "33D2CE79ABDDB6CB"
+					item: "marguerite:voucher_random"
+					type: "item"
+				}
+				{
+					id: "5A292C695B3AE0B2"
+					item: "minecraft:water_bucket"
+					type: "item"
+				}
+			]
+			shape: "gear"
+			size: 2.0d
+			tasks: [{
+				id: "4A5728D6FD498112"
+				title: "我是谁？"
+				type: "checkmark"
+			}]
+			x: 1.0d
+			y: -3.0d
 		}
 	]
 	title: "序章"

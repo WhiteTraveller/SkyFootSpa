@@ -5,7 +5,8 @@
 // 入口：pfBlockHandler.js 检测到玩家手持 voucher 时调用 pfSpawnVoucherCustomer。
 // 规则：
 //   - 消耗 1 个凭证（创意模式免）
-//   - 依据 voucherKey 选定类别 / 随机类别，从该类 models 随机选模型
+//   - 依据 voucherKey 选定类别 / 随机类别，模型由 pfPickModel 决定
+//     （perSpawnRandom 类别每次随机，其余用该类固定皮肤 cat.model）
 //   - 调用 pfEntitySpawner.pfSpawnWalker（不传 bossDef）
 //   - 写入 pfCustomerCategory，参与评价系统
 //   - 不改变 pfShopState.isOpen；若已开店则纳入 spawnedEntities 统一清理
@@ -25,7 +26,7 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, qu
     if (voucherKey === "random") {
         let keys = []
         for (let k in types) {
-            if (types[k] && types[k].models && types[k].models.length > 0) keys.push(k)
+            if (types[k] && types[k].model) keys.push(k)
         }
         if (keys.length === 0) {
             player.tell("§c[预约] 无可用顾客类型")
@@ -41,11 +42,11 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, qu
         }
     }
 
-    if (!chosenCategory.models || chosenCategory.models.length === 0) {
+    if (!chosenCategory.model) {
         player.tell("§c[预约] " + chosenCategory.name + " 无可用模型")
         return
     }
-    let chosenModel = chosenCategory.models[Math.floor(Math.random() * chosenCategory.models.length)]
+    let chosenModel = global.pfCustomerTypes.pfPickModel(chosenCategory)
 
     // ===== 调用实体生成 =====
     try {
@@ -53,6 +54,8 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, qu
             level, baseX, baseY, baseZ, routeStr, queuePos, player, chosenModel, null
         )
         walker.persistentData.putString("pfCustomerCategory", chosenKey)
+        // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
+        global.pfCustomerLevel.pfRefreshNameTag(walker, chosenCategory.name)
 
         // 已开店则纳入统一管理（开店状态持久化在 pathfinder_block 的 BlockEntity 中）
         try {

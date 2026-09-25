@@ -60,6 +60,13 @@ function ensureTooltipOnce() {
     }
 }
 
+// ============================================================
+// 【已停用】ApricityUI 自定义 HTML tooltip（遗物悬浮框）
+// 停用后：遗物恢复原版文字 tooltip 渲染（文字由 client_scripts/tooltip/relicTooltip.js 提供）。
+// 普通文字 tooltip（筋膜枪/泡脚水/油/皴块）不受影响。
+// 恢复方法：去掉下面块注释的起止标记，并还原文件末尾的加载日志。
+// ============================================================
+/*
 ForgeEvents.onEvent("net.minecraftforge.event.entity.player.ItemTooltipEvent", function(event) {
     let stack = event.getItemStack()
     if (!isRelicItem(stack)) {
@@ -127,6 +134,7 @@ ForgeEvents.onEvent("net.minecraftforge.event.TickEvent$ClientTickEvent", functi
     lastPosX = -9999
     lastPosY = -9999
 })
+*/
 
 function rebuildTooltip(stack, event, itemId) {
     // 从遗物注册表获取数据
@@ -233,4 +241,5 @@ function getRelicTexturePath(relicData) {
     return relicData.name + ".png"
 }
 
-console.log('[TOOLTIP] ✅ 自定义遗物提示框已加载')
+// console.log('[TOOLTIP] ✅ 自定义遗物提示框已加载')  // 已停用
+console.log('[TOOLTIP] 自定义遗物提示框已停用，遗物恢复原版文字 tooltip')

@@ -85,6 +85,9 @@
     "registry_name": "OFF",
     "mod_name": true
   },
+  "anvilcraft": {
+    "power_provider": true
+  },
   "ae2": {
     "part_icon": true,
     "charger": true,

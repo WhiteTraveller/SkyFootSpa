@@ -1,6 +1,6 @@
 # ApricityUI / KubeJS UI 适配记录
 
-本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前适配目标是 `ApricityUI-forge-1.20.1-1.2.2-hotfix1.jar`。
+本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前实际安装版本是 `ApricityUI-forge-1.20.1-1.2.4-hotfix.jar`（下方标注 1.2.2-hotfix1 的兼容点为历史观察，升级后未逐一复验；容器相关坑见「容器 Screen」章节，已在 1.2.4-hotfix 实测）。已知 1.2.4-hotfix 自身 bug：每 tick 报 `NoSuchMethodException: CompoundTag.putString` 的 LocalStorage 持久化反射错误（不影响容器交互）。
 
 ## 关键入口
 
@@ -10,6 +10,7 @@
 - 手机客户端同步：`kubejs/client_scripts/ui/phone_ui.js`
 - 体力 HUD：`kubejs/client_scripts/ui/stamina_hud.js`、`apricity/kubejs/stamina_hud.html`
 - 体力服务端：`kubejs/server_scripts/stamina.js`
+- 开店方块配置容器 Screen：`apricity/kubejs/pathfinder_config.html`，服务端打开+绑定 `kubejs/server_scripts/pathfinder/pfBlockHandler.js`，关闭转发 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`，客户端关闭 `kubejs/client_scripts/ui/pathfinder_config_ui.js`
 
 ## ApricityUI 1.2.2-hotfix1 兼容点
 
@@ -50,6 +51,21 @@ Gensyo 和抽卡弹窗注意点：
 - 弹窗显示时显式设置 `pointer-events: auto`，隐藏时设置 `pointer-events: none`。
 - 右侧手机主体层级应低于弹窗层级，避免弹窗可见但按钮点不到。
 - 抽卡补给数量如 `x 20` 需要 `white-space: nowrap`，防止被拆行。
+
+## 容器 Screen（真实物品槽位）
+
+`pathfinder_config.html`（开店方块配置）是本项目第一个真实容器 Screen，能同步物品槽位、显示玩家背包、双向移动物品。要点：
+
+- 真实容器只能服务端打开：`ApricityUI.menu(player, path).bind(function (binding) { ... })`。`screen(path)` 等 UI-only 方式打开的槽位全是展示型（看得见点不动）。
+- **容器页面 viewport 必须用 `mode=browser`，绝对不要用 `mode=gui`**（1.2.4-hotfix 实测）：gui 模式下容器 Screen 会每帧 resize → 反复 init 重建 Document（日志每帧刷 `refresh complete` + `first commit generation=1`，generation 始终为 1），槽位绑定稳不住，物品「看得见、拖不动」。browser 视口稳定、无此问题，也是 AUI 容器文档最小示例用的模式。界面偏小用 zoom 放大（`mode=browser,zoom=1.4`），槽位 `--aui-slot-size: 40px`；不要为了放大改回 gui。另：AUI 1.2.4 不支持 `text-shadow`（日志刷 `[AUI CSS] unsupported property ignored`），别用。
+- **容器页面绝对不要加 `<meta name="aui-mouse-events" content="intercept">`**：intercept 会让命中区域的鼠标事件不再传给 Minecraft 输入，而槽位的点击/拖拽/shift-click 全靠 MC 菜单处理——一旦 intercept，物品就「看得见、点不动、拿不到鼠标上」。AUI 容器文档最小示例的 head 里也没有该 meta；不加 intercept 时 HTML 元素（如关闭按钮）的 click 事件照样派发。这是容器 Screen 与普通 Screen/Overlay（phone.html 需要 intercept）最大的区别。
+- `binding` 数据源：`player()`（固定 36 格背包）、`saveddata(name, cap)`（世界级持久库存）、`blockEntity(pos)`（方块 ITEM_HANDLER）、`entity(id)`。第一个非玩家绑定自动成为 primary，决定 shift-click 主方向。
+- HTML 容器 id 固定且必须与绑定方法对应：`player()`→`id="player"`、`saveddata()`→`id="saved_data"`、`blockEntity()`→`id="block_entity"`、`entity()`→`id="entity"`；对不上槽位就退化成展示型。
+- 玩家背包用空容器 + `layout="preset:player"` 自动排成原版 36 格；配置库存用 `<container id="saved_data" bind="saved_data" size="27">` 空容器自动生成槽位。真实槽位由 AUI 渲染 MC 风格外观，CSS 只需控布局（grid）和尺寸（`--aui-slot-size`）。
+- 容器 CSS 严格遵循文档最小示例：`container { display: grid; gap: 2px; width: max-content; --aui-slot-size: Npx; }`。配置容器再加 `grid-template-columns: repeat(列数, Npx)` 排成矩阵；**玩家背包容器只靠 `preset:player` 排列，不要给它设 `grid-template-columns` 或 `padding`/`border`/`background` 盒样式**，否则干扰 preset 自动布局（文档「背包位置乱」条目警告：别按自然顺序排网格）。
+- 关闭容器 Screen 用客户端 `ApricityUI.closeScreen()`；`removeDocument` 只对 Overlay 有效、对容器 Screen 无效。关闭时 SavedData 自动标 dirty 持久化，无需手动保存。
+- SavedData 存主世界数据目录（`data/<name>.dat`），是世界级而非个人背包。要按方块隔离就把维度+坐标编进数据名，并 sanitize 掉非法文件名字符（如维度串里的 `:`），见 `pfBlockHandler.js` 的 `pf_cfg_<dim>_<x>_<y>_<z>`。
+- 页面脚本（HTML 内 JS）没有全局 `player`，要先 `var McClient = Java.loadClass("net.minecraft.client.Minecraft")` 再 `McClient.getInstance().player` 获取，判空后 `player.sendData(...)`。
 
 ## 体力 HUD 同步
 

@@ -4,28 +4,52 @@
 // 将东方Project角色按种族分类
 // 每个类别有独立的生成权重（百分比）
 // PF_ACTIVE_CATEGORIES 控制当前允许生成的类别（不在列表中的类别保留数据但不生成）
+// PF_DIMENSION_CATEGORIES 控制各维度开店时允许生成的类别（正常开店按店铺所在维度过滤）
+// 每个类别只有一种皮肤：加载时从 models 池随机挑选一个固定为该种族的唯一皮肤（cat.model）
+// 例外：类别设置 perSpawnRandom: true 时，每次生成顾客都从 models 池随机挑一个（见 pfPickModel）
 // ============================================================
 
 // 当前允许生成顾客的类别（修改此数组即可控制哪些类别参与生成）
-let PF_ACTIVE_CATEGORIES = ['ningen', 'youkai', 'kami']
+// 注：实际生成范围 = 此白名单 ∩ 当前维度允许类别（PF_DIMENSION_CATEGORIES）
+// youkai/kami 不在任何维度的映射中，正常开店不会生成（预约凭证仍可召唤）
+let PF_ACTIVE_CATEGORIES = ['ningen', 'yousei', 'oni', 'tsukikou']
+
+// 维度 → 可生成顾客类别映射（正常开店时按店铺所在维度过滤）
+// 主世界：妖精 + 人类；旧地狱：妖精 + 鬼；月球：月球人
+// 未列入的维度不会生成顾客
+let PF_DIMENSION_CATEGORIES = {
+    'minecraft:overworld':  ['yousei', 'ningen'],   // 主世界
+    'marguerite:old_hell':  ['yousei', 'oni'],      // 旧地狱（自定义维度 marguerite:old_hell）
+    'ad_astra:moon':        ['tsukikou']            // 月球
+}
 
 let PF_CUSTOMER_TYPES = {
     'ningen': {
         name: '普通',
         weight: 4,  // 1% 概率
+        // 人类顾客固定使用自定义人类女性模型系列，不再从东方角色池随机
+        // perSpawnRandom: 每次生成顾客时从 models 池（5 种材质变体）随机挑一个
+        perSpawnRandom: true,
         models: [
-            "touhou_little_maid:kirisame_marisa",         // 雾雨魔理沙
-            "touhou_little_maid:kirisame_marisa_2",       // 雾雨魔理沙
-            "touhou_little_maid:izayoi_sakuya",           // 十六夜咲夜
-            "touhou_little_maid:mononobe_no_futo",        // 物部布都
-            "touhou_little_maid:toyosatomimi_no_miko",    // 丰聪耳神子
-            "touhou_little_maid:kochiya_sanae",           // 东风谷早苗
-            "touhou_little_maid:usami_sumireko",          // 宇佐见菫子
-            "touhou_little_maid:hijiri_byakuren",         // 圣白莲
-            "touhou_little_maid:hieda_no_akyuu",          // 稗田阿求
-            "touhou_little_maid:motoori_kosuzu",          // 本居小铃
-            "touhou_little_maid:usami_renko",             // 宇佐见莲子
-            "touhou_little_maid:maribel_hearn",           // 梅莉·赫恩
+            "skyfootspa:human_femal",           // 人类女性（原版材质）
+            "skyfootspa:human_femal_v1",        // 人类女性·材质变体1
+            "skyfootspa:human_femal_v2",        // 人类女性·材质变体2
+            "skyfootspa:human_femal_v3",        // 人类女性·材质变体3
+            "skyfootspa:human_femal_v4",        // 人类女性·材质变体4
+        ]
+    },
+    'yousei': {
+        name: '妖精',
+        weight: 4,
+        // 妖精顾客固定使用自定义妖精模型系列，不再从东方角色池随机
+        // perSpawnRandom: 每次生成顾客时从 models 池（5 种材质变体）随机挑一个
+        perSpawnRandom: true,
+        models: [
+            "skyfootspa:fairy",                 // 妖精（原版材质）
+            "skyfootspa:fairy_v1",              // 妖精·材质变体1
+            "skyfootspa:fairy_v2",              // 妖精·材质变体2
+            "skyfootspa:fairy_v3",              // 妖精·材质变体3
+            "skyfootspa:fairy_v4",              // 妖精·材质变体4
         ]
     },
     'youkai': {
@@ -34,18 +58,6 @@ let PF_CUSTOMER_TYPES = {
         models: [
             "touhou_little_maid:rumia",                  // 露米娅
             "touhou_little_maid:hong_meiling",           // 红美铃
-            "touhou_little_maid:daiyousei",              // 大妖精
-            "touhou_little_maid:cirno",                  // 琪露诺
-            "touhou_little_maid:cirno_maid",             // 琪露诺
-            "touhou_little_maid:cirno_tan",              // 琪露诺
-            "touhou_little_maid:cirno_slim",             // 琪露诺
-            "touhou_little_maid:lily_white",             // 莉莉白
-            "touhou_little_maid:lily_black",             // 莉莉黑
-            "touhou_little_maid:eternity_larva",         // 爱塔妮缇拉尔瓦
-            "touhou_little_maid:sunny_milk",             // 桑尼米尔克
-            "touhou_little_maid:luna_child",             // 露娜切尔德
-            "touhou_little_maid:star_sapphire",          // 斯塔萨菲雅
-            "touhou_little_maid:clownpiece",             // 克劳恩皮丝
             "touhou_little_maid:koakuma",                // 小恶魔
             "touhou_little_maid:patchouli_knowledge",    // 帕秋莉·诺蕾姬
             "touhou_little_maid:patchouli_knowledge_2",  // 帕秋莉·诺蕾姬
@@ -198,6 +210,29 @@ let PF_CUSTOMER_TYPES = {
     }
 }
 
+// 每个类别只保留一种皮肤：脚本加载时从原模型池随机挑选一个，
+// 之后该种族只生成这一个皮肤的顾客（models 数组仅作参考保留）
+for (let key in PF_CUSTOMER_TYPES) {
+    let cat = PF_CUSTOMER_TYPES[key]
+    let pool = cat.models
+    cat.model = (pool && pool.length > 0) ? pool[Math.floor(Math.random() * pool.length)] : null
+}
+
+/**
+ * 为一次顾客生成挑选模型
+ * perSpawnRandom: true 的类别每次生成都从 models 池随机挑一个（如人类材质变体）；
+ * 其余类别使用加载时固定的唯一皮肤 cat.model
+ * @param {Object} cat 类别对象（PF_CUSTOMER_TYPES[key]）
+ * @returns {string|null} 模型ID
+ */
+function pfPickModel(cat) {
+    if (!cat) return null
+    if (cat.perSpawnRandom && cat.models && cat.models.length > 0) {
+        return cat.models[Math.floor(Math.random() * cat.models.length)]
+    }
+    return cat.model
+}
+
 // ============================================================
 // 顾客评价系统
 // 使用玩家 persistentData 持久化存储每种顾客的评价值
@@ -267,19 +302,29 @@ function pfGetAllRatings(player) {
 
 /**
  * 根据评价加权表抽取顾客
- * 仅从 PF_ACTIVE_CATEGORIES 中的类别抽取
+ * 先按店铺所在维度取 PF_DIMENSION_CATEGORIES 允许的类别，再与 PF_ACTIVE_CATEGORIES 白名单取交集
  * 总权重池 = 10000，各类别权重 = 400 + 评价值 × 5
- * 未命中任何类别时返回 null（本轮无顾客）
+ * 未命中任何类别 / 维度未配置时返回 null（本轮无顾客）
  * @param {$Player_} player 玩家（用于读取评价值）
+ * @param {$Level_} level 店铺所在维度（用于判断可生成类别）
  * @returns {Object|null} { category, name, model } 或 null（未生成）
+ * 注：model 由 pfPickModel 决定（perSpawnRandom 类别每次随机，其余为 cat.model）
  */
-function pfRollCustomer(player) {
-    // 仅计算活跃类别的权重
+function pfRollCustomer(player, level) {
+    // 取当前维度 ID，查询该维度允许生成的类别
+    let dimId = level ? "" + level.getDimension() : ""
+    let dimCategories = PF_DIMENSION_CATEGORIES[dimId]
+    if (!dimCategories || dimCategories.length === 0) {
+        console.log("[PF-CUSTOMER] 维度 " + (dimId || "未知") + " 未配置可生成顾客类别，本轮跳过")
+        return null
+    }
+    // 仅计算维度允许且在活跃白名单中的类别权重
     let entries = []
     let totalWeight = 0
-    for (let i = 0; i < PF_ACTIVE_CATEGORIES.length; i++) {
-        let key = PF_ACTIVE_CATEGORIES[i]
+    for (let i = 0; i < dimCategories.length; i++) {
+        let key = dimCategories[i]
         if (!PF_CUSTOMER_TYPES[key]) continue
+        if (PF_ACTIVE_CATEGORIES.indexOf(key) < 0) continue
         let rating = player ? pfGetRating(player, key) : 0
         let w = PF_RATING_BASE_WEIGHT + rating * PF_RATING_PER_POINT
         entries.push({ key: key, weight: w })
@@ -293,8 +338,8 @@ function pfRollCustomer(player) {
         cumulative += entries[i].weight
         if (roll < cumulative) {
             let cat = PF_CUSTOMER_TYPES[entries[i].key]
-            let model = cat.models[Math.floor(Math.random() * cat.models.length)]
-            return { category: entries[i].key, name: cat.name, model: model }
+            if (!cat.model) continue
+            return { category: entries[i].key, name: cat.name, model: pfPickModel(cat) }
         }
     }
     return null  // 未命中任何类别（剩余空池）
@@ -304,7 +349,9 @@ function pfRollCustomer(player) {
 global.pfCustomerTypes = {
     PF_CUSTOMER_TYPES: PF_CUSTOMER_TYPES,
     PF_ACTIVE_CATEGORIES: PF_ACTIVE_CATEGORIES,
+    PF_DIMENSION_CATEGORIES: PF_DIMENSION_CATEGORIES,
     pfRollCustomer: pfRollCustomer,
+    pfPickModel: pfPickModel,
     pfGetRating: pfGetRating,
     pfSetRating: pfSetRating,
     pfAddRating: pfAddRating,
@@ -316,4 +363,15 @@ global.pfCustomerTypes = {
     PF_RATING_SAT_THRESHOLD: PF_RATING_SAT_THRESHOLD
 }
 
+let skinInfo = []
+for (let key in PF_CUSTOMER_TYPES) {
+    let cat = PF_CUSTOMER_TYPES[key]
+    skinInfo.push(key + '=' + (cat.perSpawnRandom
+        ? '每次生成随机(' + cat.models.join('/') + ')'
+        : cat.model))
+}
 console.log("[PF-CUSTOMER] 顾客类别表已加载，活跃类别: " + PF_ACTIVE_CATEGORIES.join(', ') + "（含评价加权系统）")
+console.log("[PF-CUSTOMER] 各类别唯一皮肤: " + skinInfo.join(', '))
+for (let dimId in PF_DIMENSION_CATEGORIES) {
+    console.log("[PF-CUSTOMER] 维度映射 " + dimId + " → " + PF_DIMENSION_CATEGORIES[dimId].join(', '))
+}

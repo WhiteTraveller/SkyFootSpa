@@ -1,0 +1,469 @@
+{
+  "$introduce": "第二章：火焰猫燐传信与Boss战、星熊永仪温泉街踢馆与旧地狱结算",
+  "theme": "skyfootspa:hell_arc1",
+  "isPause": false,
+  "dialogues": {
+    "rin_visit": [
+      {
+        "dialogBox": {
+          "text": "又过一天……怎么有股异味，店里应该没留什么会发臭的东西。"
+        },
+        "portrait": [],
+        "command": "/chatbox theme skyfootspa:kaenbyou_rin1"
+      },
+      {
+        "dialogBox": {
+          "text": "不好意思打扰了~请问店长还在吗？"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "不好意思现在已经打烊了……嗯？"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我不是顾客啦，只是饲主派我来跑腿带个消息而已。说是希望你能下几趟地狱。"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我是什么时候结上了这种仇？！"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "哎呀呀不好意思喵，幻想乡和地狱在空间上是连通的，这里的下地狱指的是物理意义上的移动到地狱。是我的主人古明地觉大人作为旧地狱的管理者，希望你去她那里开一家分店。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "好啦，既然消息已经传达到位了，我还有别的工作就先走一步喽~"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "先站住！你叫什么名字？"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "火……火焰猫燐，叫我阿燐就行了。你……你要干嘛？你凑这么近闻什么？"
+        },
+        "portrait": [
+          {
+            "id": "rin_fluster",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "果然是这样。阿燐啊，既然邀请我去开分店，那你也先来体验一下，这次不收费。"
+        },
+        "portrait": [
+          {
+            "id": "rin_fluster",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "等一下，怎么这么热情……喵……喵喵？！"
+        },
+        "options": [
+          {
+            "text": "收下召唤符",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_rin"
+            }
+          }
+        ],
+        "portrait": [
+          {
+            "id": "rin_panic",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
+          "rin_name"
+        ]
+      }
+    ],
+    "end_boss_seal_rin": [
+      {
+        "dialogBox": {
+          "text": "所以……这到底是……什么情况……"
+        },
+        "portrait": [
+          {
+            "id": "rin_tired",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ],
+        "command": "/chatbox theme skyfootspa:kaenbyou_rin1"
+      },
+      {
+        "dialogBox": {
+          "text": "气味果然是从这里散发出来的，终于从源头上消灭了。实在是太具有辨识度了，我从来没有见过谁的脚能散发出这种腐败的味道，你到底是怎么做到的！"
+        },
+        "portrait": [
+          {
+            "id": "rin_tired",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "……可能是人家的职业导致的吧，毕竟我平时干的是搬运尸体的活……"
+        },
+        "portrait": [
+          {
+            "id": "rin_shy",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那就说得通了……怎么又有一股同样的味道飘过来了？"
+        },
+        "portrait": [
+          {
+            "id": "rin_shy",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "呃……因为时间比较赶，所以我是工作途中顺路来的，现在手推车还在外面……对不起不好意思我马上就走！"
+        },
+        "portrait": [
+          {
+            "id": "rin_fluster",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这把筋膜枪就给你当赔礼了，用来按摩脚部效果好还节省体力。啊，你不用担心，这东西是全新的没沾过脏东西。记得要下地狱哦——"
+        },
+        "options": [
+          {
+            "text": "收下赔礼",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:fascia_gun"
+            }
+          }
+        ],
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "rin_name"
+        ]
+      }
+    ],
+    "yuugi_visit": [
+      {
+        "dialogBox": {
+          "text": "原来如此，你就是那个新来的吧。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ],
+        "command": "/chatbox theme skyfootspa:hoshiguma_yuugi1"
+      },
+      {
+        "dialogBox": {
+          "text": "寒暄之类的废话就不必了，我乃旧地狱温泉街的主管星熊永仪。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "温泉街……是竞争对手吗？看这架势就有种不祥的预感，不会要开打吧。可恶，难道被那只猫坑了吗。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "没错，既然作为对手，那么就要好好给你点颜色瞧瞧！小的们，上！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_2",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "你们要干什么？！你们要带我去哪里？……快放我下来！……啊啊啊啊啊好烫！！！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_2",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "怎么样，新来的！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_2"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这就是旧地狱的温泉吗……感觉有点烫，但适应了之后还是挺舒服的，感觉本不存在的灵魂都要出窍了。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_2",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "在旧地狱，实力为尊。既然你敢把店开到我们边上来，那自然要比拼一下，看看你的足浴和我们的温泉谁更胜一筹，才不算失了礼数。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我明白了，你稍等一会，我会为你展示最精湛的服务技术。"
+        },
+        "options": [
+          {
+            "text": "收下挑战符",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_yuugi"
+            }
+          }
+        ],
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      }
+    ],
+    "end_boss_seal_yuugi": [
+      {
+        "dialogBox": {
+          "text": "都说人不可貌相，原来洗脚也是。虽然看起来完全不如我们的温泉，但实际体验下来丝毫也不逊色。没想到洗浴行业竟然能采取这种服务方式。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_3",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ],
+        "command": "/chatbox theme skyfootspa:hoshiguma_yuugi1"
+      },
+      {
+        "dialogBox": {
+          "text": "哪里哪里，还是你们的温泉更舒服，我洗完之后全身神清气爽就像要融化了一样。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_3",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那这次就算平局吧。你确实是有资格在旧地狱开店的人，我们也要回去改进我们的服务，就先走一步了。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "慢走啊……还有你也别躲了，我已经闻到之前给你用的草药和香料味了。你早就料到这一切了吧。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_1",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "哎呀，真是好敏锐的洞察力。但我只是一只按照命令跑腿的宠物猫，所有的计划都是我的饲主制定的，毕竟觉大人很擅长识读人心。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "温泉街在你的影响下改进服务方式，而你也在地狱站稳了跟脚，这不是皆大欢喜的双赢吗。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "确实如此。我越来越好奇你的饲主到底是个怎么样的人……或者妖怪了。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那见面的机会肯定不会少，觉大人也很乐意在工作之余找个地方放松一下僵硬的双脚，说不定你在来地狱之前就已经在幻想乡的店里帮她搓过脚了。"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "itemGroup.LSA_creative_tab":"传说生存附属",
+    "block.legendarysurvivaladdon.cooler":"制冷器",
+    "block.legendarysurvivaladdon.heater":"加热器",
+    "block.legendarysurvivaladdon.fan":"制冷扇",
+    "item.legendarysurvivaladdon.cooler":"制冷器方块",
+    "item.legendarysurvivaladdon.heater":"加热器方块",
+    "tooltip.legendarysurvivaladdon.cooler":"使30格半径范围内降温",
+    "tooltip.legendarysurvivaladdon.heater":"使30格半径范围内保暖",
+    "message.legendarysurvivaladdon.insufficient_power":"旋转力不足！",
+    "message.legendarysurvivaladdon.overheating":"警告：检测到过热！",
+    "category.legendarysurvivaladdon":"传说生存附属",
+    "key.legendarysurvivaladdon.toggle_cooling":"切换到制冷",
+    "key.legendarysurvivaladdon.toggle_heating":"切换到加热",
+    "status.legendarysurvivaladdon.active":"已激活",
+    "status.legendarysurvivaladdon.inactive":"未激活",
+    "itemGroup.lsa_creative_tab":"传说生存附属"
+}

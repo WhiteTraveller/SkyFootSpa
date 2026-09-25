@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 // 产线流程：
 //   ① 皴块 + 水(1000mb) → [动力搅拌(不加热)] → 皴水(1000mb) + 洗净的皴块
-//   ② 洗净的皴块 → [黄铜/进阶黄铜筛网] → 矿粒 + 煤炭(30%/45%)
+//   ② 洗净的皴块 → [黄铜/进阶黄铜筛网] → 二倍铁矿粒 + 其余矿粒 + 煤炭(30%/45%)
 //   ③ 皴水(8000mb) → [动力搅拌(加热)] → 赛特斯石英
 // ============================================================
 
@@ -34,7 +34,7 @@ ServerEvents.recipes(event => {
 
     // ========== ② 洗净皴块筛网配方 ==========
     // 只有黄铜筛网和进阶黄铜筛网（线筛网不能筛洗净皴块）
-    // 基础矿粒产出同皴块，额外产出煤炭
+    // 基础矿粒产出同皴块，铁矿粒二倍（count 3→6），额外产出煤炭
     let cleanedCunBaseChances = {
         iron: 0.40, copper: 0.40, zinc: 0.40, gold: 0.20, quartz: 0.20
     }
@@ -53,7 +53,8 @@ ServerEvents.recipes(event => {
                 ],
                 processingTime: 500,
                 results: [
-                    { chance: +(cleanedCunBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget',   count: 3 },
+                    // 出铁二倍：同筛网下皴块只出 3 粒
+                    { chance: +(cleanedCunBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget',   count: 6 },
                     { chance: +(cleanedCunBaseChances.copper * m.mult).toFixed(4), item: 'create:copper_nugget',     count: 3 },
                     { chance: +(cleanedCunBaseChances.zinc   * m.mult).toFixed(4), item: 'create:zinc_nugget',       count: 3 },
                     { chance: +(cleanedCunBaseChances.gold   * m.mult).toFixed(4), item: 'minecraft:gold_nugget',   count: 3 },

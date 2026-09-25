@@ -1,0 +1,8 @@
+{
+  "pickup.loot_journal.item_single": "%s",
+  "pickup.loot_journal.item_multiple": "%s x%s",
+  "pickup.loot_journal.grouped_items_single": "以及其他%s个物品",
+  "pickup.loot_journal.grouped_items_multiple": "以及其他%s个物品",
+  "pickup.loot_journal.experience_single": "经验值",
+  "pickup.loot_journal.experience_multiple": "经验值（%s）"
+}

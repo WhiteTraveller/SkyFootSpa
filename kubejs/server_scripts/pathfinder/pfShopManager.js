@@ -19,6 +19,10 @@
 // MC时间常量
 let PF_DAY_END = 12000    // 白天结束（日落开始）
 let PF_SPAWN_INTERVAL = 100  // 每100 tick（5秒）判定一次
+// 旧地狱维度：dimension_type fixed_time=18000 恒为夜晚，故开店无视昼夜、不自动关店
+let PF_OLD_HELL_DIM = 'marguerite:old_hell'
+// “等待中”顾客（行走中 phase2 + 排队等待 phase5，口径同 pfCloseShop）超过此数则暂停生成
+let PF_MAX_WAITING_CUSTOMERS = 5
 
 // 兼容防御：旧代码若仍读 global.pfShopState.isOpen，给个安全空对象
 global.pfShopState = { isOpen: false, spawnedEntities: [] }
@@ -205,6 +209,39 @@ function pfIsDaytime(level) {
     return dayTime >= 0 && dayTime < PF_DAY_END
 }
 
+// 取维度干净 ID（兼容 ResourceKey[minecraft:dimension / ns:path] 格式）
+function pfDimId(level) {
+    let d = '' + level.getDimension()
+    let s = d.indexOf(' / ')
+    if (s >= 0) {
+        d = d.substring(s + 3)
+        if (d.charAt(d.length - 1) === ']') d = d.substring(0, d.length - 1)
+    }
+    return d
+}
+
+// 是否旧地狱维度（fixed_time 恒夜，开店无视昼夜、不自动关店）
+function pfIsOldHell(level) {
+    return pfDimId(level) === PF_OLD_HELL_DIM
+}
+
+// 统计店铺当前“等待中”的顾客数：还未服务过(!pfHasSlept)的 行走中(phase2) 或 排队中(phase5)
+// 已服务过的顾客完成后会回到 phase2 离开，用 pfHasSlept 排除避免误计；服务中(3)/等床(4)本就不计
+function pfCountWaitingCustomers(level, be) {
+    let uuids = pfShopGetSpawnedUuids(be)
+    let count = 0
+    for (let i = 0; i < uuids.length; i++) {
+        let ent = null
+        try { ent = level.getEntity(uuids[i]) } catch (e) { ent = null }
+        if (!ent || !ent.isAlive()) continue
+        // 排除已服务过的顾客（pfHasSlept=1：完成后回到 phase2 离开中，不算“还未服务过的等待”）
+        if (global.pfEntityData.pfHasSlept(ent)) continue
+        let phase = global.pfEntityData.pfGetPhase(ent)
+        if (phase === 2 || phase === 5) count++
+    }
+    return count
+}
+
 /**
  * 开店：将状态写入触发方块 BE 的 persistentData
  */
@@ -313,8 +350,8 @@ function pfShopTick(level, entity) {
     }
     pfShopSetTickCounter(be, 0)
 
-    // 判定1: 是否为晚上
-    if (!pfIsDaytime(level)) {
+    // 判定1: 是否为晚上（旧地狱维度 fixed_time 恒夜，无视昼夜、不自动关店）
+    if (!pfIsOldHell(level) && !pfIsDaytime(level)) {
         pfCloseShop(level, be, "天黑了，自动关店！")
         return
     }
@@ -326,11 +363,18 @@ function pfShopTick(level, entity) {
         try { player = level.getPlayerByUUID(playerUuid) } catch (e) { player = null }
     }
 
-    // 判定2: 尝试生成顾客
-    let result = global.pfCustomerTypes.pfRollCustomer(player)
+    // 判定2: 等待中顾客（行走 phase2 + 排队 phase5）超过上限则本轮暂停生成（不关店，下轮再判）
+    let waiting = pfCountWaitingCustomers(level, be)
+    if (waiting > PF_MAX_WAITING_CUSTOMERS) {
+        console.log("[PF-SHOP] 等待中顾客 " + waiting + " 位 > " + PF_MAX_WAITING_CUSTOMERS + "，本轮暂停生成新顾客")
+        return
+    }
+
+    // 判定3: 尝试生成顾客（按店铺所在维度过滤可生成类别）
+    let result = global.pfCustomerTypes.pfRollCustomer(player, level)
     if (result === null) return
 
-    console.log("[PF-SHOP] 抽中顾客类别: " + result.name + "(" + result.category + "), 模型: " + result.model)
+    console.log("[PF-SHOP] 抽中顾客类别: " + result.name + "(" + result.category + "), 模型: " + result.model + ", 维度: " + level.getDimension())
 
     let base = pfShopGetBase(be)
     let routeStr = pfShopGetRouteStr(be)
@@ -342,6 +386,8 @@ function pfShopTick(level, entity) {
             routeStr, queuePos, player, result.model, null, true
         )
         walker.persistentData.putString('pfCustomerCategory', result.category)
+        // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
+        global.pfCustomerLevel.pfRefreshNameTag(walker, result.name)
         pfShopAddSpawnedUuid(be, "" + walker.getUuid())
         // 自动开店不再发送“××类顾客来了！”，只保留 pfSpawnWalker 内部的顾客话语广播
     } catch (e) {
@@ -352,6 +398,7 @@ function pfShopTick(level, entity) {
 // 导出到全局
 global.pfShopManager = {
     pfIsDaytime: pfIsDaytime,
+    pfIsOldHell: pfIsOldHell,
     pfOpenShop: pfOpenShop,
     pfCloseShop: pfCloseShop,
     pfShopTick: pfShopTick,

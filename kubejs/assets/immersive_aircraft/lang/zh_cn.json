@@ -1,0 +1,12 @@
+{
+    "item.immersive_aircraft.boiler":"基础发动机",
+    "item.immersive_aircraft.engine":"高级发动机",
+    "item.immersive_aircraft.sail":"大型风帆",
+    "item.immersive_aircraft.propeller":"大型螺旋桨",
+    "item.immersive_aircraft.enhanced_propeller":"黄铜螺旋桨",
+    "item.immersive_aircraft.eco_engine":"水动力发动机",
+    "item.immersive_aircraft.nether_engine":"熔岩发动机",
+    "item.immersive_aircraft.steel_boiler":"铁制锅炉",
+    "item.immersive_aircraft.bamboo_hopper":"竹制浮筒飞机",
+    "item.immersive_aircraft.hull_reinforcement":"加固机身"
+}

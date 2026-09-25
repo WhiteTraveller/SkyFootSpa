@@ -5,13 +5,15 @@
 // 开店方块配置界面交接说明：
 // 1. 普通右键继续执行原有开店/关店、预约凭证和 Boss 触发逻辑。
 // 2. Shift+右键只打开配置界面，不得进入开店/关店流程。
-// 3. 当前界面文件为 apricity/kubejs/pathfinder_config.html，资源路径传给
+// 3. 界面文件为 apricity/kubejs/pathfinder_config.html，资源路径传给
 //    ApricityUI 时使用 "kubejs/pathfinder_config.html"。
-// 4. ApricityUI-forge 1.2.2-hotfix1 的服务端打开方式是：
-//    ApricityUI.menu(player, path).bind(null)
+// 4. ApricityUI-forge 1.2.2-hotfix1 的服务端容器打开方式是：
+//    ApricityUI.menu(player, path).bind(function(binding){ ... })
 //    不要改回 openScreen(player, path, null)，该重载不存在。
-// 5. 当前界面只是视觉上的 9x3 箱子布局，没有真实物品槽位。
-//    后续若接入背包整理或配置功能，应通过独立 NetworkEvents 数据事件通信。
+// 5. 配置界面是真实容器 Screen：saveddata(数据名,27) 存配置物品（世界级持久
+//    库存，数据名按 维度+坐标 隔离，每个开店方块独立），player() 显示玩家背包，
+//    可双向点击/拖拽/shift-click 移动物品。HTML 容器 id 必须为 saved_data / player，
+//    与绑定方法一一对应，否则槽位退化成展示型（看得见点不动）。
 // ============================================================
 
 BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
@@ -22,13 +24,26 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     let blockPos = event.block.pos
     let level = event.level
 
-    // Shift+右键只打开配置界面，不触发开店/关店流程。
+    // Shift+右键只打开配置界面（真实容器 Screen），不触发开店/关店流程。
     if (player.isCrouching()) {
         let ApricityUIPathfinder = Java.loadClass("com.sighs.apricityui.ApricityUI")
-        // ApricityUI 1.2.2-hotfix1 的服务端 Screen API 使用 menu(...).bind(...)
-        ApricityUIPathfinder.menu(player, "kubejs/pathfinder_config.html").bind(null)
+        // SavedData 数据名按 维度+坐标 隔离，保证每个开店方块有独立的配置库存。
+        // level.getDimension() 可能形如 ResourceKey[minecraft:dimension / minecraft:overworld]，
+        // 统一把非字母数字字符替换成 _，避免非法文件名字符（SavedData 落盘为 data/<name>.dat）。
+        let cfgX = blockPos.getX() | 0
+        let cfgY = blockPos.getY() | 0
+        let cfgZ = blockPos.getZ() | 0
+        let dimSafe = ('' + level.getDimension()).replace(/[^A-Za-z0-9]+/g, '_')
+        let dataName = 'pf_cfg_' + dimSafe + '_' + cfgX + '_' + cfgY + '_' + cfgZ
+        // 服务端容器 API：menu(...).bind(fn) 立即解析数据源并打开真实容器 Screen。
+        // saveddata(dataName, 27) → HTML 容器 id=saved_data（9x3 世界级持久库存）；
+        // player() → HTML 容器 id=player（玩家背包）。saveddata 先绑定成为 primary，
+        // 决定 shift-click 主方向（背包 <-> 配置库存）。
+        ApricityUIPathfinder.menu(player, "kubejs/pathfinder_config.html").bind(function (binding) {
+            binding.saveddata(dataName, 27).player()
+        })
         event.cancel()
-        console.log("[PF] 打开开店方块配置界面")
+        console.log("[PF] 打开开店方块配置界面, 数据名=" + dataName)
         return
     }
     let teachingStage = global.aTip && typeof global.aTip.getStage === 'function'
@@ -61,8 +76,8 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         }
     }
 
-    // 白天检测（boss/开店需白天；voucher 绕过）
-    if (!voucherCategory && !global.pfShopManager.pfIsDaytime(level)) {
+    // 白天检测（boss/开店需白天；voucher 绕过；旧地狱维度 fixed_time 恒夜，无视昼夜）
+    if (!voucherCategory && !global.pfShopManager.pfIsOldHell(level) && !global.pfShopManager.pfIsDaytime(level)) {
         player.tell("§c🌙 现在是晚上，无法" + (bossDef ? "召唤 Boss" : "开店") + "！请等到白天")
         if (openShopTeaching && global.aTip && typeof global.aTip.showNightClose === 'function') {
             global.aTip.showNightClose(player)

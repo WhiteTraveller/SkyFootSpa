@@ -1,114 +1,59 @@
 <!--
-  开店方块配置界面交接说明：
-  - 由 Shift+右键 kubejs:pathfinder_block 打开。
-  - 当前是视觉上的 9x3 箱子布局，共 27 个空白格，不是真实 Minecraft 容器。
-  - 当前只有关闭按钮；按钮通过 player.sendData("pathfinder_config_close", {})
-    通知服务端，再由客户端脚本移除文档。
-  - 后续若增加背包整理、床位管理等功能，应先设计服务端数据协议，
-    不要依赖 HTML 本地变量作为持久化状态。
+  【窗口化版】AUI 1.2.3 + gui viewport
+  在“坐标修复版”基础上，解决“界面占满整个屏幕”：
+  - body 背景由不透明纯色 #1e293b 改为半透明暗遮罩 rgba(0,0,0,0.45)
+    （像原版容器界面那样透出世界、不再实心糊满全屏；AUI 容器 Screen 自身不画暗背景，全靠 body）。
+  - 中间内容用 .panel 面板包裹（半透明深色 + padding），让界面呈“窗口”状居中，而非铺满。
+  - .panel 刻意不用 box-shadow / border-radius / border：gui 下复杂盒模型可能触发每帧重建 Document。
+
+  保持之前的修复（勿改回）：
+  - viewport=gui（坐标 1:1 映射菜单，配合极简 CSS 不触发重建循环）；
+  - body flex column 居中；
+  - #player 绝不设 display:grid / padding / border / background，全交给 preset:player（否则 hover 蒙层偏上）；
+  - 不加 aui-mouse-events=intercept（会吞槽位点击）。
+  ESC 关闭。服务端：menu(...).bind(b => b.saveddata(dataName,27).player())，1.2.3 下持久化正常。
 -->
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="aui-font-mode" content="web">
-  <meta name="aui-viewport" content="mode=browser">
-  <meta name="aui-mouse-events" content="intercept">
+  <meta name="aui-viewport" content="mode=gui">
   <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial, "Microsoft YaHei", sans-serif;
-      color: #f3f3f3;
-    }
+    html, body { margin: 0; width: 100%; height: 100%; }
     body {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.48);
+      background: rgba(0, 0, 0, 0.45);
+      color: #e2e8f0;
     }
-    .chest {
-      width: 560px;
-      padding: 18px 20px 22px;
-      border: 3px solid #17120d;
-      border-radius: 6px;
-      background: #8b5a32;
-      box-shadow: 0 8px 0 #382316, 0 12px 24px rgba(0,0,0,.65);
+    .panel {
+      background: rgba(30, 41, 59, 0.9);
+      padding: 12px 14px;
     }
-    .titlebar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 42px;
-      margin-bottom: 13px;
-      padding: 0 12px;
-      border: 2px solid #4a2c19;
-      background: #c28a4d;
-      color: #fff5d6;
-      text-shadow: 2px 2px #543018;
-      font-size: 21px;
-      font-weight: bold;
-    }
-    .close {
-      width: 30px;
-      height: 30px;
-      border: 2px solid #4a2c19;
-      background: #9c3f32;
-      color: white;
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 24px;
-      text-align: center;
-      text-shadow: 1px 1px #4a1711;
-    }
-    .close:hover { background: #c65340; }
-    .grid {
+    /* 只统一槽位尺寸，不在 container 上设 display，避免干扰 preset:player */
+    container { --aui-slot-size: 20px; }
+    /* 配置库存：手动 9x3 网格 */
+    #saved_data {
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      gap: 5px;
-      padding: 10px;
-      border: 3px solid #4a2c19;
-      background: #6e4428;
+      grid-template-columns: repeat(9, 20px);
+      gap: 2px;
+      width: max-content;
     }
-    .slot {
-      aspect-ratio: 1;
-      border: 3px solid #392416;
-      border-top-color: #d09a5b;
-      border-left-color: #b87942;
-      background: #a76f3d;
-      box-shadow: inset 0 0 0 2px rgba(62, 35, 18, .35);
-    }
-    .hint {
-      margin-top: 12px;
-      color: #f6d9a0;
-      font-size: 13px;
-      text-align: center;
-      text-shadow: 1px 1px #4a2c19;
-    }
+    /* 玩家背包：完全交给 layout="preset:player"，这里只留间距 */
+    #player { margin-top: 10px; }
+    .label { margin: 4px 0; font-size: 11px; color: #cbd5e1; }
   </style>
 </head>
 <body>
-  <div class="chest">
-    <div class="titlebar">
-      <span>开店方块配置</span>
-      <button class="close" id="closeButton">×</button>
-    </div>
-    <div class="grid" id="slotGrid"></div>
-    <div class="hint">配置功能将在后续版本加入</div>
+  <div class="panel">
+    <div class="label">配置物品 (saved_data x27)</div>
+    <container id="saved_data" bind="saved_data" primary="true" size="27"></container>
+
+    <div class="label">玩家背包</div>
+    <container id="player" bind="player" layout="preset:player"></container>
   </div>
-  <script>
-    var grid = document.getElementById("slotGrid");
-    for (var i = 0; i < 27; i++) {
-      var slot = document.createElement("div");
-      slot.className = "slot";
-      grid.appendChild(slot);
-    }
-    document.getElementById("closeButton").addEventListener("click", function () {
-      player.sendData("pathfinder_config_close", {});
-    });
-  </script>
 </body>
 </html>

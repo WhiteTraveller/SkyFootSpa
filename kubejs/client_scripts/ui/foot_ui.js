@@ -100,7 +100,7 @@ function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
         footX = bedX - 1
     }
 
-    return { x: footX + 0.5, y: bedY, z: footZ + 0.5 }
+    return { x: footX + 0.5, y: bedY - 0.1, z: footZ + 0.68 }
 }
 
 function liftWorldWindow(window, footPos) {

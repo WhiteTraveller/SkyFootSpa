@@ -62,7 +62,6 @@
       </div>
       <!-- 脚图片：手持不同物品点击 = 搓不同部位，服务端根据手持物品判断 -->
       <div id="footImage" class="foot-image">
-        <div class="foot-label">顾客的脚</div>
         <img src="foot.png" class="foot-img" />
       </div>
     </div>
@@ -81,7 +80,7 @@
   .foot-ui-container {
     position: relative;
     width: 100px;
-    height: 150px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -288,55 +287,20 @@
     transform: scale(0.85) translateZ(0px);
   }
 
-  /* 脚图片区域 */
-  .foot-image {
-    position: relative;
-    width: 94px;
-    height: 49px;
-    flex: 0 0 49px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: transform 0.08s ease;
-    border: 1px solid #844c24;
-    border-radius: 6px;
-    background: rgba(231, 214, 188, 0.432);
-    overflow: hidden;
-    padding: 2px 4px;
-  }
+
 
   /* 拖动模式下不再使用 :active 缩放，避免触发 mouseleave */
   /* .foot-image:active {
     transform: scale(0.9);
   } */
 
-  .foot-img {
-    margin-left: 0px;
-    width: 56px;
-    height: 30px;
-    z-index: 0;
-    align-self: center;
-    margin-top: -2px;
-    pointer-events: none;
-  }
 
-  .foot-label {
-    font-size: 7px;
-    color: #5a2e10;
-    font-weight: bold;
-    margin-left: 0px;
-    pointer-events: none;
-    letter-spacing: 0.5px;
-    line-height: 10px;
-  }
 
   /* 拖动跟随物品图标：不受 .foot-image overflow 裁剪 */
   .down {
+    margin-top: 55px;
     position: relative;
-    flex: 0 0 80px;
+    flex: 0 0 100px;
     z-index: 1;
   }
 

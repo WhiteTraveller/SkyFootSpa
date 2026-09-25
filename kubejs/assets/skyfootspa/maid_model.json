@@ -1,0 +1,144 @@
+{
+	"pack_name": "SkyfootSpa 顾客模型",
+	"author": ["SkyfootSpa"],
+	"description": ["洗脚店自定义顾客模型：人类女性与妖精，各含 4 种材质变体"],
+	"version": "1.0.0",
+	"date": "2026-09-11",
+	"model_list": [
+		{
+			"model_id": "skyfootspa:human_femal",
+			"model": "skyfootspa:models/entity/human_femal.json",
+			"animation": [
+				"touhou_little_maid:animation/maid/default/head/default.js",
+				"touhou_little_maid:animation/maid/default/head/beg.js",
+				"touhou_little_maid:animation/maid/default/head/music_shake.js",
+				"touhou_little_maid:animation/maid/default/head/blink.js",
+				"touhou_little_maid:animation/maid/default/sleep/default.js",
+				"touhou_little_maid:animation/maid/default/leg/default.js",
+				"touhou_little_maid:animation/maid/default/arm/default.js",
+				"touhou_little_maid:animation/maid/default/arm/swing.js",
+				"touhou_little_maid:animation/maid/default/sit/skirt_rotation.js",
+				"touhou_little_maid:animation/maid/default/sit/default.js",
+				"skyfootspa:animations/barefoot_sleep.js"
+			],
+			"texture": "skyfootspa:textures/entity/human_femal.png",
+			"name": "人类女性",
+			"description": ["自定义人类女性顾客模型"]
+		},
+		{
+			"model_id": "skyfootspa:human_femal_v1",
+			"model": "skyfootspa:models/entity/human_femal.json",
+			"animation": [
+				"touhou_little_maid:animation/maid/default/head/default.js",
+				"touhou_little_maid:animation/maid/default/head/beg.js",
+				"touhou_little_maid:animation/maid/default/head/music_shake.js",
+				"touhou_little_maid:animation/maid/default/head/blink.js",
+				"touhou_little_maid:animation/maid/default/sleep/default.js",
+				"touhou_little_maid:animation/maid/default/leg/default.js",
+				"touhou_little_maid:animation/maid/default/arm/default.js",
+				"touhou_little_maid:animation/maid/default/arm/swing.js",
+				"touhou_little_maid:animation/maid/default/sit/skirt_rotation.js",
+				"touhou_little_maid:animation/maid/default/sit/default.js",
+				"skyfootspa:animations/barefoot_sleep.js"
+			],
+			"texture": "skyfootspa:textures/entity/human_femal_v1.png",
+			"name": "人类女性·变体1",
+			"description": ["自定义人类女性顾客模型·材质变体1"]
+		},
+		{
+			"model_id": "skyfootspa:human_femal_v2",
+			"model": "skyfootspa:models/entity/human_femal.json",
+			"animation": [
+				"touhou_little_maid:animation/maid/default/head/default.js",
+				"touhou_little_maid:animation/maid/default/head/beg.js",
+				"touhou_little_maid:animation/maid/default/head/music_shake.js",
+				"touhou_little_maid:animation/maid/default/head/blink.js",
+				"touhou_little_maid:animation/maid/default/sleep/default.js",
+				"touhou_little_maid:animation/maid/default/leg/default.js",
+				"touhou_little_maid:animation/maid/default/arm/default.js",
+				"touhou_little_maid:animation/maid/default/arm/swing.js",
+				"touhou_little_maid:animation/maid/default/sit/skirt_rotation.js",
+				"touhou_little_maid:animation/maid/default/sit/default.js",
+				"skyfootspa:animations/barefoot_sleep.js"
+			],
+			"texture": "skyfootspa:textures/entity/human_femal_v2.png",
+			"name": "人类女性·变体2",
+			"description": ["自定义人类女性顾客模型·材质变体2"]
+		},
+		{
+			"model_id": "skyfootspa:human_femal_v3",
+			"model": "skyfootspa:models/entity/human_femal.json",
+			"animation": [
+				"touhou_little_maid:animation/maid/default/head/default.js",
+				"touhou_little_maid:animation/maid/default/head/beg.js",
+				"touhou_little_maid:animation/maid/default/head/music_shake.js",
+				"touhou_little_maid:animation/maid/default/head/blink.js",
+				"touhou_little_maid:animation/maid/default/sleep/default.js",
+				"touhou_little_maid:animation/maid/default/leg/default.js",
+				"touhou_little_maid:animation/maid/default/arm/default.js",
+				"touhou_little_maid:animation/maid/default/arm/swing.js",
+				"touhou_little_maid:animation/maid/default/sit/skirt_rotation.js",
+				"touhou_little_maid:animation/maid/default/sit/default.js",
+				"skyfootspa:animations/barefoot_sleep.js"
+			],
+			"texture": "skyfootspa:textures/entity/human_femal_v3.png",
+			"name": "人类女性·变体3",
+			"description": ["自定义人类女性顾客模型·材质变体3"]
+		},
+		{
+			"model_id": "skyfootspa:human_femal_v4",
+			"model": "skyfootspa:models/entity/human_femal.json",
+			"animation": [
+				"touhou_little_maid:animation/maid/default/head/default.js",
+				"touhou_little_maid:animation/maid/default/head/beg.js",
+				"touhou_little_maid:animation/maid/default/head/music_shake.js",
+				"touhou_little_maid:animation/maid/default/head/blink.js",
+				"touhou_little_maid:animation/maid/default/sleep/default.js",
+				"touhou_little_maid:animation/maid/default/leg/default.js",
+				"touhou_little_maid:animation/maid/default/arm/default.js",
+				"touhou_little_maid:animation/maid/default/arm/swing.js",
+				"touhou_little_maid:animation/maid/default/sit/skirt_rotation.js",
+				"touhou_little_maid:animation/maid/default/sit/default.js",
+				"skyfootspa:animations/barefoot_sleep.js"
+			],
+			"texture": "skyfootspa:textures/entity/human_femal_v4.png",
+			"name": "人类女性·变体4",
+			"description": ["自定义人类女性顾客模型·材质变体4"]
+		},
+		{
+			"model_id": "skyfootspa:fairy",
+			"model": "skyfootspa:models/entity/fairy.json",
+			"texture": "skyfootspa:textures/entity/fairy.png",
+			"name": "妖精",
+			"description": ["自定义妖精顾客模型"]
+		},
+		{
+			"model_id": "skyfootspa:fairy_v1",
+			"model": "skyfootspa:models/entity/fairy.json",
+			"texture": "skyfootspa:textures/entity/fairy_v1.png",
+			"name": "妖精·变体1",
+			"description": ["自定义妖精顾客模型·材质变体1"]
+		},
+		{
+			"model_id": "skyfootspa:fairy_v2",
+			"model": "skyfootspa:models/entity/fairy.json",
+			"texture": "skyfootspa:textures/entity/fairy_v2.png",
+			"name": "妖精·变体2",
+			"description": ["自定义妖精顾客模型·材质变体2"]
+		},
+		{
+			"model_id": "skyfootspa:fairy_v3",
+			"model": "skyfootspa:models/entity/fairy.json",
+			"texture": "skyfootspa:textures/entity/fairy_v3.png",
+			"name": "妖精·变体3",
+			"description": ["自定义妖精顾客模型·材质变体3"]
+		},
+		{
+			"model_id": "skyfootspa:fairy_v4",
+			"model": "skyfootspa:models/entity/fairy.json",
+			"texture": "skyfootspa:textures/entity/fairy_v4.png",
+			"name": "妖精·变体4",
+			"description": ["自定义妖精顾客模型·材质变体4"]
+		}
+	]
+}

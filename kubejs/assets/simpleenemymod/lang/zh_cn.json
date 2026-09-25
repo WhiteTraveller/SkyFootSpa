@@ -1,0 +1,111 @@
+{
+  "entity.simpleenemymod.ruunit": "RU单位",
+  "entity.simpleenemymod.usunit": "US单位",
+  "entity.simpleenemymod.pmcunit": "PMC单位",
+
+  "item.simpleenemymod.us_unit_spawn_egg": "US单位刷怪蛋",
+  "item.simpleenemymod.us_squad_leader_spawn_egg": "US小队长刷怪蛋",
+  "item.simpleenemymod.us_squad_unit_spawn_egg": "US小队单位刷怪蛋",
+
+  "item.simpleenemymod.ru_unit_spawn_egg": "RU单位刷怪蛋",
+  "item.simpleenemymod.ru_squad_leader_spawn_egg": "RU小队长刷怪蛋",
+  "item.simpleenemymod.ru_squad_unit_spawn_egg": "RU小队单位刷怪蛋",
+
+  "item.simpleenemymod.pmc_unit_spawn_egg": "PMC单位刷怪蛋",
+  "item.simpleenemymod.pmc_squad_leader_spawn_egg": "PMC小队长刷怪蛋",
+  "item.simpleenemymod.pmc_squad_unit_spawn_egg": "PMC小队单位刷怪蛋",
+
+  "item.simpleenemymod.recruit_table": "招募台",
+  "block.simpleenemymod.recruit_table": "招募台",
+
+  "creativeTab.simple_enemy_mod_tab": "简易敌对单位",
+
+  "key.category.simpleenemymod.general": "简易敌对单位",
+  "key.simpleenemymod.commander_menu": "打开指挥官菜单",
+
+  "config.simpleenemymod.cat.render_distance": "渲染",
+  "config.simpleenemymod.render_distance": "渲染距离",
+  "config.simpleenemymod.render_distance.tooltip.1": "单位的最大渲染距离(方块)",
+  "config.simpleenemymod.render_distance.tooltip.2": "重要提示！：渲染距离>侦测范围",
+
+  "config.simpleenemymod.cat.difficulty": "难度",
+  "config.simpleenemymod.difficulty": "AI难度",
+  "config.simpleenemymod.difficulty.description": "AI难度预设。\n不影响士兵的射击精度，仅影响战术机动计时器与移动速度。\n\n普通：士兵倾向于静态驻守，战斗节奏较慢。\n高级：士兵机动性更强，进攻欲望更猛烈。",
+
+  "config.simpleenemymod.cat.ai_shooting": "AI射击",
+  "config.simpleenemymod.ai_shooting.max_shoot_distance": "最大射击距离",
+  "config.simpleenemymod.ai_shooting.max_shoot_distance.tooltip": "最大射击距离",
+
+  "config.simpleenemymod.ai_shooting.base_spread": "基础散布",
+  "config.simpleenemymod.ai_shooting.base_spread.tooltip": "基础子弹散布(数值越低越精准)",
+
+  "config.simpleenemymod.ai_shooting.spread_increase": "散布增加值",
+  "config.simpleenemymod.ai_shooting.spread_increase.tooltip": "与目标每增加一格距离所增加的散布(远距离精准度惩罚)",
+
+  "config.simpleenemymod.ai_shooting.min_burst": "最少连射数",
+  "config.simpleenemymod.ai_shooting.min_burst.tooltip": "单次连射的最少射击次数",
+
+  "config.simpleenemymod.ai_shooting.max_burst": "最多连射数",
+  "config.simpleenemymod.ai_shooting.max_burst.tooltip": "单次连射最多射击次数",
+
+  "config.simpleenemymod.ai_shooting.min_burst_cooldown": "最小连射冷却",
+  "config.simpleenemymod.ai_shooting.min_burst_cooldown.tooltip": "两次连射之间的最小冷却时间(刻)",
+
+  "config.simpleenemymod.ai_shooting.max_burst_cooldown": "最大连射冷却",
+  "config.simpleenemymod.ai_shooting.max_burst_cooldown.tooltip": "两次连射之间的最大冷却时间(刻)",
+
+  "config.simpleenemymod.cat.drops": "掉落物",
+  "config.simpleenemymod.drops.enable_custom_drops": "启用自定义掉落物",
+  "config.simpleenemymod.drops.enable_custom_drops.tooltip": "启用或禁用单位的自定义武器掉落。",
+
+  "config.simpleenemymod.drops.gun_drop_chance": "枪械掉落概率",
+  "config.simpleenemymod.drops.gun_drop_chance.tooltip": "单位死亡时掉落其TACZ枪械的概率(0.0至1.0)",
+
+  "config.simpleenemymod.drops.ammo_drop_chance": "弹药掉落概率",
+  "config.simpleenemymod.drops.ammo_drop_chance.tooltip": "单位死亡时掉落额外弹药的概率(0.0至1.0)",
+
+  "config.simpleenemymod.cat.visual_effects": "视觉效果",
+  "config.simpleenemymod.visual_effects.enable_suppression": "启用玩家压制效果",
+  "config.simpleenemymod.visual_effects.enable_suppression.tooltip": "启用或禁用视线受压制的视觉效果",
+
+  "config.simpleenemymod.cat.factions": "阵营",
+  "config.simpleenemymod.factions.ru_units_friendly": "RU单位设为友好",
+  "config.simpleenemymod.factions.ru_units_friendly.tooltip": "启用后，RU单位将对玩家及PMC单位保持友好。",
+
+  "config.simpleenemymod.factions.us_units_friendly": "US单位设为友好",
+  "config.simpleenemymod.factions.us_units_friendly.tooltip": "启用后，US单位将对玩家及PMC单位保持友好。",
+
+  "config.simpleenemymod.cat.spawns": "生成",
+  "config.simpleenemymod.spawns.enable_village_garrison": "启用村庄驻军",
+  "config.simpleenemymod.spawns.enable_village_garrison.tooltip.1": "启用后，士兵将在村庄中生成。",
+  "config.simpleenemymod.spawns.enable_village_garrison.tooltip.2": "禁用后，此事件将不再触发。",
+
+  "config.simpleenemymod.cat.spawn_event": "生成事件",
+  "config.simpleenemymod.spawn_event.patrol_base_chance": "巡逻事件基础概率",
+  "config.simpleenemymod.spawn_event.patrol_base_chance.tooltip": "巡逻事件的基础生成概率(每分钟)",
+
+  "config.simpleenemymod.spawn_event.patrol_failure_multiplier": "巡逻失败补偿系数",
+  "config.simpleenemymod.spawn_event.patrol_failure_multiplier.tooltip": "巡逻事件生成失败时的概率累积速率",
+
+  "config.simpleenemymod.spawn_event.combat_base_chance": "交战事件基础概率",
+  "config.simpleenemymod.spawn_event.combat_base_chance.tooltip": "交战事件的基础生成概率(每分钟)",
+
+  "config.simpleenemymod.spawn_event.combat_failure_multiplier": "交战失败补偿系数",
+  "config.simpleenemymod.spawn_event.combat_failure_multiplier.tooltip": "交战事件生成失败时的概率累积速率",
+
+  "config.simpleenemymod.spawn_event.cave_base_chance": "洞穴撤离基础概率",
+  "config.simpleenemymod.spawn_event.cave_base_chance.tooltip": "洞穴撤离事件的基础生成概率(每分钟)",
+
+  "config.simpleenemymod.spawn_event.cave_failure_multiplier": "洞穴撤离失败补偿系数",
+  "config.simpleenemymod.spawn_event.cave_failure_multiplier.tooltip": "洞穴撤离事件生成失败时的概率累积速率",
+
+  "config.simpleenemymod.cat.unit_attributes": "单位属性",
+  "config.simpleenemymod.unit_attributes.max_health": "单位最大生命值",
+  "config.simpleenemymod.unit_attributes.max_health.tooltip": "所有单位的最大生命值",
+
+  "config.simpleenemymod.unit_attributes.walk_speed": "单位行走速度",
+  "config.simpleenemymod.unit_attributes.walk_speed.tooltip": "所有单位的行走速度",
+
+  "config.simpleenemymod.unit_attributes.detection_range": "单位侦测范围",
+  "config.simpleenemymod.unit_attributes.detection_range.tooltip": "所有单位的侦测范围"
+}

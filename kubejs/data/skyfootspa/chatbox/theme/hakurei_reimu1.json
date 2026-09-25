@@ -1,0 +1,746 @@
+{
+  "portrait": {
+    "alice": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_grin": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_sullen": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/lost_highlight.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_close_eyes": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_raise_eyebrow": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/up.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_flowers": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/special/flower.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_confuse": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/special/confuse.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_grin_eyebrow": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/up.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "sh1": {
+      "x": -3,
+      "y": -2,
+      "width": 28,
+      "height": 45,
+      "scale": 1.1,
+      "alignX": "right",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/shanghai1.png"
+    },
+    "head": {
+      "x": 40,
+      "y": 15,
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "player_head",
+      "texture": "@s"
+    },
+    "names": {
+      "x": 10,
+      "y": -35,
+      "width": 80,
+      "scale": 1.7,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 20,
+      "texture": "skyfootspa:textures/names/alice_name.png"
+    },
+    "nitori_name": {
+      "x": 10,
+      "y": -35,
+      "width": 80,
+      "scale": 1.7,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 20,
+      "type": "texture",
+      "texture": "skyfootspa:textures/names/name_kawashiro_nitori.png"
+    },
+    "hchq_1": {
+      "x": 5,
+      "y": 20,
+      "width": 29.5,
+      "height": 59,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_1.png"
+    },
+    "hchq_2": {
+      "x": 5,
+      "y": 20,
+      "width": 29.5,
+      "height": 59,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_2.png"
+    },
+    "hchq_think_1": {
+      "x": 5,
+      "y": 20,
+      "width": 29.5,
+      "height": 59,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_think_1.png"
+    },
+    "hchq_think_2": {
+      "x": 5,
+      "y": 20,
+      "width": 29.5,
+      "height": 59,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hchq_think.png"
+    },
+    "hakurei_reimu_name": {
+      "x": 12,
+      "y": -36.5,
+      "width": 80,
+      "scale": 1.7,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 20,
+      "type": "texture",
+      "texture": "skyfootspa:textures/names/name_hakurei_reimu.png"
+    },
+    "hakurei_reimu_potrait1": {
+      "x": 5,
+      "y": -2,
+      "width": 40,
+      "height": 64,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hakurei_reimu_potrait1.png"
+    },
+    "hakurei_reimu_potrait3": {
+      "x": 5,
+      "y": -2,
+      "width": 40,
+      "height": 64,
+      "scale": 1.1,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/hakurei_reimu_potrait3.png"
+    },
+    "reimu": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "reimu_open": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/open.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "reimu_serious": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/lost_highlight.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "reimu_think": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/half_closed.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "reimu_sigh": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/half_closed_lost_highlight.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "reimu_pout": {
+      "x": -7.943125,
+      "y": 29.76,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": 10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/reimu/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/eye/half_closed.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/reimu/mouth/m_shape.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    }
+  },
+  "option": {
+    "y": -40,
+    "x": 30,
+    "width": 45,
+    "height": 8,
+    "alignX": "center",
+    "alignY": "bottom",
+    "widthReference": "screen_height",
+    "heightReference": "screen_height",
+    "hidden": true,
+    "texture": "skyfootspa:textures/options/option_hover.png",
+    "lockTexture": "skyfootspa:textures/options/option_lock.png",
+    "optionChatY": 2.7,
+    "optionChatX": 3,
+    "textAlign": "left",
+    "selectTexture": "skyfootspa:textures/options/option_default.png"
+  },
+  "dialogBox": {
+    "x": 3,
+    "y": 15,
+    "width": 136,
+    "height": 68,
+    "alignX": "center",
+    "alignY": "bottom",
+    "widthReference": "screen_height",
+    "heightReference": "screen_height",
+    "renderEvents": [
+      {
+        "trigger": "end",
+        "type": "show",
+        "value": "@Options"
+      }
+    ],
+    "texture": "skyfootspa:textures/chatbox/dialog_box_reimu.png",
+    "lineWidth": 100,
+    "nameX": 4,
+    "nameY": 2,
+    "textX": 8,
+    "textY": 23
+  },
+  "functionalButton": [
+    {
+      "x": 25,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "log",
+      "texture": "skyfootspa:textures/button/log_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/log.png"
+    },
+    {
+      "x": 28,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "fastForward",
+      "texture": "skyfootspa:textures/button/fast_forward_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/fast_forward.png"
+    },
+    {
+      "x": 31,
+      "y": -1.5,
+      "width": 8,
+      "height": 8,
+      "alignX": "center",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "type": "autoPlay",
+      "texture": "skyfootspa:textures/button/auto_play_hover.png",
+      "hoverTexture": "skyfootspa:textures/button/auto_play.png"
+    }
+  ],
+  "customAnimation": {
+    "FADE_IN": [
+      {
+        "opacity": 0
+      },
+      {
+        "time": 30,
+        "opacity": 100,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "SLIDE_IN_FROM_BOTTOM": [
+      {
+        "time": 30,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "BOUNCE": [
+      {
+        "time": 15,
+        "yOffset": -5,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 15,
+        "yOffset": 5,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "TALK": [
+      {
+        "time": 1,
+        "yOffset": 2,
+        "xOffset": -1,
+        "renderOrder": -10,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 10,
+        "yOffset": -2,
+        "xOffset": 1,
+        "brightness": 100,
+        "renderOrder": 9,
+        "easing": "EASE_IN_SINE"
+      }
+    ],
+    "NOT_TALK": [
+      {
+        "time": 1,
+        "yOffset": -2,
+        "xOffset": 1,
+        "renderOrder": 9,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 10,
+        "yOffset": 2,
+        "xOffset": -1,
+        "brightness": 70,
+        "renderOrder": -10,
+        "easing": "EASE_OUT_SINE"
+      }
+    ],
+    "PAN_DOWN": [
+      {
+        "time": 1,
+        "scale": 3,
+        "xOffset": 37,
+        "yOffset": 20,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 140,
+        "yOffset": -110,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 240
+      }
+    ]
+  }
+}

@@ -1,15 +1,22 @@
-Find out more info on the website: https://kubejs.com/
+目录信息:
 
-Directory information:
+assets 
+资源——你可以把任何客户端资源放在这里，像纹理，模型等。示例:
+ assets/kubejs/textures/item/test_item.png
+ 
+data
+数据——你可以把任何服务器资源放在这里，像战利品表，函数等。示例:data/kubejs/loot_tables/blocks/test_block.json
 
-assets - Acts as a resource pack, you can put any client resources in here, like textures, models, etc. Example: assets/kubejs/textures/item/test_item.png
-data - Acts as a datapack, you can put any server resources in here, like loot tables, functions, etc. Example: data/kubejs/loot_tables/blocks/test_block.json
+startup_scripts
+游戏启动时加载一次的脚本——用于添加物品和其他只有在游戏加载时才会发生的事情(可以用/kubejs reload_startup_scripts重新加载，但可能不起作用！)
 
-startup_scripts - Scripts that get loaded once during game startup - Used for adding items and other things that can only happen while the game is loading (Can be reloaded with /kubejs reload_startup_scripts, but it may not work!)
-server_scripts - Scripts that get loaded every time server resources reload - Used for modifying recipes, tags, loot tables, and handling server events (Can be reloaded with /reload)
-client_scripts - Scripts that get loaded every time client resources reload - Used for JEI events, tooltips and other client side things (Can be reloaded with F3+T)
+server_scripts
+服务端脚本——每次服务器资源重新加载时加载的脚本——用于修改配方、标签、战利品表和处理服务器事件(可以用/reload指令重新加载)
 
-config - KubeJS config storage. This is also the only directory that scripts can access other than world directory
-exported - Data dumps like texture atlases end up here
+client_scripts
+客户端脚本——每次客户端资源重新加载时加载的脚本——用于JEI事件、tooltip和其他客户端事物(可以用F3+T重新加载)
 
-You can find type-specific logs in logs/kubejs/ directory
+config
+配置——用于储存KubeJS配置。这也是除了世界目录导出之外脚本可以访问的唯一目录——像纹理和地图这样的数据转储在这里结束
+
+你可以在logs/kubejs/目录中找到特定类型的日志

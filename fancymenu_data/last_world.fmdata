@@ -2,6 +2,6 @@ type = last_world
 
 last_world {
   is_server = false
-  world = D:/PCL2/Release 2.6.13/.minecraft/versions/1.20.1-Forge_47.4.23/saves/新的世界
+  world = E:/Minecraft/pcl/.minecraft/versions/洗手/saves/新的世界 (16)
 }
 

@@ -81,6 +81,11 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
     }
     global.pfNbtSync.pfSyncDemandList(walker, demandList, skipSoak)
     
+    // 等级系统：随机 roll 1-5 级，写入手持物品 NBT（pfLevel，仅数值无功能）
+    let rolledLevel = global.pfCustomerLevel.pfRollLevel()
+    global.pfCustomerLevel.pfSetLevel(walker, rolledLevel)
+    console.log("[PF-LEVEL] 顾客等级: Lv." + rolledLevel)
+    
     // Boss 标识写入 persistentData（供满意度倍率查询）
     if (bossDef && bossDef.id) {
         walker.persistentData.putString('pfBossId', bossDef.id)
@@ -94,7 +99,8 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
             ", 脚掌=" + verifyItem.nbt.getInt('pfDemandJiaozhang') +
             ", 脚后跟=" + verifyItem.nbt.getInt('pfDemandJiaogen') +
             ", 脚趾=" + verifyItem.nbt.getInt('pfDemandJiaozhi') +
-            ", 脚心=" + verifyItem.nbt.getInt('pfDemandJiaoxin'))
+            ", 脚心=" + verifyItem.nbt.getInt('pfDemandJiaoxin') +
+            ", 等级=" + verifyItem.nbt.getInt('pfLevel'))
     } else {
         console.log("[PF-DATA] 存储验证失败 - 手持物品: " + (verifyItem ? verifyItem.id : "null"))
     }

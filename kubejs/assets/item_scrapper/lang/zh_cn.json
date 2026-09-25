@@ -1,0 +1,20 @@
+{
+    "creativetab.item_scrapper":"物品拆解台",
+    "block.item_scrapper.scrapper_block":"物品拆解台",
+    "item.item_scrapper.scrapping_hammer":"拆解锤",
+    "key.item_scrapper.place_item":"将物品置于拆解台上",
+    "key.categories.item_scrapper":"Item Scrapper",
+    "tooltip.item_scrapper.scrappable":"⚒ 可拆解",
+    "tooltip.item_scrapper.required_hits":"需要的捶打次数：%s",
+    "tooltip.item_scrapper.explosion_chance":"⚠ 发生爆炸的概率：%s%%",
+    "tooltip.item_scrapper.durability_multiplier":"↔ 拆解时检测耐久",
+    "tooltip.item_scrapper.return_amount":"原材料返还率：%s%% - %s%%",
+    "item_scrapper.config.title":"Item Scrapper配置",
+    "item_scrapper.config.max_input_items":"拆解台至多展示的输入物品数量：",
+    "item_scrapper.config.max_output_items":"拆解台至多展示的输出物品数量：",
+    "item_scrapper.config.show_scrappable":"显示可拆解标签",
+    "item_scrapper.config.show_hits":"显示所需捶打次数",
+    "item_scrapper.config.show_return":"显示返还物品量",
+    "item_scrapper.config.show_explosion":"显示爆炸概率",
+    "item_scrapper.config.show_durability":"显示耐久信息"
+}

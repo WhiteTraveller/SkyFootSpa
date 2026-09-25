@@ -1,5 +1,6 @@
 ae2:spatial_storage
 dimdungeons:biome_dungeon
+marguerite:old_hell
 minecraft:badlands
 minecraft:bamboo_jungle
 minecraft:basalt_deltas

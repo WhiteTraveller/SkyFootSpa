@@ -62,7 +62,7 @@
 			y: 0.0d
 		}
 		{
-			dependencies: ["35D76BE2129B55C4"]
+			dependencies: ["494196DBF4AA9FCE"]
 			description: [
 				"「皴」是顾客脚部老去角质的统称，是后续一切合成与产线的基础原料。"
 				""
@@ -834,47 +834,6 @@
 			y: -3.0d
 		}
 		{
-			dependencies: ["2C92FF8892F38FDC"]
-			icon: {
-				Count: 1
-				id: "touhou_little_maid:garage_kit"
-				tag: {
-					EntityInfo: {
-						IsYsmModel: 0b
-						MaidTaskDataMaps: { }
-						ModelId: "touhou_little_maid:kawasiro_nitori"
-						id: "touhou_little_maid:maid"
-					}
-				}
-			}
-			id: "35D76BE2129B55C4"
-			rewards: [
-				{
-					command: "/chatbox skip skyfootspa:start chapter2"
-					icon: "minecraft:nether_star"
-					id: "143883AC5C719AD4"
-					title: "与河城荷取对话"
-					type: "command"
-				}
-				{
-					id: "62B6BA0A08CAE83D"
-					item: "marguerite:boss_seal_nitori"
-					type: "item"
-				}
-			]
-			shape: "square"
-			size: 2.0d
-			tasks: [{
-				consume_items: true
-				id: "007959956511793E"
-				item: "coinsje:gold_coin"
-				type: "item"
-			}]
-			title: "河城荷取的来访"
-			x: 2.0d
-			y: -3.0d
-		}
-		{
 			dependencies: ["7B3A5D9E2F1C8300"]
 			description: ["一般的经营看来已经难不住你了!爱丽丝很高兴,并且有一些话要对你说"]
 			icon: {
@@ -937,7 +896,10 @@
 			y: -9.0d
 		}
 		{
-			dependencies: ["35D76BE2129B55C4"]
+			dependencies: [
+				"494196DBF4AA9FCE"
+				"7B3A5D9E2F1C8220"
+			]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -1093,7 +1055,7 @@
 			y: 5.0d
 		}
 		{
-			dependencies: ["35D76BE2129B55C4"]
+			dependencies: ["494196DBF4AA9FCE"]
 			id: "4F97186849B00F06"
 			tasks: [{
 				id: "55F5CC167FE4B01A"
@@ -1363,7 +1325,6 @@
 			y: -1.0d
 		}
 		{
-			dependencies: ["35D76BE2129B55C4"]
 			id: "47911DBA354F2830"
 			tasks: [{
 				id: "0BFDD8FF84A9FA98"
@@ -1462,68 +1423,46 @@
 			y: 1.0d
 		}
 		{
-			can_repeat: true
 			dependencies: ["2C92FF8892F38FDC"]
-			id: "5B377A096A5CEA54"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:start chapter1"
-				icon: "minecraft:nether_star"
-				id: "3911B00C69767395"
-				title: "与爱丽丝对话"
-				type: "command"
-			}]
-			tasks: [{
-				id: "0AE04806316D03A9"
-				title: "与爱丽丝对话"
-				type: "checkmark"
-			}]
-			x: 3.5d
-			y: -10.5d
-		}
-		{
-			can_repeat: true
-			dependencies: ["35D76BE2129B55C4"]
-			id: "1B5E3E2EA1BA05D9"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:start chapter2"
-				icon: "minecraft:nether_star"
-				id: "225582502D236F18"
-				title: "与河城荷取对话"
-				type: "command"
-			}]
-			tasks: [{
-				id: "7F13AD91E7E5DA78"
-				title: "与河城荷取对话"
-				type: "checkmark"
-			}]
-			x: 3.5d
-			y: -4.5d
-		}
-		{
-			can_repeat: true
-			dependencies: ["0FD9B77E961BFF01"]
-			id: "27390F3A7C47269E"
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:kawasiro_nitori"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "494196DBF4AA9FCE"
 			rewards: [
 				{
-					command: "/chatbox skip skyfootspa:start chapter3"
+					command: "/chatbox skip skyfootspa:start chapter2"
 					icon: "minecraft:nether_star"
-					id: "065B807D26D17767"
-					title: "与博丽灵梦对话"
+					id: "05EBD9A14A96FC7E"
+					title: "与河城荷取对话"
 					type: "command"
 				}
 				{
-					id: "46843C557E049408"
-					item: "marguerite:boss_seal_reimu"
+					id: "03F0215E5193FE01"
+					item: "marguerite:boss_seal_nitori"
 					type: "item"
 				}
 			]
+			shape: "square"
+			size: 2.0d
 			tasks: [{
-				id: "381CC2DC4A9207B3"
-				title: "与博丽灵梦对话"
-				type: "checkmark"
+				consume_items: false
+				count: 3L
+				id: "43083B192D90BB0B"
+				item: "coinsje:gold_coin"
+				type: "item"
 			}]
-			x: 3.5d
-			y: 2.5d
+			title: "河城荷取的来访"
+			x: 2.0d
+			y: -3.0d
 		}
 	]
 	title: "第一章"
