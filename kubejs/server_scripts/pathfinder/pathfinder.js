@@ -10,12 +10,13 @@
 // 4. pfBedManager.js    - 床位管理
 // 5. pfEntityData.js    - 实体数据控制
 // 6. pfSleepManager.js  - 睡眠管理
-// 7. pfSoakManager.js   - 泡脚管理
-// 8. pfMovement.js      - 实体移动与排队
-// 9. pfEntitySpawner.js - 实体生成
-// 10. pfNetworkHandler.js - 网络事件处理
-// 11. pfBlockHandler.js - 方块事件处理
-// 12. pfMain.js         - 主循环
+// 7. pfBedBreakHandler.js - 玩家破坏床处理
+// 8. pfSoakManager.js   - 泡脚管理
+// 9. pfMovement.js      - 实体移动与排队
+// 10. pfEntitySpawner.js - 实体生成
+// 11. pfNetworkHandler.js - 网络事件处理
+// 12. pfBlockHandler.js - 方块事件处理
+// 13. pfMain.js         - 主循环
 //
 // 此文件保留作为兼容层，实际的 global.pathfinderTick 定义在 pfMain.js 中
 // ============================================================

@@ -179,6 +179,28 @@ function pfShopReleaseBed(level, baseX, baseY, baseZ, bedKey, ownerUuid) {
     return false
 }
 
+// 从店铺持久化床位表中移除已经被破坏的床。
+// bedKey 使用床头坐标；即使床位当前没有占用者，也应删除失效条目。
+function pfShopRemoveBedAt(level, baseX, baseY, baseZ, bedKey) {
+    let be = pfShopGetBE(level, baseX, baseY, baseZ)
+    if (!be || !global.pfBedManager) return false
+    let beds = global.pfBedManager.pfParseBeds(pfShopGetBedList(be))
+    let kept = []
+    let removed = false
+    for (let i = 0; i < beds.length; i++) {
+        if (global.pfBedManager.pfBedKey(beds[i]) === bedKey) {
+            removed = true
+        } else {
+            kept.push(beds[i])
+        }
+    }
+    if (removed) {
+        pfShopSetBedList(be, global.pfBedManager.pfSerializeBeds(kept))
+        console.log("[PF-BED] 移除已破坏床位: " + bedKey)
+    }
+    return removed
+}
+
 function pfShopAddSpawnedUuid(be, uuid) {
     let arr = pfShopGetSpawnedUuids(be)
     arr.push("" + uuid)
@@ -414,7 +436,8 @@ global.pfShopManager = {
     pfShopSetBedList: pfShopSetBedList,
     pfShopRefreshBeds: pfShopRefreshBeds,
     pfShopReserveBed: pfShopReserveBed,
-    pfShopReleaseBed: pfShopReleaseBed
+    pfShopReleaseBed: pfShopReleaseBed,
+    pfShopRemoveBedAt: pfShopRemoveBedAt
 }
 
 console.log("[PF-SHOP] 开店管理模块已加载")

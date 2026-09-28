@@ -232,10 +232,81 @@ function pfWakeUp(ent, level) {
     console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ") 更新路径进度 time=" + bestTime)
 }
 
+// 床被玩家破坏时的异常送客。
+// 与正常 pfWakeUp 不同：不恢复路线、不结算、不掉落奖励，直接结束本次服务。
+function pfDismissBrokenBedCustomer(ent, level, reason) {
+    if (!ent || !ent.isAlive()) {
+        console.log("[DEBUG-BEDBREAK] dismiss stop: entity missing or dead")
+        return false
+    }
+    if ((ent.persistentData.getInt("pfBrokenBedDismissed") | 0) === 1) {
+        console.log("[DEBUG-BEDBREAK] dismiss stop: already handled uuid=" + ent.getUuid())
+        return false
+    }
+
+    ent.persistentData.putInt("pfBrokenBedDismissed", 1)
+    let uuid = "" + ent.getUuid()
+    let bedPos = global.pfEntityData.pfGetBedInfo(ent)
+    console.log("[DEBUG-BEDBREAK] dismiss begin uuid=" + uuid +
+        " bed=(" + bedPos.blockX + "," + bedPos.blockY + "," + bedPos.blockZ + ")")
+
+    try { ent.stopSleeping() } catch (e) {}
+
+    let server = level.getServer()
+    try {
+        server.runCommandSilent("data remove entity " + uuid + " SleepingX")
+        server.runCommandSilent("data remove entity " + uuid + " SleepingY")
+        server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
+    } catch (e) {}
+
+    // 先释放床位，再删除实体；店铺已经关门时释放失败也不阻止送客。
+    if (bedPos && global.pfShopManager && global.pfShopManager.pfShopReleaseBed) {
+        let bx = ent.persistentData.getInt("pfShopBaseX") | 0
+        let by = ent.persistentData.getInt("pfShopBaseY") | 0
+        let bz = ent.persistentData.getInt("pfShopBaseZ") | 0
+        try {
+            global.pfShopManager.pfShopReleaseBed(level, bx, by, bz,
+                global.pfBedManager.pfBedKey(bedPos), uuid)
+        } catch (e) {}
+    }
+
+    ent.persistentData.putInt("pfSleepSubTick", 0)
+    ent.persistentData.putInt("pfSleepSeconds", 0)
+    ent.persistentData.putInt("pfSleepInitTicks", 0)
+    ent.persistentData.putInt("pfSleepStartTick", 0)
+    ent.persistentData.putString("pfBedOwnerUuid", "")
+    global.pfEntityData.pfSetFromQueueWait(ent, false)
+
+    // 先同步非睡眠阶段，使客户端脚部 UI 在 discard 前即可关闭。
+    try { global.pfEntityData.pfSetPhase(ent, 0) } catch (e) {
+        ent.persistentData.putInt("pfPhase", 0)
+    }
+
+    // 关闭 AuraTip；foot_ui.js 也会因 pfPhase 不再为 3 而移除窗口。
+    try {
+        if (global.aTip && typeof global.aTip.findActionPlayer === "function") {
+            let actionPlayer = global.aTip.findActionPlayer(ent, level)
+            if (actionPlayer && typeof global.aTip.closePlayerTip === "function") {
+                global.aTip.closePlayerTip(actionPlayer)
+            }
+        }
+    } catch (e) {}
+
+    try {
+        level.spawnParticles("minecraft:poof", false,
+            ent.getX(), ent.getY() + 1, ent.getZ(), 0.5, 1, 0.5, 30, 0)
+    } catch (e) {}
+    console.log("[PF-SLEEP] 床位被破坏，顾客离场 uuid=" + uuid + " reason=" + (reason || "床位被破坏"))
+    ent.discard()
+    console.log("[DEBUG-BEDBREAK] discard called uuid=" + uuid + " aliveAfter=" + ent.isAlive())
+    return true
+}
+
 // 导出到全局
 global.pfSleepManager = {
     pfStartSleep: pfStartSleep,
     pfProcessSleeping: pfProcessSleeping,
     pfWakeUp: pfWakeUp,
+    pfDismissBrokenBedCustomer: pfDismissBrokenBedCustomer,
     pfResetSleepSubTick: pfResetSleepSubTick
 }
