@@ -1,0 +1,307 @@
+{
+  "$introduce": "第一章博丽灵梦段：ch1_reimu 巡查、ch1_reimu_boss 巡查结算",
+  "theme": "skyfootspa:hakurei_reimu1",
+  "isPause": false,
+  "dialogues": {
+    "ch1_reimu": [
+      {
+        "dialogBox": {
+          "text": "你就是这家店的店长吧。"
+        },
+        "portrait": [
+          {
+            "id": "reimu",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这位小姐，请问您是？"
+        },
+        "portrait": [
+          {
+            "id": "reimu",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "明明在幻想乡内，却连这个都不知道吗。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_pout",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我是负责管理幻想乡的巫女博丽灵梦。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_open",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "开门见山的来说，我需要对你的店进行监管。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "原来是城管吗，我不知道要营业执照。城管大人请你开开恩吧，我会交充足的手续费补办的！"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那还不赶紧把钱……"
+        },
+        "portrait": [
+          {
+            "id": "reimu_open",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "停停停，差点就被你带跑了，这可不是营业执照这么简单的问题。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_pout",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "如果只是在人间之里内营业的话我是不会怎么管。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_think",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "但这家店的服务范围太广了，人类、妖精、妖怪……各种种族全都共处一室，万一出什么事极有可能危害到幻想乡的人妖关系。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "不过既然是在空岛上开店，说不定从最开始就是想达成这种状态。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_think",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "爱丽丝到底在想什么啊，采取这么激进的方式……"
+        },
+        "portrait": [
+          {
+            "id": "reimu_sigh",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "言归正传，为了保证幻想乡的安定，我必须通过我的亲身经历来确认你的店具有抵御风险稳定运营的能力。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "虽然爱丽丝跟我说不要太刁难你，但这是巫女的职责，如果发现了什么问题，我不会因此就网开一面的。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "准备充分后就用这个叫我来。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_open",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ],
+        "options": [
+          {
+            "text": "来吧",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_reimu"
+            }
+          }
+        ]
+      }
+    ],
+    "ch1_reimu_boss": [
+      {
+        "dialogBox": {
+          "text": "你过关了。"
+        },
+        "portrait": [
+          {
+            "id": "reimu",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "BOUNCE"
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "运营流程符合规范，设施很完善，服务也很周到，应该不用担心出问题。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_think",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "如此一来这里也算是由我背书认证的幻想乡正规企业了。消息传开后会有更多类型的顾客慕名而来吧。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_open",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "你小心点别闹出什么乱子了，到时候还要找到我头上来。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "保险起见，我本人也会时不时来巡视一下。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_serious",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "……"
+        },
+        "portrait": [
+          {
+            "id": "reimu_sigh",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "……钱我还是会给的啦，这点钱我还是出得起的。"
+        },
+        "portrait": [
+          {
+            "id": "reimu_pout",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "hakurei_reimu_name"
+        ]
+      }
+    ]
+  }
+}

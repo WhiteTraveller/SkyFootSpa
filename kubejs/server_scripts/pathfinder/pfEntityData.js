@@ -5,12 +5,22 @@
 // ============================================================
 
 // 生成随机需求清单（4部位）
+// 根据种族配置的范围随机生成每个部位的需求次数
+// @param {string} category 顾客种族key（可选，未配置时使用默认范围）
 // 返回对象: {脚掌: x, 脚后跟: x, 脚趾: x, 脚心: x}
-function pfGenerateDemandList() {
+function pfGenerateDemandList(category) {
     let demandList = {}
+    let defaultRanges = global.pfCustomerTypes.PF_DEMAND_DEFAULT_RANGES
+    let raceRanges = (category && global.pfCustomerTypes.PF_RACE_DEMAND_RANGES)
+        ? global.pfCustomerTypes.PF_RACE_DEMAND_RANGES[category] : null
     for (let i = 0; i < global.pfConstants.PF_DEMAND_TYPES.length; i++) {
         let type = global.pfConstants.PF_DEMAND_TYPES[i]
-        demandList[type] = Math.floor(Math.random() * 3)
+        // 优先使用种族配置，回退到默认配置
+        let range = (raceRanges && raceRanges[type]) ? raceRanges[type] : (defaultRanges[type] || [0, 2])
+        let min = range[0] | 0
+        let max = range[1] | 0
+        if (max < min) max = min
+        demandList[type] = min + Math.floor(Math.random() * (max - min + 1))
     }
     return demandList
 }

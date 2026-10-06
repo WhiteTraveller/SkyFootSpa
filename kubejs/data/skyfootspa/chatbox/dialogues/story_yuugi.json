@@ -1,0 +1,236 @@
+{
+  "$introduce": "第二章星熊永仪段：ch2_yuugi 温泉街踢馆、ch2_yuugi_boss 旧地狱结算",
+  "theme": "skyfootspa:hoshiguma_yuugi1",
+  "isPause": false,
+  "dialogues": {
+    "ch2_yuugi": [
+      {
+        "dialogBox": {
+          "text": "原来如此，你就是那个新来的吧。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "寒暄之类的废话就不必了，我乃旧地狱温泉街的主管星熊永仪。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "温泉街……是竞争对手吗？看这架势就有种不祥的预感，不会要开打吧。可恶，难道被那只猫坑了吗。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "没错，既然作为对手，那么就要好好给你点颜色瞧瞧！小的们，上！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_challenge",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "你们要干什么？！你们要带我去哪里？……快放我下来！……啊啊啊啊啊好烫！！！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_challenge",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "怎么样，新来的！"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_laugh"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这就是旧地狱的温泉吗……感觉有点烫，但适应了之后还是挺舒服的，感觉本不存在的灵魂都要出窍了。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_laugh",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "在旧地狱，实力为尊。既然你敢把店开到我们边上来，那自然要比拼一下，看看你的足浴和我们的温泉谁更胜一筹，才不算失了礼数。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_open",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "我明白了，你稍等一会，我会为你展示最精湛的服务技术。"
+        },
+        "options": [
+          {
+            "text": "收下挑战符",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_yuugi"
+            }
+          }
+        ],
+        "portrait": [
+          {
+            "id": "yuugi_open",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      }
+    ],
+    "ch2_yuugi_boss": [
+      {
+        "dialogBox": {
+          "text": "都说人不可貌相，原来洗脚也是。虽然看起来完全不如我们的温泉，但实际体验下来丝毫也不逊色。没想到洗浴行业竟然能采取这种服务方式。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_impressed",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "哪里哪里，还是你们的温泉更舒服，我洗完之后全身神清气爽就像要融化了一样。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_impressed",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那这次就算平局吧。你确实是有资格在旧地狱开店的人，我们也要回去改进我们的服务，就先走一步了。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_satisfied",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "yuugi_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "慢走啊……还有你也别躲了，我已经闻到之前给你用的草药和香料味了。你早就料到这一切了吧。"
+        },
+        "portrait": [
+          {
+            "id": "yuugi_satisfied",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "哎呀，真是好敏锐的洞察力。但我只是一只按照命令跑腿的宠物猫，所有的计划都是我的饲主制定的，毕竟觉大人很擅长识读人心。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "温泉街在你的影响下改进服务方式，而你也在地狱站稳了跟脚，这不是皆大欢喜的双赢吗。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug"
+          },
+          "rin_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "确实如此。我越来越好奇你的饲主到底是个怎么样的人……或者妖怪了。"
+        },
+        "portrait": [
+          {
+            "id": "rin_smug",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "那见面的机会肯定不会少，觉大人也很乐意在工作之余找个地方放松一下僵硬的双脚，说不定你在来地狱之前就已经在幻想乡的店里帮她搓过脚了。"
+        },
+        "portrait": [
+          {
+            "id": "rin_cheer",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "rin_name"
+        ]
+      }
+    ]
+  }
+}

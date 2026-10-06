@@ -51,7 +51,7 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, qu
     // ===== 调用实体生成 =====
     try {
         let walker = global.pfEntitySpawner.pfSpawnWalker(
-            level, baseX, baseY, baseZ, routeStr, queuePos, player, chosenModel, null
+            level, baseX, baseY, baseZ, routeStr, queuePos, player, chosenModel, null, false, chosenKey
         )
         walker.persistentData.putString("pfCustomerCategory", chosenKey)
         // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）

@@ -1,7 +1,7 @@
 minecraft:overworld
-minecraft:the_end
-dimdungeons:dungeon_dimension
-dimdungeons:build_dimension
 minecraft:the_nether
+dimdungeons:build_dimension
 marguerite:old_hell
+dimdungeons:dungeon_dimension
+minecraft:the_end
 ae2:spatial_storage

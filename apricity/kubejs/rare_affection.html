@@ -1,0 +1,322 @@
+<!doctype html>
+<!--
+  稀客好感度界面（Screen 类型）—— 左右布局版
+  - 左侧：稀客列表，卡片网格（5 列拉伸占满左栏），每卡 = 角色物品大图 + 名称 + 爱心好感度，可滚动。
+  - 右侧：点击左侧卡片时展示该角色信息（种族 / 出现作品 / 简介）+ 当前好感度 + 各爱心档掉落。
+  - 数据来源：客户端 rare_affection_ui.js 把服务端 JSON 存入 global.pfRareAffectionView，本页读取渲染。
+  - 【物品大图】用 div 包裹层 + transform:scale 视觉放大原生物品图标（div 为 block  transform 才生效；
+    span inline 不生效；iconScale/--aui-slot-icon-scale 与展示型 <slot> 在 plain Screen 均不可用）。
+    左侧 .figwrap scale(3.2)、掉落 .dwrap scale(2.0)，外层 .figbox/.dbox 预留空间并裁剪。
+  - 爱心素材：apricity/kubejs/heart.png(点亮) / heart_empty.png(未点亮)。
+  - 【重要】静态预渲染槽位 + getElementById 填充，不往滚动容器动态增删节点（避免 AUI 滚动重复条目）。
+  - 和风纸质配色：暖米黄渐变底 + 墨色外框 + 朱红镶边/点缀，文字改深墨色（浅底需深色字）。viewport=browser + intercept。关闭：右上 x。
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <meta name="aui-mouse-events" content="intercept">
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; }
+    body {
+      background: transparent;
+      color: #4a3c2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ===== 和风纸质面板：暖米黄渐变底(和纸色差) + 墨色外框 + 朱红外扩镶边 ===== */
+    .wrap {
+      width: 1074px;
+      background: linear-gradient(155deg, #f8f1de 0%, #f1e6cd 48%, #eaddbf 100%);
+      border: 2px solid #5b4a36;
+      box-shadow: 0 0 0 3px rgba(181, 67, 42, 0.22);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .hd { display: flex; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid rgba(181, 67, 42, 0.45); }
+    .title { font-size: 26px; color: #b5432a; font-weight: bold; padding-left: 12px; border-left: 5px solid #b5432a; }
+    .spacer { flex: 1 1 auto; }
+    .close { cursor: pointer; color: #6b5a45; font-size: 26px; padding: 0 10px; }
+    .close:hover { color: #b5432a; }
+
+    .main { display: flex; gap: 18px; }
+
+    /* ===== 左：正方形卡片网格 =====
+       宽度账：3 列×190px + 2 间距×12px = 594px = .left 宽度（显式像素列宽，
+       不用 1fr+gap，避免 AUI grid 分配 1fr 时未扣 gap 导致第三列溢出被裁）
+       高度账：4 行×190px + 3 间距×12px = 796px = .left 高度。卡片=190×190 正方形 */
+    .left {
+      width: 594px;
+      height: 796px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 190px);
+      grid-auto-rows: 190px;
+      gap: 12px;
+    }
+    /* 卡片：浅色纸片 + 淡墨边；悬停转朱红高亮。height 186+上下边框4=190，对齐 grid 行轨道不溢出 */
+    .card {
+      height: 186px;
+      background: rgba(255, 252, 244, 0.6);
+      border: 2px solid rgba(91, 74, 54, 0.28);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .card:hover { background: rgba(181, 67, 42, 0.10); border-color: rgba(181, 67, 42, 0.6); }
+    .figbox {
+      width: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* 包裹盒布局尺寸=放大后视觉尺寸；transform 放在 item 自身上绕中心放大，不裁剪不重叠 */
+    .figwrap { width: 132px; height: 132px; display: flex; align-items: center; justify-content: center; }
+    .figwrap item { width: 32px; height: 32px; transform: scale(4.1); }
+    .cname { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-top: 2px; text-align: center; }
+    .chearts { margin-top: 2px; }
+
+    /* ===== 右：角色信息 ===== */
+    .right {
+      flex: 0 0 414px;
+      width: 414px;
+      min-width: 0;
+      height: 792px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: rgba(255, 252, 244, 0.5);
+      border: 2px solid rgba(91, 74, 54, 0.28);
+      padding: 16px 18px;
+    }
+    .rtitle { font-size: 26px; color: #b5432a; font-weight: bold; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid rgba(91, 74, 54, 0.3); }
+    .rlore { font-size: 18px; color: #5a4a36; margin-bottom: 6px; }
+    .rlore b { color: #41556b; }
+    .rdesc { font-size: 16px; color: #6b5a45; margin: 8px 0 12px; }
+    .raff { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; }
+    .rhint { font-size: 16px; color: #8a7a63; margin-top: 40px; text-align: center; }
+
+    .tier { margin-top: 12px; padding: 12px; background: rgba(255, 250, 238, 0.65); border: 2px solid rgba(91, 74, 54, 0.22); }
+    .tier-h { font-size: 18px; color: #b5432a; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; }
+    /* 档位标题：爱心与“好感度达到 xx”文字之间加间距 */
+    .tier-h .hearts { margin-right: 10px; }
+    .drops { display: flex; flex-wrap: wrap; }
+    .drop { display: flex; align-items: center; margin-right: 8px; margin-bottom: 4px; }
+    .dbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dwrap { width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; }
+    .dwrap item { width: 32px; height: 32px; transform: scale(2.6); }
+    .dtext { font-size: 16px; color: #5a4a36; margin-left: 8px; word-break: break-all; }
+
+    /* 爱心图标容器 */
+    .hearts { display: inline-flex; align-items: center; vertical-align: middle; }
+    .hearts img { margin-right: 3px; }
+
+    /* <item> 扩展元素无固有尺寸 */
+    item { display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hd">
+      <span class="title" id="title">稀客好感度</span>
+      <span class="spacer"></span>
+      <span class="close" id="closeBtn">x</span>
+    </div>
+
+    <div class="main">
+      <!-- ===== 左：10 个正方形卡片槽位 ===== -->
+      <div class="left" id="left">
+        <div class="card" id="card0" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric0"></item></div></div><div class="cname" id="cname0"></div><div class="chearts"><span class="hearts"><img id="rh0_0" style="width:28px;height:28px;"><img id="rh0_1" style="width:28px;height:28px;"><img id="rh0_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card1" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric1"></item></div></div><div class="cname" id="cname1"></div><div class="chearts"><span class="hearts"><img id="rh1_0" style="width:28px;height:28px;"><img id="rh1_1" style="width:28px;height:28px;"><img id="rh1_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card2" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric2"></item></div></div><div class="cname" id="cname2"></div><div class="chearts"><span class="hearts"><img id="rh2_0" style="width:28px;height:28px;"><img id="rh2_1" style="width:28px;height:28px;"><img id="rh2_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card3" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric3"></item></div></div><div class="cname" id="cname3"></div><div class="chearts"><span class="hearts"><img id="rh3_0" style="width:28px;height:28px;"><img id="rh3_1" style="width:28px;height:28px;"><img id="rh3_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card4" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric4"></item></div></div><div class="cname" id="cname4"></div><div class="chearts"><span class="hearts"><img id="rh4_0" style="width:28px;height:28px;"><img id="rh4_1" style="width:28px;height:28px;"><img id="rh4_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card5" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric5"></item></div></div><div class="cname" id="cname5"></div><div class="chearts"><span class="hearts"><img id="rh5_0" style="width:28px;height:28px;"><img id="rh5_1" style="width:28px;height:28px;"><img id="rh5_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card6" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric6"></item></div></div><div class="cname" id="cname6"></div><div class="chearts"><span class="hearts"><img id="rh6_0" style="width:28px;height:28px;"><img id="rh6_1" style="width:28px;height:28px;"><img id="rh6_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card7" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric7"></item></div></div><div class="cname" id="cname7"></div><div class="chearts"><span class="hearts"><img id="rh7_0" style="width:28px;height:28px;"><img id="rh7_1" style="width:28px;height:28px;"><img id="rh7_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card8" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric8"></item></div></div><div class="cname" id="cname8"></div><div class="chearts"><span class="hearts"><img id="rh8_0" style="width:28px;height:28px;"><img id="rh8_1" style="width:28px;height:28px;"><img id="rh8_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="card" id="card9" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric9"></item></div></div><div class="cname" id="cname9"></div><div class="chearts"><span class="hearts"><img id="rh9_0" style="width:28px;height:28px;"><img id="rh9_1" style="width:28px;height:28px;"><img id="rh9_2" style="width:28px;height:28px;"></span></span></div></div>
+        <div class="rhint" id="listEmpty" style="display:none;">该维度暂无稀客配置</div>
+      </div>
+
+      <!-- ===== 右：角色信息（悬停填充）===== -->
+      <div class="right" id="right">
+        <div class="rtitle" id="rTitle">稀客情报</div>
+        <div class="rlore" id="rRace"><b>种族：</b><span id="rRaceV">-</span></div>
+        <div class="rlore" id="rWork"><b>出现作品：</b><span id="rWorkV">-</span></div>
+        <div class="rdesc" id="rDesc">点击左侧角色卡片查看设定。</div>
+        <div class="raff" id="rAff">当前好感度：<span id="rAffNum">-</span><span class="hearts" style="margin-left:10px;"><img id="rhh0" style="width:28px;height:28px;"><img id="rhh1" style="width:28px;height:28px;"><img id="rhh2" style="width:28px;height:28px;"></span></div>
+        <div id="rDrops">
+          <div class="tier" id="tier0" style="display:none;">
+            <div class="tier-h"><span class="hearts"><img id="th0_0" style="width:22px;height:22px;"><img id="th0_1" style="width:22px;height:22px;"><img id="th0_2" style="width:22px;height:22px;"></span><span id="thtxt0"></span></div>
+            <div class="drops">
+              <div class="drop" id="drop0_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_0"></item></div></div><span class="dtext" id="dt0_0"></span></div>
+              <div class="drop" id="drop0_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_1"></item></div></div><span class="dtext" id="dt0_1"></span></div>
+              <div class="drop" id="drop0_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_2"></item></div></div><span class="dtext" id="dt0_2"></span></div>
+              <div class="drop" id="drop0_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_3"></item></div></div><span class="dtext" id="dt0_3"></span></div>
+            </div>
+          </div>
+          <div class="tier" id="tier1" style="display:none;">
+            <div class="tier-h"><span class="hearts"><img id="th1_0" style="width:22px;height:22px;"><img id="th1_1" style="width:22px;height:22px;"><img id="th1_2" style="width:22px;height:22px;"></span><span id="thtxt1"></span></div>
+            <div class="drops">
+              <div class="drop" id="drop1_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_0"></item></div></div><span class="dtext" id="dt1_0"></span></div>
+              <div class="drop" id="drop1_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_1"></item></div></div><span class="dtext" id="dt1_1"></span></div>
+              <div class="drop" id="drop1_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_2"></item></div></div><span class="dtext" id="dt1_2"></span></div>
+              <div class="drop" id="drop1_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_3"></item></div></div><span class="dtext" id="dt1_3"></span></div>
+            </div>
+          </div>
+          <div class="tier" id="tier2" style="display:none;">
+            <div class="tier-h"><span class="hearts"><img id="th2_0" style="width:22px;height:22px;"><img id="th2_1" style="width:22px;height:22px;"><img id="th2_2" style="width:22px;height:22px;"></span><span id="thtxt2"></span></div>
+            <div class="drops">
+              <div class="drop" id="drop2_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_0"></item></div></div><span class="dtext" id="dt2_0"></span></div>
+              <div class="drop" id="drop2_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_1"></item></div></div><span class="dtext" id="dt2_1"></span></div>
+              <div class="drop" id="drop2_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_2"></item></div></div><span class="dtext" id="dt2_2"></span></div>
+              <div class="drop" id="drop2_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_3"></item></div></div><span class="dtext" id="dt2_3"></span></div>
+            </div>
+          </div>
+          <div class="tier" id="tier3" style="display:none;">
+            <div class="tier-h"><span class="hearts"><img id="th3_0" style="width:22px;height:22px;"><img id="th3_1" style="width:22px;height:22px;"><img id="th3_2" style="width:22px;height:22px;"></span><span id="thtxt3"></span></div>
+            <div class="drops">
+              <div class="drop" id="drop3_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_0"></item></div></div><span class="dtext" id="dt3_0"></span></div>
+              <div class="drop" id="drop3_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_1"></item></div></div><span class="dtext" id="dt3_1"></span></div>
+              <div class="drop" id="drop3_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_2"></item></div></div><span class="dtext" id="dt3_2"></span></div>
+              <div class="drop" id="drop3_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_3"></item></div></div><span class="dtext" id="dt3_3"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var McClient = Java.loadClass("net.minecraft.client.Minecraft");
+    var ApricityUIRef = Java.loadClass("com.sighs.apricityui.ApricityUI");
+
+    var VIEW = null;
+    var MAX_CARDS = 10;
+    var MAX_TIERS = 4;
+    var MAX_DROPS = 4;
+    var DIM_NAMES = {
+      "minecraft:overworld": "主世界",
+      "marguerite:old_hell": "旧地狱",
+      "minecraft:the_nether": "下界",
+      "ad_astra:moon": "月球"
+    };
+
+    function setHearts(prefix, n) {
+      for (var k = 0; k < 3; k++) {
+        var img = document.getElementById(prefix + k);
+        if (img) img.setAttribute("src", (k < n) ? "heart.png" : "heart_empty.png");
+      }
+    }
+
+    // ===== 左侧列表：填充正方形卡片 =====
+    function renderList() {
+      var dimName = DIM_NAMES[VIEW.dim] || VIEW.dim || "";
+      document.getElementById("title").textContent = "稀客 · " + dimName;
+      var arr = VIEW.list || [];
+      document.getElementById("listEmpty").setAttribute("style", arr.length === 0 ? "display:block;" : "display:none;");
+      for (var i = 0; i < MAX_CARDS; i++) {
+        var card = document.getElementById("card" + i);
+        if (!card) continue;
+        if (i < arr.length) {
+          var r = arr[i];
+          card.setAttribute("style", "display:flex;");
+          document.getElementById("ric" + i).textContent = r.figure;
+          document.getElementById("cname" + i).textContent = r.name;
+          setHearts("rh" + i + "_", r.hearts);
+        } else {
+          card.setAttribute("style", "display:none;");
+        }
+      }
+    }
+
+    // ===== 右侧信息：悬停某卡片时填充 =====
+    function showRight(idx) {
+      var r = (VIEW.list || [])[idx];
+      if (!r) return;
+      document.getElementById("rTitle").textContent = r.name;
+      document.getElementById("rRaceV").textContent = r.race || "-";
+      document.getElementById("rWorkV").textContent = r.work || "-";
+      document.getElementById("rDesc").textContent = r.desc || "（暂无设定）";
+      document.getElementById("rAffNum").textContent = "" + r.affection;
+      setHearts("rhh", r.hearts);
+
+      var tiers = r.tiers || [];
+      for (var t = 0; t < MAX_TIERS; t++) {
+        var tierEl = document.getElementById("tier" + t);
+        if (!tierEl) continue;
+        if (t < tiers.length) {
+          tierEl.setAttribute("style", "display:block;");
+          var tier = tiers[t];
+          setHearts("th" + t + "_", tier.hearts);
+          document.getElementById("thtxt" + t).textContent = "  好感度达到 " + (tier.threshold != null ? tier.threshold : 0);
+          var items = tier.items || [];
+          for (var k = 0; k < MAX_DROPS; k++) {
+            var dropEl = document.getElementById("drop" + t + "_" + k);
+            if (!dropEl) continue;
+            if (k < items.length) {
+              dropEl.setAttribute("style", "display:flex;");
+              document.getElementById("di" + t + "_" + k).textContent = items[k].item;
+              var cnt = (items[k].min === items[k].max) ? ("x" + items[k].min) : ("x" + items[k].min + "-" + items[k].max);
+              document.getElementById("dt" + t + "_" + k).textContent = cnt;
+            } else {
+              dropEl.setAttribute("style", "display:none;");
+            }
+          }
+        } else {
+          tierEl.setAttribute("style", "display:none;");
+        }
+      }
+    }
+
+    // ===== 启动 =====
+    function boot() {
+      var closeBtn = document.getElementById("closeBtn");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          try { ApricityUIRef.closeScreen(); } catch (e) {}
+        });
+      }
+      for (var i = 0; i < MAX_CARDS; i++) {
+        (function (idx) {
+          var card = document.getElementById("card" + idx);
+          if (!card) return;
+          var handler = function () { if (VIEW && idx < (VIEW.list || []).length) showRight(idx); };
+          card.addEventListener("click", handler);
+        })(i);
+      }
+      attempt(0);
+    }
+
+    function attempt(n) {
+      var ok = false;
+      try {
+        if (typeof global !== "undefined" && global.pfRareAffectionView) {
+          VIEW = JSON.parse(global.pfRareAffectionView);
+          ok = true;
+        }
+      } catch (e) { ok = false; }
+      if (ok && VIEW) {
+        renderList();
+      } else if (n < 40) {
+        setTimeout(function () { attempt(n + 1); }, 50);
+      } else {
+        document.getElementById("listEmpty").setAttribute("style", "display:block;");
+        document.getElementById("listEmpty").textContent = "未获取到好感度数据，请关闭后重试";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", boot);
+  </script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+{
+  "$introduce": "第三章：东风谷早苗核聚变推销与Boss战结算",
+  "theme": "skyfootspa:kochiya_sanae1",
+  "isPause": false,
+  "dialogues": {
+    "ch3_sanae": [
+      {
+        "dialogBox": {
+          "text": "噢噢噢噢，虽然早就有所耳闻，但亲眼见到还是让人惊讶，幻想乡现在竟然也有足浴店了！"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这家伙的身上怎么有一股和那个红白城管相似的气息，恐怕不是什么来洗脚的普通顾客，要小心应对。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "老板，你这果然跟传闻一样有不少河童的机器啊，这么多产线都是靠什么驱动的？"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这莫非是假装顾客来试探我？！按我听到的说法，石油在这里用的非常少……难道前脚查营业执照的才走没多久，后脚查污染排放的就来了吗？"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "呃……我们家用的是幻想乡传统工艺手摇驱动，你看这幻想乡里不是有很多天天无所事事只知道捣蛋和冻青蛙的妖精吗，我只是雇佣他们来帮个忙……"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "怎么听起来像是雇佣童工似的，话说你真能管的住那些妖精？"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这位小姐你听我说嘛，这些妖精都是大自然的具现啊，所以这个应该算是利用自然界的可再生能源或者生物质能……"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "STOP！STOP！在这样下去别人要是听见会觉得我们俩蔑视妖精权利的。我也不陪你编下去了，这招用来糊弄普通的幻想乡住民还有用，但我好歹也是从外界搬进来的，虽然不知道是从哪来的，但这烧的是石油吧。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_sad",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "这幻想乡的城管果然都不是等闲之辈，这下免不了要交罚款了，说不定产线也要关停……"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "既然这样不如改用我们守矢神社的核聚变能源吧，既清洁又高效，而且我东风谷早苗作为守矢的巫女可以保证，只要能在这里修一间守矢神社的分社，让我们借用一下这里的人流，就允许你们终生免费使用。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "原来是来推销的吗，还推销的是核聚变？这两个词是怎么出现在同一个句子里的？"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "在幻想乡可不能被常识束缚！"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "但是这位东风谷小姐啊，先不说我的机器刚换成烧油的，再换一遍有些费钱，我现在用的石油也可以自产自销，如果我自己不用，这些石油还没有安稳的销路只会越积越多，恐怕没有用你家核聚变的需求啊。"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "既然已经在幻想乡了就不要被常识……不对，这次好像真的被常识束缚了……"
+        },
+        "portrait": [
+          {
+            "id": "sanae_sad",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "没事，还好我还有Plan B！如果店长真的不想要核聚变的话，我们还出售附带神灵庇佑的家具，用了有助于宾客满门招财进宝哦，只要在这里修一间守矢的分社，就能以批发价送货上门！~"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "提供增益的家具吗，确实有点意思……"
+        },
+        "portrait": [
+          {
+            "id": "sanae",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "啊，差点忘了，我们这边也不是随随便便就能达成合作的，如果要成为守矢神社的官方合作伙伴的话，就让我来享受……不对是考察一下你究竟水平如何吧！"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "sanae_name"
+        ],
+        "options": [
+          {
+            "text": "收下召唤符",
+            "click": {
+              "type": "command",
+              "value": "give @s marguerite:boss_seal_sanae"
+            }
+          }
+        ]
+      }
+    ],
+    "ch3_sanae_boss": [
+      {
+        "dialogBox": {
+          "text": "哇~没想到店长你的服务竟然比外界的那些顶尖足浴店都好，在幻想乡都能遇到这种从事现代服务业的高手，果然在幻想乡不能被常识所束缚。那我们的合作就这么愉快的决定了。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "（不过仔细一想，这家店明明在使用石油，那几位却一点反应没有，而且店长利用石油的方式一般人也难以察觉……难道那几个贤者真的是想借这足浴店之手暗中消耗掉散落在外的石油？）"
+        },
+        "portrait": [
+          {
+            "id": "sanae"
+          },
+          "sanae_name"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "算了，洗完脚神清气爽，就先不管那么多啦。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_smile"
+          },
+          "sanae_name"
+        ]
+      }
+    ]
+  }
+}

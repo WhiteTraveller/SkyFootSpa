@@ -181,20 +181,28 @@ function setupNetworkHandlers() {
                 // ============================================================
                 let staminaCost = part ? Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
                 let fasciaGunUsed = false
+                let fasciaGunHeld = false
                 if (global.pfFasciaGunInterface) {
                     let gunInfo = global.pfFasciaGunInterface.getMatchingGun(player, demandKey)
                     if (gunInfo) {
+                        fasciaGunHeld = true
                         // 优先尝试消耗FE（消耗量等于该部位体力值）
                         if (global.pfFasciaGunInterface.tryConsumeFE(player, gunInfo, staminaCost)) {
                             fasciaGunUsed = true
                             let currentFE = global.pfFasciaGunInterface.getCurrentFE(gunInfo.item)
                             console.log('[PF-NETWORK] 筋膜枪(' + part + ')消耗 ' + staminaCost + ' FE, 剩余: ' + currentFE + ' FE')
                         }
-                        // FE不足时不阻断，继续走体力消耗兜底
                     }
                 }
 
-                // 如果没有使用筋膜枪FE，消耗体力
+                // 筋膜枪FE不足时阻断搓脚，提示充电
+                if (fasciaGunHeld && !fasciaGunUsed) {
+                    player.setStatusMessage("§c筋膜枪电量不足，请充电！")
+                    targetEntity.setMainHandItem(item.withNBT(nbt))
+                    return
+                }
+
+                // 没有持有筋膜枪时，消耗体力
                 if (!fasciaGunUsed) {
                     if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, staminaCost)) {
                         player.setStatusMessage("§c体力不足，无法搛脚！")

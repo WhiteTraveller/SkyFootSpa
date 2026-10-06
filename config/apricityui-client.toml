@@ -14,6 +14,8 @@
 [input]
 	#Allow Ctrl+mouse-wheel viewport zoom to pass through persistent overlays that do not intercept mouse events.
 	viewportZoomPassThrough = true
+	#When the game hides the mouse cursor (crosshair mode), overlay and screen documents receive no mouse events. World windows are unaffected.
+	blockMouseEventsWhenCursorHidden = true
 
 [worldWindow]
 	#Scale applied to WorldWindow's distance-based depth offset.

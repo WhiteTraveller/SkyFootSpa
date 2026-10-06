@@ -184,7 +184,7 @@
 			id: "13CFD333B3A16B05"
 			rewards: [
 				{
-					command: "/chatbox skip skyfootspa:start start"
+					command: "/chatbox skip skyfootspa:story_alice ch0_prologue"
 					icon: "minecraft:nether_star"
 					id: "4D306CC4A23BC136"
 					title: "与爱丽丝对话"

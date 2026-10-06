@@ -5,7 +5,9 @@
 // ============================================================
 
 // 生成寻路实体
-function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, modelOverride, bossDef, silent) {
+// customerCategory: 可选，顾客种族key（用于需求范围配置）
+// rareDef: 可选，稀客定义（global.pfCustomerTypes.PF_RARE_BY_DIMENSION 池内对象），应用稀客需求倍率并写入 pfRareId
+function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, modelOverride, bossDef, silent, customerCategory, rareDef) {
     let walker = level.createEntity(global.pfConstants.PF_ENTITY_TYPE)
     let spawnX = baseX + 0.5
     let spawnZ = baseZ + 0.5
@@ -60,8 +62,8 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
     global.pfEntityData.pfSetBedList(walker, global.pfBedManager.pfSerializeBeds(pathBeds))
     console.log("[PF] 出场时刷新床位数量=" + pathBeds.length)
     
-    // 生成需求清单
-    let demandList = global.pfEntityData.pfGenerateDemandList()
+    // 生成需求清单（按种族配置的范围随机）
+    let demandList = global.pfEntityData.pfGenerateDemandList(customerCategory)
     // Boss 需求倍率：每部位次数 × bossDef.demandMultiplier
     if (bossDef && bossDef.demandMultiplier && bossDef.demandMultiplier > 1) {
         let mul = bossDef.demandMultiplier
@@ -69,6 +71,14 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
             demandList[key] = demandList[key] * mul
         }
         console.log("[PF-BOSS] 需求倍率x" + mul + " 应用后: " + JSON.stringify(demandList))
+    }
+    // 稀客需求倍率：每部位次数 × PF_RARE_DEMAND_MULTIPLIER（默认 1.5，四舍五入取整）
+    if (rareDef) {
+        let mul = global.pfCustomerTypes.PF_RARE_DEMAND_MULTIPLIER || 1
+        for (let key in demandList) {
+            demandList[key] = Math.round(demandList[key] * mul)
+        }
+        console.log("[PF-RARE] 稀客需求倍率x" + mul + " 应用后: " + JSON.stringify(demandList))
     }
     console.log("[PF-DATA] 生成需求清单: " + JSON.stringify(demandList))
     // 检查玩家是否设置了跳过泡脚
@@ -90,6 +100,12 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
     if (bossDef && bossDef.id) {
         walker.persistentData.putString('pfBossId', bossDef.id)
         console.log("[PF-BOSS] 实体标记 pfBossId=" + bossDef.id)
+    }
+    
+    // 稀客标识写入 persistentData（供后续查询/奖励扩展）
+    if (rareDef && rareDef.id) {
+        walker.persistentData.putString('pfRareId', rareDef.id)
+        console.log("[PF-RARE] 实体标记 pfRareId=" + rareDef.id)
     }
     
     // 验证存储结果

@@ -1,9 +1,9 @@
 {
-  "$introduce": "第一章：河城荷取来访、实力证明与搓脚Boss战结算",
+  "$introduce": "第一章河城荷取段：ch1_nitori 来访与实力证明、ch1_nitori_boss 搓脚Boss战结算",
   "theme": "skyfootspa:kawashiro_nitori1",
   "isPause": false,
   "dialogues": {
-    "chapter2": [
+    "ch1_nitori": [
       {
         "dialogBox": {
           "text": "喂喂，小兄弟。"
@@ -288,7 +288,7 @@
         ]
       }
     ],
-    "end_boss_seal_hchq": [
+    "ch1_nitori_boss": [
       {
         "dialogBox": {
           "text": "小兄弟你的手艺确实不错嘛。"

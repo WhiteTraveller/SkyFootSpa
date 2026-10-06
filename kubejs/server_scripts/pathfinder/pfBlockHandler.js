@@ -35,6 +35,13 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         let cfgZ = blockPos.getZ() | 0
         let dimSafe = ('' + level.getDimension()).replace(/[^A-Za-z0-9]+/g, '_')
         let dataName = 'pf_cfg_' + dimSafe + '_' + cfgX + '_' + cfgY + '_' + cfgZ
+        // 记住当前配置的方块上下文，供“稀客好感度”按钮读取（好感度按方块存储）
+        try {
+            player.persistentData.putInt('pfCfgX', cfgX)
+            player.persistentData.putInt('pfCfgY', cfgY)
+            player.persistentData.putInt('pfCfgZ', cfgZ)
+            player.persistentData.putString('pfCfgDim', global.pfRareAffection.pfAffDimId(level))
+        } catch (e) { console.log("[PF] 记录配置方块上下文失败: " + e) }
         // 服务端容器 API：menu(...).bind(fn) 立即解析数据源并打开真实容器 Screen。
         // saveddata(dataName, 27) → HTML 容器 id=saved_data（9x3 世界级持久库存）；
         // player() → HTML 容器 id=player（玩家背包）。saveddata 先绑定成为 primary，

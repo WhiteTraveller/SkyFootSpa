@@ -392,20 +392,49 @@ function pfShopTick(level, entity) {
         return
     }
 
-    // 判定3: 尝试生成顾客（按店铺所在维度过滤可生成类别）
+    // 判定3: 稀客判定（默认 10% 概率，可配置）：命中则生成当前维度稀客池中的一位，否则走普通顾客抽取
+    let rareDef = global.pfCustomerTypes.pfTryRollRare(level)
+    let base = pfShopGetBase(be)
+    let routeStr = pfShopGetRouteStr(be)
+    let queuePos = pfShopGetQueuePos(be)
+
+    if (rareDef) {
+        console.log("[PF-SHOP] ★稀客光临: " + rareDef.name + "(" + rareDef.id + "), 模型: " + rareDef.model + ", 维度: " + level.getDimension())
+        try {
+            let walker = global.pfEntitySpawner.pfSpawnWalker(
+                level, base.x, base.y, base.z,
+                routeStr, queuePos, player, rareDef.model, null, true, '', rareDef
+            )
+            // 稀客不参与种族评价系统（与 Boss 一致，置空类别）
+            walker.persistentData.putString('pfCustomerCategory', '')
+            // 读取本方块已存储的该稀客好感度，作为本次服务的快照（结算掉落档位按“更新前好感度”判定）
+            let affection = global.pfRareAffection.pfGetBeAffection(be, rareDef.id)
+            walker.persistentData.putInt('pfRareAffSnapshot', affection)
+            // 头顶名牌：上一行爱心（好感度），下一行 ★稀客 + 名字 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
+            global.pfRareAffection.pfApplyRareNameTag(walker, rareDef, affection)
+            pfShopAddSpawnedUuid(be, "" + walker.getUuid())
+            // 向开店玩家提示稀客光临（含当前好感度与爱心）
+            if (player) {
+                let hearts = global.pfCustomerTypes.pfRareHeartsText(affection)
+                player.tell('§d★ 稀客 §e' + rareDef.name + ' §d光临了本店！' + hearts + ' §7好感度 ' + affection)
+                player.tell('§7需求是普通顾客的 §e1.5 §7倍，好好招待可提升好感度！')
+            }
+        } catch (e) {
+            console.log("[PF-SHOP] 生成稀客失败: " + e)
+        }
+        return
+    }
+
+    // 普通顾客抽取（按店铺所在维度过滤可生成类别）
     let result = global.pfCustomerTypes.pfRollCustomer(player, level)
     if (result === null) return
 
     console.log("[PF-SHOP] 抽中顾客类别: " + result.name + "(" + result.category + "), 模型: " + result.model + ", 维度: " + level.getDimension())
 
-    let base = pfShopGetBase(be)
-    let routeStr = pfShopGetRouteStr(be)
-    let queuePos = pfShopGetQueuePos(be)
-
     try {
         let walker = global.pfEntitySpawner.pfSpawnWalker(
             level, base.x, base.y, base.z,
-            routeStr, queuePos, player, result.model, null, true
+            routeStr, queuePos, player, result.model, null, true, result.category
         )
         walker.persistentData.putString('pfCustomerCategory', result.category)
         // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）

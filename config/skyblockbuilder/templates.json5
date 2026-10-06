@@ -64,7 +64,7 @@
     {
       "name": "主世界",
       "desc": "§c§l很抱歉现在这个版本只能选这个26/8/31）",
-      "file": "skyblock_overworld26_8_31.nbt",
+      "file": "skyblock_overworld26_9_19.nbt",
       "spawns": "overworld_p1",
       "surroundingBlocks": "default",
       "spreads": "default"

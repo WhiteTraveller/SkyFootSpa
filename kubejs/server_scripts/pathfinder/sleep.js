@@ -294,6 +294,31 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                 }
             }
             
+            // ===== 稀客好感度结算（仅对带 pfRareId 的稀客生效）=====
+            // 掉落档位按“更新前好感度”（生成时快照）判定；随后好感度 += (满意度 - 50)，clamp 最小 0，写回开店方块
+            try {
+                if (global.pfRareAffection && ('' + entity.persistentData.getString('pfRareId')).length > 0) {
+                    let rareResult = global.pfRareAffection.pfApplyRareSettlement(entity, level, satisfaction)
+                    if (rareResult) {
+                        // 回查操作玩家，提示好感度变化
+                        let affPlayer = null
+                        let affUuid = '' + nbt.getString('pfActionPlayerUuid')
+                        if (affUuid && affUuid.length > 0) {
+                            let ps = level.getPlayers()
+                            for (let i = 0; i < ps.size(); i++) {
+                                let p = ps.get(i)
+                                if (('' + p.getUuid()) === affUuid) { affPlayer = p; break }
+                            }
+                        }
+                        if (affPlayer) {
+                            let sign = rareResult.delta >= 0 ? '§a+' : '§c'
+                            affPlayer.tell('§d★ ' + rareResult.name + ' §7好感度 ' + sign + rareResult.delta +
+                                ' §7→ §e' + rareResult.newAffection + ' ' + global.pfCustomerTypes.pfRareHeartsText(rareResult.newAffection))
+                        }
+                    }
+                }
+            } catch (e) { console.log('[SLEEP-JS] 稀客好感度结算失败: ' + e) }
+
             let finishPlayer = null
             if (typeof global.aTip.findActionPlayer === 'function') {
                 finishPlayer = global.aTip.findActionPlayer(entity, level)

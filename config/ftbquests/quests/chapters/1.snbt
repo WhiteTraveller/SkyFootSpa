@@ -13,9 +13,9 @@
 			description: [
 				"开店赚来的第一桶硬币该拿去做什么？"
 				""
-				"§b黄铜锭§r(Brass Ingot) 是 §bCreate§r 中后期的关键材料——合成§e黄铜板§r、§e精密构件§r、§e芯片§r都离不开它。"
+				"§b黄铜锭§r 是 §b机械动力§r 中后期的关键材料——合成§e黄铜板§r、§e精密构件§r、§e芯片§r都离不开它。"
 				""
-				"§6虽然§r可以用 §f铜锭 + 锌锭§r 在动力搅拌器里合成，但早期机械尚未铺开，不如先去§bSDM 商店§r花点硬币，§a直接买黄铜§r，见识见识超市的便利。"
+				"§6虽然§r可以用 §f铜锭 + 锌锭§r 在动力搅拌器里合成，但早期机械尚未铺开，不如先去§b商店§r花点硬币，§a直接买黄铜§r，见识见识超市的便利。"
 			]
 			icon: "create:brass_ingot"
 			id: "7B3A5D9E2F1C8200"
@@ -31,8 +31,8 @@
 				type: "item"
 			}]
 			title: "以币易物：购买黄铜锭"
-			x: 15.0d
-			y: 1.0d
+			x: 18.0d
+			y: 2.0d
 		}
 		{
 			dependencies: [
@@ -58,7 +58,7 @@
 				type: "item"
 			}]
 			title: "黄铜板"
-			x: 15.0d
+			x: 18.0d
 			y: 0.0d
 		}
 		{
@@ -90,8 +90,8 @@
 				type: "item"
 			}]
 			title: "意外的副产物"
-			x: 4.5d
-			y: -3.0d
+			x: 4.0d
+			y: -2.0d
 		}
 		{
 			dependencies: [
@@ -103,7 +103,7 @@
 				""
 				"§e副手持有§r时搓脚掉落的皴数量会§a翻倍§r，每次消耗 §c1 点§r耐久。"
 				""
-				"§e获取方式§r：从§bSDM 商店§r获取。"
+				"§e获取方式§r：从§b商店§r获取。"
 				""
 				"§b使用提示§r：放入副手，在服务时生效。"
 			]
@@ -138,8 +138,8 @@
 				type: "item"
 			}]
 			title: "搓泥宝"
-			x: 4.5d
-			y: 1.0d
+			x: 4.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["017E1DD7A9182B70"]
@@ -165,7 +165,7 @@
 			}]
 			title: "聚砂成塔"
 			x: 6.0d
-			y: -3.0d
+			y: -2.0d
 		}
 		{
 			dependencies: [
@@ -173,11 +173,11 @@
 				"7B3A5D9E2F1C8240"
 			]
 			description: [
-				"§b线筛网§r(String Mesh) 是§b动力筛子§r的基础筛网配件，用于将皴块筛分出矿粒与石英。"
+				"§b线筛网§r 是§b动力筛子§r的基础筛网配件，用于将皴块筛分出矿粒与石英。"
 				""
 				"§e那么线从哪来？§r"
 				"· 天然途径：击杀蜘蛛、破坏蜘蛛网"
-				"· §6更省心的办法§r：打开§bSDM 商店§r，直接买"
+				"· §6更省心的办法§r：打开§b商店§r，直接买"
 			]
 			icon: {
 				Count: 1
@@ -227,8 +227,8 @@
 				type: "item"
 			}]
 			title: "筛矿工具"
-			x: 7.5d
-			y: -3.0d
+			x: 8.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["5D10D03366DB0677"]
@@ -251,8 +251,8 @@
 				type: "item"
 			}]
 			title: "首次筛矿"
-			x: 9.0d
-			y: -3.0d
+			x: 10.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -271,8 +271,8 @@
 				type: "item"
 			}]
 			title: "意外收获：石英"
-			x: 9.0d
-			y: -1.5d
+			x: 10.0d
+			y: 0.0d
 		}
 		{
 			dependencies: [
@@ -282,7 +282,7 @@
 			description: [
 				"§b安山岩§r是机械工业的基石，由§f鹅卵石§r与§f闪长岩§r合成获得。"
 				""
-				"它是合成§e安山合金§r的关键材料——而安山合金正是通往§bCreate§r动力产线的第一道门槛。"
+				"它是合成§e安山合金§r的关键材料——而安山合金正是通往§b机械动力§r动力产线的第一道门槛。"
 			]
 			icon: "minecraft:andesite"
 			id: "7B3A5D9E2F1C8046"
@@ -298,8 +298,8 @@
 				type: "item"
 			}]
 			title: "合成安山岩"
-			x: 10.5d
-			y: -3.0d
+			x: 12.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -320,8 +320,8 @@
 				item: "minecraft:iron_ingot"
 				type: "item"
 			}]
-			x: 9.0d
-			y: -5.5d
+			x: 10.0d
+			y: -6.0d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -338,8 +338,8 @@
 				item: "minecraft:copper_ingot"
 				type: "item"
 			}]
-			x: 9.0d
-			y: -6.5d
+			x: 10.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -356,8 +356,8 @@
 				item: "minecraft:gold_ingot"
 				type: "item"
 			}]
-			x: 9.0d
-			y: -7.5d
+			x: 10.0d
+			y: -10.0d
 		}
 		{
 			dependencies: ["314C359231516C59"]
@@ -374,13 +374,13 @@
 				item: "create:zinc_ingot"
 				type: "item"
 			}]
-			x: 9.0d
-			y: -4.5d
+			x: 10.0d
+			y: -4.0d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
 			description: [
-				"§b石磨§r(Millstone) 是 §bCreate§r 早期最重要的加工设备，由安山合金构成骨架。"
+				"§b石磨§r 是 §b机械动力§r 早期最重要的加工设备，由安山合金构成骨架。"
 				""
 				"§a功能§r："
 				"· 将§f矿石§r研磨为§e矿物粉末§r（产出 ×2 粒）"
@@ -404,7 +404,7 @@
 				type: "item"
 			}]
 			title: "组装磨盘"
-			x: 12.0d
+			x: 14.0d
 			y: -4.0d
 		}
 		{
@@ -426,8 +426,8 @@
 				type: "item"
 			}]
 			title: "铁粉"
-			x: 12.0d
-			y: -5.0d
+			x: 14.0d
+			y: -6.0d
 		}
 		{
 			dependencies: [
@@ -448,8 +448,8 @@
 				type: "item"
 			}]
 			title: "铜粉"
-			x: 12.0d
-			y: -6.0d
+			x: 14.0d
+			y: -8.0d
 		}
 		{
 			dependencies: [
@@ -470,12 +470,12 @@
 				type: "item"
 			}]
 			title: "金粉"
-			x: 12.0d
-			y: -7.0d
+			x: 14.0d
+			y: -10.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8046"]
-			description: ["§e安山合金§r是 §bCreate§r 所有机械的通用原料，几乎每一个机器都要用到它。"]
+			description: ["§e安山合金§r是 §b机械动力§r 所有机械的通用原料，几乎每一个机器都要用到它。"]
 			icon: "create:andesite_alloy"
 			id: "204993835E6F415C"
 			rewards: [{
@@ -491,13 +491,13 @@
 				type: "item"
 			}]
 			title: "安山岩合金"
-			x: 12.0d
-			y: -3.0d
+			x: 14.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
 			description: [
-				"§b传动轴§r(Shaft) 是 Create 世界里最基本的动力传输元件。"
+				"§b传动轴§r 是机械动力世界里最基本的动力传输元件。"
 				""
 				"它连接动力源与机械，是所有装置的骨架。"
 			]
@@ -516,12 +516,12 @@
 				type: "item"
 			}]
 			title: "传动轴"
-			x: 13.5d
-			y: -3.0d
+			x: 16.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
-			description: ["§b齿轮§r(Cogwheel) 是传动系统的核心零件，可以改变旋转方向或串联多台机械。"]
+			description: ["§b齿轮§r 是传动系统的核心零件，可以改变旋转方向或串联多台机械。"]
 			icon: "create:cogwheel"
 			id: "606C31ED5C612D97"
 			rewards: [{
@@ -537,13 +537,13 @@
 				type: "item"
 			}]
 			title: "齿轮"
-			x: 15.0d
-			y: -2.5d
+			x: 18.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
 			description: [
-				"§b大齿轮§r(Large Cogwheel) 是齿轮的升级版，可以实现 2:1 的变速传动。"
+				"§b大齿轮§r 是齿轮的升级版，可以实现 2:1 的变速传动。"
 				""
 				"在启动精密构件产线时必不可少。"
 			]
@@ -562,13 +562,13 @@
 				type: "item"
 			}]
 			title: "大齿轮"
-			x: 15.0d
-			y: -3.5d
+			x: 18.0d
+			y: -4.0d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
 			description: [
-				"§b水车§r(Water Wheel) 是 §bCreate§r 最朴素、也最稳定的入门动力源。"
+				"§b水车§r 是 §b机械动力§r 最朴素、也最稳定的入门动力源。"
 				""
 				"§e使用方式§r："
 				"· 将水车紧贴流水放置，中心轴自动开始转动"
@@ -591,13 +591,13 @@
 				type: "item"
 			}]
 			title: "水车"
-			x: 13.5d
-			y: -4.5d
+			x: 16.0d
+			y: -4.0d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
 			description: [
-				"§b手摇曲柄§r(Hand Crank) 是 §bCreate§r 最便携的应急动力源。"
+				"§b手摇曲柄§r 是 §b机械动力§r 最便携的应急动力源。"
 				"§7适合§e临时驱动§r单台机器（如一次搅拌、一次压制），无需铺设水源或搭建风车。§r"
 			]
 			icon: "create:hand_crank"
@@ -614,12 +614,12 @@
 				type: "item"
 			}]
 			title: "手摇曲柄"
-			x: 13.5d
-			y: -6.0d
+			x: 16.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
-			description: ["§b安山机壳§r(Andesite Casing) 是 §bCreate§r 机械装配的通用外壳。"]
+			description: ["§b安山机壳§r 是 §b机械动力§r 机械装配的通用外壳。"]
 			icon: "create:andesite_casing"
 			id: "7B3A5D9E2F1C8100"
 			rewards: [{
@@ -635,12 +635,12 @@
 				type: "item"
 			}]
 			title: "安山机壳"
-			x: 12.0d
-			y: -1.5d
+			x: 14.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
-			description: ["§b动力辊压机§r(Mechanical Press) 可以将金属锭压制成板材，是黄铜板、铁板等的必备装置。"]
+			description: ["§b动力辊压机§r 可以将金属锭压制成板材，是黄铜板、铁板等的必备装置。"]
 			icon: "create:mechanical_press"
 			id: "7CBD5A2E6AE463D8"
 			rewards: [{
@@ -655,12 +655,12 @@
 				type: "item"
 			}]
 			title: "动力辊压机"
-			x: 13.5d
+			x: 16.0d
 			y: 0.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
-			description: ["§b机械手§r(Deployer) 可以模拟玩家动作——放置、点击、合成，是自动化产线的核心。"]
+			description: ["§b机械手§r 可以模拟玩家动作——放置、点击、合成，是自动化产线的核心。"]
 			icon: "create:deployer"
 			id: "23A4599D0C5B6BC0"
 			rewards: [{
@@ -676,13 +676,13 @@
 				type: "item"
 			}]
 			title: "机械手 ×4"
-			x: 15.0d
-			y: -1.5d
+			x: 20.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
 			description: [
-				"§b动力搅拌器§r(Mechanical Mixer) 配合 Basin 可以实现流体配方搅拌。"
+				"§b动力搅拌器§r 配合工作盆可以实现流体配方搅拌。"
 				""
 				"泡脚水、黄铜锭、安山合金等配方都需要它。解锁后即可开启泡脚水产线。"
 			]
@@ -700,8 +700,8 @@
 				type: "item"
 			}]
 			title: "动力搅拌器"
-			x: 12.0d
-			y: 4.0d
+			x: 14.0d
+			y: 6.0d
 		}
 		{
 			dependencies: [
@@ -709,9 +709,9 @@
 				"5D4ACE6A91785B48"
 			]
 			description: [
-				"§6生姜水§r(Ginger Water) —— §7温通经脉，专精各部位需求§r"
+				"§6生姜水§r —— §7温通经脉，专精各部位需求§r"
 				""
-				"§a配方§r：§bBasin§r + §f水 1000mb§r + §e胡萝卜§r，启动§b动力搅拌器§r搅拌即可得§6生姜水§r流体；空桶右键 Basin 取出得§6生姜水桶§r。"
+				"§a配方§r：§b工作盆§r + §f水 1 桶§r + §e姜§r，启动§b动力搅拌器§r搅拌即可得§6生姜水§r流体；空桶右键工作盆取出得§6生姜水桶§r。"
 				""
 				"§e使用方式§r：顾客泡脚时，手持§6生姜水桶§r右键触发——每个部位随机 §a0~3§r 点需求加成。"
 			]
@@ -729,12 +729,12 @@
 				type: "item"
 			}]
 			title: "泡脚水：生姜水"
-			x: 13.5d
-			y: 5.0d
+			x: 16.0d
+			y: 8.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: ["§c红石粉§r(Redstone) 是§b精密构件§r合成中不可替代的材料。在前期你可以直接在商店购买"]
+			description: ["§c红石粉§r 是§b精密构件§r合成中不可替代的材料。在前期你可以直接在商店购买"]
 			icon: "minecraft:redstone"
 			id: "7B3A5D9E2F1C8230"
 			rewards: [{
@@ -749,13 +749,13 @@
 				type: "item"
 			}]
 			title: "以币易物：购买红石"
-			x: 16.5d
-			y: 1.0d
+			x: 20.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
 			description: [
-				"§f线§r(String) 是合成§b线筛网§r的关键材料，也是早期缝制背包、绳索等小物件的常见原料。"
+				"§f线§r 是合成§b线筛网§r的关键材料，也是早期缝制背包、绳索等小物件的常见原料。"
 				""
 				"§e天然途径§r：击杀蜘蛛。"
 				"更省心的办法§r：打开商店直接买"
@@ -774,12 +774,12 @@
 				type: "item"
 			}]
 			title: "以币易物：购买线"
-			x: 7.5d
-			y: 1.0d
+			x: 8.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: ["§b机械传送带§r(Belt Connector) 是 §bCreate§r 产线铺设中的核心物流零件——运输物品、桥接机械一把好手。你可以在商店中直接购买"]
+			description: ["§b机械传送带§r 是 §b机械动力§r 产线铺设中的核心物流零件——运输物品、桥接机械一把好手。你可以在商店中直接购买"]
 			icon: "create:belt_connector"
 			id: "7B3A5D9E2F1C8250"
 			rewards: [{
@@ -794,8 +794,8 @@
 				type: "item"
 			}]
 			title: "以币易物：购买机械传送带"
-			x: 9.0d
-			y: 1.0d
+			x: 10.0d
+			y: 2.0d
 		}
 		{
 			dependencies: [
@@ -806,7 +806,7 @@
 				"7B3A5D9E2F1C8230"
 			]
 			description: [
-				"§b精密构件§r(Precision Mechanism) 是合成§e芯片遗物§r的核心材料。"
+				"§b精密构件§r 是合成§e芯片遗物§r的核心材料。"
 				""
 				"§a合成步骤§r："
 				"· 基材：§f黄铜板§r"
@@ -822,16 +822,16 @@
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
-			shape: "hexagon"
-			size: 2.0d
+			shape: "square"
+			size: 1.5d
 			tasks: [{
 				id: "7B3A5D9E2F1C8221"
 				item: "create:precision_mechanism"
 				type: "item"
 			}]
 			title: "精密构件"
-			x: 16.5d
-			y: -3.0d
+			x: 20.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8300"]
@@ -877,14 +877,14 @@
 					type: "item"
 				}
 				{
-					command: "/chatbox skip skyfootspa:start chapter1"
+					command: "/chatbox skip skyfootspa:story_alice ch1_alice"
 					icon: "minecraft:nether_star"
 					id: "66A725ED9697CBFF"
 					title: "与爱丽丝对话"
 					type: "command"
 				}
 			]
-			shape: "gear"
+			shape: "square"
 			size: 2.0d
 			tasks: [{
 				id: "1C3483A6DD4D0CA9"
@@ -893,12 +893,17 @@
 			}]
 			title: "爱丽丝的回访"
 			x: 2.0d
-			y: -9.0d
+			y: -10.0d
 		}
 		{
 			dependencies: [
 				"494196DBF4AA9FCE"
 				"7B3A5D9E2F1C8220"
+			]
+			description: [
+				"你的名声传到了神社，§b博丽灵梦§r亲自前来一探究竟。"
+				""
+				"完成她的来访，§e开启下一段旅程§r。"
 			]
 			icon: {
 				Count: 1
@@ -914,13 +919,13 @@
 			}
 			id: "0FD9B77E961BFF01"
 			rewards: [{
-				command: "/chatbox skip skyfootspa:start chapter3"
+				command: "/chatbox skip skyfootspa:story_reimu ch1_reimu"
 				icon: "minecraft:nether_star"
 				id: "1A65FC3DD77E458F"
 				title: "与博丽灵梦对话"
 				type: "command"
 			}]
-			shape: "gear"
+			shape: "square"
 			size: 2.0d
 			tasks: [{
 				id: "5ED92D05392FD2B3"
@@ -928,7 +933,7 @@
 				type: "checkmark"
 			}]
 			x: 2.0d
-			y: 4.0d
+			y: 8.0d
 		}
 		{
 			dependencies: ["29ED21FA69A44D13"]
@@ -944,8 +949,8 @@
 				type: "checkmark"
 			}]
 			title: "”芯片槽“"
-			x: -2.5d
-			y: -9.0d
+			x: -2.0d
+			y: -10.0d
 		}
 		{
 			dependencies: ["2C92FF8892F38FDC"]
@@ -967,13 +972,20 @@
 				title: "“芯片”"
 				type: "checkmark"
 			}]
-			x: -0.5d
-			y: -9.0d
+			x: 0.0d
+			y: -10.0d
 		}
 		{
 			dependencies: [
 				"433DE54F04296649"
 				"10594BB272A65BC9"
+			]
+			description: [
+				"§f牛奶水§r——§7满床乳香 §8|§7 专精：立即掉钱。"
+				""
+				"§a配方§r：§b工作盆§r 注入 §f水 1 桶§r + §f牛奶 1 桶§r，§b动力搅拌器§r搅拌后空桶取出。"
+				""
+				"§e效果§r：顾客泡脚完成§a立即掉 5 枚铜币§r。"
 			]
 			id: "6F8970449BC88E4E"
 			tasks: [{
@@ -981,13 +993,20 @@
 				item: "kubejs:milk_water_bucket"
 				type: "item"
 			}]
-			x: 13.5d
-			y: 3.0d
+			x: 16.0d
+			y: 4.0d
 		}
 		{
 			dependencies: [
 				"433DE54F04296649"
 				"7F74A15B9B195DE3"
+			]
+			description: [
+				"§8草灰水§r——§7草灰去角质 §8|§7 专精：搓脚掉皴。"
+				""
+				"§a配方§r：§b工作盆§r 注入 §f水 1 桶§r + §8草灰§r，§b动力搅拌器§r搅拌后空桶取出。"
+				""
+				"§e效果§r：搓脚时每次§a额外掉 1 个皴§r。"
 			]
 			id: "5B3670BB4E80FFAF"
 			tasks: [{
@@ -995,13 +1014,20 @@
 				item: "kubejs:grass_ash_water_bucket"
 				type: "item"
 			}]
-			x: 13.5d
-			y: 4.0d
+			x: 16.0d
+			y: 6.0d
 		}
 		{
 			dependencies: [
 				"610F10EC9FEE4CE9"
 				"03EFA7BE40402DF6"
+			]
+			description: [
+				"§f闪长岩§r——合成§e安山合金§r的原料。"
+				""
+				"§a配方§r：工作台 §f圆石 ×2§r + §f石英 ×2§r → §f闪长岩 ×2§r。"
+				""
+				"§7圆石由§b造石机§r（§c岩浆§r + 水）产出。"
 			]
 			id: "51624AFBB7E4F90F"
 			tasks: [{
@@ -1009,75 +1035,114 @@
 				item: "minecraft:diorite"
 				type: "item"
 			}]
-			x: 10.5d
-			y: -1.5d
+			x: 12.0d
+			y: 0.0d
 		}
 		{
+			description: [
+				"§f草§r——破坏草丛即可收集的常见植物。"
+				""
+				"§e用途§r：§b熔炉§r烧制成§8草灰§r。"
+			]
 			id: "29A8F821BC716344"
 			tasks: [{
 				id: "7FBF525A7DC47728"
 				item: "minecraft:grass"
 				type: "item"
 			}]
-			x: 16.5d
-			y: 4.0d
+			x: 20.0d
+			y: 6.0d
 		}
 		{
 			dependencies: ["29A8F821BC716344"]
+			description: [
+				"§8草灰§r——草本植物焚烧后的残余。"
+				""
+				"§a配方§r：§f草 / 高草 / 蕨 / 大型蕨§r 放入§b熔炉§r烧制。"
+				""
+				"§e用途§r：调配§8草灰水§r（搓脚掉皴 +1）。"
+			]
 			id: "7F74A15B9B195DE3"
 			tasks: [{
 				id: "60C71D2F332D2B47"
 				item: "marguerite:grass_ash"
 				type: "item"
 			}]
-			x: 15.0d
-			y: 4.0d
+			x: 18.0d
+			y: 6.0d
 		}
 		{
 			dependencies: ["7D33DC93A634EF7C"]
+			description: [
+				"§f牛奶桶§r——用§f空桶§r右键§b牛§r挤奶获得。"
+				""
+				"§e用途§r：调配§f牛奶水§r泡脚水。"
+			]
 			id: "10594BB272A65BC9"
 			tasks: [{
 				id: "50607C5349A6FF45"
 				item: "minecraft:milk_bucket"
 				type: "item"
 			}]
-			x: 16.5d
-			y: 3.0d
+			x: 20.0d
+			y: 4.0d
 		}
 		{
+			description: [
+				"§e姜§r——调配§6生姜水§r的关键原料。"
+				""
+				"§7农耕获取，详见游戏内配方。"
+			]
 			id: "5D4ACE6A91785B48"
 			tasks: [{
 				id: "2C667B5EBE8B7011"
 				item: "ubesdelight:ginger"
 				type: "item"
 			}]
-			x: 16.5d
-			y: 5.0d
+			x: 20.0d
+			y: 8.0d
 		}
 		{
 			dependencies: ["494196DBF4AA9FCE"]
+			description: [
+				"§8洗脚水§r——顾客泡脚后§b工作盆§r里剩下的废水。"
+				""
+				"§e获取方式§r：泡脚倒计时结束后，盆中泡脚水转为废水，用§f空桶§r右键取出。"
+				""
+				"§e用途§r：§b厨锅§r煮成§f盐§r，或用§b液体垃圾桶§r处理。"
+			]
 			id: "4F97186849B00F06"
 			tasks: [{
 				id: "55F5CC167FE4B01A"
 				item: "kubejs:foot_water_bucket"
 				type: "item"
 			}]
-			x: -0.5d
-			y: -3.0d
+			x: 0.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§c岩浆桶§r——§b商店§r购买。"
+				""
+				"§e用途§r：搭建§b造石机§r（配水）产出圆石，也是高效燃料。"
+			]
 			id: "03EFA7BE40402DF6"
 			tasks: [{
 				id: "25CBECFE52EAF7C9"
 				item: "minecraft:lava_bucket"
 				type: "item"
 			}]
-			x: 10.5d
-			y: 1.0d
+			x: 12.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§b砂纸§r——打磨§d玫瑰石英§r的工具。"
+				""
+				"§e获取方式§r：§b商店§r购买，或按游戏内配方合成。"
+			]
 			id: "0A462696D0925D02"
 			tasks: [{
 				id: "6EC57DB3F3372ACF"
@@ -1090,13 +1155,18 @@
 				}
 				type: "item"
 			}]
-			x: 18.0d
-			y: 1.0d
+			x: 22.0d
+			y: 2.0d
 		}
 		{
 			dependencies: [
 				"0A462696D0925D02"
 				"7B3A5D9E2F1C8230"
+			]
+			description: [
+				"§b磨制玫瑰石英§r——§e电子管§r的核心材料。"
+				""
+				"§a配方§r：§c红石§r + §f石英§r 制成§d玫瑰石英§r，再用§b砂纸§r打磨（详见游戏内配方）。"
 			]
 			id: "3F288A4C2CD5B94C"
 			tasks: [{
@@ -1104,19 +1174,26 @@
 				item: "create:polished_rose_quartz"
 				type: "item"
 			}]
-			x: 18.0d
-			y: 2.5d
+			x: 22.0d
+			y: 4.0d
 		}
 		{
 			dependencies: ["3F288A4C2CD5B94C"]
+			description: [
+				"§b电子管§r——§b机械动力§r 精密机器的通用元件。"
+				""
+				"§a配方§r：以§b磨制玫瑰石英§r为主料合成（详见游戏内配方）。"
+				""
+				"§e用途§r：§b智能流体管道§r等。"
+			]
 			id: "2C8F92D1F900326E"
 			tasks: [{
 				id: "2DE87BD9A80FB7F1"
 				item: "create:electron_tube"
 				type: "item"
 			}]
-			x: 19.5d
-			y: 2.5d
+			x: 24.0d
+			y: 2.0d
 		}
 		{
 			dependencies: [
@@ -1124,93 +1201,138 @@
 				"2C8F92D1F900326E"
 				"7B3A5D9E2F1C8210"
 			]
+			description: [
+				"§b智能流体管道§r——可过滤、可控的流体管道。"
+				""
+				"§a配方§r：§b流体管道§r + §b电子管§r + §e黄铜板§r（详见游戏内配方）。"
+			]
 			id: "53BA5F31C0FFA92C"
 			tasks: [{
 				id: "288069D88DA3E453"
 				item: "create:smart_fluid_pipe"
 				type: "item"
 			}]
-			x: 21.0d
+			x: 26.0d
 			y: 0.0d
 		}
 		{
+			description: [
+				"§b流体管道§r——§b机械动力§r 输送流体的基础管道。"
+				""
+				"§a配方§r：铜锭等合成（详见游戏内配方）。"
+			]
 			id: "5FAE3DBF960AB8C6"
 			tasks: [{
 				id: "00F0E18490E60F64"
 				item: "create:fluid_pipe"
 				type: "item"
 			}]
-			x: 21.0d
-			y: 2.5d
+			x: 26.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：敛财§r——所有部位§a金钱 +1§r、§c满意度 -1§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铜粉§r + §f金粉§r。"
+			]
 			id: "24E775561DAFB297"
 			tasks: [{
 				id: "18D337CC8E2DC6EE"
 				item: "marguerite:basic_chip_toe"
 				type: "item"
 			}]
-			x: 18.0d
+			x: 22.0d
 			y: -4.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：勤劳§r——所有部位§a金钱 +1§r、§c体力消耗 +10§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铜粉§r + §f铁粉§r。"
+			]
 			id: "59331FCB907CEBE5"
 			tasks: [{
 				id: "6C1AE7D3C206B38E"
 				item: "marguerite:basic_chip_sole"
 				type: "item"
 			}]
-			x: 18.0d
-			y: -3.0d
+			x: 22.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：懈怠§r——所有部位§a体力消耗 -10§r、§c满意度 -1§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铁粉§r + §f金粉§r。"
+			]
 			id: "03DA16F6A08CB355"
 			tasks: [{
 				id: "4FD2AD8312FDE16F"
 				item: "marguerite:basic_chip_center"
 				type: "item"
 			}]
-			x: 18.0d
-			y: -2.0d
+			x: 22.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：用心§r——所有部位§a满意度 +1§r、§c体力消耗 +10§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f金粉§r + §f铁粉§r。"
+			]
 			id: "736D2E89559B2B8B"
 			tasks: [{
 				id: "3E72739D6340FAAE"
 				item: "marguerite:general_chip_all"
 				type: "item"
 			}]
-			x: 18.0d
-			y: -1.0d
+			x: 26.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：躺平§r——所有部位§a体力消耗 -10§r、§c金钱 -1§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铁粉§r + §f铜粉§r。"
+			]
 			id: "07B7364C3A9A9D00"
 			tasks: [{
 				id: "744D83D6D1A13630"
 				item: "marguerite:basic_chip_heel"
 				type: "item"
 			}]
-			x: 18.0d
-			y: -5.0d
+			x: 22.0d
+			y: -6.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：奸商§r（高级）——所有部位§a金钱 +2§r、§c满意度 -2§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f铜粉 ×2§r + §f金粉§r。"
+			]
 			id: "5610E16C89CDF9B0"
 			tasks: [{
 				id: "3D508AA532D8C35B"
 				item: "marguerite:synergy_chip_toe"
 				type: "item"
 			}]
-			x: 19.5d
+			x: 24.0d
 			y: -4.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：佛系§r（高级）——所有部位§a体力消耗 -20§r、§c满意度 -1§r、§c金钱 -1§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f铁粉§r + §f金粉§r + §f铜粉§r。"
+			]
 			id: "2800AE0DB615FCC1"
 			invisible: true
 			tasks: [{
@@ -1218,68 +1340,95 @@
 				item: "marguerite:focus_chip_sole"
 				type: "item"
 			}]
-			x: 19.5d
-			y: -3.0d
+			x: 24.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"§d基础芯片：热情§r（高级）——所有部位§a满意度 +2§r、§c体力消耗 +20§r。"
+				""
+				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f金粉 ×2§r + §f铁粉§r。"
+			]
 			id: "05B80128122D32E1"
 			tasks: [{
 				id: "1C090C5E39DD02FA"
 				item: "marguerite:eco_chip_center"
 				type: "item"
 			}]
-			x: 19.5d
-			y: -2.0d
+			x: 24.0d
+			y: 0.0d
 		}
 		{
 			dependencies: [
 				"2C92FF8892F38FDC"
 				"7B3A5D9E2F1C8220"
 			]
+			description: [
+				"§6栏位扩大器·一型§r——解锁被背包镶板占据的§e芯片槽§r。"
+				""
+				"§a配方§r：3×3，§f铁板 ×4§r + §f铜板 ×4§r + §b精密构件§r（中心）。"
+				""
+				"§7装上对应等级的扩大器后，才能取下背包镶板、腾出芯片槽。"
+			]
 			id: "41840CF6F1387414"
-			shape: "diamond"
-			size: 2.0d
+			shape: "square"
+			size: 1.5d
 			tasks: [{
 				id: "2B173D8BCBA35573"
 				item: "marguerite:slot_expander_mk1"
 				type: "item"
 			}]
-			x: 16.5d
-			y: -9.0d
+			x: 20.0d
+			y: -10.0d
 		}
 		{
 			dependencies: ["4F97186849B00F06"]
+			description: [
+				"§f盐§r——§b电解质水§r的原料。"
+				""
+				"§a配方§r：把§8洗脚水桶§r放进§b厨锅§r（§b炉灶§r上）烹煮，得§f盐§r并归还§f空桶§r。"
+			]
 			id: "6B96992B6F2A526E"
 			tasks: [{
 				id: "4928FE63EF0C9D4D"
 				item: "mekanism:salt"
 				type: "item"
 			}]
-			x: -2.5d
-			y: -3.0d
+			x: -2.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§f甘蔗§r——§b商店§r购买，或水边种植。"
+				""
+				"§e用途§r：合成§f糖§r。"
+			]
 			id: "6290F355861DDF81"
 			tasks: [{
 				id: "3940A91321EFE0F2"
 				item: "minecraft:sugar_cane"
 				type: "item"
 			}]
-			x: -2.5d
-			y: 1.0d
+			x: -2.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["6290F355861DDF81"]
+			description: [
+				"§f糖§r——§b电解质水§r的原料。"
+				""
+				"§a配方§r：§f甘蔗§r工作台合成。"
+			]
 			id: "66959BE2AC7A1A2C"
 			tasks: [{
 				id: "74913CA1CDE25F11"
 				item: "minecraft:sugar"
 				type: "item"
 			}]
-			x: -2.5d
-			y: -1.0d
+			x: -2.0d
+			y: 0.0d
 		}
 		{
 			dependencies: [
@@ -1291,6 +1440,15 @@
 				"7745620940DB40CC"
 				"62E4C654ECE2E45B"
 			]
+			description: [
+				"§b电解质水瓶§r——快速回复体力的饮品。"
+				""
+				"§a配方§r："
+				"· §b动力搅拌器§r：§f水 1 桶§r + §e柠檬§r + §f盐 ×4§r + §f糖 ×4§r → §b电解质水§r"
+				"· §b注液器§r：§f玻璃瓶§r + §b电解质水 1/4 桶§r → §b电解质水瓶§r"
+				""
+				"§e效果§r：饮用§a恢复 750 点体力§r，无冷却。"
+			]
 			id: "13E6F23D19349B09"
 			shape: "square"
 			size: 1.5d
@@ -1299,43 +1457,59 @@
 				item: "marguerite:electrolyte_bottle"
 				type: "item"
 			}]
-			x: -6.5d
-			y: -3.0d
+			x: -8.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: ["§e柠檬种子§r——§b商店§r购买后种植，收获§e柠檬§r。"]
 			id: "647056248C563326"
 			tasks: [{
 				id: "3596A40967AFFC86"
 				item: "lemoned:lemon_seeds"
 				type: "item"
 			}]
-			x: -4.5d
-			y: 1.0d
+			x: -4.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["647056248C563326"]
+			description: ["§e柠檬§r——由§e柠檬种子§r种植收获，是§b电解质水§r的原料。"]
 			id: "150E3FE2FD04A6BE"
 			tasks: [{
 				id: "2F1B0E02EABAB9EC"
 				item: "lemoned:lemon"
 				type: "item"
 			}]
-			x: -4.5d
-			y: -1.0d
+			x: -4.0d
+			y: 0.0d
 		}
 		{
+			description: [
+				"§b商店§r——用硬币换取前期稀缺物资的便利店。"
+				""
+				"§e可购§r：黄铜、红石、线、§c岩浆桶§r、砖、沙子、甘蔗、柠檬种子、牛刷怪蛋等。"
+				""
+				"§7空岛开荒缺什么，先来逛一圈。"
+			]
 			id: "47911DBA354F2830"
 			tasks: [{
 				id: "0BFDD8FF84A9FA98"
-				title: "SDM商店"
+				title: "商店"
 				type: "checkmark"
 			}]
 			x: 2.0d
-			y: 1.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["3FB48582777D4852"]
+			description: [
+				"§b炉灶§r——§b农夫乐事§r的烹饪热源。"
+				""
+				"§e用途§r：架上§b厨锅§r煮制食材（如§f盐§r）。"
+				""
+				"§a配方§r：详见游戏内配方。"
+			]
 			id: "6BEFE1AA8EEA0654"
 			tasks: [{
 				id: "4796A77ACFB48B44"
@@ -1343,87 +1517,133 @@
 				type: "item"
 			}]
 			x: -6.0d
-			y: -1.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["3FB48582777D4852"]
+			description: [
+				"§b厨锅§r——置于§b炉灶§r上烹煮。"
+				""
+				"§e用途§r：把§8洗脚水桶§r煮成§f盐§r。"
+				""
+				"§a配方§r：详见游戏内配方。"
+			]
 			id: "163A530DA5EC6FE7"
 			tasks: [{
 				id: "7B28FB1ED70CCC35"
 				item: "farmersdelight:cooking_pot"
 				type: "item"
 			}]
-			x: -7.0d
-			y: -1.0d
+			x: -10.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§f红砖§r——§b商店§r购买，或烧制§f粘土球§r。"
+				""
+				"§e用途§r：合成§b炉灶§r、§b厨锅§r等。"
+			]
 			id: "3FB48582777D4852"
 			tasks: [{
 				id: "5426D8CBB414B168"
 				item: "minecraft:brick"
 				type: "item"
 			}]
-			x: -6.5d
-			y: 1.0d
+			x: -8.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["5343606BA59A1D03"]
+			description: [
+				"§b注液器§r——§b机械动力§r 灌装流体的装置。"
+				""
+				"§e用途§r：把§b电解质水§r注入§f玻璃瓶§r。"
+				""
+				"§a配方§r：铜锭等合成（详见游戏内配方）。"
+			]
 			id: "7745620940DB40CC"
 			tasks: [{
 				id: "5AFC519DB07C1530"
 				item: "create:spout"
 				type: "item"
 			}]
-			x: -6.5d
-			y: -6.5d
+			x: -8.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["4F97186849B00F06"]
+			description: [
+				"§b液体垃圾桶§r——自动销毁多余流体。"
+				""
+				"§e用途§r：处理泡脚产生的§8废水§r，省去手动倾倒。"
+				""
+				"§a配方§r：详见游戏内配方。"
+			]
 			id: "235650FEBE43834C"
 			tasks: [{
 				id: "4DC3829D42749AC1"
 				item: "trashcans:liquid_trash_can"
 				type: "item"
 			}]
-			x: -0.5d
-			y: -4.5d
+			x: 0.0d
+			y: -4.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§f沙子§r——§b商店§r购买。"
+				""
+				"§e用途§r：烧制§f玻璃§r，再做§f玻璃瓶§r。"
+			]
 			id: "4273523AC7E440F6"
 			tasks: [{
 				id: "652B94441D42BE18"
 				item: "minecraft:sand"
 				type: "item"
 			}]
-			x: -8.5d
-			y: 1.0d
+			x: -12.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["4273523AC7E440F6"]
+			description: [
+				"§f玻璃瓶§r——§b电解质水瓶§r的容器。"
+				""
+				"§a配方§r：§f沙子§r烧成§f玻璃§r，3 玻璃合成 1 玻璃瓶。"
+			]
 			id: "62E4C654ECE2E45B"
 			tasks: [{
 				id: "35FB82E34CBA4B25"
 				item: "minecraft:glass_bottle"
 				type: "item"
 			}]
-			x: -8.5d
-			y: -1.0d
+			x: -12.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§f牛刷怪蛋§r——§b商店§r购买，放置后得到§b牛§r。"
+				""
+				"§e用途§r：挤§f牛奶§r（§f牛奶水§r原料）。"
+			]
 			id: "7D33DC93A634EF7C"
 			tasks: [{
 				id: "2BFF72274A2FA0A0"
 				item: "minecraft:cow_spawn_egg"
 				type: "item"
 			}]
-			x: 13.5d
-			y: 1.0d
+			x: 16.0d
+			y: 2.0d
 		}
 		{
 			dependencies: ["2C92FF8892F38FDC"]
+			description: [
+				"你的手艺传开了，§b河城荷取§r这位河童工程师慕名来访。"
+				""
+				"备好§6金币 ×3§r招待她——她的来意似乎还牵扯一场§c挑战§r。"
+			]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -1439,7 +1659,7 @@
 			id: "494196DBF4AA9FCE"
 			rewards: [
 				{
-					command: "/chatbox skip skyfootspa:start chapter2"
+					command: "/chatbox skip skyfootspa:story_nitori ch1_nitori"
 					icon: "minecraft:nether_star"
 					id: "05EBD9A14A96FC7E"
 					title: "与河城荷取对话"
@@ -1462,7 +1682,7 @@
 			}]
 			title: "河城荷取的来访"
 			x: 2.0d
-			y: -3.0d
+			y: -2.0d
 		}
 	]
 	title: "第一章"

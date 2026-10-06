@@ -1,10 +1,10 @@
 {
   "portrait": {
     "nitori_name": {
-      "x": 10,
-      "y": -35,
-      "width": 80,
-      "scale": 1.7,
+      "x": 3,
+      "y": 15,
+      "width": 136,
+      "height": 68,
       "alignX": "center",
       "alignY": "bottom",
       "widthReference": "screen_height",
@@ -136,12 +136,13 @@
     "widthReference": "screen_height",
     "heightReference": "screen_height",
     "hidden": true,
-    "texture": "skyfootspa:textures/options/option_hover.png",
+    "texture": "skyfootspa:textures/options/option_default.png",
+    "hoverTexture": "skyfootspa:textures/options/option_hover.png",
     "lockTexture": "skyfootspa:textures/options/option_lock.png",
     "optionChatY": 2.7,
     "optionChatX": 3,
     "textAlign": "left",
-    "selectTexture": "skyfootspa:textures/options/option_default.png"
+    "selectTexture": "skyfootspa:textures/options/option_hover.png"
   },
   "dialogBox": {
     "x": 3,
@@ -170,41 +171,41 @@
     {
       "x": 25,
       "y": -1.5,
-      "width": 8,
-      "height": 8,
+      "width": 5.333333333333333,
+      "height": 5.333333333333333,
       "alignX": "center",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "type": "log",
-      "texture": "skyfootspa:textures/button/log_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/log.png"
+      "texture": "skyfootspa:textures/button/log.png",
+      "hoverTexture": "skyfootspa:textures/button/log_hover.png"
     },
     {
       "x": 28,
       "y": -1.5,
-      "width": 8,
-      "height": 8,
+      "width": 5.333333333333333,
+      "height": 5.333333333333333,
       "alignX": "center",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "type": "fastForward",
-      "texture": "skyfootspa:textures/button/fast_forward_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/fast_forward.png"
+      "texture": "skyfootspa:textures/button/skip.png",
+      "hoverTexture": "skyfootspa:textures/button/skip_hover.png"
     },
     {
       "x": 31,
       "y": -1.5,
-      "width": 8,
-      "height": 8,
+      "width": 5.333333333333333,
+      "height": 5.333333333333333,
       "alignX": "center",
       "alignY": "bottom",
       "widthReference": "screen_height",
       "heightReference": "screen_height",
       "type": "autoPlay",
-      "texture": "skyfootspa:textures/button/auto_play_hover.png",
-      "hoverTexture": "skyfootspa:textures/button/auto_play.png"
+      "texture": "skyfootspa:textures/button/auto.png",
+      "hoverTexture": "skyfootspa:textures/button/auto_hover.png"
     }
   ],
   "customAnimation": {

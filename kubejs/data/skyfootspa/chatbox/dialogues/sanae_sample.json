@@ -1,0 +1,81 @@
+{
+  "$introduce": "示例：引入早苗立绘的简短对话（守矢神社早苗来店泡脚）",
+  "theme": "skyfootspa:kochiya_sanae1",
+  "isPause": false,
+  "dialogues": {
+    "sanae_intro": [
+      {
+        "dialogBox": {
+          "name": "东风谷早苗",
+          "text": "哎呀，这里就是新开的足浴店吗？"
+        },
+        "portrait": [
+          {
+            "id": "sanae_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "name": "东风谷早苗",
+          "text": "我是守矢神社的东风谷早苗，路过顺便来参拜……啊不对，是来泡脚。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_1",
+            "renderOrder": 10,
+            "replace": true
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "参拜和泡脚是两回事吧。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_1",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "name": "东风谷早苗",
+          "text": "反正都是把脚泡进水里，差不多差不多。"
+        },
+        "portrait": [
+          {
+            "id": "sanae_1",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "name": "东风谷早苗",
+          "text": "那么店长，请给我来一份最贵的套餐！"
+        },
+        "portrait": [
+          {
+            "id": "sanae_1",
+            "renderOrder": 10,
+            "replace": true
+          }
+        ],
+        "options": [
+          {
+            "text": "开始招待",
+            "next": -1
+          }
+        ]
+      }
+    ]
+  }
+}

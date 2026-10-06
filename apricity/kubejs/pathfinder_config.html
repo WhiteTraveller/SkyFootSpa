@@ -1,10 +1,8 @@
 <!--
   【窗口化版】AUI 1.2.3 + gui viewport
   在“坐标修复版”基础上，解决“界面占满整个屏幕”：
-  - body 背景由不透明纯色 #1e293b 改为半透明暗遮罩 rgba(0,0,0,0.45)
-    （像原版容器界面那样透出世界、不再实心糊满全屏；AUI 容器 Screen 自身不画暗背景，全靠 body）。
-  - 中间内容用 .panel 面板包裹（半透明深色 + padding），让界面呈“窗口”状居中，而非铺满。
-  - .panel 刻意不用 box-shadow / border-radius / border：gui 下复杂盒模型可能触发每帧重建 Document。
+  - 风格与 rare_affection.html 统一：body 透明，.panel 用“黑色透明 40%”rgba(0,0,0,0.4) 背景，整体 UI/槽位放大。
+  - .panel 刻意不用 box-shadow / border-radius / border：gui 下复杂盒模型可能触发每帧重建 Document（纯背景色安全，装饰性盒模型不安全）。
 
   保持之前的修复（勿改回）：
   - viewport=gui（坐标 1:1 映射菜单，配合极简 CSS 不触发重建循环）；
@@ -26,34 +24,68 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.45);
+      background: transparent;
       color: #e2e8f0;
     }
+    /* 面板：黑色透明 40%（与 rare_affection 统一）；固定宽度 380px、margin:auto 居中 */
+    /* 不用 border/radius/shadow 避免 gui 重建 */
     .panel {
-      background: rgba(30, 41, 59, 0.9);
-      padding: 12px 14px;
+      width: 380px;
+      box-sizing: border-box;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px 20px;
     }
+    /* 横向居中包裹层：flex 加在 wrapper 上，不碰 container 本身（preset:player 禁 grid）*/
+    .center { display: flex; justify-content: center; }
     /* 只统一槽位尺寸，不在 container 上设 display，避免干扰 preset:player */
-    container { --aui-slot-size: 20px; }
+    container { --aui-slot-size: 28px; }
     /* 配置库存：手动 9x3 网格 */
     #saved_data {
       display: grid;
-      grid-template-columns: repeat(9, 20px);
-      gap: 2px;
+      grid-template-columns: repeat(9, 28px);
+      gap: 3px;
       width: max-content;
     }
-    /* 玩家背包：完全交给 layout="preset:player"，这里只留间距 */
-    #player { margin-top: 10px; }
-    .label { margin: 4px 0; font-size: 11px; color: #cbd5e1; }
+    /* 玩家背包：完全交给 layout="preset:player"（不设 display/padding/border/background）*/
+    .label { margin: 5px 0; font-size: 13px; color: #cbd5e1; text-align: center; }
+    /* 稀客好感度按钮：极简样式，居中；不用 border-radius/box-shadow/border */
+    #rareAffBtn {
+      margin: 10px auto 0;
+      width: max-content;
+      padding: 7px 12px;
+      background: rgba(168, 85, 247, 0.9);
+      color: #ffffff;
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="panel">
     <div class="label">配置物品 (saved_data x27)</div>
-    <container id="saved_data" bind="saved_data" primary="true" size="27"></container>
+    <div class="center"><container id="saved_data" bind="saved_data" primary="true" size="27"></container></div>
 
     <div class="label">玩家背包</div>
-    <container id="player" bind="player" layout="preset:player"></container>
+    <div class="center"><container id="player" bind="player" layout="preset:player"></container></div>
+
+    <!-- 稀客好感度：点击后服务端读取本方块好感度并打开列表界面 -->
+    <div id="rareAffBtn">★ 稀客好感度</div>
   </div>
+
+  <script>
+    var McClientRare = Java.loadClass("net.minecraft.client.Minecraft");
+    function initRareAffBtn() {
+      var btn = document.getElementById("rareAffBtn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        try {
+          var player = McClientRare.getInstance().player;
+          if (player) player.sendData("pf_rare_affection_open", {});
+        } catch (e) {}
+      });
+    }
+    document.addEventListener("DOMContentLoaded", initRareAffBtn);
+  </script>
 </body>
 </html>
