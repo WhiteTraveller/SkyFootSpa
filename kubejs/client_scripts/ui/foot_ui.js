@@ -81,6 +81,11 @@ let BAR_WIDTH = 100.0
 let BAR_HEIGHT = 150.0
 let SCALE = 0.01
 let MAX_DISTANCE = 16
+let MAX_DISTANCE_SQR = MAX_DISTANCE * MAX_DISTANCE
+// 边界卡顿防回归：WorldWindow 在 16 格外不可见；已有窗口到 18 格才回收，
+// 留出 2 格滞回，避免玩家在可视边界附近移动时反复创建/延迟销毁窗口。
+let WINDOW_REMOVE_DISTANCE = MAX_DISTANCE + 2
+let WINDOW_REMOVE_DISTANCE_SQR = WINDOW_REMOVE_DISTANCE * WINDOW_REMOVE_DISTANCE
 let WINDOW_LIFT = 1.35
 let PI = 3.1415926
 
@@ -411,30 +416,46 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
 
         if (isSoaking) {
             // 泡脚中：标题切换、tips清空、进度条显示
-            if (titleEl != null) titleEl.innerText = "开始泡脚"
-            if (tipsEl != null) tipsEl.innerText = ""
-            if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 1")
+            setTextIfChanged(titleEl, "innerText", "开始泡脚")
+            setTextIfChanged(tipsEl, "innerText", "")
+            setAttributeIfChanged(wrapperEl, "style", "opacity: 1")
 
             // 进度条填充百分比（基于 10 秒总时长），颜色固定白色
             let percent = Math.max(0, Math.min(100, (timeLeft / 10) * 100))
             if (fillEl != null) {
-                fillEl.setAttribute("style", "width: " + percent + "%")
+                setAttributeIfChanged(fillEl, "style", "width: " + percent + "%")
             }
             if (textEl != null) {
-                textEl.innerText = Math.max(0, Math.ceil(timeLeft)) + "s"
+                setTextIfChanged(textEl, "innerText", Math.max(0, Math.ceil(timeLeft)) + "s")
             }
 
             console.log("[FOOT-UI] 泡脚UI更新 title=" + (titleEl != null) + " tips=" + (tipsEl != null) + " wrapper=" + (wrapperEl != null) + " fill=" + (fillEl != null) + " text=" + (textEl != null) + " percent=" + percent)
         } else {
             // 未泡脚：只显示水桶贴图，右键水桶区域后再显示进度。
-            if (titleEl != null) titleEl.innerText = ""
-            if (tipsEl != null) tipsEl.innerText = ""
-            if (wrapperEl != null) wrapperEl.setAttribute("style", "opacity: 0")
-            if (textEl != null) textEl.innerText = ""
-            if (fillEl != null) fillEl.setAttribute("style", "width: 0%")
+            setTextIfChanged(titleEl, "innerText", "")
+            setTextIfChanged(tipsEl, "innerText", "")
+            setAttributeIfChanged(wrapperEl, "style", "opacity: 0")
+            setTextIfChanged(textEl, "innerText", "")
+            setAttributeIfChanged(fillEl, "style", "width: 0%")
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新泡脚倒计时失败: " + e)
+    }
+}
+
+// Avoid repeated writes through the ApricityUI DOM bridge when the rendered value is unchanged.
+function setTextIfChanged(element, property, value) {
+    if (element == null) return
+    let next = "" + value
+    if ("" + element[property] !== next) element[property] = next
+}
+
+function setAttributeIfChanged(element, attribute, value) {
+    if (element == null) return
+    let next = "" + value
+    let current = element.getAttribute(attribute)
+    if (current == null || ("" + current) !== next) {
+        element.setAttribute(attribute, next)
     }
 }
 
@@ -449,15 +470,15 @@ function updateCountdownDisplay(window, countdown) {
         // 更新倒计时数字
         let countdownNumber = window.document.getElementById("countdownNumber")
         if (countdownNumber != null) {
-            countdownNumber.innerText = String(countdown)
+            setTextIfChanged(countdownNumber, "innerText", String(countdown))
         }
         // 更新紧迫状态样式
         let countdownContainer = window.document.getElementById("countdownContainer")
         if (countdownContainer != null) {
             if (countdown <= 3) {
-                countdownContainer.setAttribute("class", "countdown-container countdown-urgent")
+                setAttributeIfChanged(countdownContainer, "class", "countdown-container countdown-urgent")
             } else {
-                countdownContainer.setAttribute("class", "countdown-container")
+                setAttributeIfChanged(countdownContainer, "class", "countdown-container")
             }
         }
     } catch (e) {
@@ -469,11 +490,11 @@ function updateCountdownDisplay(window, countdown) {
  * 检查实体是否处于睡眠状态（pfPhase=3）
  * 从手持物品NBT读取（物品NBT自动同步）
  */
-function isSleeping(entity) {
+function isSleeping(entity, mainHand) {
     if (entity == null) {
         return false
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let phase = mainHand.nbt.getInt('pfPhase')
         return phase === 3
@@ -484,11 +505,11 @@ function isSleeping(entity) {
 /**
  * 检查实体是否已完成泡脚（从NBT读取pfSoakDone）
  */
-function isSoakDone(entity) {
+function isSoakDone(entity, mainHand) {
     if (entity == null) {
         return false
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let soakDone = mainHand.nbt.getInt('pfSoakDone')
         return soakDone === 1
@@ -499,11 +520,11 @@ function isSoakDone(entity) {
 /**
  * 获取泡脚剩余时间（从NBT读取pfSoakTimeLeft）
  */
-function getSoakTimeLeft(entity) {
+function getSoakTimeLeft(entity, mainHand) {
     if (entity == null) {
         return 10
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let timeLeft = mainHand.nbt.getInt('pfSoakTimeLeft')
         return timeLeft >= 0 ? timeLeft : 0
@@ -514,11 +535,11 @@ function getSoakTimeLeft(entity) {
 /**
  * 检查实体是否正在泡脚中（从NBT读取pfIsSoaking）
  */
-function isSoaking(entity) {
+function isSoaking(entity, mainHand) {
     if (entity == null) {
         return false
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let isSoaking = mainHand.nbt.getInt('pfIsSoaking')
         return isSoaking === 1
@@ -530,12 +551,12 @@ function isSoaking(entity) {
  * 从手持物品读取需求清单ﾈ4部位）
  * 返回对象: {脚掌, 脚后跟, 脚趾, 脚心}
  */
-function getDemandList(entity) {
+function getDemandList(entity, mainHand) {
     if (entity == null) {
         console.log("[FOOT-UI-DATA] getDemandList: entity为null")
         return { '脚掌': 0, '脚后跟': 0, '脚趾': 0, '脚心': 0 }
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let result = {
             '脚掌': mainHand.nbt.getInt('pfDemandJiaozhang') || 0,
@@ -553,11 +574,11 @@ function getDemandList(entity) {
  * 从手持物品读取倒计时
  * 返回剩余秒数（1-10），如果没有则返回10
  */
-function getCountdown(entity) {
+function getCountdown(entity, mainHand) {
     if (entity == null) {
         return 10
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let countdown = mainHand.nbt.getInt('pfCountdown')
         if (countdown > 0 && countdown <= 10) {
@@ -571,11 +592,11 @@ function getCountdown(entity) {
  * 从手持物品读取满意度
  * 返回0-100的数值，如果没有则返回0
  */
-function getSatisfaction(entity) {
+function getSatisfaction(entity, mainHand) {
     if (entity == null) {
         return 0
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let satisfaction = mainHand.nbt.getInt('pfSatisfaction')
         if (satisfaction >= 0 && satisfaction <= 100) {
@@ -597,11 +618,11 @@ let STEP_CODE_TO_NAME = {
  * 从手持物品读取步骤记录（字符串格式：逗号分隔的整数）
  * 返回解码后的步骤字符串，如果没有则返回空字符串
  */
-function getSteps(entity) {
+function getSteps(entity, mainHand) {
     if (entity == null) {
         return ""
     }
-    let mainHand = entity.getMainHandItem()
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID) {
         let stepsStr = mainHand.nbt.pfSteps
         if (stepsStr && stepsStr.length > 0) {
@@ -651,11 +672,11 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaozhang != null) {
             let count = demandList['脚掌'] || 0
             if (count === 0) {
-                countJiaozhang.textContent = "✓"
-                countJiaozhang.setAttribute("class", "count done")
+                setTextIfChanged(countJiaozhang, "textContent", "✓")
+                setAttributeIfChanged(countJiaozhang, "class", "count done")
             } else {
-                countJiaozhang.textContent = count + "次"
-                countJiaozhang.setAttribute("class", "count")
+                setTextIfChanged(countJiaozhang, "textContent", count + "次")
+                setAttributeIfChanged(countJiaozhang, "class", "count")
             }
         }
 
@@ -664,11 +685,11 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaogen != null) {
             let count = demandList['脚后跟'] || 0
             if (count === 0) {
-                countJiaogen.textContent = "✓"
-                countJiaogen.setAttribute("class", "count done")
+                setTextIfChanged(countJiaogen, "textContent", "✓")
+                setAttributeIfChanged(countJiaogen, "class", "count done")
             } else {
-                countJiaogen.textContent = count + "次"
-                countJiaogen.setAttribute("class", "count")
+                setTextIfChanged(countJiaogen, "textContent", count + "次")
+                setAttributeIfChanged(countJiaogen, "class", "count")
             }
         }
 
@@ -677,11 +698,11 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaozhi != null) {
             let count = demandList['脚趾'] || 0
             if (count === 0) {
-                countJiaozhi.textContent = "✓"
-                countJiaozhi.setAttribute("class", "count done")
+                setTextIfChanged(countJiaozhi, "textContent", "✓")
+                setAttributeIfChanged(countJiaozhi, "class", "count done")
             } else {
-                countJiaozhi.textContent = count + "次"
-                countJiaozhi.setAttribute("class", "count")
+                setTextIfChanged(countJiaozhi, "textContent", count + "次")
+                setAttributeIfChanged(countJiaozhi, "class", "count")
             }
         }
 
@@ -690,11 +711,11 @@ function updateDemandListDisplay(window, demandList) {
         if (countJiaoxin != null) {
             let count = demandList['脚心'] || 0
             if (count === 0) {
-                countJiaoxin.textContent = "✓"
-                countJiaoxin.setAttribute("class", "count done")
+                setTextIfChanged(countJiaoxin, "textContent", "✓")
+                setAttributeIfChanged(countJiaoxin, "class", "count done")
             } else {
-                countJiaoxin.textContent = count + "次"
-                countJiaoxin.setAttribute("class", "count")
+                setTextIfChanged(countJiaoxin, "textContent", count + "次")
+                setAttributeIfChanged(countJiaoxin, "class", "count")
             }
         }
     } catch (e) {
@@ -717,10 +738,10 @@ function updateSatisfactionDisplay(window, satisfaction) {
         let percent = Math.max(0, Math.min(100, satisfaction))
 
         if (fillElement != null) {
-            fillElement.setAttribute("style", "width: " + percent + "%")
+            setAttributeIfChanged(fillElement, "style", "width: " + percent + "%")
         }
         if (percentElement != null) {
-            percentElement.textContent = satisfaction + "%"
+            setTextIfChanged(percentElement, "textContent", satisfaction + "%")
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新满意度失败: " + e)
@@ -739,9 +760,9 @@ function updateStepsDisplay(window, steps) {
         let stepsElement = window.document.getElementById("stepsText")
         if (stepsElement != null) {
             if (steps && steps.length > 0) {
-                stepsElement.innerText = steps
+                setTextIfChanged(stepsElement, "innerText", steps)
             } else {
-                stepsElement.innerText = ""
+                setTextIfChanged(stepsElement, "innerText", "")
             }
         }
     } catch (e) {
@@ -749,8 +770,8 @@ function updateStepsDisplay(window, steps) {
     }
 }
 
-function getOilInfo(entity) {
-    let mainHand = entity.getMainHandItem()
+function getOilInfo(entity, mainHand) {
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
     if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
         let id = mainHand.nbt.getString('pfOilId')
         let left = mainHand.nbt.getInt('pfOilLeft') || 0
@@ -773,9 +794,9 @@ function updateOilDisplay(window, oilInfo) {
 
         if (oilInfo && oilInfo.left > 0) {
             let name = OIL_ID_TO_NAME[oilInfo.id] || oilInfo.id
-            oilElement.innerText = name + "(" + oilInfo.left + ")"
+            setTextIfChanged(oilElement, "innerText", name + "(" + oilInfo.left + ")")
         } else {
-            oilElement.innerText = "✕"
+            setTextIfChanged(oilElement, "innerText", "✕")
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新抹油状态失败: " + e)
@@ -793,8 +814,6 @@ ClientEvents.tick(event => {
     if (player == null) {
         return
     }
-
-    clearAuiDebugDocuments()
 
     // 处理延迟移除队列
     for (let i = windowRemovalQueue.length - 1; i >= 0; i--) {
@@ -840,10 +859,18 @@ ClientEvents.tick(event => {
             continue
         }
 
-        if (isSleeping(entity)) {
+        // 范围边界卡顿原因：inflate(MAX_DISTANCE) 按立方体搜索，会命中球面范围外的角落实体。
+        // 若不先按直线距离过滤，这些实体会每 tick 创建窗口，再被下方范围清理延迟销毁。
+        let entityDistanceSqr = entity.position().distanceToSqr(playerPos)
+        if (entityDistanceSqr > MAX_DISTANCE_SQR) continue
+
+        // 本轮轮询共用手持物品引用，避免每个状态 getter 都跨 Java 边界重新取物品。
+        let mainHand = entity.getMainHandItem()
+
+        if (isSleeping(entity, mainHand)) {
             // 实体正在睡眠
             // 检查是否已完成泡脚
-            let soakDone = isSoakDone(entity)
+            let soakDone = isSoakDone(entity, mainHand)
 
             if (!soakDone) {
                 // 未泡脚或泡脚中，显示泡脚UI
@@ -856,8 +883,8 @@ ClientEvents.tick(event => {
                 } else {
                     // 更新泡脚UI倒计时
                     let window = soakWindows.get(uuid)
-                    let timeLeft = getSoakTimeLeft(entity)
-                    let soaking = isSoaking(entity)
+                    let timeLeft = getSoakTimeLeft(entity, mainHand)
+                    let soaking = isSoaking(entity, mainHand)
                     let soakState = entitySoakState.get(uuid) || { isSoaking: false, soakTimeLeft: 10 }
 
                     // 状态切换时打印一次
@@ -883,25 +910,25 @@ ClientEvents.tick(event => {
                 } else {
                     // 检查倒计时是否变化
                     let window = sleepWindows.get(uuid)
-                    let currentCountdown = getCountdown(entity)
+                    let currentCountdown = getCountdown(entity, mainHand)
                     let lastCountdown = entityCountdowns.get(uuid) || 10
                     if (currentCountdown !== lastCountdown) {
                         entityCountdowns.set(uuid, currentCountdown)
                         updateCountdownDisplay(window, currentCountdown)
                         console.log("[FOOT-UI] 倒计时更新: " + lastCountdown + " -> " + currentCountdown)
                     }
-                    let demandList = getDemandList(entity)
+                    let demandList = getDemandList(entity, mainHand)
                     updateDemandListDisplay(window, demandList)
 
                     // 更新满意度显示
-                    let satisfaction = getSatisfaction(entity)
+                    let satisfaction = getSatisfaction(entity, mainHand)
                     updateSatisfactionDisplay(window, satisfaction)
 
                     // 更新步骤显示
-                    let steps = getSteps(entity)
+                    let steps = getSteps(entity, mainHand)
                     updateStepsDisplay(window, steps)
 
-                    updateOilDisplay(window, getOilInfo(entity))
+                    updateOilDisplay(window, getOilInfo(entity, mainHand))
                 }
             }
         } else {
@@ -923,7 +950,7 @@ ClientEvents.tick(event => {
             toRemove.push(uuid)
         } else {
             let dist = entity.position().distanceToSqr(playerPos)
-            if (dist > MAX_DISTANCE * MAX_DISTANCE) {
+            if (dist > WINDOW_REMOVE_DISTANCE_SQR) {
                 toRemove.push(uuid)
             }
         }
@@ -940,7 +967,7 @@ ClientEvents.tick(event => {
             toRemoveSoak.push(uuid)
         } else {
             let dist = entity.position().distanceToSqr(playerPos)
-            if (dist > MAX_DISTANCE * MAX_DISTANCE) {
+            if (dist > WINDOW_REMOVE_DISTANCE_SQR) {
                 toRemoveSoak.push(uuid)
             }
         }
