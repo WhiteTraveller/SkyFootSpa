@@ -9,7 +9,7 @@
   - body flex column 居中；
   - #player 绝不设 display:grid / padding / border / background，全交给 preset:player（否则 hover 蒙层偏上）；
   - 不加 aui-mouse-events=intercept（会吞槽位点击）。
-  ESC 关闭。服务端：menu(...).bind(b => b.saveddata(dataName,27).player())，1.2.3 下持久化正常。
+  ESC 关闭。服务端：menu(...).bind(b => b.blockEntity(blockPos,27).player())。
 -->
 <!doctype html>
 <html>
@@ -41,7 +41,7 @@
     /* 只统一槽位尺寸，不在 container 上设 display，避免干扰 preset:player */
     container { --aui-slot-size: 28px; }
     /* 配置库存：手动 9x3 网格 */
-    #saved_data {
+    #block_entity {
       display: grid;
       grid-template-columns: repeat(9, 28px);
       gap: 3px;
@@ -63,8 +63,8 @@
 </head>
 <body>
   <div class="panel">
-    <div class="label">配置物品 (saved_data x27)</div>
-    <div class="center"><container id="saved_data" bind="saved_data" primary="true" size="27"></container></div>
+    <div class="label">配置物品（27格）</div>
+    <div class="center"><container id="block_entity" bind="block_entity" primary="true" size="27"></container></div>
 
     <div class="label">玩家背包</div>
     <div class="center"><container id="player" bind="player" layout="preset:player"></container></div>

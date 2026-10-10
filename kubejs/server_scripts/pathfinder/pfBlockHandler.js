@@ -10,11 +10,13 @@
 // 4. ApricityUI-forge 1.2.2-hotfix1 的服务端容器打开方式是：
 //    ApricityUI.menu(player, path).bind(function(binding){ ... })
 //    不要改回 openScreen(player, path, null)，该重载不存在。
-// 5. 配置界面是真实容器 Screen：saveddata(数据名,27) 存配置物品（世界级持久
-//    库存，数据名按 维度+坐标 隔离，每个开店方块独立），player() 显示玩家背包，
-//    可双向点击/拖拽/shift-click 移动物品。HTML 容器 id 必须为 saved_data / player，
+// 5. 配置界面是真实容器 Screen：blockEntity(方块坐标,27) 绑定开店方块自身的
+//    9x3 持久库存，player() 显示玩家背包，可双向点击/拖拽/shift-click 移动物品。
+//    HTML 容器 id 必须为 block_entity / player，
 //    与绑定方法一一对应，否则槽位退化成展示型（看得见点不动）。
 // ============================================================
+
+const PF_CONFIG_INVENTORY_SIZE = 27
 
 BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     console.log("[PF] 右键触发方块")
@@ -27,14 +29,16 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     // Shift+右键只打开配置界面（真实容器 Screen），不触发开店/关店流程。
     if (player.isCrouching()) {
         let ApricityUIPathfinder = Java.loadClass("com.sighs.apricityui.ApricityUI")
-        // SavedData 数据名按 维度+坐标 隔离，保证每个开店方块有独立的配置库存。
-        // level.getDimension() 可能形如 ResourceKey[minecraft:dimension / minecraft:overworld]，
-        // 统一把非字母数字字符替换成 _，避免非法文件名字符（SavedData 落盘为 data/<name>.dat）。
         let cfgX = blockPos.getX() | 0
         let cfgY = blockPos.getY() | 0
         let cfgZ = blockPos.getZ() | 0
-        let dimSafe = ('' + level.getDimension()).replace(/[^A-Za-z0-9]+/g, '_')
-        let dataName = 'pf_cfg_' + dimSafe + '_' + cfgX + '_' + cfgY + '_' + cfgZ
+
+        // 容量契约：方块注册、服务端绑定和 HTML size 固定为 27 格。
+        // 多名玩家打开同一方块时直接共享这个服务端 Container，由原版菜单同步槽位变化；
+        // 不为每个玩家复制库存，避免并发关闭时互相覆盖。
+        // 不要在 Rhino 脚本中调用 inventory.kjs$getSlots() 等 Java 内部接口：
+        // KubeJS 会把 inventory 暴露成物品列表视图，调用这些方法会让右键事件直接报错。
+
         // 记住当前配置的方块上下文，供“稀客好感度”按钮读取（好感度按方块存储）
         try {
             player.persistentData.putInt('pfCfgX', cfgX)
@@ -43,14 +47,14 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             player.persistentData.putString('pfCfgDim', global.pfRareAffection.pfAffDimId(level))
         } catch (e) { console.log("[PF] 记录配置方块上下文失败: " + e) }
         // 服务端容器 API：menu(...).bind(fn) 立即解析数据源并打开真实容器 Screen。
-        // saveddata(dataName, 27) → HTML 容器 id=saved_data（9x3 世界级持久库存）；
-        // player() → HTML 容器 id=player（玩家背包）。saveddata 先绑定成为 primary，
+        // blockEntity(blockPos, 27) → HTML 容器 id=block_entity（方块自身的 9x3 持久库存）；
+        // player() → HTML 容器 id=player（玩家背包）。blockEntity 先绑定成为 primary，
         // 决定 shift-click 主方向（背包 <-> 配置库存）。
         ApricityUIPathfinder.menu(player, "kubejs/pathfinder_config.html").bind(function (binding) {
-            binding.saveddata(dataName, 27).player()
+            binding.blockEntity(blockPos, PF_CONFIG_INVENTORY_SIZE).player()
         })
         event.cancel()
-        console.log("[PF] 打开开店方块配置界面, 数据名=" + dataName)
+        console.log("[PF] 打开开店方块配置界面, 坐标=" + cfgX + "," + cfgY + "," + cfgZ)
         return
     }
     let teachingStage = global.aTip && typeof global.aTip.getStage === 'function'
