@@ -143,9 +143,9 @@ AuraTip 不应该做：
 项目里存在两类 tooltip 写法，和 AuraTip 是不同系统：
 
 - 普通物品 tooltip：放在 `kubejs/client_scripts/tooltip/*.js`，使用 `ItemEvents.tooltip(event => event.addAdvanced(itemId, (stack, advanced, text) => { ... }))`。
-- 遗物自定义 HTML tooltip：放在 `kubejs/startup_scripts/tooltip.js`，使用 Forge tooltip 事件配合 ApricityUI 文档 `kubejs/tooltip.html`，只对已注册遗物物品生效。
+- 遗物自定义 HTML tooltip：放在 `kubejs/startup_scripts/tooltip.js`，由 `Platform.isClientEnvironment()` 限定只在客户端注册 Forge tooltip 事件，并配合 ApricityUI 文档 `kubejs/tooltip.html`，只对已注册遗物物品生效。
 
-注意：`ItemEvents.tooltip` 必须放在 `client_scripts`，不要放进 `startup_scripts`。`startup_scripts/tooltip.js` 是 Forge 事件 + ApricityUI 的特殊实现，不是普通 KubeJS tooltip 注册方式。
+注意：`ItemEvents.tooltip` 必须放在 `client_scripts`，不要放进 `startup_scripts`。遗物 HTML tooltip 使用 Forge `ForgeEvents.onEvent`，因此事件监听器放在 `startup_scripts`，但必须用 `Platform.isClientEnvironment()` 隔离客户端渲染事件及 ApricityUI 类，避免专用服务器加载客户端内容。
 
 ## 验证清单
 

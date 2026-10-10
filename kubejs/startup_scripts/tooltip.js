@@ -1,245 +1,263 @@
 // ============================================================
-// 自定义遗物提示框 (ApricityUI Tooltip)
-// 仅对已注册遗物物品生效，模仿雨中冒险2设计风格
+// 遗物自定义 HTML tooltip（ApricityUI）
+// ForgeEvents 只在 startup_scripts 提供；客户端渲染监听器必须按物理端隔离。
 // ============================================================
 
-let DOC_PATH = "kubejs/tooltip.html"
-let document
-let tooltipRoot
-let guideArea
-let tooltipReady = false
-let lastItemId = ""
-let lastSeenAt = 0
-let isShowingCustom = false
-let lastPosX = -1
-let lastPosY = -1
+if (Platform.isClientEnvironment()) {
+    (function() {
+        let DOC_PATH = "kubejs/tooltip.html"
+        let ApricityUI = Java.loadClass("com.sighs.apricityui.ApricityUI")
+        let AuiPosition = Java.loadClass("com.sighs.apricityui.layout.Position")
+        let tooltipDocument = null
+        let tooltipRoot = null
+        let tooltipReady = false
+        let lastItemId = ""
+        let lastSeenAt = 0
+        let isShowingCustom = false
+        let lastPosX = -1
+        let lastPosY = -1
 
-// 构建遗物ID集合 (延迟初始化，确保 relicRegister 已加载)
-let relicIdSet = null
-// 遗物稀有度颜色缓存 (避免每次遍历)
-let relicColorCache = null
+        let relicIdSet = null
+        let relicColorCache = null
+        let relicDataCache = null
 
-function getRelicIdSet() {
-    if (relicIdSet != null) return relicIdSet
-    relicIdSet = {}
-    relicColorCache = {}
-    if (global.relicRegister && global.relicRegister.relics) {
-        let relics = global.relicRegister.relics
-        for (let i = 0; i < relics.length; i++) {
-            let id = "marguerite:" + relics[i].name
-            relicIdSet[id] = true
-            // 预缓存稀有度颜色（使用实际RGB值，避免CSS变量在内联样式中不生效）
-            let color = "rgb(189, 180, 61)"  // gold (默认)
-            let rarity = relics[i].rarity
-            if (rarity && rarity.name) {
-                if (rarity.name === "少见") color = "rgb(88, 149, 88)"      // green
-                else if (rarity.name === "稀有") color = "rgb(163, 77, 132)" // purple
-                else if (rarity.name === "史诗") color = "rgb(142, 50, 50)"  // red
+        function getRelicIdSet() {
+            if (relicIdSet != null) return relicIdSet
+
+            relicIdSet = {}
+            relicColorCache = {}
+            let relics = global.relicRegister && global.relicRegister.relics
+            if (!relics) return relicIdSet
+
+            for (let i = 0; i < relics.length; i++) {
+                let relic = relics[i]
+                let id = "marguerite:" + relic.name
+                relicIdSet[id] = true
+
+                let color = "rgb(189, 180, 61)" // gold（默认）
+                let rarity = relic.rarity
+                if (rarity && rarity.name === "少见") color = "rgb(88, 149, 88)"
+                else if (rarity && rarity.name === "稀有") color = "rgb(163, 77, 132)"
+                else if (rarity && rarity.name === "史诗") color = "rgb(142, 50, 50)"
+                relicColorCache[id] = color
             }
-            relicColorCache[id] = color
+
+            console.log("[TOOLTIP] 已加载 " + relics.length + " 个遗物ID到HTML tooltip过滤集")
+            return relicIdSet
         }
-        console.log('[TOOLTIP] 已加载 ' + relics.length + ' 个遗物ID到tooltip过滤集')
-    }
-    return relicIdSet
-}
 
-function isRelicItem(stack) {
-    if (!stack || stack.isEmpty()) return false
-    let id = "" + stack.getId()
-    return getRelicIdSet()[id] === true
-}
-
-function ensureTooltipOnce() {
-    if (tooltipReady) return
-    if (ApricityUI.getDocument(DOC_PATH).isEmpty()) ApricityUI.createDocument(DOC_PATH)
-    if (!ApricityUI.getDocument(DOC_PATH).isEmpty()) {
-        document = ApricityUI.getDocument(DOC_PATH).get(0)
-        tooltipRoot = document.querySelector("#tooltip")
-        guideArea = document.querySelector("#guide-area")
-        tooltipReady = true
-    }
-}
-
-// ============================================================
-// 【已停用】ApricityUI 自定义 HTML tooltip（遗物悬浮框）
-// 停用后：遗物恢复原版文字 tooltip 渲染（文字由 client_scripts/tooltip/relicTooltip.js 提供）。
-// 普通文字 tooltip（筋膜枪/泡脚水/油/皴块）不受影响。
-// 恢复方法：去掉下面块注释的起止标记，并还原文件末尾的加载日志。
-// ============================================================
-/*
-ForgeEvents.onEvent("net.minecraftforge.event.entity.player.ItemTooltipEvent", function(event) {
-    let stack = event.getItemStack()
-    if (!isRelicItem(stack)) {
-        // 非遗物：标记状态
-        if (lastSeenAt !== 0) {
-            lastSeenAt = 0
-            lastItemId = ""
+        function isRelicItem(stack) {
+            if (!stack || stack.isEmpty()) return false
+            return getRelicIdSet()["" + stack.getId()] === true
         }
-        return
-    }
-    // 遗物：仅在物品变化时重建DOM
-    let currentId = "" + stack.getId()
-    if (currentId !== lastItemId) {
-        ensureTooltipOnce()
-        if (tooltipRoot == null) return
-        rebuildTooltip(stack, event, currentId)
-        lastItemId = currentId
-    }
-    lastSeenAt = Date.now()
-})
 
-ForgeEvents.onEvent("net.minecraftforge.client.event.RenderTooltipEvent$Pre", function(event) {
-    let rtIsRelic = isRelicItem(event.getItemStack())
-    if (!rtIsRelic) {
-        // 非遗物：确保自定义tooltip不遮挡，让原版正常渲染
-        // 用位置判断代替isShowingCustom，避免ClientTickEvent后状态不一致
-        if (tooltipReady && tooltipRoot != null && lastPosX !== -9999) {
-            tooltipRoot.setAttribute("style", "position: fixed; left: -9999px; top: -9999px;")
-            document.body.setAttribute("class", "")
+        function ensureTooltipOnce() {
+            if (tooltipReady && tooltipDocument != null && tooltipRoot != null) return true
+
+            // ApricityUI 1.2.5.3 的 getDocument 返回文档列表；优先复用已有页面。
+            let documents = ApricityUI.getDocument(DOC_PATH)
+            if (documents != null && !documents.isEmpty()) {
+                tooltipDocument = documents.get(0)
+            } else {
+                // createDocument 在资源不存在时返回 null。
+                tooltipDocument = ApricityUI.createDocument(DOC_PATH)
+            }
+
+            if (tooltipDocument == null) {
+                console.error("[TOOLTIP] 无法创建 ApricityUI 文档: " + DOC_PATH)
+                return false
+            }
+
+            // 遗物 tooltip 会在背包/JEI Screen 上显示；普通 Overlay 在 Screen 打开时会隐藏。
+            tooltipDocument.setReloadPersistent(true)
+
+            tooltipRoot = tooltipDocument.getElementById("tooltip")
+            if (tooltipRoot == null) {
+                console.error("[TOOLTIP] HTML 中找不到 #tooltip: " + DOC_PATH)
+                tooltipDocument = null
+                return false
+            }
+
+            tooltipReady = true
+            return true
+        }
+
+        function hideCustomTooltip(animate) {
+            if (tooltipDocument != null) {
+                tooltipDocument.body.setAttribute("class", animate ? "hiding" : "")
+            }
+            if (tooltipRoot != null) {
+                tooltipRoot.setAttribute("style", "position: fixed; left: -9999px; top: -9999px;")
+            }
+
             isShowingCustom = false
+            lastSeenAt = 0
             lastPosX = -9999
             lastPosY = -9999
         }
-        return
-    }
-    // 遗物：取消原版渲染，定位自定义tooltip
-    if (!tooltipReady) ensureTooltipOnce()
-    if (tooltipRoot == null) return
-    lastSeenAt = Date.now()
-    event.setCanceled(true)
-    // 每帧更新位置（不缓存，确保跟随鼠标）
-    let px = event.getX()
-    let py = event.getY()
-    tooltipRoot.setAttribute("style", "position: fixed; left: " + px + "px; top: " + (py - 30) + "px;")
-    lastPosX = px
-    lastPosY = py
-    if (!isShowingCustom) {
-        document.body.setAttribute("class", "shown")
-        isShowingCustom = true
-    }
-})
 
-ForgeEvents.onEvent("net.minecraftforge.event.TickEvent$ClientTickEvent", function(event) {
-    if (lastSeenAt === 0) return
-    if (Date.now() - lastSeenAt <= 50) return
-    if (document != null) {
-        document.body.setAttribute("class", "hiding")
-    }
-    // 同时移走tooltip元素，防止遮挡后续非遗物tooltip
-    if (tooltipRoot != null) {
-        tooltipRoot.setAttribute("style", "position: fixed; left: -9999px; top: -9999px;")
-    }
-    isShowingCustom = false
-    lastSeenAt = 0
-    lastPosX = -9999
-    lastPosY = -9999
-})
-*/
+        ForgeEvents.onEvent("net.minecraftforge.event.entity.player.ItemTooltipEvent", function(event) {
+            let stack = event.getItemStack()
+            if (!isRelicItem(stack)) {
+                if (lastSeenAt !== 0) {
+                    lastSeenAt = 0
+                    lastItemId = ""
+                }
+                return
+            }
 
-function rebuildTooltip(stack, event, itemId) {
-    // 从遗物注册表获取数据
-    let relicData = getRelicData(itemId)
-    if (!relicData) {
-        console.log('[TOOLTIP] rebuildTooltip: 未找到遗物数据 ' + itemId)
-        return
-    }
+            let currentId = "" + stack.getId()
+            if (!ensureTooltipOnce()) return
 
-    console.log('[TOOLTIP] rebuildTooltip: ' + itemId + ', name=' + relicData.name + ', nameZH=' + relicData.nameZH)
+            if (currentId !== lastItemId) {
+                if (!rebuildTooltip(currentId)) return
+                lastItemId = currentId
+            }
+            lastSeenAt = Date.now()
+        })
 
-    // 填充标题
-    let titleEl = document.querySelector("#title")
-    if (titleEl) {
-        let titleText = relicData.nameZH || relicData.name || ""
-        console.log('[TOOLTIP] 设置标题文本: ' + titleText)
-        titleEl.innerText = titleText
-    } else {
-        console.log('[TOOLTIP] 警告: 未找到 #title 元素')
-    }
-    // 设置标题背景色
-    let header = document.querySelector("#header")
-    if (header) {
-        let color = relicColorCache[itemId] || "rgb(189, 180, 61)"
-        header.setAttribute("style", "background-color: " + color + ";")
-    }
+        ForgeEvents.onEvent("net.minecraftforge.client.event.RenderTooltipEvent$Pre", function(event) {
+            let stack = event.getItemStack()
+            if (!isRelicItem(stack)) {
+                if (tooltipRoot != null && lastPosX !== -9999) hideCustomTooltip(false)
+                return
+            }
 
-    // 填充主描述
-    let mainDescText = document.querySelector("#main-desc-text")
-    if (mainDescText) {
-        let descText = ""
-        if (relicData.description) {
-            descText = relicData.description.getString()
+            let currentId = "" + stack.getId()
+            if (!ensureTooltipOnce()) return
+
+            // 渲染事件前重新核对当前物品，确保卡片内容对应本帧物品。
+            if (currentId !== lastItemId) {
+                if (!rebuildTooltip(currentId)) return
+                lastItemId = currentId
+            }
+
+            lastSeenAt = Date.now()
+            event.setCanceled(true)
+
+            // browser viewport 与 Minecraft GUI 坐标可能不同，使用 AUI 坐标换算。
+            let docPos = tooltipDocument.screenToDocumentPosition(new AuiPosition(event.getX(), event.getY()))
+            let px = docPos.x
+            let py = docPos.y
+            tooltipRoot.setAttribute("style", "position: fixed; left: " + px + "px; top: " + (py - 30) + "px;")
+            lastPosX = px
+            lastPosY = py
+
+            if (!isShowingCustom) {
+                tooltipDocument.body.setAttribute("class", "shown")
+                isShowingCustom = true
+            }
+        })
+
+        ForgeEvents.onEvent("net.minecraftforge.event.TickEvent$ClientTickEvent", function(event) {
+            if (lastSeenAt === 0 || Date.now() - lastSeenAt <= 50) return
+            hideCustomTooltip(true)
+        })
+
+        function rebuildTooltip(itemId) {
+            let relicData = getRelicData(itemId)
+            if (!relicData) {
+                console.warn("[TOOLTIP] 未找到遗物数据: " + itemId)
+                return false
+            }
+
+            let titleEl = tooltipDocument.getElementById("title")
+            if (titleEl) titleEl.innerText = relicData.nameZH || relicData.name || ""
+
+            let header = tooltipDocument.getElementById("header")
+            if (header) {
+                let color = relicColorCache[itemId] || "rgb(189, 180, 61)"
+                header.setAttribute("style", "background-color: " + color + ";")
+            }
+
+            let mainDescText = tooltipDocument.getElementById("main-desc-text")
+            if (mainDescText) {
+                let description = relicData.description
+                mainDescText.innerText = description ? description.getString() : ""
+            }
+
+            let subDescText = tooltipDocument.getElementById("sub-desc-text")
+            if (subDescText) {
+                let specialDescription = relicData.specialDescription
+                subDescText.innerText = specialDescription ? specialDescription.getString() : ""
+            }
+
+            updateGuideGrid(relicData)
+
+            let storyText = tooltipDocument.getElementById("story-text")
+            if (storyText) storyText.innerText = relicData.story || ""
+            return true
         }
-        mainDescText.innerText = descText
-    }
 
-    // 填充附描述
-    let subDescText = document.querySelector("#sub-desc-text")
-    if (subDescText) {
-        let specText = ""
-        if (relicData.specialDescription) {
-            specText = relicData.specialDescription.getString()
-        }
-        subDescText.innerText = specText
-    }
+        function updateGuideGrid(relicData) {
+            let guideRows = relicData.guideTexture || []
+            for (let rowIndex = 0; rowIndex < 5; rowIndex++) {
+                let row = rowIndex < guideRows.length ? guideRows[rowIndex] : null
+                let siblings = row != null ? row.getSiblings() : null
 
-    // 遗物引导区域 - 设置中心格子背景图
-    let guideCenter = document.querySelector("#guide-center")
-    if (guideCenter) {
-        let texturePath = getRelicTexturePath(relicData)
-        console.log('[TOOLTIP] guide-center 材质路径: ' + texturePath)
-        if (texturePath) {
-            guideCenter.setAttribute("style", "background-image: url(" + texturePath + ");")
-        } else {
-            guideCenter.setAttribute("style", "")
-        }
-    } else {
-        console.log('[TOOLTIP] 警告: 未找到 #guide-center 元素')
-    }
+                for (let columnIndex = 0; columnIndex < 5; columnIndex++) {
+                    let cell = tooltipDocument.getElementById("guide-cell-" + (rowIndex * 5 + columnIndex))
+                    if (!cell) continue
 
-    // 填充故事
-    let storyText = document.querySelector("#story-text")
-    if (storyText) {
-        storyText.innerText = relicData.story || ""
-    }
-}
+                    let segment = null
+                    if (columnIndex === 0) {
+                        segment = row
+                    } else if (siblings != null && siblings.size() >= columnIndex) {
+                        segment = siblings.get(columnIndex - 1)
+                    }
 
-// 根据物品ID从注册表获取遗物数据（缓存）
-let relicDataCache = null
+                    let textColor = segment != null ? segment.getStyle().getColor() : null
+                    let style = ""
+                    if (textColor == null) {
+                        style = ""
+                    } else {
+                        let rgb = Number(textColor.getValue())
+                        let red = (rgb >> 16) & 255
+                        let green = (rgb >> 8) & 255
+                        let blue = rgb & 255
+                        style = "background-color: rgb(" + red + ", " + green + ", " + blue + ");"
+                    }
 
-function getRelicData(itemId) {
-    if (relicDataCache == null) {
-        relicDataCache = {}
-        if (global.relicRegister && global.relicRegister.relics) {
-            let relics = global.relicRegister.relics
-            for (let i = 0; i < relics.length; i++) {
-                let id = "marguerite:" + relics[i].name
-                relicDataCache[id] = relics[i]
+                    if (rowIndex === 2 && columnIndex === 2) {
+                        let texturePath = getRelicTexturePath(relicData)
+                        if (texturePath) style += "background-image: url(" + texturePath + ");"
+                    }
+                    cell.setAttribute("style", style)
+                }
             }
         }
-    }
-    return relicDataCache[itemId] || null
-}
 
-function getRelicTexturePath(relicData) {
-    // 优先使用自定义材质
-    if (relicData.texture) {
-        return relicData.texture
-    }
-    // 自动按阶段+部位分配芯片材质（ApricityUI路径：纯文件名）
-    let partMap = { '_toe': 1, '_sole': 2, '_center': 3, '_heel': 4, '_all': 5 }
-    let chipPart = 0
-    for (let suffix in partMap) {
-        if (relicData.name.endsWith(suffix)) {
-            chipPart = partMap[suffix]
-            break
+        function getRelicData(itemId) {
+            if (relicDataCache == null) {
+                relicDataCache = {}
+                let relics = global.relicRegister && global.relicRegister.relics
+                if (relics) {
+                    for (let i = 0; i < relics.length; i++) {
+                        relicDataCache["marguerite:" + relics[i].name] = relics[i]
+                    }
+                }
+            }
+            return relicDataCache[itemId] || null
         }
-    }
-    if (relicData.stage >= 1 && relicData.stage <= 5 && chipPart > 0) {
-        return "chip_lv" + relicData.stage + "_pt" + chipPart + ".png"
-    }
-    // 默认使用遗物名称作为材质文件名
-    return relicData.name + ".png"
-}
 
-// console.log('[TOOLTIP] ✅ 自定义遗物提示框已加载')  // 已停用
-console.log('[TOOLTIP] 自定义遗物提示框已停用，遗物恢复原版文字 tooltip')
+        function getRelicTexturePath(relicData) {
+            if (relicData.texture) return relicData.texture
+
+            let partMap = { "_toe": 1, "_sole": 2, "_center": 3, "_heel": 4, "_all": 5 }
+            let chipPart = 0
+            for (let suffix in partMap) {
+                if (relicData.name.endsWith(suffix)) {
+                    chipPart = partMap[suffix]
+                    break
+                }
+            }
+
+            if (relicData.stage >= 1 && relicData.stage <= 5 && chipPart > 0) {
+                return "chip_lv" + relicData.stage + "_pt" + chipPart + ".png"
+            }
+            return relicData.name + ".png"
+        }
+
+        console.log("[TOOLTIP] 遗物 ApricityUI HTML tooltip 客户端事件已注册")
+    })()
+}

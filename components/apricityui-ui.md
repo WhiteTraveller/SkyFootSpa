@@ -1,6 +1,6 @@
 # ApricityUI / KubeJS UI 适配记录
 
-本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前实际安装版本是 `ApricityUI-forge-1.20.1-1.2.4-hotfix.jar`（下方标注 1.2.2-hotfix1 的兼容点为历史观察，升级后未逐一复验；容器相关坑见「容器 Screen」章节，已在 1.2.4-hotfix 实测）。已知 1.2.4-hotfix 自身 bug：每 tick 报 `NoSuchMethodException: CompoundTag.putString` 的 LocalStorage 持久化反射错误（不影响容器交互）。
+本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前实际安装版本是 `ApricityUI-forge-1.20.1-1.2.5.3.jar`（本地构建版本；官方公开更新记录未标注 `.3` 补丁差异）。下方 1.2.2-hotfix1、1.2.4-hotfix 的兼容点为历史观察，升级后未逐一复验。已知 1.2.4-hotfix 自身 bug：每 tick 报 `NoSuchMethodException: CompoundTag.putString` 的 LocalStorage 持久化反射错误（不影响容器交互）。
 
 ## 关键入口
 

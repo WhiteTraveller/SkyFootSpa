@@ -26,11 +26,11 @@
       </div>
       <div id="guide-area">
         <div id="guide-grid">
-          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
-          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
-          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc" id="guide-center"></div><div class="gc"></div><div class="gc"></div></div>
-          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
-          <div class="gr"><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-0"></div><div class="gc" id="guide-cell-1"></div><div class="gc" id="guide-cell-2"></div><div class="gc" id="guide-cell-3"></div><div class="gc" id="guide-cell-4"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-5"></div><div class="gc" id="guide-cell-6"></div><div class="gc" id="guide-cell-7"></div><div class="gc" id="guide-cell-8"></div><div class="gc" id="guide-cell-9"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-10"></div><div class="gc" id="guide-cell-11"></div><div class="gc guide-center" id="guide-cell-12"></div><div class="gc" id="guide-cell-13"></div><div class="gc" id="guide-cell-14"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-15"></div><div class="gc" id="guide-cell-16"></div><div class="gc" id="guide-cell-17"></div><div class="gc" id="guide-cell-18"></div><div class="gc" id="guide-cell-19"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-20"></div><div class="gc" id="guide-cell-21"></div><div class="gc" id="guide-cell-22"></div><div class="gc" id="guide-cell-23"></div><div class="gc" id="guide-cell-24"></div></div>
         </div>
       </div>
     </div>
@@ -80,10 +80,10 @@
   #tooltip {
     position: fixed;
     font-family: "default";
-    font-size: 13px;
+    font-size: 15px;
     transform: translateZ(1000px);
-    min-width: 180px;
-    max-width: 260px;
+    min-width: 230px;
+    max-width: 360px;
     margin-left: 11px;
   }
 
@@ -95,9 +95,9 @@
     --gold: rgb(189, 180, 61);
     background-color: var(--gold);
     color: #fff;
-    line-height: 15px;
-    padding-left: 4px;
-    padding-right: 4px;
+    line-height: 18px;
+    padding-left: 6px;
+    padding-right: 6px;
     text-stroke: 2px #555;
     margin-bottom: 2px;
   }
@@ -106,30 +106,30 @@
     background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     flex-direction: row;
-    padding: 5px;
+    padding: 7px;
   }
 
   #desc-area {
     display: flex;
     flex-direction: column;
-    width: 80px;
+    width: 125px;
     color: #ddd;
     text-stroke: 0px;
   }
 
   #main-desc {
-    margin-bottom: 3px;
-    line-height: 11px;
+    margin-bottom: 4px;
+    line-height: 14px;
   }
 
   #sub-desc {
-    line-height: 11px;
+    line-height: 14px;
     color: #aaa;
   }
 
   #guide-area {
-    padding-left: 6px;
-    margin-left: 6px;
+    padding-left: 8px;
+    margin-left: 8px;
     display: flex;
     flex-direction: column;
   }
@@ -139,13 +139,13 @@
     flex-direction: column;
     border: 2px solid rgba(255, 255, 255, 0.6);
     border-radius: 4px;
-    padding: 3px;
+    padding: 4px;
   }
 
   .gr {
     display: flex;
     flex-direction: row;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
   }
 
   .gr:last-child {
@@ -153,8 +153,8 @@
   }
 
   .gc {
-    width: 11px;
-    height: 11px;
+    width: 14px;
+    height: 14px;
     margin-right: 2px;
     background-color: rgba(255, 255, 255, 0.25);
     transform-origin: center;
@@ -186,8 +186,8 @@
     margin-right: 0;
   }
 
-  #guide-center {
-    background-size: 11px 11px;
+  .guide-center {
+    background-size: 14px 14px;
     background-repeat: no-repeat;
     background-position: center;
   }
