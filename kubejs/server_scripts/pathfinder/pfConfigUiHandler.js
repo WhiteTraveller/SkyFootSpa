@@ -40,10 +40,40 @@ NetworkEvents.dataReceived('pf_rare_affection_open', event => {
     }
     let view = global.pfRareAffection.pfBuildRareAffectionView(be, dim)
     let payload = { dim: dim, x: x, y: y, z: z, list: view }
-    // 只推数据；客户端 rare_affection_ui.js 收到后先 closeScreen() 关闭配置容器（自动持久化 SavedData），
-    // 再 screen() 打开稀客列表 Screen（客户端串行执行，保证关闭→打开顺序，避免在容器之上直接开屏导致菜单悬挂）
+    // 1) 先推数据：客户端 rare_affection_ui.js 收到后仅存入 global.pfRareAffectionView，
+    //    rare_affection.html 页面脚本轮询读取渲染（menu 打开与数据到达顺序由页面轮询容错）。
     player.sendData('pf_rare_affection_data', { json: JSON.stringify(payload) })
-    console.log('[PF-CONFIG-UI] 推送稀客好感度数据 dim=' + dim + ' 稀客数=' + view.length)
+    // 2) 服务端用 menu(...).bind(...) 打开稀客列表【容器 Screen】，替换当前配置容器。
+    //    按需求“稀客页面不设计物品槽位绑定”：只 bind player() 作为容器最小数据源，HTML 内不放 <container>，
+    //    页面纯展示 + <item> 渲染手办，无任何库存槽位交互。改用 menu（而非客户端 screen）意在让
+    //    物品图标进入容器 Screen 的原生渲染上下文，尝试修复 plain Screen 下 TLM 3D 手办 <item> 渲染发黑。
+    let ApricityUIRareMenu = Java.loadClass("com.sighs.apricityui.ApricityUI")
+    ApricityUIRareMenu.menu(player, "kubejs/rare_affection.html").bind(function (binding) {
+        binding.player()
+    })
+    console.log('[PF-CONFIG-UI] menu 打开稀客好感度容器 dim=' + dim + ' 稀客数=' + view.length)
+})
+
+// "人物图鉴"按钮：无需服务端数据，直接通知客户端关闭配置容器并打开图鉴 Screen
+NetworkEvents.dataReceived('pf_character_gallery_open', event => {
+    let player = event.player
+    if (!player) return
+    player.sendData('pf_character_gallery_open_ui', {})
+    console.log('[PF-CONFIG-UI] 打开人物图鉴')
+})
+
+// 图鉴对话跳转：客户端点击对话条目后发送 chatbox 命令，服务端执行
+NetworkEvents.dataReceived('pf_gallery_play_dialogue', event => {
+    let player = event.player
+    if (!player) return
+    let cmd = '' + event.data.getString('cmd')
+    // 安全校验：只允许 chatbox skip skyfootspa: 前缀的命令
+    if (!cmd || cmd.indexOf('chatbox skip skyfootspa:') !== 0) {
+        console.log('[PF-GALLERY] 拒绝非法命令: ' + cmd)
+        return
+    }
+    player.runCommandSilent(cmd)
+    console.log('[PF-GALLERY] 执行对话命令: ' + cmd)
 })
 
 console.log("[PF-CONFIG-UI] 配置界面事件已加载")

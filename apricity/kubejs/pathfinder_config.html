@@ -59,6 +59,16 @@
       font-size: 14px;
       text-align: center;
     }
+    /* 人物图鉴按钮 */
+    #galleryBtn {
+      margin: 8px auto 0;
+      width: max-content;
+      padding: 7px 12px;
+      background: rgba(181, 67, 42, 0.9);
+      color: #ffffff;
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -71,21 +81,33 @@
 
     <!-- 稀客好感度：点击后服务端读取本方块好感度并打开列表界面 -->
     <div id="rareAffBtn">★ 稀客好感度</div>
+    <!-- 人物图鉴：点击后打开角色立绘图鉴界面 -->
+    <div id="galleryBtn">📖 人物图鉴</div>
   </div>
 
   <script>
     var McClientRare = Java.loadClass("net.minecraft.client.Minecraft");
-    function initRareAffBtn() {
+    function initBtns() {
       var btn = document.getElementById("rareAffBtn");
-      if (!btn) return;
-      btn.addEventListener("click", function () {
-        try {
-          var player = McClientRare.getInstance().player;
-          if (player) player.sendData("pf_rare_affection_open", {});
-        } catch (e) {}
-      });
+      if (btn) {
+        btn.addEventListener("click", function () {
+          try {
+            var player = McClientRare.getInstance().player;
+            if (player) player.sendData("pf_rare_affection_open", {});
+          } catch (e) {}
+        });
+      }
+      var gBtn = document.getElementById("galleryBtn");
+      if (gBtn) {
+        gBtn.addEventListener("click", function () {
+          try {
+            var player = McClientRare.getInstance().player;
+            if (player) player.sendData("pf_character_gallery_open", {});
+          } catch (e) {}
+        });
+      }
     }
-    document.addEventListener("DOMContentLoaded", initRareAffBtn);
+    document.addEventListener("DOMContentLoaded", initBtns);
   </script>
 </body>
 </html>

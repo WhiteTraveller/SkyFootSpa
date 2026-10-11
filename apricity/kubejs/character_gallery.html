@@ -1,0 +1,526 @@
+<!doctype html>
+<!--
+  人物图鉴界面（Screen 类型）—— 卡片立绘版
+  - 左侧：2×3 角色卡片网格，每卡为 <texture> 头像 + 名称 + 种族标签，点击切换右侧详情。
+  - 右侧上半：卡片立绘大图(<img>，按源图 860×1536 比例显式写宽高、不用 object-fit) + 角色情报并排。
+  - 右侧下半：剧情对话列表，点击跳转对应 chatbox 对话。
+  - 点击立绘图片可打开全屏 lightbox 查看大图。
+  - 卡片图片：<img src="相对路径"> 引用 apricity/kubejs/ 下的 *_card.png（860×1536）。
+  - 【重要】静态预渲染槽位 + getElementById 填充，不往容器动态增删节点。
+  - 和风纸质配色：暖米黄渐变底 + 墨色外框 + 朱红镶边/点缀。viewport=browser + intercept。
+  - 背景/边框一律用实色（AUI 下半透明与渐变混合不稳定）。
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <meta name="aui-mouse-events" content="intercept">
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; }
+    body {
+      background: transparent;
+      color: #4a3c2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ===== 和风纸质面板 ===== */
+    .wrap {
+      width: 1260px;
+      background: linear-gradient(155deg, #f8f1de 0%, #f1e6cd 48%, #eaddbf 100%);
+      border: 2px solid #5b4a36;
+      box-shadow: 0 0 0 3px rgba(181, 67, 42, 0.22);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+    .hd { display: flex; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid rgba(181, 67, 42, 0.45); }
+    .title { font-size: 38px; color: #b5432a; font-weight: bold; padding-left: 14px; border-left: 6px solid #b5432a; }
+    .spacer { flex: 1 1 auto; }
+    .close { cursor: pointer; color: #6b5a45; font-size: 38px; padding: 0 12px; }
+    .close:hover { color: #b5432a; }
+
+    .main { display: flex; gap: 20px; }
+
+    /* ===== 左：2×3 卡片列表（flex-wrap，不用 AUI 维护不佳的 grid）=====
+       横向：2 列×206px + 1 间距×14px = 426px（容器 428px，留 2px 余量避免换行临界）
+       纵向：3 行×272px + 2 间距×14px = 844px（容器 848px）
+       align-content:flex-start 防止行被 stretch 拉高 */
+    .left {
+      flex-grow: 0;
+      flex-shrink: 0;
+      width: 428px;
+      height: 848px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 14px;
+    }
+    /* 卡片：flex-wrap 子项，flex-grow/shrink:0 锁定 206×272 不伸缩；
+       box-sizing:border-box 使宽高含边框；单色渐变背景规避 AUI 块级背景不稳定 */
+    .card {
+      flex-grow: 0;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      width: 206px;
+      height: 272px;
+      background: linear-gradient(#fdf8ec, #fdf8ec);
+      border: 2px solid #d5cabb;
+      border-left: 5px solid #d5cabb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .card:hover { background: linear-gradient(#f7e6d9, #f7e6d9); }
+    /* 头像区域：width:100% 填满卡片内容宽 + 居中，确保不同尺寸源贴图显示一致 */
+    .avatar-box {
+      width: 100%;
+      height: 188px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* 头像统一 150×150 显示，flex-shrink:0 锁定不被压缩，源图均为正方形不会拉伸 */
+    .avatar-box texture { width: 150px; height: 150px; flex-grow: 0; flex-shrink: 0; }
+    /* 角色名 */
+    .cname {
+      font-size: 23px;
+      color: #4a3c2a;
+      font-weight: bold;
+      margin-top: 6px;
+      text-align: center;
+      width: 100%;
+    }
+    /* 种族标签 */
+    .ctag {
+      font-size: 17px;
+      color: #8a7a63;
+      margin-top: 3px;
+      text-align: center;
+    }
+
+    /* ===== 右：角色详情 =====
+       宽度账：1204(内容宽) - 428(左) - 20(gap) = 756px
+       布局：上半 = 卡片图(left) + 信息(right)，下半 = 对话列表 */
+    .right {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 756px;
+      width: 756px;
+      height: 848px;
+      background: linear-gradient(#f7efdf, #f7efdf);
+      border: 2px solid #d5cabb;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    /* 上半区：卡片图 + 信息并排 */
+    .top-row {
+      display: flex;
+      gap: 20px;
+      height: 460px;
+      margin-bottom: 14px;
+    }
+    /* 卡片图容器（860:1536 固定比例）：flex-shrink:0 锁定宽度，不被右侧信息挤压 */
+    .portrait-area {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 300px;
+      width: 300px;
+      height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(#fffcf4, #fffcf4);
+      border: 2px solid #e2d8c6;
+      cursor: pointer;
+    }
+    /* 源图 860×1536，height 430 → width=round(430×860/1536)=241；显式宽高 + flex 不伸缩，避免横向压缩 */
+    #bigCard { width: 241px; height: 430px; flex-grow: 0; flex-shrink: 0; }
+    /* 信息栏：占据剩余宽度，min-width:0 让长文本换行而不反推 portrait-area */
+    .info-col {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding-top: 4px;
+    }
+    .rname {
+      font-size: 33px;
+      color: #b5432a;
+      font-weight: bold;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(91, 74, 54, 0.3);
+    }
+    .rinfo { font-size: 22px; color: #5a4a36; margin-bottom: 7px; }
+    .rinfo b { color: #41556b; }
+    .rdesc { font-size: 19px; color: #6b5a45; margin-top: 10px; }
+
+    /* ===== 下半区：对话列表 ===== */
+    .dlg-section {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      border-top: 2px solid rgba(91, 74, 54, 0.3);
+      padding-top: 10px;
+    }
+    .dlg-title {
+      font-size: 24px;
+      color: #b5432a;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .dlg-list {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
+    /* 对话条目：单色渐变背景（同卡片，规避 AUI 块级背景不稳定） */
+    .dlg-item {
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      background: linear-gradient(#fdf8ec, #fdf8ec);
+      border: 2px solid #d5cabb;
+      cursor: pointer;
+      font-size: 21px;
+      color: #4a3c2a;
+      display: flex;
+      align-items: center;
+    }
+    .dlg-item:hover { background: linear-gradient(#f7e6d9, #f7e6d9); border-color: #c0603e; }
+    .dlg-chapter {
+      font-size: 17px;
+      color: #8a7a63;
+      margin-left: 10px;
+    }
+    .dlg-empty { font-size: 20px; color: #8a7a63; padding: 8px 0; }
+
+    /* ===== 大图查看覆盖层（lightbox）—— 实色背景，不用 rgba ===== */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+    }
+    /* lightbox 大图：源图 860×1536，height 804 → width=round(804×860/1536)=450（同样显式宽高，不用 object-fit） */
+    #lightboxImg { width: 450px; height: 804px; }
+    .lightbox-hint {
+      position: absolute;
+      bottom: 20px;
+      font-size: 20px;
+      color: #cccccc;
+    }
+
+    /* texture 扩展元素需要 display */
+    texture { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hd">
+      <span class="title">人物图鉴</span>
+      <span class="spacer"></span>
+      <span class="close" id="closeBtn">x</span>
+    </div>
+
+    <div class="main">
+      <!-- ===== 左：6 个角色卡片槽位 ===== -->
+      <div class="left" id="left">
+        <div class="card" id="card0"><div class="avatar-box"><texture id="av0"></texture></div><div class="cname" id="cn0"></div><div class="ctag" id="ct0"></div></div>
+        <div class="card" id="card1"><div class="avatar-box"><texture id="av1"></texture></div><div class="cname" id="cn1"></div><div class="ctag" id="ct1"></div></div>
+        <div class="card" id="card2"><div class="avatar-box"><texture id="av2"></texture></div><div class="cname" id="cn2"></div><div class="ctag" id="ct2"></div></div>
+        <div class="card" id="card3"><div class="avatar-box"><texture id="av3"></texture></div><div class="cname" id="cn3"></div><div class="ctag" id="ct3"></div></div>
+        <div class="card" id="card4"><div class="avatar-box"><texture id="av4"></texture></div><div class="cname" id="cn4"></div><div class="ctag" id="ct4"></div></div>
+        <div class="card" id="card5"><div class="avatar-box"><texture id="av5"></texture></div><div class="cname" id="cn5"></div><div class="ctag" id="ct5"></div></div>
+      </div>
+
+      <!-- ===== 右：角色详情 + 对话列表 ===== -->
+      <div class="right" id="right">
+        <!-- 上半：卡片图 + 信息 -->
+        <div class="top-row" id="topRow">
+          <div class="portrait-area" id="portraitArea">
+            <img id="bigCard">
+          </div>
+          <div class="info-col" id="infoCol">
+            <div class="rname" id="rName">人物图鉴</div>
+            <div class="rinfo" id="rRace"><b>种族：</b><span id="rRaceV">-</span></div>
+            <div class="rinfo" id="rAbility"><b>能力：</b><span id="rAbilityV">-</span></div>
+            <div class="rinfo" id="rWork"><b>初登场：</b><span id="rWorkV">-</span></div>
+            <div class="rdesc" id="rDesc">点击左侧角色卡片查看图鉴情报。</div>
+          </div>
+        </div>
+        <!-- 下半：对话列表（最多 4 条静态槽位） -->
+        <div class="dlg-section">
+          <div class="dlg-title">剧情对话</div>
+          <div class="dlg-list" id="dlgList">
+            <div class="dlg-item" id="dlg0" style="display:none;"><span id="dlgName0"></span><span class="dlg-chapter" id="dlgCh0"></span></div>
+            <div class="dlg-item" id="dlg1" style="display:none;"><span id="dlgName1"></span><span class="dlg-chapter" id="dlgCh1"></span></div>
+            <div class="dlg-item" id="dlg2" style="display:none;"><span id="dlgName2"></span><span class="dlg-chapter" id="dlgCh2"></span></div>
+            <div class="dlg-item" id="dlg3" style="display:none;"><span id="dlgName3"></span><span class="dlg-chapter" id="dlgCh3"></span></div>
+            <div class="dlg-empty" id="dlgEmpty" style="display:none;">暂无对话记录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大图查看覆盖层：点击立绘后显示，再次点击关闭 -->
+  <div class="lightbox" id="lightbox" style="display:none;">
+    <img id="lightboxImg">
+    <div class="lightbox-hint">点击任意位置关闭</div>
+  </div>
+
+  <script>
+    var McClient = Java.loadClass("net.minecraft.client.Minecraft");
+    var ApricityUIRef = Java.loadClass("com.sighs.apricityui.ApricityUI");
+
+    // ===== 静态角色数据（6 位已确立绘角色）=====
+    // dialogues: 每个角色的剧情对话章节（file=chatbox文件后缀，id=对话ID，label=显示名）
+    var CHARACTERS = [
+      {
+        name: "博丽灵梦",
+        nameEn: "Hakurei Reimu",
+        race: "人类",
+        ability: "操纵境界程度的能力",
+        work: "东方灵异传",
+        desc: "博丽神社的巫女，幻想乡的守护者。以解决异变为日常，性格悠然洒脱，无论人妖一视同仁地退治。",
+        avatar: "skyfootspa:textures/avatars/reimu.png",
+        card: "reimu_card.png",
+        theme: "#c82d30",
+        dialogues: [
+          { file: "reimu", id: "ch1_reimu", label: "第一章·巡查" },
+          { file: "reimu", id: "ch1_reimu_boss", label: "第一章·巡查结算" }
+        ]
+      },
+      {
+        name: "爱丽丝·玛格特罗伊德",
+        nameEn: "Alice Margatroid",
+        race: "魔法使",
+        ability: "操纵人偶程度的能力",
+        work: "东方怪绮谈",
+        desc: "住在魔法之森的人偶师，以七色的人偶操术闻名。表面冷淡寡言，实则热心肠。",
+        avatar: "skyfootspa:textures/avatars/alice.png",
+        card: "alice_card.png",
+        theme: "#e8b22c",
+        dialogues: [
+          { file: "alice", id: "ch0_prologue", label: "序章·开场" },
+          { file: "alice", id: "ch1_alice", label: "第一章·带教" },
+          { file: "alice", id: "ch3_alice", label: "第三章·中期考核" },
+          { file: "alice", id: "ch3_alice_boss", label: "第三章·考核结算" }
+        ]
+      },
+      {
+        name: "东风谷早苗",
+        nameEn: "Kochiya Sanae",
+        race: "现人神",
+        ability: "引发奇迹程度的能力",
+        work: "东方风神录",
+        desc: "守矢神社的风祝，身为现人神的巫女。从外界迁入幻想乡，性格积极认真。",
+        avatar: "skyfootspa:textures/avatars/sanae.png",
+        card: "kochiya_sanae_card.png",
+        theme: "#27ae60",
+        dialogues: [
+          { file: "sanae", id: "ch3_sanae", label: "第三章·核聚变推销" },
+          { file: "sanae", id: "ch3_sanae_boss", label: "第三章·Boss战结算" }
+        ]
+      },
+      {
+        name: "火焰猫燐",
+        nameEn: "Kaenbyou Rin",
+        race: "火车",
+        ability: "带走亡魂程度的能力",
+        work: "东方地灵殿",
+        desc: "旧地狱的妖怪猫，负责将尸体运入灼热地狱坑。性格开朗健谈，能化身为火车形态。",
+        avatar: "skyfootspa:textures/avatars/rin_calm.png",
+        card: "kaenbyou_rin_card.png",
+        theme: "#3a3a42",
+        dialogues: [
+          { file: "rin", id: "ch2_rin", label: "第二章·传信" },
+          { file: "rin", id: "ch2_rin_boss", label: "第二章·结算" },
+          { file: "rin", id: "ch3_rin", label: "第三章·石油副产物" }
+        ]
+      },
+      {
+        name: "星熊勇仪",
+        nameEn: "Hoshiguma Yuugi",
+        race: "鬼",
+        ability: "拥有怪力乱神程度的能力",
+        work: "东方地灵殿",
+        desc: "旧地狱的鬼族强者，拥有无穷怪力与不屈体魄。性格豪爽直率、好酒好战。",
+        avatar: "skyfootspa:textures/avatars/yuugi.png",
+        card: "hoshiguma_yuugi_card.png",
+        theme: "#b8860b",
+        dialogues: [
+          { file: "yuugi", id: "ch2_yuugi", label: "第二章·温泉街踢馆" },
+          { file: "yuugi", id: "ch2_yuugi_boss", label: "第二章·旧地狱结算" }
+        ]
+      },
+      {
+        name: "河城荷取",
+        nameEn: "Kawashiro Nitori",
+        race: "河童",
+        ability: "操纵水程度的能力",
+        work: "东方风神录",
+        desc: "玄武之泽的河童工程师，天才发明家。商业头脑精明，擅长水利工程与光学迷彩。",
+        avatar: "skyfootspa:textures/avatars/hchq_1.png",
+        card: "kawashiro_card.png",
+        theme: "#359dd5",
+        dialogues: [
+          { file: "nitori", id: "ch1_nitori", label: "第一章·来访与实力证明" },
+          { file: "nitori", id: "ch1_nitori_boss", label: "第一章·Boss战结算" }
+        ]
+      }
+    ];
+
+    var MAX_CARDS = 6;
+    var selectedIdx = -1;
+
+    // ===== 渲染左侧卡片（头像 + 名称 + 种族标签） =====
+    function renderCards() {
+      for (var i = 0; i < MAX_CARDS; i++) {
+        var ch = CHARACTERS[i];
+        var texEl = document.getElementById("av" + i);
+        if (texEl) texEl.setAttribute("src", ch.avatar);
+        var nameEl = document.getElementById("cn" + i);
+        if (nameEl) nameEl.textContent = ch.name;
+        var tagEl = document.getElementById("ct" + i);
+        if (tagEl) tagEl.textContent = ch.race;
+        var card = document.getElementById("card" + i);
+        if (card) card.setAttribute("style", "border-left-color:" + ch.theme + ";background:linear-gradient(#fdf8ec,#fdf8ec);");
+      }
+    }
+
+    // ===== 右侧详情切换 =====
+    var MAX_DLGS = 4;
+
+    function showDetail(idx) {
+      if (idx < 0 || idx >= CHARACTERS.length) return;
+      var ch = CHARACTERS[idx];
+      selectedIdx = idx;
+
+      // 卡片选中态（直接切换样式，显式包含 background 避免 AUI 层叠异常）
+      for (var i = 0; i < MAX_CARDS; i++) {
+        var card = document.getElementById("card" + i);
+        if (!card) continue;
+        if (i === idx) {
+          card.setAttribute("style",
+            "border-color:" + ch.theme + ";border-left:5px solid " + ch.theme + ";background:linear-gradient(#f5e2d0,#f5e2d0);");
+        } else {
+          card.setAttribute("style", "border-left-color:" + CHARACTERS[i].theme + ";background:linear-gradient(#fdf8ec,#fdf8ec);");
+        }
+      }
+
+      // 右侧卡片大图
+      var bigCard = document.getElementById("bigCard");
+      if (bigCard) bigCard.setAttribute("src", ch.card);
+
+      // 右侧文字
+      document.getElementById("rName").textContent = ch.name + "  " + ch.nameEn;
+      document.getElementById("rRaceV").textContent = ch.race;
+      document.getElementById("rAbilityV").textContent = ch.ability;
+      document.getElementById("rWorkV").textContent = ch.work;
+      document.getElementById("rDesc").textContent = ch.desc;
+
+      // 对话列表
+      var dlgs = ch.dialogues || [];
+      document.getElementById("dlgEmpty").setAttribute("style",
+        dlgs.length === 0 ? "display:block;" : "display:none;");
+      for (var d = 0; d < MAX_DLGS; d++) {
+        var dlgEl = document.getElementById("dlg" + d);
+        if (!dlgEl) continue;
+        if (d < dlgs.length) {
+          dlgEl.setAttribute("style", "display:flex;");
+          document.getElementById("dlgName" + d).textContent = dlgs[d].label;
+          document.getElementById("dlgCh" + d).textContent = dlgs[d].id;
+        } else {
+          dlgEl.setAttribute("style", "display:none;");
+        }
+      }
+    }
+
+    // ===== 点击对话条目：关闭图鉴 → 服务端执行 chatbox 命令 =====
+    function playDialogue(charIdx, dlgIdx) {
+      var ch = CHARACTERS[charIdx];
+      if (!ch || !ch.dialogues || !ch.dialogues[dlgIdx]) return;
+      var dlg = ch.dialogues[dlgIdx];
+      var cmd = "chatbox skip skyfootspa:story_" + dlg.file + " " + dlg.id;
+      var player = McClient.getInstance().player;
+      if (!player) return;
+      player.sendData("pf_gallery_play_dialogue", { cmd: cmd });
+      try { ApricityUIRef.closeScreen(); } catch (e) {}
+    }
+
+    // ===== 大图查看（lightbox） =====
+    function openLightbox() {
+      var bigCard = document.getElementById("bigCard");
+      if (!bigCard) return;
+      var src = bigCard.getAttribute("src");
+      if (!src) return;
+      var lb = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lightboxImg");
+      if (lbImg) lbImg.setAttribute("src", src);
+      if (lb) lb.setAttribute("style", "display:flex;");
+    }
+
+    function closeLightbox() {
+      var lb = document.getElementById("lightbox");
+      if (lb) lb.setAttribute("style", "display:none;");
+    }
+
+    // ===== 启动 =====
+    function boot() {
+      var closeBtn = document.getElementById("closeBtn");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          try { ApricityUIRef.closeScreen(); } catch (e) {}
+        });
+      }
+
+      // 卡片点击
+      for (var i = 0; i < MAX_CARDS; i++) {
+        (function (idx) {
+          var card = document.getElementById("card" + idx);
+          if (!card) return;
+          card.addEventListener("click", function () { showDetail(idx); });
+        })(i);
+      }
+
+      // 对话条目点击
+      for (var d = 0; d < MAX_DLGS; d++) {
+        (function (dIdx) {
+          var dlgEl = document.getElementById("dlg" + dIdx);
+          if (!dlgEl) return;
+          dlgEl.addEventListener("click", function () {
+            if (selectedIdx >= 0) playDialogue(selectedIdx, dIdx);
+          });
+        })(d);
+      }
+
+      // 立绘图片点击 → 打开大图
+      var pArea = document.getElementById("portraitArea");
+      if (pArea) pArea.addEventListener("click", openLightbox);
+
+      // lightbox 点击关闭
+      var lb = document.getElementById("lightbox");
+      if (lb) lb.addEventListener("click", closeLightbox);
+
+      renderCards();
+      showDetail(0);
+    }
+
+    document.addEventListener("DOMContentLoaded", boot);
+  </script>
+</body>
+</html>

@@ -12,6 +12,7 @@
 - 体力服务端：`kubejs/server_scripts/stamina.js`
 - 开店方块配置容器 Screen：`apricity/kubejs/pathfinder_config.html`，服务端打开+绑定 `kubejs/server_scripts/pathfinder/pfBlockHandler.js`，关闭转发 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`，客户端关闭 `kubejs/client_scripts/ui/pathfinder_config_ui.js`
 - 稀客好感度列表 Screen：`apricity/kubejs/rare_affection.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/rare_affection_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_rare_affection_open` → `pf_rare_affection_data`），好感度/掉落逻辑 `kubejs/server_scripts/pathfinder/pfRareAffection.js`，配置在 `pfCustomerTypes.js`。数据流同 phone：服务端 `sendData` JSON → 客户端存 `global.pfRareAffectionView` → 页面脚本轮询读 `global` 渲染。列表/详情图标用 AUI `<item>` 扩展元素渲染真实手办物品 `touhou_little_maid:garage_kit{EntityInfo:{ModelId:"<模型后缀>"}}`：`<item>` 的文本内容即物品表达式，支持 `物品id{SNBT}`（AUI 内部用 `TagParser` 解析），可 `createElement('item')` 后设 `textContent` 动态生成；扩展元素无固有尺寸，必须显式给 CSS `width/height`。
+- 人物图鉴 Screen：`apricity/kubejs/character_gallery.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/character_gallery_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_character_gallery_open` → `pf_character_gallery_open_ui`）。静态数据内嵌页面脚本，6 位已确立绘角色（灵梦/爱丽丝/早苗/燐/勇仪/荷取）。左右布局：左侧 2×3 卡片网格用 `<texture src="RL">` 显示头像，点击切换右侧大幅立绘 + 种族/能力/初登场/简介。和风纸质配色与稀客页统一。
 
 ## ApricityUI 1.2.2-hotfix1 兼容点
 

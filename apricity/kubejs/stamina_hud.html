@@ -7,13 +7,11 @@
 </head>
 <body>
   <div class="stamina-hud">
-    <span class="stamina-icon">⚡</span>
-    <span class="stamina-text" id="staminaText">10000</span>
-    <span class="bar-wrapper">
-      <span class="bar-bg">
-        <span class="bar-fill" id="staminaFill"></span>
-      </span>
+    <span class="stamina-label">⚡ 体力</span>
+    <span class="bar-bg">
+      <span class="bar-fill" id="staminaFill"></span>
     </span>
+    <span class="stamina-text" id="staminaText">10000/10000</span>
   </div>
 </body>
 
@@ -31,71 +29,80 @@
     padding: 0;
     background: transparent;
     overflow: hidden;
+    /* 跨 Document 层级按根节点/body 的 translateZ 排序（大的靠前，z-index 管不了跨文档）；
+       -1000 与 tooltip.html 的 +1000 对称，保证本 HUD 在所有 AUI 页面最底层 */
+    transform: translateZ(-1000px);
   }
 
   .stamina-hud {
     position: fixed;
     left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
+    bottom: 14px;
+    width: 340px;
+    height: 30px;
     background-color: rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 5px;
-    padding: 8px 7px;
-    z-index: 1000;
+    z-index: -1;
   }
 
-  .stamina-icon {
-    font-size: 18px;
-    color: #ffcc00;
-  }
-
-  .bar-wrapper {
-    display: flex;
-    align-items: center;
+  .stamina-label {
+    position: absolute;
+    left: 10px;
+    top: 60%;
+    transform: translateY(-50%);
+    height: 16px;
+    line-height: 16px;
+    font-size: 13px;
+    color: #ffffff;
+    white-space: nowrap;
   }
 
   .bar-bg {
-    width: 18px;
-    height: 170px;
+    position: absolute;
+    left: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 170px;
+    height: 16px;
     background-color: rgba(80, 80, 80, 0.7);
     border-radius: 4px;
     overflow: hidden;
-    position: relative;
   }
 
   .bar-fill {
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 0%;
-    background: linear-gradient(0deg, #ff8800, #ffcc00);
+    top: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff8800, #ffcc00);
     border-radius: 4px;
-    transition: height 0.05s linear;
+    transition: width 0.05s linear;
   }
 
   .bar-fill.low {
-    background: linear-gradient(0deg, #ff2222, #ff6644);
+    background: linear-gradient(90deg, #ff2222, #ff6644);
   }
 
   .bar-fill.mid {
-    background: linear-gradient(0deg, #ff8800, #ffcc00);
+    background: linear-gradient(90deg, #ff8800, #ffcc00);
   }
 
   .bar-fill.high {
-    background: linear-gradient(0deg, #44dd44, #88ff44);
+    background: linear-gradient(90deg, #44dd44, #88ff44);
   }
 
   .stamina-text {
+    position: absolute;
+    right: 1px;
+    top: 60%;
+    transform: translateY(-50%);
+    height: 16px;
+    line-height: 16px;
     font-size: 13px;
     color: #ffffff;
-    text-align: center;
-    font-family: monospace;
+    white-space: nowrap;
   }
 </style>
 </html>

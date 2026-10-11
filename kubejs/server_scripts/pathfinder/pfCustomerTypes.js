@@ -717,11 +717,18 @@ function pfRareModelSuffix(model) {
 
 /**
  * 生成手办物品的 <item> 表达式（AUI ItemStackExpressionCompiler 支持 物品id{SNBT} 格式）
- * @param {string} model 稀客完整模型 id
- * @returns {string} 如 touhou_little_maid:garage_kit{EntityInfo:{ModelId:"yukari_yakumo"}}
+ * 【EntityInfo NBT 必须完整，否则女仆模组只画底座】需含：
+ *   - id:"touhou_little_maid:maid"：渲染器先画底座、再据此查实体类型，缺失则角色不渲染（只展示底座）
+ *   - ModelId：保留完整命名空间（如 touhou_little_maid:yukari_yakumo），不再去后缀
+ *   - IsYsmModel:0b / MaidTaskDataMaps:{}：与 /kjs hand 实测手办 NBT 对齐
+ * @param {string} model 稀客完整模型 id（含命名空间）
+ * @returns {string} 如 touhou_little_maid:garage_kit{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:"touhou_little_maid:yukari_yakumo",id:"touhou_little_maid:maid"}}
  */
 function pfRareFigureItemExpr(model) {
-    return 'touhou_little_maid:garage_kit{EntityInfo:{ModelId:"' + pfRareModelSuffix(model) + '"}}'
+    return 'touhou_little_maid:garage_kit{EntityInfo:{'
+        + 'IsYsmModel:0b,MaidTaskDataMaps:{},'
+        + 'ModelId:"' + model + '",'
+        + 'id:"touhou_little_maid:maid"}}'
 }
 
 /**

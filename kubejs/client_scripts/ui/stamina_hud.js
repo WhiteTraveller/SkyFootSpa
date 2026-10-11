@@ -41,11 +41,18 @@ function updateStaminaBar(doc, stamina, max) {
                 cls += " high"
             }
             fillEl.setAttribute("class", cls)
-            fillEl.setAttribute("style", "height: " + percent + "%")
+            fillEl.setAttribute("style", "width: " + percent + "%")
         }
 
         if (textEl != null) {
-            textEl.innerText = String(Math.max(0, Math.floor(stamina)))
+            // KubeJS 侧改文本必须调 Java 方法 setTextContent（官方 Overlay 示例用法）；
+            // innerText 属性赋值只在 Rhino 包装对象上挂 expando，到不了元素，静默无效
+            let s = Math.max(0, Math.floor(stamina)) + "/" + max
+            try {
+                textEl.setTextContent(s)
+            } catch (e2) {
+                textEl.innerText = s
+            }
         }
     } catch (e) {
         console.log("[STAMINA-HUD] 更新失败: " + e)
@@ -56,6 +63,9 @@ function updateStaminaBar(doc, stamina, max) {
 
 NetworkEvents.dataReceived('stamina_sync', event => {
     let stamina = event.data.getInt('stamina')
+    if (Math.abs(stamina - staminaValue) >= 50) {
+        console.log("[STAMINA-HUD] 同步体力: " + staminaValue + " -> " + stamina)
+    }
     staminaValue = stamina
     if (staminaInitialized && staminaDoc != null) {
         updateStaminaBar(staminaDoc, staminaValue, STAMINA_MAX)
@@ -82,6 +92,11 @@ ClientEvents.tick(event => {
 
     // 首次创建Overlay
     if (!staminaInitialized) {
+        // 先清理脚本重载/重登遗留的同路径孤儿Overlay，
+        // 否则旧文档叠在上层显示冻结数值，新文档的更新看不见
+        try {
+            ApricityUI.removeDocument("kubejs/stamina_hud.html")
+        } catch (e) {}
         try {
             staminaDoc = ApricityUI.createDocument("kubejs/stamina_hud.html")
             staminaInitialized = true
@@ -112,6 +127,16 @@ ClientEvents.tick(event => {
 })
 
 // ===== 清理 =====
+
+ClientEvents.loggedIn(event => {
+    // 与 foot_ui.js 相同模式：登录时清掉上次会话/重载残留的同路径文档
+    try {
+        ApricityUI.removeDocument("kubejs/stamina_hud.html")
+    } catch (e) {}
+    staminaDoc = null
+    staminaInitialized = false
+    staminaTickCount = 0
+})
 
 ClientEvents.loggedOut(event => {
     if (staminaDoc != null) {

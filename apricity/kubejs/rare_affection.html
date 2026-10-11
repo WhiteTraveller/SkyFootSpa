@@ -9,7 +9,7 @@
     左侧 .figwrap scale(3.2)、掉落 .dwrap scale(2.0)，外层 .figbox/.dbox 预留空间并裁剪。
   - 爱心素材：apricity/kubejs/heart.png(点亮) / heart_empty.png(未点亮)。
   - 【重要】静态预渲染槽位 + getElementById 填充，不往滚动容器动态增删节点（避免 AUI 滚动重复条目）。
-  - 和风纸质配色：暖米黄渐变底 + 墨色外框 + 朱红镶边/点缀，文字改深墨色（浅底需深色字）。viewport=browser + intercept。关闭：右上 x。
+  - 和风纸质配色：米黄和纸渐变底 + 墨色外框 + 朱红镶边/点缀 + 标题旁朱红方印，文字深墨色。viewport=browser + intercept。关闭：右上 x。
 -->
 <html>
 <head>
@@ -26,7 +26,7 @@
       align-items: center;
       justify-content: center;
     }
-    /* ===== 和风纸质面板：暖米黄渐变底(和纸色差) + 墨色外框 + 朱红外扩镶边 ===== */
+    /* ===== 和风纸质面板：米黄和纸渐变底 + 墨色外框 + 朱红外扩镶边 ===== */
     .wrap {
       width: 1074px;
       background: linear-gradient(155deg, #f8f1de 0%, #f1e6cd 48%, #eaddbf 100%);
@@ -41,34 +41,52 @@
     .spacer { flex: 1 1 auto; }
     .close { cursor: pointer; color: #6b5a45; font-size: 26px; padding: 0 10px; }
     .close:hover { color: #b5432a; }
+    /* 朱红方印(标题旁点缀):单色 linear-gradient 底,规避 AUI 块级实色背景绘制不稳定 */
+    .seal {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(#b5432a, #b5432a);
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 12px;
+    }
 
     .main { display: flex; gap: 18px; }
 
-    /* ===== 左：正方形卡片网格 =====
-       宽度账：3 列×190px + 2 间距×12px = 594px = .left 宽度（显式像素列宽，
-       不用 1fr+gap，避免 AUI grid 分配 1fr 时未扣 gap 导致第三列溢出被裁）
-       高度账：4 行×190px + 3 间距×12px = 796px = .left 高度。卡片=190×190 正方形 */
+    /* ===== 左：正方形卡片网格（flex wrap 实现；AUI grid 久未维护有 bug，官方推荐 flex wrap）=====
+       宽度账：3 列×190px(border-box) + 2 间距×12px = 594px = .left 宽度，第 4 卡自动换行
+       高度账：4 行×204px + 3 间距×12px = 852px = .left 高度。卡片=190宽×204高(border-box)，图标放大 */
     .left {
       width: 594px;
-      height: 796px;
+      height: 852px;
       overflow-y: auto;
-      display: grid;
-      grid-template-columns: repeat(3, 190px);
-      grid-auto-rows: 190px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
       gap: 12px;
     }
-    /* 卡片：浅色纸片 + 淡墨边；悬停转朱红高亮。height 186+上下边框4=190，对齐 grid 行轨道不溢出 */
+    /* 卡片：暖白纸片 + 淡墨边；悬停转朱红高亮。width 186+边框4=190、height 200+边框4=204 border-box,flex wrap 下 3列+2gap=594 换行。
+       【背景用单色 linear-gradient,不用实色 hex/rgba】实色块级背景在 AUI 多实例下绘制不稳定(个别不画或画黑),
+       单色 linear-gradient 走渐变渲染路径更可靠。【布局用 flex wrap 替代 grid】AUI grid 久未维护有 bug(官方推荐 flex wrap),
+       卡片背景黑块根因即 grid 多实例绘制不稳定。 */
     .card {
-      height: 186px;
-      background: rgba(255, 252, 244, 0.6);
-      border: 2px solid rgba(91, 74, 54, 0.28);
+      /* flex wrap 下需显式宽度：186 content + 左右边框4 = 190 border-box，3列+2gap=594 正好换行 */
+      width: 186px;
+      height: 200px;
+      background: linear-gradient(#fdf8ec, #fdf8ec);
+      border: 2px solid #d5cabb;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
     }
-    .card:hover { background: rgba(181, 67, 42, 0.10); border-color: rgba(181, 67, 42, 0.6); }
+    /* hover 只用背景/边框变色:AUI 下 transform/transition 不可靠(记忆证实,phone 曾因此降级 JS 逐帧) */
+    .card:hover { background: linear-gradient(#f7e6d9, #f7e6d9); border-color: #c0603e; }
     .figbox {
       width: 100%;
       flex: 1 1 auto;
@@ -77,21 +95,21 @@
       justify-content: center;
     }
     /* 包裹盒布局尺寸=放大后视觉尺寸；transform 放在 item 自身上绕中心放大，不裁剪不重叠 */
-    .figwrap { width: 132px; height: 132px; display: flex; align-items: center; justify-content: center; }
-    .figwrap item { width: 32px; height: 32px; transform: scale(4.1); }
-    .cname { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-top: 2px; text-align: center; }
-    .chearts { margin-top: 2px; }
+    .figwrap { width: 148px; height: 148px; display: flex; align-items: center; justify-content: center; }
+    .figwrap item { width: 32px; height: 32px; transform: scale(6); }
+    .cname { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-top: 1px; text-align: center; }
+    .chearts { margin-top: 1px; }
 
     /* ===== 右：角色信息 ===== */
     .right {
       flex: 0 0 414px;
       width: 414px;
       min-width: 0;
-      height: 792px;
+      height: 848px;
       overflow-y: auto;
       overflow-x: hidden;
-      background: rgba(255, 252, 244, 0.5);
-      border: 2px solid rgba(91, 74, 54, 0.28);
+      background: linear-gradient(#f7efdf, #f7efdf);
+      border: 2px solid #d5cabb;
       padding: 16px 18px;
     }
     .rtitle { font-size: 26px; color: #b5432a; font-weight: bold; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid rgba(91, 74, 54, 0.3); }
@@ -101,7 +119,7 @@
     .raff { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; }
     .rhint { font-size: 16px; color: #8a7a63; margin-top: 40px; text-align: center; }
 
-    .tier { margin-top: 12px; padding: 12px; background: rgba(255, 250, 238, 0.65); border: 2px solid rgba(91, 74, 54, 0.22); }
+    .tier { margin-top: 12px; padding: 12px; background: linear-gradient(#fffcf4, #fffcf4); border: 2px solid #e2d8c6; }
     .tier-h { font-size: 18px; color: #b5432a; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; }
     /* 档位标题：爱心与“好感度达到 xx”文字之间加间距 */
     .tier-h .hearts { margin-right: 10px; }
@@ -112,8 +130,8 @@
       align-items: center;
       justify-content: center;
     }
-    .dwrap { width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; }
-    .dwrap item { width: 32px; height: 32px; transform: scale(2.6); }
+    .dwrap { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; }
+    .dwrap item { width: 32px; height: 32px; transform: scale(2.2); }
     .dtext { font-size: 16px; color: #5a4a36; margin-left: 8px; word-break: break-all; }
 
     /* 爱心图标容器 */
@@ -128,6 +146,7 @@
   <div class="wrap">
     <div class="hd">
       <span class="title" id="title">稀客好感度</span>
+      <span class="seal">客</span>
       <span class="spacer"></span>
       <span class="close" id="closeBtn">x</span>
     </div>

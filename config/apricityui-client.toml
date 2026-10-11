@@ -1,15 +1,13 @@
 
 [debug]
 	#Enable dev auto-reload when local files change.
-	autoReload = false
+	autoReload = true
 	#Enable AI helper screenshots (1 per second, keep latest 3) under screenshots/aui.
-	aiAutoScreenshot = false
+	aiAutoScreenshot = true
 	#Show the AUI per-frame timing monitor in the top-left corner.
 	frameTimingHud = false
 	#Enable the loopback-only Apricity external debugger on port 25321.
 	remoteDebug = false
-	#Open the debug resource manager as a world window while in-game.
-	resourceManagerWorldWindow = false
 
 [input]
 	#Allow Ctrl+mouse-wheel viewport zoom to pass through persistent overlays that do not intercept mouse events.
@@ -32,4 +30,11 @@
 	#WorldWindow distance up to which automatic LOD keeps reduced detail.
 	#Range: > 0
 	reducedDetailDistance = 48
+
+[layout]
+	#Slice the first full geometry commit across frames within a per-frame time budget instead of committing everything in one go.
+	initialCommitSliceEnabled = true
+	#Per-frame time budget in milliseconds for the sliced first full geometry commit. Only an upper bound; at least one element is always committed per frame.
+	#Range: 0.5 ~ 64.0
+	initialCommitSliceMs = 16.0
 

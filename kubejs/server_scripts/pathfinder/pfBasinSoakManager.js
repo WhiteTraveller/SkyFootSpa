@@ -14,8 +14,8 @@
 //   (A) 启动：未泡脚且 Basin 合法 → 写入 pfIsSoaking=1, pfSoakTimeLeft=10,
 //              pfSoakWaterType, pfBasinAuto=1
 //   (B) 校验：自动模式下每秒重查；若 Basin 流体失效则重置 NBT
-//   (C) 结算：soakDone=1 且 pfBasinAuto=1 时消耗 Basin 1000mb 泡脚水，
-//              就地替换为 kubejs:foot_water；清除 pfBasinAuto 标记
+//   (C) 结算：soakDone=1 且 pfBasinAuto=1 时消耗 Basin InputTanks 中 1000mb 泡脚水，
+//              在 OutputTanks（产物槽）生成 kubejs:foot_water；清除 pfBasinAuto 标记
 // ============================================================
 
 let BASIN_BLOCK_ID = 'create:basin'
@@ -235,6 +235,45 @@ function pfFindInputSlotForReplace(level, pos) {
     }
 }
 
+// ----------------- 定位 Basin OutputTanks 中“可写入产物”的槽位（NBT 索引 0 或 1） -----------------
+// OutputTanks 的 NBT 结构与 InputTanks 完全相同：
+//   OutputTanks:[{ Level:{...}, TankContent:{Amount,FluidName} }, {...}]
+// 优先返回首个空槽；若都被占用（异常场景）则回退到 0 覆盖首个产物槽。
+function pfFindOutputSlotForWrite(level, pos) {
+    try {
+        let block = level.getBlock(pos.x, pos.y, pos.z)
+        if (!block) return 0
+        if (('' + block.id) !== BASIN_BLOCK_ID) return 0
+        let data = block.entityData
+        if (!data) return 0
+        let s = '' + data
+        if (!s) return 0
+
+        let startIdx = s.indexOf('OutputTanks:[')
+        if (startIdx < 0) return 0
+        let endIdx = s.indexOf(']', startIdx)
+        if (endIdx < 0) endIdx = s.length
+        let segment = s.substring(startIdx, endIdx + 1)
+
+        // 依次匹配 0/1 两个 TankContent，返回首个空槽
+        let re = /TankContent:\{Amount:\s*(\d+),\s*FluidName:\s*"([^"]+)"\}/g
+        let i = 0
+        let m
+        while ((m = re.exec(segment)) !== null) {
+            let amt = parseInt(m[1])
+            let fid = m[2]
+            if (fid === 'minecraft:empty' || amt <= 0) {
+                return i
+            }
+            i++
+            if (i >= 2) break
+        }
+        return 0
+    } catch (e) {
+        return 0
+    }
+}
+
 // ----------------- 判定是否为已注册泡脚水 -----------------
 // 原版 minecraft:water 视为"清水"兜底，返回伪 def，对应桶 id = minecraft:water_bucket
 // （pfSoakManager / pfSoakWaterEffects 已支持 minecraft:water_bucket 作为无附加效果的清水类型）
@@ -258,7 +297,7 @@ function pfGetSoakWaterByFluid(fluidId) {
     }
 }
 
-// ----------------- 写入 Basin 流体（消耗泡脚水→注入洗脚水） -----------------
+// ----------------- 写入 Basin 流体（可写 InputTanks 或 OutputTanks） -----------------
 // 实测日志提示：Create Basin 真实 NBT 结构为
 //   InputTanks: [
 //     { Level:{Speed,Target,Value}, TankContent:{Amount,FluidName} },
@@ -269,33 +308,39 @@ function pfGetSoakWaterByFluid(fluidId) {
 // Forge combined FluidHandler 受 .forbidExtraction() 限制无法 drain input，
 // 改用 /data modify 直接改 BE NBT——原生命令会自动调用
 // BlockEntity.load() + setChanged() + sendBlockUpdated()。
-function pfWriteBasinFluid(level, pos, fluidId, amount, tankIdx) {
+// tankGroup: 'OutputTanks'（产物槽）或 'InputTanks'（材料槽，默认）。
+// amount=0 时视为清空该槽（FluidName 传 minecraft:empty，Level 归零）。
+function pfWriteBasinFluid(level, pos, fluidId, amount, tankIdx, tankGroup) {
     let server = level.getServer()
     let x = pos.x, y = pos.y, z = pos.z
     let idx = (tankIdx | 0)
     if (idx < 0) idx = 0
+    let group = (tankGroup === 'OutputTanks') ? 'OutputTanks' : 'InputTanks'
+    let amt = (amount | 0)
+    // 有流体时视觉填满（1.0），清空时归零（0.0）
+    let levelValue = amt > 0 ? '1.0f' : '0.0f'
 
     // ====== 写入前日志 ======
     try {
         let block = level.getBlock(x, y, z)
-        console.log('[PF-BASIN] [BEFORE] pos=(' + x + ',' + y + ',' + z + ') tankIdx=' + idx
+        console.log('[PF-BASIN] [BEFORE] pos=(' + x + ',' + y + ',' + z + ') ' + group + '[' + idx + ']'
             + ' blockId=' + (block ? block.id : 'null')
             + ' entityData=' + (block ? block.entityData : 'null'))
     } catch (e) { }
 
     // ====== 命令写入（已验证的正确路径） ======
-    let tankPath = 'InputTanks[' + idx + ']'
+    let tankPath = group + '[' + idx + ']'
     let cmds = [
-        // InputTanks[idx].TankContent 是单 Compound，直接改 FluidName / Amount
+        // TankContent 是单 Compound，直接改 FluidName / Amount
         'data modify block ' + x + ' ' + y + ' ' + z
             + ' ' + tankPath + '.TankContent.FluidName set value "' + fluidId + '"',
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' ' + tankPath + '.TankContent.Amount set value ' + amount,
-        // 保证视觉层面滿水（Target/Value -> 1.0）
+            + ' ' + tankPath + '.TankContent.Amount set value ' + amt,
+        // 视觉层面液位（Target/Value）
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' ' + tankPath + '.Level.Target set value 1.0f',
+            + ' ' + tankPath + '.Level.Target set value ' + levelValue,
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' ' + tankPath + '.Level.Value set value 1.0f'
+            + ' ' + tankPath + '.Level.Value set value ' + levelValue
     ]
     for (let i = 0; i < cmds.length; i++) {
         try { server.runCommandSilent(cmds[i]) } catch (e) { }
@@ -352,7 +397,7 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
     // Basin 内只要任何 tank 含“已使用洗脚水”（kubejs:foot_water）就视为废水
     let isUsedWater = pfBasinContainsUsedWater(level, basinPos)
 
-    // ===== (C) 结算：自动泡脚已完成倒计时 → 替换流体 =====
+    // ===== (C) 结算：自动泡脚已完成倒计时 → 材料槽泡脚水转产物槽洗脚水 =====
     if (snap.soakDone === 1 && snap.basinAuto === 1) {
         // 结算前再读一次验证流体还在
         let curFluid = pfReadBasinFluid(level, basinPos)
@@ -371,10 +416,13 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
                     break
                 }
             }
-            pfWriteBasinFluid(level, basinPos, outputFluid, REQUIRED_AMOUNT, nbtSlot)
+            // 产物写入 OutputTanks（产物槽），并清空 InputTanks（材料槽）中被消耗的泡脚水
+            let outSlot = pfFindOutputSlotForWrite(level, basinPos)
+            pfWriteBasinFluid(level, basinPos, outputFluid, REQUIRED_AMOUNT, outSlot, 'OutputTanks')
+            pfWriteBasinFluid(level, basinPos, 'minecraft:empty', 0, nbtSlot, 'InputTanks')
             pfWriteSoakNbt(ent, snap, { pfBasinAuto: 0 })
             console.log('[PF-BASIN] 泡脚完成，Basin ' + basinPos.x + ',' + basinPos.y + ',' + basinPos.z
-                + ' InputTanks[' + nbtSlot + '] 消耗 ' + REQUIRED_AMOUNT + 'mb 泡脚水 → ' + outputFluid
+                + ' 消耗 InputTanks[' + nbtSlot + '] ' + REQUIRED_AMOUNT + 'mb 泡脚水 → OutputTanks[' + outSlot + '] ' + outputFluid
                 + ' (category=' + customerCat + ')')
         } else {
             // 流体被取走或未找到可写槽位：仅清状态防止脏数据
