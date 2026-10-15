@@ -10,7 +10,12 @@ ItemEvents.tooltip(function(event) {
         'marguerite:fascia_gun_jiaozhi',
         'marguerite:fascia_gun_jiaozhang',
         'marguerite:fascia_gun_jiaoxin',
-        'marguerite:fascia_gun_jiaogen'
+        'marguerite:fascia_gun_jiaogen',
+        'marguerite:fascia_gun_universal',
+        'marguerite:fascia_gun_jiaozhi_advanced',
+        'marguerite:fascia_gun_jiaozhang_advanced',
+        'marguerite:fascia_gun_jiaoxin_advanced',
+        'marguerite:fascia_gun_jiaogen_advanced'
     ]
 
     for (var i = 0; i < gunIds.length; i++) {
@@ -33,6 +38,20 @@ ItemEvents.tooltip(function(event) {
                 text.add(Text.green('✅ 电量充足'))
             }
         })
+    }
+
+    var advancedPartNames = { jiaozhi: '脚趾', jiaozhang: '脚掌', jiaoxin: '脚心', jiaogen: '脚跟' }
+    var advancedParts = ['jiaozhi', 'jiaozhang', 'jiaoxin', 'jiaogen']
+    for (var k = 0; k < advancedParts.length; k++) {
+        var advancedPart = advancedParts[k]
+        ;(function(partName, itemId) {
+            event.addAdvanced(itemId, function(item, advanced, text) {
+                text.add(Text.darkGray('━━━━━━━━━━━━━━━━'))
+                text.add(Text.aqua('强化专用枪（' + partName + '）：每次搓动最多结算 2 次需求'))
+                text.add(Text.gray('每次搓动只消耗一次对应部位 FE'))
+                text.add(Text.darkGray('━━━━━━━━━━━━━━━━'))
+            })
+        })(advancedPartNames[advancedPart], 'marguerite:fascia_gun_' + advancedPart + '_advanced')
     }
 
     // ==================== 四个筋膜枪头 ====================

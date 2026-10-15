@@ -119,6 +119,48 @@ function pfBedKey(bed) {
     return bed.blockX + "," + bed.blockY + "," + bed.blockZ
 }
 
+// 检查顾客保存的床头坐标处是否仍然存在同一张完整床。
+// 该检查不依赖破坏事件，因此能覆盖玩家挖掘、TNT、活塞、命令和其他模组改方块。
+function pfIsBedIntact(level, bed) {
+    if (!level || !bed) return false
+
+    let headX = bed.blockX | 0
+    let headY = bed.blockY | 0
+    let headZ = bed.blockZ | 0
+    let yaw = ((bed.yaw | 0) % 360 + 360) % 360
+    let footX = headX
+    let footZ = headZ
+    let expectedFacing = "north"
+
+    if (yaw === 0) {
+        footZ = headZ - 1
+        expectedFacing = "south"
+    } else if (yaw === 180) {
+        footZ = headZ + 1
+        expectedFacing = "north"
+    } else if (yaw === 90) {
+        footX = headX + 1
+        expectedFacing = "west"
+    } else if (yaw === 270) {
+        footX = headX - 1
+        expectedFacing = "east"
+    } else {
+        return false
+    }
+
+    let head = level.getBlock(headX, headY, headZ)
+    let headId = "" + head.id
+    if (headId.indexOf("_bed") === -1) return false
+    if (("" + head.getProperties().get("part")) !== "head") return false
+    if (("" + head.getProperties().get("facing")) !== expectedFacing) return false
+
+    let foot = level.getBlock(footX, headY, footZ)
+    if (("" + foot.id) !== headId) return false
+    if (("" + foot.getProperties().get("part")) !== "foot") return false
+    if (("" + foot.getProperties().get("facing")) !== expectedFacing) return false
+    return true
+}
+
 // 用粒子短暂标记合法床的床头和床尾，方便玩家确认扫描结果。
 function pfHighlightBeds(level, beds) {
     for (let i = 0; i < beds.length; i++) {
@@ -218,6 +260,7 @@ global.pfBedManager = {
     pfHighlightBeds: pfHighlightBeds,
     pfSerializeBeds: pfSerializeBeds,
     pfParseBeds: pfParseBeds,
+    pfIsBedIntact: pfIsBedIntact,
     pfFindBedOccupant: pfFindBedOccupant,
     pfIsBedOccupied: pfIsBedOccupied,
     pfReleaseBed: pfReleaseBed

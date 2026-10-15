@@ -127,6 +127,14 @@ global.pathfinderTick = function (entity) {
         
         // 处理睡眠逻辑
         let sleepResult = global.pfSleepManager.pfProcessSleeping(ent, level, currTick)
+
+        // 床被 TNT、活塞等方式破坏时，睡眠处理会直接送客。
+        // 立即从本 tick 的列表移除，避免后续排队信息继续引用已 discard 的实体。
+        if (sleepResult.dismissed) {
+            sleepers.splice(i, 1)
+            i--
+            continue
+        }
         
         if (sleepResult.shouldWakeUp) {
             global.pfSleepManager.pfWakeUp(ent, level)

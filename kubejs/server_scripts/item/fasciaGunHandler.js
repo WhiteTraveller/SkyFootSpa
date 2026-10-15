@@ -108,6 +108,14 @@ ItemEvents.rightClicked(function(event) {
 global.pfFasciaGunInterface = {
     // FE消耗量 (每次搓脚)
     feCostPerClick: 250,
+    genericGunIds: [
+        'marguerite:fascia_gun',
+        'marguerite:fascia_gun_universal'
+    ],
+    autoSequenceGunIds: [
+        'marguerite:fascia_gun_universal'
+    ],
+    upgradedGunServiceCount: 2,
 
     /**
      * 检查玩家是否持有匹配当前部位的筋膜枪（主手或副手）
@@ -118,15 +126,16 @@ global.pfFasciaGunInterface = {
     getMatchingGun: function(player, demandKey) {
         try {
             var expectedId = global.FASCIA_GUN_DEMAND_KEY_TO_ITEM[demandKey]
+            var upgradedId = global.FASCIA_GUN_ADVANCED_DEMAND_KEY_TO_ITEM[demandKey]
 
             // 优先检查主手（有头筋膜枪作为搓脚工具时在主手）
             var mainhand = player.getMainHandItem()
             if (mainhand && !mainhand.isEmpty()) {
                 var mainId = "" + mainhand.getId()
-                if (expectedId && mainId === expectedId) {
+                if ((expectedId && mainId === expectedId) || (upgradedId && mainId === upgradedId)) {
                     return { item: mainhand, hand: 'mainhand' }
                 }
-                if (mainId === 'marguerite:fascia_gun') {
+                if (global.pfFasciaGunInterface.genericGunIds.indexOf(mainId) >= 0) {
                     return { item: mainhand, hand: 'mainhand' }
                 }
             }
@@ -138,7 +147,7 @@ global.pfFasciaGunInterface = {
                 if (expectedId && offId === expectedId) {
                     return { item: offhand, hand: 'offhand' }
                 }
-                if (offId === 'marguerite:fascia_gun') {
+                if (global.pfFasciaGunInterface.genericGunIds.indexOf(offId) >= 0) {
                     return { item: offhand, hand: 'offhand' }
                 }
             }
@@ -150,19 +159,39 @@ global.pfFasciaGunInterface = {
     },
 
     /**
-     * 尝试消耗筋膜枪FE (优先于体力)
+     * 尝试消耗筋膜枪能源 (优先于体力)
      * @param {Internal.Player} player
      * @param {object} gunInfo - getMatchingGun 返回的 {item, hand} 对象
-     * @param {number} feCost - 消耗的FE量（等于该部位体力消耗值）
-     * @returns {boolean} 是否成功消耗FE
+     * @param {number} feCost - 电力款消耗的FE量（等于该部位体力消耗值）
+     * @returns {boolean} 是否成功消耗能源
      */
-    tryConsumeFE: function(player, gunInfo, feCost) {
+    isUniversalGun: function(gunInfo) {
+        return !!(gunInfo && gunInfo.item &&
+            global.pfFasciaGunInterface.genericGunIds.indexOf('' + gunInfo.item.getId()) >= 0)
+    },
+
+    isAutoSequenceGun: function(item) {
+        return !!(item && !item.isEmpty() &&
+            global.pfFasciaGunInterface.autoSequenceGunIds.indexOf('' + item.getId()) >= 0)
+    },
+
+    isUpgradedGun: function(item) {
+        if (!item || item.isEmpty()) return false
+        var itemId = '' + item.getId()
+        var upgradedItems = global.FASCIA_GUN_ADVANCED_DEMAND_KEY_TO_ITEM || {}
+        for (var demandKey in upgradedItems) {
+            if (upgradedItems[demandKey] === itemId) return true
+        }
+        return false
+    },
+
+    tryConsume: function(player, gunInfo, feCost) {
         try {
             if (!global.pfConsumeFE) return false
             var cost = feCost || global.pfFasciaGunInterface.feCostPerClick
             return global.pfConsumeFE(player, cost, gunInfo.hand)
         } catch (e) {
-            console.log('[FASCIA-GUN] FE消耗失败: ' + e)
+            console.log('[FASCIA-GUN] 能源消耗失败: ' + e)
             return false
         }
     },

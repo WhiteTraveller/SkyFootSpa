@@ -70,7 +70,12 @@ let HAND_TO_FLOAT_IMG = {
     'marguerite:fascia_gun_jiaozhang': 'hand_jiaozhang.png',
     'marguerite:fascia_gun_jiaoxin':   'hand_jiaoxin.png',
     'marguerite:fascia_gun_jiaogen':   'hand_jiaogen.png',
-    'marguerite:fascia_gun_jiaozhi':   'hand_jiaozhi.png'
+    'marguerite:fascia_gun_jiaozhi':   'hand_jiaozhi.png',
+    'marguerite:fascia_gun_jiaozhang_advanced': 'hand_jiaozhang.png',
+    'marguerite:fascia_gun_jiaoxin_advanced':   'hand_jiaoxin.png',
+    'marguerite:fascia_gun_jiaogen_advanced':   'hand_jiaogen.png',
+    'marguerite:fascia_gun_jiaozhi_advanced':   'hand_jiaozhi.png',
+    'marguerite:fascia_gun_universal': 'fascia_gun.png'
 }
 
 // 拖动距离阈值（像素）：累计路程 >= 此值视为一次有效搓脚
@@ -177,7 +182,7 @@ function createSleepWindow(entity) {
     let floatAnimEl = window.document.getElementById("floatAnim")
     if (footImage != null && floatAnimEl != null) {
         // 拖动状态存储在闭包内
-        let tracking = { active: false, lastX: 0, lastY: 0, totalDist: 0 }
+        let tracking = { active: false, lastX: 0, lastY: 0, totalDist: 0, moveEvents: 0, requestSeq: 0 }
 
         footImage.addEventListener("mousemove", function(event) {
             if (!entity || !entity.isAlive()) return
@@ -196,20 +201,21 @@ function createSleepWindow(entity) {
                 return
             }
 
-            // 获取鼠标坐标（直接使用 offsetX/offsetY，过滤无效值）
-            let ox = event.offsetX
-            let oy = event.offsetY
-            if (ox === undefined || ox === null || oy === undefined || oy === null) return
-            if (ox === 0 && oy === 0 && tracking.active) return  // 过滤异常(0,0)帧
-
-            let mouseX = ox
-            let mouseY = oy
+            // 以监听容器为坐标原点，避免事件命中子图片时 offsetX/offsetY 跳变
+            if (event.clientX === undefined || event.clientX === null ||
+                event.clientY === undefined || event.clientY === null) return
+            let bounds = footImage.getBoundingClientRect()
+            let mouseX = event.clientX - bounds.left
+            let mouseY = event.clientY - bounds.top
 
             if (!tracking.active) {
                 tracking.active = true
                 tracking.lastX = mouseX
                 tracking.lastY = mouseY
                 tracking.totalDist = 0
+                tracking.moveEvents = 0
+                console.log("[FOOT-DRAG] start uuid=" + uuid + " item=" + handId +
+                    " pos=" + Math.round(mouseX) + "," + Math.round(mouseY))
             } else {
                 let dx = mouseX - tracking.lastX
                 let dy = mouseY - tracking.lastY
@@ -217,11 +223,26 @@ function createSleepWindow(entity) {
                 tracking.totalDist += moved
                 tracking.lastX = mouseX
                 tracking.lastY = mouseY
+                tracking.moveEvents++
 
-                // 达阈触发：发送搓脚事件
-                if (tracking.totalDist >= DRAG_THRESHOLD) {
-                    player.sendData('foot_click_demand', { entityUuid: uuid })
-                    tracking.totalDist = 0
+                if (tracking.moveEvents % 10 === 0) {
+                    console.log("[FOOT-DRAG] move uuid=" + uuid + " item=" + handId +
+                        " n=" + tracking.moveEvents + " delta=" + Math.round(dx) + "," + Math.round(dy) +
+                        " step=" + Math.round(moved) + " total=" + Math.round(tracking.totalDist))
+                }
+
+                // 每累计 200 像素触发一次；保留余量，并处理单帧跨过多个阈值的情况
+                while (tracking.totalDist >= DRAG_THRESHOLD) {
+                    tracking.totalDist -= DRAG_THRESHOLD
+                    tracking.requestSeq++
+                    let clientRequestId = tracking.requestSeq
+                    console.log("[FOOT-DRAG] send uuid=" + uuid + " requestId=" + clientRequestId +
+                        " item=" + handId + " moveN=" + tracking.moveEvents +
+                        " remainder=" + Math.round(tracking.totalDist))
+                    player.sendData('foot_click_demand', {
+                        entityUuid: uuid,
+                        clientRequestId: clientRequestId
+                    })
                 }
             }
 
@@ -237,6 +258,9 @@ function createSleepWindow(entity) {
 
         footImage.addEventListener("mouseleave", function(event) {
             if (tracking.active) {
+                console.log("[FOOT-DRAG] leave uuid=" + uuid + " item=" +
+                    (Minecraft.getInstance().player ? "" + Minecraft.getInstance().player.getMainHandItem().id : "none") +
+                    " moveN=" + tracking.moveEvents + " remainder=" + Math.round(tracking.totalDist))
                 tracking.active = false
                 tracking.totalDist = 0
                 floatAnimEl.setAttribute("style", "opacity:0; left:-9999px;")

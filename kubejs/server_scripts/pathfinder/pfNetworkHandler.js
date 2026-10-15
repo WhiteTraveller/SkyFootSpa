@@ -52,24 +52,30 @@ function setupNetworkHandlers() {
     NetworkEvents.dataReceived('foot_click_demand', event => {
         let entityUuid = event.data.entityUuid
         let partKey = event.data.partKey
+        let clientRequestId = event.data.clientRequestId
         let player = event.player
         let level = player.level
+        let autoSequenceGun = global.pfFasciaGunInterface &&
+            global.pfFasciaGunInterface.isAutoSequenceGun(player.getMainHandItem())
         
-        console.log("[PF-NETWORK] 收到点击请求 entityUuid=" + entityUuid + ", partKey=" + partKey)
+        console.log("[FOOT-DRAG] receive requestId=" + clientRequestId + " player=" + player.getUsername() +
+            " uuid=" + entityUuid + " mainHand=" + player.getMainHandItem().id + " autoSequence=" + autoSequenceGun)
         
         // 确定需求键
         let demandKey = null
-        if (partKey && global.pfConstants.DEMAND_KEY_TO_CODE[partKey]) {
-            demandKey = partKey
-        } else {
-            let playerMainHand = player.getMainHandItem()
-            if (playerMainHand && playerMainHand.id) {
-                demandKey = global.pfConstants.WOOL_TO_DEMAND[playerMainHand.id]
+        if (!autoSequenceGun) {
+            if (partKey && global.pfConstants.DEMAND_KEY_TO_CODE[partKey]) {
+                demandKey = partKey
+            } else {
+                let playerMainHand = player.getMainHandItem()
+                if (playerMainHand && playerMainHand.id) {
+                    demandKey = global.pfConstants.WOOL_TO_DEMAND[playerMainHand.id]
+                }
             }
         }
         
-        if (!demandKey) {
-            console.log("[PF-NETWORK] 无法确定操作部位")
+        if (!demandKey && !autoSequenceGun) {
+            console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=no_demand_key partKey=" + partKey)
             return
         }
         
@@ -85,8 +91,31 @@ function setupNetworkHandlers() {
         }
         
         if (!targetEntity) {
-            console.log("[PF-NETWORK] 未找到实体 uuid=" + entityUuid)
+            console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=entity_not_found uuid=" + entityUuid)
             return
+        }
+
+        if (autoSequenceGun) {
+            let sequence = [
+                'pfDemandJiaozhang',
+                'pfDemandJiaogen',
+                'pfDemandJiaozhi',
+                'pfDemandJiaoxin'
+            ]
+            let demandItem = targetEntity.getMainHandItem()
+            if (demandItem && demandItem.id === global.pfConstants.SYNC_ITEM_ID && demandItem.nbt) {
+                for (let i = 0; i < sequence.length; i++) {
+                    if ((demandItem.nbt.getInt(sequence[i]) | 0) > 0) {
+                        demandKey = sequence[i]
+                        break
+                    }
+                }
+            }
+            if (!demandKey) {
+                player.setStatusMessage("§7该顾客的搓脚需求已全部满足")
+                console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=no_remaining_auto_demand")
+                return
+            }
         }
         
         // 读取并更新需求
@@ -94,6 +123,9 @@ function setupNetworkHandlers() {
         if (item && item.id === global.pfConstants.SYNC_ITEM_ID && item.nbt) {
             let nbt = item.nbt
             let currentValue = nbt.getInt(demandKey) || 0
+            console.log("[FOOT-DRAG] resolved requestId=" + clientRequestId + " demand=" + demandKey +
+                " remaining=" + currentValue + " upgraded=" +
+                (global.pfFasciaGunInterface && global.pfFasciaGunInterface.isUpgradedGun(player.getMainHandItem())))
             
             // 获取部位名
             let part = null
@@ -103,7 +135,9 @@ function setupNetworkHandlers() {
             else if (demandKey === "pfDemandJiaoxin") part = "jiaoxin"
             
             // 检查是否开启一键满足
-            let oneClickSatisfy = global.pfGetSetting ? (global.pfGetSetting(player, 'pfOneClickSatisfy') === 1) : false
+            // 四合一枪逐部位搓完再切换；即使开启一键满足，也保留这套顺序。
+            let oneClickSatisfy = !autoSequenceGun &&
+                (global.pfGetSetting ? (global.pfGetSetting(player, 'pfOneClickSatisfy') === 1) : false)
             
             if (oneClickSatisfy) {
                 // 一键满足：清零所有需求（无论当前部位是否已为0）
@@ -113,6 +147,7 @@ function setupNetworkHandlers() {
                 
                 // 计算总体力消耗（只计算有需求的部位）
                 let totalStaminaCost = 0
+                let totalClicks = 0
                 for (let k = 0; k < allKeys.length; k++) {
                     let dk = allKeys[k]
                     let val = nbt.getInt(dk) || 0
@@ -120,10 +155,26 @@ function setupNetworkHandlers() {
                         let pn = partNames[dk]
                         let stPerClick = Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + pn, 100.0))
                         totalStaminaCost += stPerClick * val
+                        totalClicks += val
                     }
                 }
-                
-                if (totalStaminaCost > 0 && (!global.pfConsumeStamina || !global.pfConsumeStamina(player, totalStaminaCost))) {
+
+                // 一键满足时仅让真正的通用枪替代整笔体力消耗；单部位枪保持旧行为。
+                let universalGunUsed = false
+                if (totalClicks > 0 && global.pfFasciaGunInterface) {
+                    let candidateGun = global.pfFasciaGunInterface.getMatchingGun(player, demandKey)
+                    if (global.pfFasciaGunInterface.isUniversalGun(candidateGun)) {
+                        universalGunUsed = global.pfFasciaGunInterface.tryConsume(
+                            player, candidateGun, totalStaminaCost, totalClicks)
+                        if (!universalGunUsed) {
+                            player.setStatusMessage("§c筋膜枪电量不足，请充电！")
+                            targetEntity.setMainHandItem(item.withNBT(nbt))
+                            return
+                        }
+                    }
+                }
+
+                if (totalStaminaCost > 0 && !universalGunUsed && (!global.pfConsumeStamina || !global.pfConsumeStamina(player, totalStaminaCost))) {
                     player.setStatusMessage("§c体力不足，无法搛脚！")
                     targetEntity.setMainHandItem(item.withNBT(nbt))
                     return
@@ -131,7 +182,6 @@ function setupNetworkHandlers() {
                 
                 let totalSatGain = 0
                 let totalMoneyGain = 0
-                let totalClicks = 0
                 for (let k = 0; k < allKeys.length; k++) {
                     let dk = allKeys[k]
                     let val = nbt.getInt(dk) || 0
@@ -141,7 +191,6 @@ function setupNetworkHandlers() {
                         let moneyPer = pn ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + pn, 1.0) : 1.0
                         totalSatGain += Math.max(0, Math.floor(satPer)) * val
                         totalMoneyGain += Math.floor(moneyPer) * val
-                        totalClicks += val
                         let clearPatch = {}
                         clearPatch[dk] = 0
                         nbt.merge(clearPatch)
@@ -176,18 +225,24 @@ function setupNetworkHandlers() {
             } else if (currentValue > 0) {
                 // 正常模式：只减少当前部位
                 // ============================================================
-                // 筋膜枪优先消耗FE逻辑 (通过 pfFasciaGunInterface 接口)
-                // FE消耗量 = 该部位体力消耗值，FE不足时回退到体力消耗
+                // 筋膜枪优先消耗自身FE；持枪但电量不足时阻止服务，不回退到体力消耗。
                 // ============================================================
                 let staminaCost = part ? Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
+                let requestedServiceCount = global.pfFasciaGunInterface &&
+                    global.pfFasciaGunInterface.isUpgradedGun(player.getMainHandItem())
+                    ? global.pfFasciaGunInterface.upgradedGunServiceCount
+                    : 1
+                let serviceCount = Math.min(requestedServiceCount, currentValue)
+                console.log("[FOOT-DRAG] plan requestId=" + clientRequestId + " requested=" +
+                    requestedServiceCount + " actual=" + serviceCount + " feCost=" + staminaCost)
                 let fasciaGunUsed = false
                 let fasciaGunHeld = false
+                let gunInfo = null
                 if (global.pfFasciaGunInterface) {
-                    let gunInfo = global.pfFasciaGunInterface.getMatchingGun(player, demandKey)
+                    gunInfo = global.pfFasciaGunInterface.getMatchingGun(player, demandKey)
                     if (gunInfo) {
                         fasciaGunHeld = true
-                        // 优先尝试消耗FE（消耗量等于该部位体力值）
-                        if (global.pfFasciaGunInterface.tryConsumeFE(player, gunInfo, staminaCost)) {
+                        if (global.pfFasciaGunInterface.tryConsume(player, gunInfo, staminaCost)) {
                             fasciaGunUsed = true
                             let currentFE = global.pfFasciaGunInterface.getCurrentFE(gunInfo.item)
                             console.log('[PF-NETWORK] 筋膜枪(' + part + ')消耗 ' + staminaCost + ' FE, 剩余: ' + currentFE + ' FE')
@@ -195,9 +250,10 @@ function setupNetworkHandlers() {
                     }
                 }
 
-                // 筋膜枪FE不足时阻断搓脚，提示充电
+                // 筋膜枪能源不足时阻断搓脚并提示对应补能方式。
                 if (fasciaGunHeld && !fasciaGunUsed) {
                     player.setStatusMessage("§c筋膜枪电量不足，请充电！")
+                    console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=gun_energy_insufficient demand=" + demandKey)
                     targetEntity.setMainHandItem(item.withNBT(nbt))
                     return
                 }
@@ -206,65 +262,82 @@ function setupNetworkHandlers() {
                 if (!fasciaGunUsed) {
                     if (!global.pfConsumeStamina || !global.pfConsumeStamina(player, staminaCost)) {
                         player.setStatusMessage("§c体力不足，无法搛脚！")
+                        console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=stamina_insufficient demand=" + demandKey)
                         targetEntity.setMainHandItem(item.withNBT(nbt))
                         return
                     }
                 }
-                currentValue--
-                let demandPatch = {}
-                demandPatch[demandKey] = currentValue
-                nbt.merge(demandPatch)
-                
-                // 计算收益
+                // FE 本次只扣一次；服务收益按实际完成次数逐次结算。
                 let satPart = part ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + part, 10.0) : 10.0
                 let moneyPart = part ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + part, 1.0) : 1.0
                 let satGain = Math.max(0, Math.floor(satPart))
                 let moneyGain = Math.floor(moneyPart)
-                
-                // 更新NBT
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
-                let satApplied = pfApplyBossSatMul(targetEntity, satGain)
-                satisfaction = Math.min(100, satisfaction + satApplied)
-                nbt.merge({ pfSatisfaction: satisfaction })
-                
-                let money = nbt.getInt('pfMoney') || 0
-                nbt.pfMoney = money + moneyGain
-                
-                // 通知玩家
-                player.tell("§a+" + moneyGain + "§6💰 §7| §b+" + satApplied + "§d❤")
-                
-                // 记录步骤
-                let stepCode = global.pfConstants.DEMAND_KEY_TO_CODE[demandKey]
-                let currentSteps = nbt.pfSteps
-                if (currentSteps && currentSteps.length > 0) {
-                    nbt.merge({ 'pfSteps': currentSteps + "," + stepCode })
-                } else {
-                    nbt.merge({ 'pfSteps': String(stepCode) })
-                }
-                
-                console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + currentValue + 
-                    ", 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney)
+                let totalSatApplied = 0
+                let totalMoneyGain = 0
+                let completedServices = 0
 
-                // 掉落“皴”：正常模式每次点击结算一次
+                for (let i = 0; i < serviceCount; i++) {
+                    let remainingDemand = nbt.getInt(demandKey) || 0
+                    if (remainingDemand <= 0) break
+
+                    let demandPatch = {}
+                    demandPatch[demandKey] = remainingDemand - 1
+                    nbt.merge(demandPatch)
+
+                    let satApplied = pfApplyBossSatMul(targetEntity, satGain)
+                    satisfaction = Math.min(100, satisfaction + satApplied)
+                    totalSatApplied += satApplied
+                    totalMoneyGain += moneyGain
+
+                    let stepCode = global.pfConstants.DEMAND_KEY_TO_CODE[demandKey]
+                    let currentSteps = nbt.pfSteps
+                    if (currentSteps && currentSteps.length > 0) {
+                        nbt.merge({ 'pfSteps': currentSteps + "," + stepCode })
+                    } else {
+                        nbt.merge({ 'pfSteps': String(stepCode) })
+                    }
+                    completedServices++
+                }
+
+                nbt.merge({ pfSatisfaction: satisfaction })
+                let money = nbt.getInt('pfMoney') || 0
+                nbt.pfMoney = money + totalMoneyGain
+
+                // 一条提示合并显示本次请求累计收益。
+                if (completedServices > 0) {
+                    player.tell("§a+" + totalMoneyGain + "§6💰 §7| §b+" + totalSatApplied + "§d❤")
+                }
+
+                let updatedDemand = nbt.getInt(demandKey) || 0
+                console.log("[FOOT-DRAG] complete requestId=" + clientRequestId + " demand=" + demandKey +
+                    " remaining=" + updatedDemand + " completed=" + completedServices + " upgraded=" +
+                    (global.pfFasciaGunInterface && global.pfFasciaGunInterface.isUpgradedGun(player.getMainHandItem())))
+                console.log("[PF-NETWORK] 需求更新: " + demandKey + "=" + updatedDemand +
+                    ", 满意度=" + satisfaction + "%, 金钱=" + nbt.pfMoney + ", 本次服务=" + completedServices)
+
+                // 每次有效服务独立随机掉落；搓泥宝按本次请求只扣一点耐久。
                 try {
-                    if (global.pfCunDrop) {
-                        let dropCount = global.pfCunDrop.getDropCount(player, targetEntity, part, 1)
+                    if (global.pfCunDrop && completedServices > 0) {
+                        let dropCount = global.pfCunDrop.getDropCount(player, targetEntity, part, completedServices)
                         if (dropCount > 0) {
                             player.give(Item.of('marguerite:cun', dropCount))
                         }
                     }
                 } catch (e) { console.log('[PF-NETWORK] 皴掉落失败: ' + e) }
-            
-                // 通知客户端：撳脚成功（仅此处触发漂浮动画）
-                try { pfSendDemandSync(player, entityUuid, nbt, part) } catch (e) {
+
+                // 每个请求只同步一次最终需求状态。
+                try { if (completedServices > 0) pfSendDemandSync(player, entityUuid, nbt, part) } catch (e) {
                     console.log('[PF-NETWORK] 需求同步失败: ' + e)
                 }
-                // 撳脚成功音效：叮
-                try { player.getLevel().getServer().runCommandSilent('playsound minecraft:block.note_block.bell master ' + player.getUsername() + ' ~ ~ ~ 1 2 1') } catch (e) {}
+                // 搓脚成功音效：叮
+                if (completedServices > 0) {
+                    try { player.getLevel().getServer().runCommandSilent('playsound minecraft:block.note_block.bell master ' + player.getUsername() + ' ~ ~ ~ 1 2 1') } catch (e) {}
+                }
             } else {
                 // 需求已为0：不消耗体力，仅提示
                 player.setStatusMessage("§7该部位已满足，无额外收益")
-                console.log("[PF-NETWORK] 需求已为0，不消耗体力")
+                console.log("[FOOT-DRAG] reject requestId=" + clientRequestId + " reason=demand_zero demand=" + demandKey)
             }
             
             // 记录操作玩家 UUID（用于后续结算时回查，避免依赖商店方块状态）

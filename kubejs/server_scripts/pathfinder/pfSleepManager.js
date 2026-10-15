@@ -20,6 +20,30 @@ function pfResetSleepSubTick(ent) {
     ent.persistentData.putInt("pfSleepInitTicks", 0)
 }
 
+function pfGetCustomerShopBase(ent) {
+    return {
+        x: ent.persistentData.getInt("pfShopBaseX") | 0,
+        y: ent.persistentData.getInt("pfShopBaseY") | 0,
+        z: ent.persistentData.getInt("pfShopBaseZ") | 0
+    }
+}
+
+function pfNotifyBrokenBedPlayers(level, base) {
+    if (!level || !base) return
+    let players = level.getPlayers()
+    let message = "§c床位被破坏，1位顾客已离场，本次服务未结算。"
+    for (let i = 0; i < players.size(); i++) {
+        let player = players.get(i)
+        let px = player.getX(), py = player.getY(), pz = player.getZ()
+        if (px < base.x - global.pfConstants.GRID_HALF - 5 ||
+            px > base.x + global.pfConstants.GRID_HALF + 5 ||
+            py < base.y - 5 || py > base.y + 10 ||
+            pz < base.z - global.pfConstants.GRID_HALF - 5 ||
+            pz > base.z + global.pfConstants.GRID_HALF + 5) continue
+        player.tell(message)
+    }
+}
+
 // 开始睡眠
 function pfStartSleep(ent, level, bedPos, currTick) {
     let cx = ent.persistentData.getFloat("pfOriginX")
@@ -71,6 +95,19 @@ function pfProcessSleeping(ent, level, currTick) {
     let bedPos = global.pfEntityData.pfGetBedInfo(ent)
     let server = level.getServer()
     let uuid = "" + ent.getUuid()
+
+    // TNT、活塞等外部改方块没有玩家破坏事件；每 tick 检查一次，避免原先最多等一秒才提示。
+    if (global.pfBedManager && global.pfBedManager.pfIsBedIntact &&
+        !global.pfBedManager.pfIsBedIntact(level, bedPos)) {
+        let shopBase = pfGetCustomerShopBase(ent)
+        let dismissed = pfDismissBrokenBedCustomer(ent, level, "床位结构失效")
+        if (dismissed) pfNotifyBrokenBedPlayers(level, shopBase)
+        return {
+            shouldWakeUp: false,
+            sleepDuration: (ent.persistentData.getInt("pfSleepSeconds") | 0) * 20,
+            dismissed: dismissed
+        }
+    }
     
     // ---- 前 60 tick 设置睡姿 NBT 与朝向（独立计数器，不依赖差值） ----
     let initTicks = (ent.persistentData.getInt("pfSleepInitTicks") | 0)
@@ -232,7 +269,7 @@ function pfWakeUp(ent, level) {
     console.log("[PF-SLEEP] 离开床，继续行走 at (" + bsx.toFixed(1) + "," + bsz.toFixed(1) + ") 更新路径进度 time=" + bestTime)
 }
 
-// 床被玩家破坏时的异常送客。
+// 床因任意原因被破坏或移动时的异常送客。
 // 与正常 pfWakeUp 不同：不恢复路线、不结算、不掉落奖励，直接结束本次服务。
 function pfDismissBrokenBedCustomer(ent, level, reason) {
     if (!ent || !ent.isAlive()) {
@@ -259,14 +296,19 @@ function pfDismissBrokenBedCustomer(ent, level, reason) {
         server.runCommandSilent("data remove entity " + uuid + " SleepingZ")
     } catch (e) {}
 
-    // 先释放床位，再删除实体；店铺已经关门时释放失败也不阻止送客。
-    if (bedPos && global.pfShopManager && global.pfShopManager.pfShopReleaseBed) {
-        let bx = ent.persistentData.getInt("pfShopBaseX") | 0
-        let by = ent.persistentData.getInt("pfShopBaseY") | 0
-        let bz = ent.persistentData.getInt("pfShopBaseZ") | 0
+    // 先释放并移除失效床位，再删除实体；店铺已经关门时失败也不阻止送客。
+    if (bedPos && global.pfShopManager) {
+        let base = pfGetCustomerShopBase(ent)
+        let bedKey = global.pfBedManager.pfBedKey(bedPos)
         try {
-            global.pfShopManager.pfShopReleaseBed(level, bx, by, bz,
-                global.pfBedManager.pfBedKey(bedPos), uuid)
+            if (global.pfShopManager.pfShopReleaseBed) {
+                global.pfShopManager.pfShopReleaseBed(level, base.x, base.y, base.z, bedKey, uuid)
+            }
+        } catch (e) {}
+        try {
+            if (global.pfShopManager.pfShopRemoveBedAt) {
+                global.pfShopManager.pfShopRemoveBedAt(level, base.x, base.y, base.z, bedKey)
+            }
         } catch (e) {}
     }
 

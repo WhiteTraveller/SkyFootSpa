@@ -87,6 +87,15 @@ StartupEvents.registry("item", function(event) {
         .barWidth(fasciaGunBarWidth)
         .barColor(fasciaGunBarColor)
 
+    // ==================== 四合一电力筋膜枪 ====================
+    event.create('marguerite:fascia_gun_universal')
+        .displayName('§b§l筋膜枪·四合一')
+        .maxStackSize(1)
+        .attachCapability(buildFasciaGunCapability())
+        .barWidth(fasciaGunBarWidth)
+        .barColor(fasciaGunBarColor)
+        .texture('marguerite:item/fascia_gun')
+
     // ==================== 四个筋膜枪头 ====================
     for (var i = 0; i < FASCIA_PARTS.length; i++) {
         var part = FASCIA_PARTS[i]
@@ -106,6 +115,14 @@ StartupEvents.registry("item", function(event) {
             .attachCapability(buildFasciaGunCapability())
             .barWidth(fasciaGunBarWidth)
             .barColor(fasciaGunBarColor)
+
+        event.create('marguerite:fascia_gun_' + part + '_advanced')
+            .displayName('§d§l筋膜枪(' + partName + '·强化版)')
+            .maxStackSize(1)
+            .attachCapability(buildFasciaGunCapability())
+            .barWidth(fasciaGunBarWidth)
+            .barColor(fasciaGunBarColor)
+            .texture('marguerite:item/fascia_gun_' + part)
     }
 })
 
@@ -124,6 +141,14 @@ global.FASCIA_GUN_DEMAND_KEY_TO_ITEM = {
     'pfDemandJiaogen': 'marguerite:fascia_gun_jiaogen'
 }
 
+// 需求键 → 对应部位强化版筋膜枪
+global.FASCIA_GUN_ADVANCED_DEMAND_KEY_TO_ITEM = {
+    'pfDemandJiaozhi': 'marguerite:fascia_gun_jiaozhi_advanced',
+    'pfDemandJiaozhang': 'marguerite:fascia_gun_jiaozhang_advanced',
+    'pfDemandJiaoxin': 'marguerite:fascia_gun_jiaoxin_advanced',
+    'pfDemandJiaogen': 'marguerite:fascia_gun_jiaogen_advanced'
+}
+
 // 有头筋膜枪 → 对应头物品ID (拆卸用)
 global.FASCIA_GUN_HEAD_MAP = {
     'marguerite:fascia_gun_jiaozhi': 'marguerite:fascia_gun_head_jiaozhi',
@@ -140,4 +165,4 @@ global.FASCIA_GUN_HEAD_REVERSE_MAP = {
     'marguerite:fascia_gun_head_jiaogen': 'marguerite:fascia_gun_jiaogen'
 }
 
-console.log('[FASCIA-GUN] ✅ 9个筋膜枪物品已注册')
+console.log('[FASCIA-GUN] ✅ 旧款、四合一和四种强化专用枪已注册')

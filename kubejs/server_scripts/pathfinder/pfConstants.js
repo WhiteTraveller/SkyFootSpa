@@ -34,7 +34,11 @@ let WOOL_TO_DEMAND = {
     'marguerite:fascia_gun_jiaozhang': 'pfDemandJiaozhang', // 筋膜枪(脚掌)
     'marguerite:fascia_gun_jiaogen': 'pfDemandJiaogen',     // 筋膜枪(脚跟)
     'marguerite:fascia_gun_jiaozhi': 'pfDemandJiaozhi',     // 筋膜枪(脚趾)
-    'marguerite:fascia_gun_jiaoxin': 'pfDemandJiaoxin'      // 筋膜枪(脚心)
+    'marguerite:fascia_gun_jiaoxin': 'pfDemandJiaoxin',     // 筋膜枪(脚心)
+    'marguerite:fascia_gun_jiaozhang_advanced': 'pfDemandJiaozhang', // 强化筋膜枪(脚掌)
+    'marguerite:fascia_gun_jiaogen_advanced': 'pfDemandJiaogen',     // 强化筋膜枪(脚跟)
+    'marguerite:fascia_gun_jiaozhi_advanced': 'pfDemandJiaozhi',     // 强化筋膜枪(脚趾)
+    'marguerite:fascia_gun_jiaoxin_advanced': 'pfDemandJiaoxin'      // 强化筋膜枪(脚心)
 }
 
 // 需求键值与后缀映射（4部位）
