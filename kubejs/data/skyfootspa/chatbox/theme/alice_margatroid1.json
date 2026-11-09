@@ -266,6 +266,139 @@
         }
       ]
     },
+    "alice_grin_angry": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/special/anger.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_close_eyes_sweat": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/special/sweat.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "alice_close_eyes_angry": {
+      "x": -7.943125,
+      "y": 33.26,
+      "width": 75.52,
+      "height": 75.52,
+      "scale": 2,
+      "alignX": "left",
+      "alignY": "bottom",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -10,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/alice/illust.png",
+      "attachment": [
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eyebow/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/eye/smile.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/mouth/default.png",
+          "width": 75.52,
+          "height": 75.52
+        },
+        {
+          "type": "texture",
+          "value": "skyfootspa:textures/portrait/alice/special/anger.png",
+          "width": 75.52,
+          "height": 75.52
+        }
+      ]
+    },
+    "speed_lines": {
+      "x": 50,
+      "y": 50,
+      "width": 200,
+      "height": 200,
+      "alignX": "center",
+      "alignY": "center",
+      "widthReference": "screen_height",
+      "heightReference": "screen_height",
+      "renderOrder": -100,
+      "type": "texture",
+      "texture": "skyfootspa:textures/portrait/speed_lines.png"
+    },
     "sh1": {
       "x": -3,
       "y": -2,
@@ -741,6 +874,126 @@
       },
       {
         "time": 240
+      }
+    ],
+    "HOP": [
+      {
+        "time": 5,
+        "yOffset": -3,
+        "easing": "EASE_OUT_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": 0,
+        "easing": "EASE_IN_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": -3,
+        "easing": "EASE_OUT_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": 0,
+        "easing": "EASE_IN_QUAD"
+      }
+    ],
+    "SQUAT": [
+      {
+        "time": 18,
+        "yOffset": 9,
+        "easing": "EASE_IN_OUT_SINE"
+      },
+      {
+        "time": 18,
+        "yOffset": 0,
+        "easing": "EASE_IN_OUT_SINE"
+      }
+    ],
+    "LOOK_AROUND": [
+      {
+        "time": 9,
+        "angle": -7,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 0,
+        "easing": "EASE_IN_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 7,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 0,
+        "easing": "EASE_IN_SINE"
+      }
+    ],
+    "LOOK_AROUND_HOP": [
+      {
+        "time": 9,
+        "angle": -7,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 0,
+        "easing": "EASE_IN_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 7,
+        "easing": "EASE_OUT_SINE"
+      },
+      {
+        "time": 9,
+        "angle": 0,
+        "easing": "EASE_IN_SINE"
+      },
+      {
+        "time": 5,
+        "yOffset": -3,
+        "easing": "EASE_OUT_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": 0,
+        "easing": "EASE_IN_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": -3,
+        "easing": "EASE_OUT_QUAD"
+      },
+      {
+        "time": 5,
+        "yOffset": 0,
+        "easing": "EASE_IN_QUAD"
+      }
+    ],
+    "LINES_SHAKE": [
+      {
+        "time": 4,
+        "xOffset": 1.6,
+        "easing": "EASE_IN_OUT_SINE"
+      },
+      {
+        "time": 4,
+        "xOffset": -1.6,
+        "easing": "EASE_IN_OUT_SINE"
+      },
+      {
+        "time": 4,
+        "xOffset": 1.6,
+        "easing": "EASE_IN_OUT_SINE"
+      },
+      {
+        "time": 4,
+        "xOffset": 0,
+        "easing": "EASE_IN_OUT_SINE"
       }
     ]
   }

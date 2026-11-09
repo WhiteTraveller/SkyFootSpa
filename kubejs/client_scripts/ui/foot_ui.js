@@ -75,7 +75,9 @@ let HAND_TO_FLOAT_IMG = {
     'marguerite:fascia_gun_jiaoxin_advanced':   'hand_jiaoxin.png',
     'marguerite:fascia_gun_jiaogen_advanced':   'hand_jiaogen.png',
     'marguerite:fascia_gun_jiaozhi_advanced':   'hand_jiaozhi.png',
-    'marguerite:fascia_gun_universal': 'fascia_gun.png'
+    'marguerite:fascia_gun_universal': 'fascia_gun.png',
+    // 羽毛 = 送客：服务端 foot_click_demand 特判，起床离开、不结算不发奖励
+    'minecraft:feather': 'feather.png'
 }
 
 // 拖动距离阈值（像素）：累计路程 >= 此值视为一次有效搓脚
@@ -149,14 +151,13 @@ function createSleepWindow(entity) {
 
     // 计算脚的位置
     let footPos = pfGetFootPosition(bedX, bedY, bedZ, bedYaw)
-    // 读取当前倒计时、需求清单、满意度和步骤
+    // 读取当前倒计时、需求清单和满意度
     let countdown = getCountdown(entity)
     entityCountdowns.set(uuid, countdown)
     console.log("[FOOT-UI-DATA] 创建窗口 - entity uuid=" + uuid)
     let demandList = getDemandList(entity)
     let satisfaction = getSatisfaction(entity)
-    let steps = getSteps(entity)
-    console.log("[FOOT-UI-DATA] 最终需求清单: " + JSON.stringify(demandList) + ", 满意度=" + satisfaction + "%, 步骤=" + steps)
+    console.log("[FOOT-UI-DATA] 最终需求清单: " + JSON.stringify(demandList) + ", 满意度=" + satisfaction + "%")
 
     // 注意：路径是相对于 apricity/ 目录的 footui
     let window = ApricityUI.createWorldWindow(
@@ -270,28 +271,25 @@ function createSleepWindow(entity) {
         })
     }
 
-    // 送客按钮：点击后顾客直接起床（服务端跳过结算分支）
-    let dismissBtn = window.document.getElementById("dismissBtn")
-    if (dismissBtn != null) {
-        dismissBtn.addEventListener("mousedown", function(event) {
-            if (!entity || !entity.isAlive()) {
-                console.log("[FOOT-UI] 送客：实体不存在或死亡")
-                return
-            }
-            console.log("[FOOT-UI] 点击送客按钮 uuid=" + uuid)
+    // 奉茶按钮：消耗手持已登记的茶水，效果与稀客召唤由服务端 foot_serve_food 判定
+    let serveFoodBtn = window.document.getElementById("serveFoodBtn")
+    if (serveFoodBtn != null) {
+        serveFoodBtn.addEventListener("mousedown", function(event) {
+            if (!entity || !entity.isAlive()) return
             let player = Minecraft.getInstance().player
             if (player != null) {
-                player.sendData('foot_dismiss_customer', { entityUuid: uuid })
+                player.sendData('foot_serve_food', { entityUuid: uuid })
             }
         })
     }
 
-    // 设置初始倒计时、需求清单、满意度和步骤显示
+    // 设置初始倒计时、需求清单和满意度显示
     updateCountdownDisplay(window, countdown)
     updateDemandListDisplay(window, demandList)
     updateSatisfactionDisplay(window, satisfaction)
-    updateStepsDisplay(window, steps)
     updateOilDisplay(window, getOilInfo(entity))
+    delete serveFoodHidden[uuid]
+    updateServeFoodBtn(window, uuid, isFoodServed(entity))
 
     console.log("[FOOT-UI] 创建UI窗口 uuid=" + uuid + " countdown=" + countdown)
     return window
@@ -312,6 +310,7 @@ function removeSleepWindow(uuid, onRemoved) {
     trackedEntities.delete(uuid)
     entityCountdowns.delete(uuid)
     entitySoakState.delete(uuid)
+    delete serveFoodHidden[uuid]
 }
 
 /**
@@ -432,34 +431,36 @@ function updateSoakCountdownDisplay(window, timeLeft, isSoaking) {
         return
     }
     try {
-        let titleEl = window.document.getElementById("mainTitle")
-        let tipsEl = window.document.getElementById("tipsText")
+        let bucketEl = window.document.getElementById("bucketImg")
+        let text1El = window.document.getElementById("soakText1")
+        let text2El = window.document.getElementById("soakText2")
         let wrapperEl = window.document.getElementById("progressWrapper")
         let fillEl = window.document.getElementById("progressFill")
-        let textEl = window.document.getElementById("progressText")
+        let progressTextEl = window.document.getElementById("progressText")
 
         if (isSoaking) {
-            // 泡脚中：标题切换、tips清空、进度条显示
-            setTextIfChanged(titleEl, "innerText", "开始泡脚")
-            setTextIfChanged(tipsEl, "innerText", "")
+            // 泡脚中：切换水桶贴图、文本改为泡脚中、进度条显示
+            // 文本统一走 textContent：AUI 下 innerText 赋值不生效
+            setAttributeIfChanged(bucketEl, "src", "bucket_water.png")
+            setTextIfChanged(text1El, "textContent", "泡脚中")
+            setTextIfChanged(text2El, "textContent", "")
             setAttributeIfChanged(wrapperEl, "style", "opacity: 1")
 
-            // 进度条填充百分比（基于 10 秒总时长），颜色固定白色
+            // 进度条填充百分比（基于 10 秒总时长）
             let percent = Math.max(0, Math.min(100, (timeLeft / 10) * 100))
             if (fillEl != null) {
                 setAttributeIfChanged(fillEl, "style", "width: " + percent + "%")
             }
-            if (textEl != null) {
-                setTextIfChanged(textEl, "innerText", Math.max(0, Math.ceil(timeLeft)) + "s")
+            if (progressTextEl != null) {
+                setTextIfChanged(progressTextEl, "textContent", Math.max(0, Math.ceil(timeLeft)) + "s")
             }
-
-            console.log("[FOOT-UI] 泡脚UI更新 title=" + (titleEl != null) + " tips=" + (tipsEl != null) + " wrapper=" + (wrapperEl != null) + " fill=" + (fillEl != null) + " text=" + (textEl != null) + " percent=" + percent)
         } else {
-            // 未泡脚：只显示水桶贴图，右键水桶区域后再显示进度。
-            setTextIfChanged(titleEl, "innerText", "")
-            setTextIfChanged(tipsEl, "innerText", "")
+            // 未泡脚：空桶贴图 + 两行引导文本，右键桶区域后再显示进度
+            setAttributeIfChanged(bucketEl, "src", "bucket_empty.png")
+            setTextIfChanged(text1El, "textContent", "在工作盆内放入泡脚水")
+            setTextIfChanged(text2El, "textContent", "进行泡脚")
             setAttributeIfChanged(wrapperEl, "style", "opacity: 0")
-            setTextIfChanged(textEl, "innerText", "")
+            setTextIfChanged(progressTextEl, "textContent", "")
             setAttributeIfChanged(fillEl, "style", "width: 0%")
         }
     } catch (e) {
@@ -630,57 +631,6 @@ function getSatisfaction(entity, mainHand) {
     return 0
 }
 
-// 整数代码到中文名称映射ﾈ4部位）
-let STEP_CODE_TO_NAME = {
-    1: '脚掌',
-    2: '脚后跟',
-    3: '脚趾',
-    4: '脚心'
-}
-
-/**
- * 从手持物品读取步骤记录（字符串格式：逗号分隔的整数）
- * 返回解码后的步骤字符串，如果没有则返回空字符串
- */
-function getSteps(entity, mainHand) {
-    if (entity == null) {
-        return ""
-    }
-    if (mainHand === undefined) mainHand = entity.getMainHandItem()
-    if (mainHand && mainHand.id === SYNC_ITEM_ID) {
-        let stepsStr = mainHand.nbt.pfSteps
-        if (stepsStr && stepsStr.length > 0) {
-            // 解码字符串为中文
-            return decodeStepsString(stepsStr)
-        }
-    }
-    return ""
-}
-
-/**
- * 解码步骤字符串为中文显示
- * 输入："1,2,5"
- * 输出："脚背 → 脚掌 → 脚心"
- */
-function decodeStepsString(stepsStr) {
-    if (!stepsStr || stepsStr.length === 0) {
-        return ""
-    }
-
-    let codes = stepsStr.split(",")
-    let names = []
-
-    for (let i = 0; i < codes.length; i++) {
-        let code = parseInt(codes[i].trim(), 10)
-        let name = STEP_CODE_TO_NAME[code]
-        if (name) {
-            names.push(name)
-        }
-    }
-
-    return names.join(" → ")
-}
-
 /**
  * 更新窗口中的需求清单显示
  */
@@ -772,26 +722,20 @@ function updateSatisfactionDisplay(window, satisfaction) {
     }
 }
 
-/**
- * 更新步骤显示
- */
-function updateStepsDisplay(window, steps) {
-    if (window == null || window.document == null) {
-        return
-    }
-    try {
-        console.log("[FOOT-UI] 更新步骤 +" + steps)
-        let stepsElement = window.document.getElementById("stepsText")
-        if (stepsElement != null) {
-            if (steps && steps.length > 0) {
-                setTextIfChanged(stepsElement, "innerText", steps)
-            } else {
-                setTextIfChanged(stepsElement, "innerText", "")
-            }
-        }
-    } catch (e) {
-        console.log("[FOOT-UI] 更新步骤显示失败: " + e)
-    }
+// 每位顾客只能招待一次茶水，服务端写入 pfFoodServed=1 后隐藏按钮
+let serveFoodHidden = {}
+
+function isFoodServed(entity, mainHand) {
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    return !!(mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt && mainHand.nbt.getInt('pfFoodServed') === 1)
+}
+
+function updateServeFoodBtn(window, uuid, served) {
+    if (!served || serveFoodHidden[uuid] || window == null || window.document == null) return
+    let btn = window.document.getElementById("serveFoodBtn")
+    if (btn == null) return
+    btn.setAttribute("style", "display: none;")
+    serveFoodHidden[uuid] = true
 }
 
 function getOilInfo(entity, mainHand) {
@@ -948,11 +892,8 @@ ClientEvents.tick(event => {
                     let satisfaction = getSatisfaction(entity, mainHand)
                     updateSatisfactionDisplay(window, satisfaction)
 
-                    // 更新步骤显示
-                    let steps = getSteps(entity, mainHand)
-                    updateStepsDisplay(window, steps)
-
                     updateOilDisplay(window, getOilInfo(entity, mainHand))
+                    updateServeFoodBtn(window, uuid, isFoodServed(entity, mainHand))
                 }
             }
         } else {
@@ -1064,6 +1005,7 @@ NetworkEvents.dataReceived('pf_serve_success', event => {
                 '脚心': data.getInt('demandJiaoxin')
             })
             updateSatisfactionDisplay(window, data.getInt('satisfaction'))
+            updateServeFoodBtn(window, entityUuid, data.getInt('foodServed') === 1)
         }
         console.log("[FOOT-UI] pf_serve_success uuid=" + entityUuid + " part=" + part)
     } catch (e) { console.log("[FOOT-UI] pf_serve_success 处理失败: " + e) }

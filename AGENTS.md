@@ -28,15 +28,15 @@ Remove-Item "C:\path\to\file.txt"
 
 - `kubejs/startup_scripts`：注册物品、方块、流体、属性、遗物、油、Boss、泡脚水等启动期内容。
 - `kubejs/server_scripts`：服务端玩法逻辑、网络事件、配方、Pathfinder 主流程、体力、手机、抽卡、音效等。
-- `kubejs/client_scripts`：客户端 UI、tooltip、AuraTip 卡片注册、HUD 和网络同步显示。
+- `kubejs/client_scripts`：客户端 UI、tooltip、HUD 和网络同步显示。
 - `kubejs/assets`、`kubejs/data`：资源、语言、模型、贴图、结构、tag、数据包内容。
-- `components`：模块级说明文档。AuraTip 详见 `components/auratip.md`，ApricityUI/KubeJS UI 适配详见 `components/apricityui-ui.md`。
+- `components`：模块级说明文档。ApricityUI/KubeJS UI 适配详见 `components/apricityui-ui.md`。
 
 ## 模块划分
 
 ### Pathfinder 服务流程
 
-功能：开店、扫描地毯路径、生成顾客、排队移动、蓝色地毯等待、躺床、泡脚、搓脚、结算、Boss 和预约凭证。
+功能：开店、扫描地毯路径、生成顾客、排队移动、蓝色地毯等待、躺床、泡脚、搓脚、结算、羽毛送客、Boss 和预约凭证。
 
 主要入口：
 
@@ -46,23 +46,9 @@ Remove-Item "C:\path\to\file.txt"
 - `kubejs/server_scripts/pathfinder/pfBlockHandler.js`
 - `kubejs/server_scripts/pathfinder/pfNetworkHandler.js`
 
-能力边界：Pathfinder 负责业务流程和实体状态，不负责 AuraTip 卡片样式，不负责普通物品 tooltip 展示。
+能力边界：Pathfinder 负责业务流程和实体状态，不负责普通物品 tooltip 展示。
 
-简单调用：方块实体 tick 入口是 `global.pathfinderTick(entity)`；开店由右键 `kubejs:pathfinder_block` 触发；客户端 UI 通过 `NetworkEvents.dataReceived` 对应的服务端处理器提交泡脚、搓脚、送客请求。
-
-### AuraTip
-
-功能：Pathfinder 教学提示状态机和右上角教学卡片展示。
-
-主要入口：
-
-- `kubejs/client_scripts/auratip/auratip_tips.js`
-- `kubejs/server_scripts/auratip_triggers.js`
-- `components/auratip.md`
-
-能力边界：只负责提示注册、展示、关闭和阶段推进，不负责 Pathfinder 成功条件和结算。
-
-简单调用：游戏内使用 `/auratip openshop`、`/auratip reset`、`/auratip debug show <tip_id>`；代码侧使用 `global.aTip.startOpenShop(player)`、`global.aTip.advance(...)`、`global.aTip.closeThenShow(...)`。
+简单调用：方块实体 tick 入口是 `global.pathfinderTick(entity)`；开店由右键 `kubejs:pathfinder_block` 触发；客户端 UI 通过 `NetworkEvents.dataReceived` 对应的服务端处理器提交泡脚、搓脚、奉茶请求。手持羽毛在脚图片上拖动同样发送 `foot_click_demand`，服务端特判后直接调 `pfSleepManager.pfWakeUp` 送客（不结算、不发奖励，仅对 phase=3 躺床顾客生效）。
 
 ### ApricityUI / KubeJS UI
 
@@ -94,6 +80,7 @@ Remove-Item "C:\path\to\file.txt"
 - `kubejs/client_scripts/tooltip/soakWaterTooltip.js`
 - `kubejs/client_scripts/tooltip/relicTooltip.js`
 - `kubejs/client_scripts/tooltip/oilTooltip.js`
+- `kubejs/client_scripts/tooltip/foodTooltip.js`
 - `kubejs/startup_scripts/tooltip.js`
 
 能力边界：tooltip 只负责展示物品说明，不负责修改物品属性、消耗物品或推进服务流程。
@@ -130,6 +117,21 @@ Remove-Item "C:\path\to\file.txt"
 
 简单调用：新增油通过 `global.oilRegister.register(oil => { ... })`；服务点击扩展通过 `global.registerServeClickHook(hookFn)`。
 
+### Food
+
+功能：为已有 mod 食物登记效果：增加指定/随机部位需求、增加满意度、召唤稀客。第一章只登记了「妖怪们的归家」的 13 种茶。
+
+主要入口：
+
+- `kubejs/startup_scripts/food/foodRegister.js`
+- `kubejs/startup_scripts/food/teaFoods.js`
+- `kubejs/server_scripts/pathfinder/pfNetworkHandler.js`（`foot_serve_food`）
+- `kubejs/client_scripts/tooltip/foodTooltip.js`（按登记数据给食物追加奉茶效果 tooltip）
+
+能力边界：只收集定义，不注册物品；效果由需求清单正下方的「茶水」按钮（`apricity/kubejs/footui.html` 的 `#serveFoodBtn`）发出 `foot_serve_food`，服务端消耗手持食物（返还容器）、改顾客需求/满意度，再用 `global.pfShopManager.pfShopSpawnRare` 召唤稀客。同一稀客已在本店路径上（`pfShopHasRareOnRoute`）时不重复召唤，茶照常消耗、效果照常生效。每位顾客只能招待一次：成功后服务端在顾客同步物品 NBT 写入 `pfFoodServed=1` 并拒绝再次招待，客户端据此（`pf_serve_success` 的 `foodServed` 或 tick 读 NBT）隐藏按钮。
+
+简单调用：`global.foodRegister.register(food => food.setItem(itemId).setName(name).setDemands({ jiaozhang: 1 }).setRandomDemand(n).setSatisfaction(n).setRareGuests([rareId]).setRareGuestNames([稀客名]).setContainer(itemId))`；查询用 `global.foodRegister.getFood(itemId)`。`setRareGuestNames` 只供客户端 tooltip 显示（稀客名在 server_scripts，客户端读不到），需与 `setRareGuests` 一一对应。稀客 id 取自 `pfCustomerTypes.js` 的 `PF_RARE_BY_DIMENSION`，服务端只取当前维度池中存在的那个。
+
 ### Soak Water / Fluids
 
 功能：泡脚水定义、流体和桶注册、桶 tooltip、泡脚效果应用。
@@ -143,7 +145,7 @@ Remove-Item "C:\path\to\file.txt"
 - `kubejs/server_scripts/pathfinder/pfSoakManager.js`
 - `kubejs/server_scripts/pathfinder/pfSoakWaterEffects.js`
 
-能力边界：泡脚水模块负责水种类和效果，不负责 AuraTip 流程文案和 Pathfinder 路径扫描。
+能力边界：泡脚水模块负责水种类和效果，不负责 Pathfinder 路径扫描。
 
 简单调用：新增泡脚水通过 `global.soakWaterRegister.register(w => { ... })`；泡脚按钮服务端入口是 `foot_click_soak` 网络事件。
 
@@ -217,7 +219,6 @@ Remove-Item "C:\path\to\file.txt"
 - Startup 注册：启动游戏或重载 KubeJS 后看启动日志，确认没有 registry 报错。
 - Server 逻辑：触发对应方块、物品、命令或网络事件，观察聊天提示和 `logs` 中对应前缀。
 - Client tooltip/UI：进游戏查看物品悬浮提示或 UI，确认没有遮挡、空白和脚本类型错误。
-- AuraTip：测试 `/auratip openshop`、`/auratip reset`、`/auratip debug show pathfinder_open_shop_tip`，再跑一次开店到泡脚/搓脚流程。
-- Pathfinder：至少验证白天开店、夜晚拦截、预约凭证、泡脚、搓脚、顾客结束或送客中的相关路径。
+- Pathfinder：至少验证白天开店、夜晚拦截、预约凭证、泡脚、搓脚、顾客结束中的相关路径。
 
 文档-only 变更不要求启动游戏，但必须完成只读内容检查。

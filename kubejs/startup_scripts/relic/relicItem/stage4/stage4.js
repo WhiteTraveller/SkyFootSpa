@@ -4,13 +4,13 @@ global.relicRegister.currentStage = 4
 
 // ===== 普通 ⚪ ×3 =====
 
-// 40. 罗盘 - 金属/人工制品 - 脚后跟+4💰，脚趾+4💰；中心2×3内有遗物时全部位+2💰
+// 40. 罗盘 - 金属/人工制品 - 揉+4💰，按+4💰；中心2×3内有遗物时全部手法+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("compass")
     .setTexture("compass.png")
         .setNameZH("罗盘")
-        .setDescription(Text.gray("脚后跟/脚趾金钱").append(Text.green("+4")))
-        .setSpecialDescription(Text.gray("中心2×3内有遗物时，全部位金钱").append(Text.green("+2")))
+        .setDescription(Text.gray("揉/按金钱").append(Text.green("+4")))
+        .setSpecialDescription(Text.gray("中心2×3内有遗物时，全部手法金钱").append(Text.green("+2")))
         .setStory("一枚指向幻想乡中心的罗盘，中央有力量时指针疯转。")
         .setTags([global.margueriteTags.metal, global.margueriteTags.artifact])
         .setGuideTexture([
@@ -35,12 +35,12 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 41. 死蝶标本 - 人工制品 - 脚心+7💰，全部位-5%满意度；底部2行每有1遗物，惩罚-1%
+// 41. 死蝶标本 - 人工制品 - 搓+7💰，全部手法-5%满意度；底部2行每有1遗物，惩罚-1%
 global.relicRegister.register(function(relic) {
     relic.setName("dead_butterfly")
     .setTexture("dead_butterfly.png")
         .setNameZH("死蝶标本")
-        .setDescription(Text.gray("脚心金钱").append(Text.green("+7")).append(Text.gray(" 全部位满意度")).append(Text.red("-5%")))
+        .setDescription(Text.gray("搓金钱").append(Text.green("+7")).append(Text.gray(" 全部手法满意度")).append(Text.red("-5%")))
         .setSpecialDescription(Text.gray("底部2行每有1个遗物，满意度惩罚").append(Text.green("-1%")))
         .setStory("冥界飞来的蝴蝶标本，底部的同伴越多越能安抚亡灵。")
         .setTags([global.margueriteTags.artifact])
@@ -64,12 +64,12 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 42. 宝塔 - 金属/魔法 - 脚心+5💰，脚趾+5💰，全部位-6%满意度；九宫格有"魔法"遗物时惩罚-3%
+// 42. 宝塔 - 金属/魔法 - 搓+5💰，按+5💰，全部手法-6%满意度；九宫格有"魔法"遗物时惩罚-3%
 global.relicRegister.register(function(relic) {
     relic.setName("pagoda")
     .setTexture("pagoda.png")
         .setNameZH("宝塔")
-        .setDescription(Text.gray("脚心/脚趾金钱").append(Text.green("+5")).append(Text.gray(" 全部位满意度")).append(Text.red("-6%")))
+        .setDescription(Text.gray("搓/按金钱").append(Text.green("+5")).append(Text.gray(" 全部手法满意度")).append(Text.red("-6%")))
         .setSpecialDescription(Text.gray("九宫格有").append(Text.yellow("魔法")).append(Text.gray("遗物时，惩罚")).append(Text.green("-3%")))
         .setStory("毗沙门天的宝塔，周围有魔法之物时佛光普照。")
         .setTags([global.margueriteTags.metal, global.margueriteTags.magic])
@@ -96,13 +96,13 @@ global.relicRegister.register(function(relic) {
 
 // ===== 高级 🔵 ×4 =====
 
-// 43. 锡杖 - 金属/魔法 - 全部位+3💰；中心2×3每有1"魔法"遗物，全部位+1💰
+// 43. 锡杖 - 金属/魔法 - 全部手法+3💰；中心2×3每有1"魔法"遗物，全部手法+1💰
 global.relicRegister.register(function(relic) {
     relic.setName("tin_staff")
     .setTexture("tin_staff.png")
         .setNameZH("锡杖")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+3")))
-        .setSpecialDescription(Text.gray("中心2×3每有1个").append(Text.yellow("魔法")).append(Text.gray("遗物，全部位金钱")).append(Text.green("+1")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+3")))
+        .setSpecialDescription(Text.gray("中心2×3每有1个").append(Text.yellow("魔法")).append(Text.gray("遗物，全部手法金钱")).append(Text.green("+1")))
         .setStory("圣白莲的锡杖，中央的魔法之力越浓越能共鸣。")
         .setTags([global.margueriteTags.metal, global.margueriteTags.magic])
         .setGuideTexture([
@@ -126,13 +126,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 44. 写真集 - 书 - 脚趾+5💰；对角线每有1遗物，脚趾+2💰
+// 44. 写真集 - 书 - 按+5💰；对角线每有1遗物，按+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("photo_album")
     .setTexture("photo_album.png")
         .setNameZH("写真集")
-        .setDescription(Text.gray("脚趾金钱").append(Text.green("+5")))
-        .setSpecialDescription(Text.gray("对角线方向每有1个遗物，脚趾金钱").append(Text.green("+2")))
+        .setDescription(Text.gray("按金钱").append(Text.green("+5")))
+        .setSpecialDescription(Text.gray("对角线方向每有1个遗物，按金钱").append(Text.green("+2")))
         .setStory("射命丸文的写真集，对角线上的素材越多越精彩。")
         .setTags([global.margueriteTags.book])
         .setGuideTexture([
@@ -153,12 +153,12 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 45. 境界线 - 魔法 - 脚心+4💰，脚背-4💰；对角线每有1遗物，脚背+2💰
+// 45. 境界线 - 魔法 - 搓+4💰，脚背-4💰；对角线每有1遗物，脚背+2💰
 global.relicRegister.register(function(relic) {
     relic.setName("boundary_line")
     .setTexture("boundary_line.png")
         .setNameZH("境界线")
-        .setDescription(Text.gray("脚心金钱").append(Text.green("+4")).append(Text.gray(" 脚背金钱")).append(Text.red("-4")))
+        .setDescription(Text.gray("搓金钱").append(Text.green("+4")).append(Text.gray(" 脚背金钱")).append(Text.red("-4")))
         .setSpecialDescription(Text.gray("对角线方向每有1个遗物，脚背金钱").append(Text.green("+2")))
         .setStory("八云紫的境界线，对角线上的存在越多，裂缝越大。")
         .setTags([global.margueriteTags.magic])
@@ -181,13 +181,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 46. 式神札 - 魔法/书 - 脚背+4💰，脚掌+4💰；同行遗物标签全不相同时全部位+3💰
+// 46. 式神札 - 魔法/书 - 脚背+4💰，推+4💰；同行遗物标签全不相同时全部手法+3💰
 global.relicRegister.register(function(relic) {
     relic.setName("shikigami_tag")
     .setTexture("shikigami_tag.png")
         .setNameZH("式神札")
-        .setDescription(Text.gray("脚背/脚掌金钱").append(Text.green("+4")))
-        .setSpecialDescription(Text.gray("同行遗物标签全不相同时，全部位金钱").append(Text.green("+3")))
+        .setDescription(Text.gray("脚背/推金钱").append(Text.green("+4")))
+        .setSpecialDescription(Text.gray("同行遗物标签全不相同时，全部手法金钱").append(Text.green("+3")))
         .setStory("八云蓝的式神札，同行的多样性越强它越活跃。")
         .setTags([global.margueriteTags.magic, global.margueriteTags.book])
         .setGuideTexture([
@@ -234,12 +234,12 @@ global.relicRegister.register(function(relic) {
 
 // ===== 稀有 🟣 ×4 =====
 
-// 47. 逆十字 - 金属 - 全部位满意度效果反转（正变负、负变正）
+// 47. 逆十字 - 金属 - 全部手法满意度效果反转（正变负、负变正）
 global.relicRegister.register(function(relic) {
     relic.setName("inverted_cross")
     .setTexture("inverted_cross.png")
         .setNameZH("逆十字")
-        .setDescription(Text.gray("全部位满意度效果").append(Text.lightPurple("反转")))
+        .setDescription(Text.gray("全部手法满意度效果").append(Text.lightPurple("反转")))
         .setSpecialDescription(Text.gray("满意度正效果变负，负效果变正"))
         .setStory("一个倒置的十字架，颠覆了满意度的一切规则。")
         .setTags([global.margueriteTags.metal])
@@ -259,13 +259,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 48. 万宝槌 - 木制/魔法 - 脚背+6💰，脚心+6💰，脚掌-5💰；同行有"木制"遗物时脚掌惩罚消失
+// 48. 万宝槌 - 木制/魔法 - 脚背+6💰，搓+6💰，推-5💰；同行有"木制"遗物时推惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("miracle_mallet")
     .setTexture("miracle_mallet.png")
         .setNameZH("万宝槌")
-        .setDescription(Text.gray("脚背/脚心金钱").append(Text.green("+6")).append(Text.gray(" 脚掌金钱")).append(Text.red("-5")))
-        .setSpecialDescription(Text.gray("同行有").append(Text.yellow("木制")).append(Text.gray("遗物时，脚掌惩罚消失")))
+        .setDescription(Text.gray("脚背/搓金钱").append(Text.green("+6")).append(Text.gray(" 推金钱")).append(Text.red("-5")))
+        .setSpecialDescription(Text.gray("同行有").append(Text.yellow("木制")).append(Text.gray("遗物时，推惩罚消失")))
         .setStory("少名针妙丸的万宝槌，同行的木制伙伴能稳住它的力量。")
         .setTags([global.margueriteTags.wooden, global.margueriteTags.magic])
         .setGuideTexture([
@@ -290,13 +290,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 49. 秘术书 - 书/魔法 - 全部位+2💰；背包遗物标签种类≥4时全部位+3💰
+// 49. 秘术书 - 书/魔法 - 全部手法+2💰；背包遗物标签种类≥4时全部手法+3💰
 global.relicRegister.register(function(relic) {
     relic.setName("arcane_book")
     .setTexture("arcane_book.png")
         .setNameZH("秘术书")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+2")))
-        .setSpecialDescription(Text.gray("背包遗物标签种类≥4时，全部位金钱").append(Text.green("+3")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+2")))
+        .setSpecialDescription(Text.gray("背包遗物标签种类≥4时，全部手法金钱").append(Text.green("+3")))
         .setStory("记载着秘术的古书，背包中的多样性激活了它的知识。")
         .setTags([global.margueriteTags.book, global.margueriteTags.magic])
         .setGuideTexture([
@@ -319,13 +319,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 50. 望远镜 - 人工制品 - 全部位+3💰；中心2×3内遗物数≤2时全部位+4💰
+// 50. 望远镜 - 人工制品 - 全部手法+3💰；中心2×3内遗物数≤2时全部手法+4💰
 global.relicRegister.register(function(relic) {
     relic.setName("telescope")
     .setTexture("telescope.png")
         .setNameZH("望远镜")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+3")))
-        .setSpecialDescription(Text.gray("中心2×3内遗物数≤2时，全部位金钱").append(Text.green("+4")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+3")))
+        .setSpecialDescription(Text.gray("中心2×3内遗物数≤2时，全部手法金钱").append(Text.green("+4")))
         .setStory("一架精密的望远镜，中央空旷时视野最为清晰。")
         .setTags([global.margueriteTags.artifact])
         .setGuideTexture([

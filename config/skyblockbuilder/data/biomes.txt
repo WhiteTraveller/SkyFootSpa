@@ -65,3 +65,8 @@ minecraft:windswept_gravelly_hills
 minecraft:windswept_hills
 minecraft:windswept_savanna
 minecraft:wooded_badlands
+terrablender:deferred_placeholder
+youkaishomecoming:animal_path
+youkaishomecoming:sakura_birch_forest
+youkaishomecoming:sakura_forest
+youkaishomecoming:sakura_taiga

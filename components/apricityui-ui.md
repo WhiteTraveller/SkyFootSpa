@@ -1,6 +1,6 @@
 # ApricityUI / KubeJS UI 适配记录
 
-本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前实际安装版本是 `ApricityUI-forge-1.20.1-1.2.5.3.jar`（本地构建版本；官方公开更新记录未标注 `.3` 补丁差异）。下方 1.2.2-hotfix1、1.2.4-hotfix 的兼容点为历史观察，升级后未逐一复验。已知 1.2.4-hotfix 自身 bug：每 tick 报 `NoSuchMethodException: CompoundTag.putString` 的 LocalStorage 持久化反射错误（不影响容器交互）。
+本项目的交互 UI 主要由 `kubejs/client_scripts/ui/*.js` 驱动，HTML/CSS 放在 `apricity/kubejs/*.html`。当前实际安装版本是 `[晴雪UI] ApricityUI-forge-1.20.1-1.2.7.jar`，已由 mods 文件与运行日志核对。此前使用 1.2.5.3 本地构建版本；下方 1.2.2-hotfix1、1.2.4-hotfix 的兼容点为历史观察，升级后未逐一复验。已知 1.2.4-hotfix 自身 bug：每 tick 报 `NoSuchMethodException: CompoundTag.putString` 的 LocalStorage 持久化反射错误（不影响容器交互）。
 
 ## 关键入口
 
@@ -11,8 +11,9 @@
 - 体力 HUD：`kubejs/client_scripts/ui/stamina_hud.js`、`apricity/kubejs/stamina_hud.html`
 - 体力服务端：`kubejs/server_scripts/stamina.js`
 - 开店方块配置容器 Screen：`apricity/kubejs/pathfinder_config.html`，服务端打开+绑定 `kubejs/server_scripts/pathfinder/pfBlockHandler.js`，关闭转发 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`，客户端关闭 `kubejs/client_scripts/ui/pathfinder_config_ui.js`
-- 稀客好感度列表 Screen：`apricity/kubejs/rare_affection.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/rare_affection_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_rare_affection_open` → `pf_rare_affection_data`），好感度/掉落逻辑 `kubejs/server_scripts/pathfinder/pfRareAffection.js`，配置在 `pfCustomerTypes.js`。数据流同 phone：服务端 `sendData` JSON → 客户端存 `global.pfRareAffectionView` → 页面脚本轮询读 `global` 渲染。列表/详情图标用 AUI `<item>` 扩展元素渲染真实手办物品 `touhou_little_maid:garage_kit{EntityInfo:{ModelId:"<模型后缀>"}}`：`<item>` 的文本内容即物品表达式，支持 `物品id{SNBT}`（AUI 内部用 `TagParser` 解析），可 `createElement('item')` 后设 `textContent` 动态生成；扩展元素无固有尺寸，必须显式给 CSS `width/height`。
-- 人物图鉴 Screen：`apricity/kubejs/character_gallery.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/character_gallery_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_character_gallery_open` → `pf_character_gallery_open_ui`）。静态数据内嵌页面脚本，6 位已确立绘角色（灵梦/爱丽丝/早苗/燐/勇仪/荷取）。左右布局：左侧 2×3 卡片网格用 `<texture src="RL">` 显示头像，点击切换右侧大幅立绘 + 种族/能力/初登场/简介。和风纸质配色与稀客页统一。
+- 稀客好感度列表 Screen：`apricity/kubejs/rare_affection.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/rare_affection_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_rare_affection_open` → `pf_rare_affection_data` + `pf_rare_affection_open_ui`，客户端收 open_ui 后直接 `screen()` 替换当前界面（**不要先 closeScreen()**：`setScreen(null)` 触发原版 grabMouse 把光标瞬移到屏幕中心；旧界面 `removed()` 会自动通知服务端关容器，图鉴页同口径），**出 UI 方式与人物图鉴统一为客户端 screen() 普通 Screen**，2026-10 起不再用服务端 menu 容器宿主），好感度/掉落逻辑 `kubejs/server_scripts/pathfinder/pfRareAffection.js`，配置在 `pfCustomerTypes.js`。**隐藏默认滚动条只能用 `#listBox::-webkit-scrollbar{display:none}`，禁用 `scrollbar-width:none`**——1.2.7 该属性使 ScrollModel.isScrollbarHidden 查 `scrollbarPseudoStyles` 表，元素无 ::-webkit-scrollbar 伪样式时表为 null，渲染线程 NPE 崩客户端（crash-2026-10-19_01.21.56 实锤）。数据流：服务端 `sendData` JSON → 客户端存 `global.pfRareAffectionView` → 页面脚本轮询读 `global` 渲染。2026-10 按 `稀客.html` 设计稿重做为图鉴同系视觉：gallery_paper 底 + 双页签（角色页签回 `pf_character_gallery_open`）+ 左栏卡片网格一行三个（flex wrap、167×282 卡框 `rare_card.png`——设计稿原图含占位灰色手办，已由 `local/clean-rare-card.cjs` 按“不透明像素中值卡面色+逐行回填”清除，备份 `rare_card_src.png`；手办 `<item>` scale15 + 姓名 18px + 小爱心 25×24（`rare_heart_s*`）、选中态叠橙色渐变层 `rare_sel.png`（设计稿 rgba(200,112,0) 0→42% 渐变的实图化）、容器 529×765 可滚动（529=3×167+2×12+4 余量，规避 AUI flex wrap 恰满换行临界 bug）；手办/掉落物品均无槽框底图，rare_row/rare_row_active 仅用于右栏报酬档条）+ 竖笔刷分隔 + 右栏详情（姓名/爱心/数值、种族/初登场/出现维度、简介、报酬四档条+物品+数量徽章，rare_row/rare_row_active 仅用于报酬档条）；布局沿用图鉴 layoutPage 等比换算与显式 z-index、resize 判空自摘。列表/详情图标仍用 AUI `<item>` 扩展元素渲染真实手办物品 `touhou_little_maid:garage_kit{EntityInfo:{ModelId:"<模型后缀>"}}`（textContent 即物品表达式，支持 `物品id{SNBT}`；扩展元素无固有尺寸，宽高与 transform:scale 由 layoutPage 写入）。行/档/掉落槽显隐与选中态存 state 数组由 layoutPage 统一写内联样式（避免 place 与状态互盖）；不用 firstChild/children（空白文本节点不可靠）。爱心素材 rare_heart.png（设计稿）/rare_heart_empty.png（灰度派生）。静态槽位预渲染 + getElementById 填充，不动态增删节点。页签层级按设计稿为纸面盖页签（`.tab` z0、`#paper` z1），非当前页签沉到纸底只露一截（图鉴页同）。动画：入场为整页从 -24px 下移落位（JS 逐帧 ~30fps、只写 stage top 单属性、一次性 220ms；opacity 淡入按需求弃用，AUI 忽略 transform 故不用 CSS 位移关键帧）；hover 上移 4px 即时落位；点击 +10→0 上移归位用 JS 逐帧但**每帧只写单个行元素 style、间隔 33ms**——早期实现每帧重写 stage top/opacity 与整行 8 个元素且 16ms 间隔，触发全页重排导致明显卡顿，已废弃。
+- 人物图鉴 Screen：`apricity/kubejs/character_gallery.html`（`mode=browser`+`intercept`），客户端 `kubejs/client_scripts/ui/character_gallery_ui.js`，服务端 `kubejs/server_scripts/pathfinder/pfConfigUiHandler.js`（事件 `pf_character_gallery_open` → `pf_character_gallery_open_ui`）。静态数据内嵌页面脚本，保留 6 位角色（灵梦/爱丽丝/早苗/燐/勇仪/荷取）与 15 条剧情。按 `角色.html` 设计稿改为顶部横向 `<texture src="RL">` 头像、左侧中英文姓名/种族/初登场/所属势力/能力、中央透明立绘、右侧简介与回想；点击立绘仍打开原 `*_card.png` 完整卡片，回想仍发送 `pf_gallery_play_dialogue`，稀客页签复用 `pf_rare_affection_open`。原稿纸纹及四角纹样合成为 `gallery_paper.png`，页签、笔刷、透明立绘均以本地 `gallery_*.png` 引用。`layoutPage()` 按 1920×1213 基准和逻辑视口等比换算坐标、字体、图片双维度，在 resize 时重新布局，不用 transform/grid/object-fit；大图遮罩用 absolute + flex，隐藏时移出视口并设置 `pointer-events:none`。z-index 坑（1.2.7 实测）：`position:absolute` 且 `z-index:auto` 的元素会被绘制在 `z-index:0` 兄弟元素之下（与浏览器树序不同）；本页纸纹底图 `#paper` 是 `z-index:0`，曾导致无显式 z-index 的左侧资料与右上简介被底图盖住，故 `.placed` 统一显式 `z-index:1`、底图用 id 选择器压回 0。resize 监听坑（1.2.7 实测，crash-2026-10-18_12.02.10）：Screen 关闭或文档重建后 AUI 仍会向旧 window 监听器派发 resize，脚本在死文档上抛异常会经 `Window.fireResizeEvent → Client.tick` 直接崩客户端；页面脚本的 resize 回调必须先判 `getElementById` 节点存在并在节点消失时自摘监听。字体与遮挡：中文用 ZhaohuaMinB Black（朝華標題B.ttf）、英文名用 KingHwaOldSong（京華老宋体v3.0.ttf），已拷入 `apricity/kubejs/fonts/` 并以 `@font-face` 注册（写法对齐 ore 主题：相对页面目录的 `url("fonts/xxx.ttf") format("truetype")`）；立绘底部渐隐遮罩已按需求移除（立绘由容器 overflow 裁掉底部 1/4 直接收尾，无渐隐）；如后续再加，AUI 1.2.7 下唯一可行路线是“叠 div 纸色 rgba 渐变”（mask-image 合成黑盒、mix-blend-mode 无混合实现、烘焙 PNG 需重启，均已实测/解包取证）。早苗立绘由 `local/refresh-sanae.cjs` 从资源包 `kochiya_sanae/illust.png + face/default.png` 合成裁切（206×313，2026-10-18 由旧 206×317 刷新）；改 PNG 需重启游戏才生效（AUI 图片缓存不随 autoReload 失效）。
+- 九宫格星标（袜子）：**不用 AUI**，改原版渲染。`kubejs/startup_scripts/tooltip.js` 在 `ScreenEvent$Render$Post` 中以悬停槽为基准取 ±18px 的 8 个邻槽，用 `RenderSystem` + `GuiComponent.blit` 把 `kubejs:textures/gui/nine_star.png`（256×256、星占左上 18×18，配合 6 参数 blit 避免 Rhino 重载歧义）画在邻槽屏幕坐标上。原因：AUI 文档中 position:fixed 元素（即使带 translateZ/子元素背景）实测不绘制，而 tooltip 的 #tooltip 能显示属特例，不可复用其叠层思路。
 
 ## ApricityUI 1.2.2-hotfix1 兼容点
 
@@ -34,13 +35,10 @@
 
 ## 泡脚显示状态
 
-当前取舍是：未泡脚状态只显示水桶贴图，不强求默认文字提示。只有服务端开始泡脚后，才切换到：
-
-```text
-开始泡脚
-```
-
-并显示倒计时进度条。不要为了默认文案额外叠加深色背景条；AUI 1.2.2-hotfix1 下文字和背景的绘制顺序容易出现不符合浏览器预期的结果。
+- 背景为工作盆素材 `soak_basin.png`；桶点击区域 `soakBtn` 为桶贴图 16x16 放大 3 倍（48x48）：未泡脚显示空桶 `bucket_empty.png`，泡脚中显示水桶 `bucket_water.png`（`src` 属性切换）。
+- 未泡脚：桶下方两行引导文本「在工作盆内放入泡脚水 / 进行泡脚」；泡脚中：文本改为单行「泡脚中」并显示倒计时进度条。
+- 文本更新必须走 `textContent`；AUI 1.2.2-hotfix1 下 `innerText` 赋值不生效（旧版「开始泡脚」因此从未显示）。
+- 不要为了文案额外叠加深色背景条；AUI 1.2.2-hotfix1 下文字和背景的绘制顺序容易出现不符合浏览器预期的结果。
 
 ## Phone 弹窗
 
@@ -80,6 +78,14 @@ Gensyo 和抽卡弹窗注意点：
 - `global.pfRestoreStamina(player, amount)`
 
 这两个 API 会立即同步 HUD。自动恢复体力在写入 `pfStamina` 后也必须调用同步函数，否则 HUD 数字会滞后。客户端 HUD 在创建或重新显示时应主动发送 `stamina_request`，收到 `stamina_sync` 后立即刷新数字和进度条。
+
+## Overlay 被 MC 界面遮挡（AUI 1.3.1）
+
+`ApricityUI.createDocument` 会把文档设为 `reloadPersistent=true`，这类文档除了在 HUD 阶段（`RenderGuiEvent.Post`）绘制，还会在 `ScreenEvent.Render.Post` 里重绘到背包、任务书等任意界面上方。HUD 类 Overlay 要在 MC 界面下层时，创建后调用 `doc.setReloadPersistent(false)`（见 `stamina_hud.js`）。
+
+## 图片缩放过滤（AUI 1.3.1）
+
+`<img>` 和 `background-image` 默认 `image-rendering: auto`，放大时一律线性过滤，低分辨率像素图会变糊。像素图元素要加 `image-rendering: pixelated`：放大用最近邻、缩小仍用线性。`crisp-edges` 为始终最近邻。该属性会继承父元素。mod 无全局开关，本项目每个页面的 `html, body` 规则都已加 `image-rendering: pixelated`，新建页面也要加上。WorldWindow 例外：mod 按 CSS 尺寸而非屏幕像素判断缩放，世界 UI 在 CSS 里略缩小、屏幕上却被大幅放大，`pixelated` 仍会走线性变糊，所以 `footui.html`、`footsoak.html` 根规则用 `crisp-edges`，新增 WorldWindow 页面同理。
 
 ## 调试建议
 

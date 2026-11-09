@@ -1,15 +1,20 @@
 <!doctype html>
 <!--
-  稀客好感度界面（Screen 类型）—— 左右布局版
-  - 左侧：稀客列表，卡片网格（5 列拉伸占满左栏），每卡 = 角色物品大图 + 名称 + 爱心好感度，可滚动。
-  - 右侧：点击左侧卡片时展示该角色信息（种族 / 出现作品 / 简介）+ 当前好感度 + 各爱心档掉落。
-  - 数据来源：客户端 rare_affection_ui.js 把服务端 JSON 存入 global.pfRareAffectionView，本页读取渲染。
-  - 【物品大图】用 div 包裹层 + transform:scale 视觉放大原生物品图标（div 为 block  transform 才生效；
-    span inline 不生效；iconScale/--aui-slot-icon-scale 与展示型 <slot> 在 plain Screen 均不可用）。
-    左侧 .figwrap scale(3.2)、掉落 .dwrap scale(2.0)，外层 .figbox/.dbox 预留空间并裁剪。
-  - 爱心素材：apricity/kubejs/heart.png(点亮) / heart_empty.png(未点亮)。
-  - 【重要】静态预渲染槽位 + getElementById 填充，不往滚动容器动态增删节点（避免 AUI 滚动重复条目）。
-  - 和风纸质配色：米黄和纸渐变底 + 墨色外框 + 朱红镶边/点缀 + 标题旁朱红方印，文字深墨色。viewport=browser + intercept。关闭：右上 x。
+  稀客好感度界面（Screen 类型，menu 容器宿主）—— 按「稀客.html」设计稿还原。
+  - 稀客稿自有纸底 rare_paper.png（橙金角纹+RARE CUSTOMER 水印，9900×5736 原图 6 倍降采样）
+    + 角色/稀客双页签（稀客为当前页）+ 关闭按钮。
+  - 左栏卡片网格一行三个（flex wrap、167×282 卡框 rare_card.png、手办 scale10.5+姓名 18px+小爱心 25×24、
+    选中态叠一体图 rare_select.png（双圈橙框+橙渐变，用户提供原图）、容器 529×765 可滚动），竖笔刷分隔，右栏详情：姓名+好感爱心/数值、
+    种族/初登场/出现维度、简介、报酬四档（档条+爱心+物品+数量徽章，物品无槽框底图）。
+  - 数据来源不变：客户端 rare_affection_ui.js 存 global.pfRareAffectionView，本页轮询读取。
+  - 手办与掉落仍用 AUI <item> 扩展元素（textContent 物品表达式），transform:scale 静态放大。
+  - 静态预渲染槽位 + getElementById 填充，不往滚动容器动态增删节点（避免 AUI 滚动重复条目）。
+  - 布局按 1920×1213 基准等比换算（同图鉴 layoutPage 模式）；所有绝对定位元素显式 z-index
+    （AUI 1.2.7：z-index:auto 会被画在 z-index:0 兄弟之下）。resize 回调判空自摘（防死文档崩溃）。
+  - 行条/档条/掉落槽的显隐与选中态存 state 数组，统一由 layoutPage 重写内联样式，
+    避免 place() 与状态写入互相覆盖；不用 firstChild/children（空白文本节点不可靠），全部走 id。
+  - 爱心素材：rare_heart.png / rare_heart_empty.png（设计稿红心 + 灰度派生空心）。
+  - 字体同图鉴：中文 ZhaohuaMinB Black、数值 KingHwaOldSong，@font-face 本地 ttf。
 -->
 <html>
 <head>
@@ -18,200 +23,198 @@
   <meta name="aui-viewport" content="mode=browser">
   <meta name="aui-mouse-events" content="intercept">
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; }
+    @font-face {
+      font-family: GalleryZhaohua;
+      src: url("fonts/zhaohua_minb_black.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: GalleryKinghwa;
+      src: url("fonts/kinghwa_oldsong_regular.ttf") format("truetype");
+    }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; image-rendering: pixelated; }
     body {
+      position: relative;
       background: transparent;
-      color: #4a3c2a;
+      color: #1c0606;
+      font-family: "GalleryZhaohua", "SimSun", "Noto Serif CJK SC", serif;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    /* ===== 和风纸质面板：米黄和纸渐变底 + 墨色外框 + 朱红外扩镶边 ===== */
-    .wrap {
-      width: 1074px;
-      background: linear-gradient(155deg, #f8f1de 0%, #f1e6cd 48%, #eaddbf 100%);
-      border: 2px solid #5b4a36;
-      box-shadow: 0 0 0 3px rgba(181, 67, 42, 0.22);
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-    }
-    .hd { display: flex; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid rgba(181, 67, 42, 0.45); }
-    .title { font-size: 26px; color: #b5432a; font-weight: bold; padding-left: 12px; border-left: 5px solid #b5432a; }
-    .spacer { flex: 1 1 auto; }
-    .close { cursor: pointer; color: #6b5a45; font-size: 26px; padding: 0 10px; }
-    .close:hover { color: #b5432a; }
-    /* 朱红方印(标题旁点缀):单色 linear-gradient 底,规避 AUI 块级实色背景绘制不稳定 */
-    .seal {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(#b5432a, #b5432a);
-      color: #ffffff;
-      font-size: 22px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 12px;
-    }
-
-    .main { display: flex; gap: 18px; }
-
-    /* ===== 左：正方形卡片网格（flex wrap 实现；AUI grid 久未维护有 bug，官方推荐 flex wrap）=====
-       宽度账：3 列×190px(border-box) + 2 间距×12px = 594px = .left 宽度，第 4 卡自动换行
-       高度账：4 行×204px + 3 间距×12px = 852px = .left 高度。卡片=190宽×204高(border-box)，图标放大 */
-    .left {
-      width: 594px;
-      height: 852px;
-      overflow-y: auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 12px;
-    }
-    /* 卡片：暖白纸片 + 淡墨边；悬停转朱红高亮。width 186+边框4=190、height 200+边框4=204 border-box,flex wrap 下 3列+2gap=594 换行。
-       【背景用单色 linear-gradient,不用实色 hex/rgba】实色块级背景在 AUI 多实例下绘制不稳定(个别不画或画黑),
-       单色 linear-gradient 走渐变渲染路径更可靠。【布局用 flex wrap 替代 grid】AUI grid 久未维护有 bug(官方推荐 flex wrap),
-       卡片背景黑块根因即 grid 多实例绘制不稳定。 */
-    .card {
-      /* flex wrap 下需显式宽度：186 content + 左右边框4 = 190 border-box，3列+2gap=594 正好换行 */
-      width: 186px;
-      height: 200px;
-      background: linear-gradient(#fdf8ec, #fdf8ec);
-      border: 2px solid #d5cabb;
-      padding: 0;
+    #rareStage { position: relative; width: 1650px; height: 1093px; flex-grow: 0; flex-shrink: 0; }
+    /* 入场动画见 JS playEntry()：从 -24px 下移落位（AUI 忽略 transform，opacity 淡入已按需求弃用）。 */
+    .placed { position: absolute; box-sizing: border-box; z-index: 1; }
+    img { display: block; flex-grow: 0; flex-shrink: 0; }
+    .decoration { pointer-events: none; }
+    /* 设计稿层级：纸面盖在页签之上——非当前页签沉到纸底只露一截；页签 z0、纸面 z1。 */
+    #paper { z-index: 1; }
+    .tab { overflow: hidden; cursor: pointer; z-index: 0; }
+    .tab:hover { opacity: 0.9; }
+    /* 页签阴影条：贴在纸顶线（y=70）上缘、盖在页签上方。 */
+    #charTabShadow { z-index: 2; }
+    #rareTabShadow { z-index: 2; }
+    #closeBtn { color: #933434; cursor: pointer; text-align: center; z-index: 3; }
+    #closeBtn:hover { color: #1c0606; }
+    /* 左栏列表：3 列卡片网格（flex wrap，AUI grid 有 bug）；卡片=设计稿 167×282 卡框图，
+       选中态叠橙色渐变层 rare_sel.png（设计稿 vec-rectangle-cYI-3 的实图化）。
+       容器宽 529 = 3×167+2×12+4 余量，规避 AUI flex wrap“子项+gap 恰等于容器宽即换行”临界 bug。 */
+    #listBox { overflow-y: auto; overflow-x: hidden; display: flex; flex-wrap: wrap; align-content: flex-start; }
+    .lcell {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
+      box-sizing: border-box;
       cursor: pointer;
+      flex-grow: 0;
+      flex-shrink: 0;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
     }
-    /* hover 只用背景/边框变色:AUI 下 transform/transition 不可靠(记忆证实,phone 曾因此降级 JS 逐帧) */
-    .card:hover { background: linear-gradient(#f7e6d9, #f7e6d9); border-color: #c0603e; }
-    .figbox {
-      width: 100%;
-      flex: 1 1 auto;
+    .lsel { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 1; }
+    .lslot, .lname, .lhearts { position: relative; z-index: 2; }
+    .lslot {
+      flex-grow: 0;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    /* 包裹盒布局尺寸=放大后视觉尺寸；transform 放在 item 自身上绕中心放大，不裁剪不重叠 */
-    .figwrap { width: 148px; height: 148px; display: flex; align-items: center; justify-content: center; }
-    .figwrap item { width: 32px; height: 32px; transform: scale(6); }
-    .cname { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-top: 1px; text-align: center; }
-    .chearts { margin-top: 1px; }
-
-    /* ===== 右：角色信息 ===== */
-    .right {
-      flex: 0 0 414px;
-      width: 414px;
-      min-width: 0;
-      height: 848px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: linear-gradient(#f7efdf, #f7efdf);
-      border: 2px solid #d5cabb;
-      padding: 16px 18px;
+    .lname { font-weight: bold; color: #121212; white-space: nowrap; text-align: center; flex-grow: 0; flex-shrink: 0; }
+    .lhearts { display: flex; justify-content: center; flex-grow: 0; flex-shrink: 0; }
+    .lhearts img { margin-right: 2px; }
+    #listEmpty { color: #9d6f6f; text-align: center; }
+    /* 滚动条滑块盖在轨道之上。 */
+    #scrollThumb { z-index: 2; }
+    /* 轨道=设计稿纯线段（实色）。隐藏默认滚动条禁用 scrollbar-width:none——1.2.7 该属性会走
+       ScrollModel.isScrollbarHidden → getScrollbarPseudoStyles，元素未定义 ::-webkit-scrollbar
+       伪样式时表为 null 直接 NPE 崩渲染线程（crash-2026-10-19_01.21.56）；改设计稿同款的伪选择器写法。 */
+    #listBox::-webkit-scrollbar { display: none; }
+    #rName { font-weight: bold; color: #1b0505; line-height: 1.1; white-space: nowrap; }
+    #rAffNum { font-family: "GalleryKinghwa", "Times New Roman", serif; color: #6f4646; }
+    #rAffMax { font-family: "GalleryKinghwa", "Times New Roman", serif; color: #cdb391; }
+    .fact-label { color: #6f4646; }
+    .fact-value { font-weight: bold; color: #1c0606; white-space: nowrap; }
+    .section-title { color: #933434; font-weight: bold; }
+    #rDesc { line-height: 1.6; white-space: pre-wrap; overflow-y: auto; color: #1c0606; }
+    #payTitle { color: #513737; }
+    .trow {
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      background-repeat: no-repeat;
     }
-    .rtitle { font-size: 26px; color: #b5432a; font-weight: bold; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid rgba(91, 74, 54, 0.3); }
-    .rlore { font-size: 18px; color: #5a4a36; margin-bottom: 6px; }
-    .rlore b { color: #41556b; }
-    .rdesc { font-size: 16px; color: #6b5a45; margin: 8px 0 12px; }
-    .raff { font-size: 18px; color: #4a3c2a; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; }
-    .rhint { font-size: 16px; color: #8a7a63; margin-top: 40px; text-align: center; }
-
-    .tier { margin-top: 12px; padding: 12px; background: linear-gradient(#fffcf4, #fffcf4); border: 2px solid #e2d8c6; }
-    .tier-h { font-size: 18px; color: #b5432a; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; }
-    /* 档位标题：爱心与“好感度达到 xx”文字之间加间距 */
-    .tier-h .hearts { margin-right: 10px; }
-    .drops { display: flex; flex-wrap: wrap; }
-    .drop { display: flex; align-items: center; margin-right: 8px; margin-bottom: 4px; }
-    .dbox {
+    .thwrap { display: flex; flex-grow: 0; flex-shrink: 0; }
+    .thwrap img { margin-right: 2px; }
+    .ttxt { color: #9d6f6f; white-space: nowrap; flex-grow: 0; flex-shrink: 0; }
+    /* 掉落槽组：从右往左排（row-reverse），0 号槽贴右缘顶格；隐藏槽不占位，余下物品仍右对齐。
+       槽间距由 layoutPage 按序号写 margin-right（0 号 0、其余 8），不用 CSS 统一 margin。 */
+    .dslots { display: flex; flex-direction: row-reverse; flex-grow: 0; flex-shrink: 0; }
+    .dslot {
+      position: relative;
+      flex-grow: 0;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .dwrap { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; }
-    .dwrap item { width: 32px; height: 32px; transform: scale(2.2); }
-    .dtext { font-size: 16px; color: #5a4a36; margin-left: 8px; word-break: break-all; }
-
-    /* 爱心图标容器 */
-    .hearts { display: inline-flex; align-items: center; vertical-align: middle; }
-    .hearts img { margin-right: 3px; }
-
-    /* <item> 扩展元素无固有尺寸 */
+    /* 数量徽章：半透明灰底单色渐变（AUI 实色块级背景多实例不稳定，走渐变路径）。 */
+    .cnt {
+      position: absolute;
+      background: linear-gradient(rgba(72, 72, 72, 0.67), rgba(72, 72, 72, 0.67));
+      color: #ebebeb;
+      text-align: center;
+    }
+    /* <item> 扩展元素无固有尺寸，宽高与缩放由 layoutPage 按 pageScale 写入。 */
     item { display: inline-block; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hd">
-      <span class="title" id="title">稀客好感度</span>
-      <span class="seal">客</span>
-      <span class="spacer"></span>
-      <span class="close" id="closeBtn">x</span>
+  <div id="rareStage">
+    <img class="placed decoration" id="paper" src="rare_paper.png" alt="">
+    <div class="placed tab" id="characterTab" title="返回人物图鉴">
+      <img id="characterTabImg" class="decoration" src="tab_character_v2.png" alt="角色">
     </div>
+    <div class="placed tab" id="rareTab" title="稀客好感度">
+      <img id="rareTabImg" class="decoration" src="tab_rare_v2.png" alt="稀客">
+    </div>
+    <!-- 页签阴影：纸顶线上、盖在对应页签上方（z 高于纸面与页签） -->
+    <img class="placed decoration" id="charTabShadow" src="tab_character_shadow.png" alt="">
+    <img class="placed decoration" id="rareTabShadow" src="tab_rare_shadow.png" alt="">
+    <div class="placed" id="closeBtn" title="关闭">×</div>
 
-    <div class="main">
-      <!-- ===== 左：10 个正方形卡片槽位 ===== -->
-      <div class="left" id="left">
-        <div class="card" id="card0" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric0"></item></div></div><div class="cname" id="cname0"></div><div class="chearts"><span class="hearts"><img id="rh0_0" style="width:28px;height:28px;"><img id="rh0_1" style="width:28px;height:28px;"><img id="rh0_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card1" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric1"></item></div></div><div class="cname" id="cname1"></div><div class="chearts"><span class="hearts"><img id="rh1_0" style="width:28px;height:28px;"><img id="rh1_1" style="width:28px;height:28px;"><img id="rh1_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card2" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric2"></item></div></div><div class="cname" id="cname2"></div><div class="chearts"><span class="hearts"><img id="rh2_0" style="width:28px;height:28px;"><img id="rh2_1" style="width:28px;height:28px;"><img id="rh2_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card3" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric3"></item></div></div><div class="cname" id="cname3"></div><div class="chearts"><span class="hearts"><img id="rh3_0" style="width:28px;height:28px;"><img id="rh3_1" style="width:28px;height:28px;"><img id="rh3_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card4" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric4"></item></div></div><div class="cname" id="cname4"></div><div class="chearts"><span class="hearts"><img id="rh4_0" style="width:28px;height:28px;"><img id="rh4_1" style="width:28px;height:28px;"><img id="rh4_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card5" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric5"></item></div></div><div class="cname" id="cname5"></div><div class="chearts"><span class="hearts"><img id="rh5_0" style="width:28px;height:28px;"><img id="rh5_1" style="width:28px;height:28px;"><img id="rh5_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card6" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric6"></item></div></div><div class="cname" id="cname6"></div><div class="chearts"><span class="hearts"><img id="rh6_0" style="width:28px;height:28px;"><img id="rh6_1" style="width:28px;height:28px;"><img id="rh6_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card7" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric7"></item></div></div><div class="cname" id="cname7"></div><div class="chearts"><span class="hearts"><img id="rh7_0" style="width:28px;height:28px;"><img id="rh7_1" style="width:28px;height:28px;"><img id="rh7_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card8" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric8"></item></div></div><div class="cname" id="cname8"></div><div class="chearts"><span class="hearts"><img id="rh8_0" style="width:28px;height:28px;"><img id="rh8_1" style="width:28px;height:28px;"><img id="rh8_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="card" id="card9" style="display:none;"><div class="figbox"><div class="figwrap"><item id="ric9"></item></div></div><div class="cname" id="cname9"></div><div class="chearts"><span class="hearts"><img id="rh9_0" style="width:28px;height:28px;"><img id="rh9_1" style="width:28px;height:28px;"><img id="rh9_2" style="width:28px;height:28px;"></span></span></div></div>
-        <div class="rhint" id="listEmpty" style="display:none;">该维度暂无稀客配置</div>
+    <!-- 左栏：10 个静态行槽，不动态增删节点 -->
+    <div class="placed" id="listBox">
+      <div class="lcell" id="row0" style="display:none;"><img class="lsel" id="sel0" src="rare_select.png" style="display:none;"><div class="lslot" id="ls0"><item id="ric0"></item></div><div class="lname" id="cname0"></div><div class="lhearts" id="lh0"><img id="rh0_0"><img id="rh0_1"><img id="rh0_2"></div></div>
+      <div class="lcell" id="row1" style="display:none;"><img class="lsel" id="sel1" src="rare_select.png" style="display:none;"><div class="lslot" id="ls1"><item id="ric1"></item></div><div class="lname" id="cname1"></div><div class="lhearts" id="lh1"><img id="rh1_0"><img id="rh1_1"><img id="rh1_2"></div></div>
+      <div class="lcell" id="row2" style="display:none;"><img class="lsel" id="sel2" src="rare_select.png" style="display:none;"><div class="lslot" id="ls2"><item id="ric2"></item></div><div class="lname" id="cname2"></div><div class="lhearts" id="lh2"><img id="rh2_0"><img id="rh2_1"><img id="rh2_2"></div></div>
+      <div class="lcell" id="row3" style="display:none;"><img class="lsel" id="sel3" src="rare_select.png" style="display:none;"><div class="lslot" id="ls3"><item id="ric3"></item></div><div class="lname" id="cname3"></div><div class="lhearts" id="lh3"><img id="rh3_0"><img id="rh3_1"><img id="rh3_2"></div></div>
+      <div class="lcell" id="row4" style="display:none;"><img class="lsel" id="sel4" src="rare_select.png" style="display:none;"><div class="lslot" id="ls4"><item id="ric4"></item></div><div class="lname" id="cname4"></div><div class="lhearts" id="lh4"><img id="rh4_0"><img id="rh4_1"><img id="rh4_2"></div></div>
+      <div class="lcell" id="row5" style="display:none;"><img class="lsel" id="sel5" src="rare_select.png" style="display:none;"><div class="lslot" id="ls5"><item id="ric5"></item></div><div class="lname" id="cname5"></div><div class="lhearts" id="lh5"><img id="rh5_0"><img id="rh5_1"><img id="rh5_2"></div></div>
+      <div class="lcell" id="row6" style="display:none;"><img class="lsel" id="sel6" src="rare_select.png" style="display:none;"><div class="lslot" id="ls6"><item id="ric6"></item></div><div class="lname" id="cname6"></div><div class="lhearts" id="lh6"><img id="rh6_0"><img id="rh6_1"><img id="rh6_2"></div></div>
+      <div class="lcell" id="row7" style="display:none;"><img class="lsel" id="sel7" src="rare_select.png" style="display:none;"><div class="lslot" id="ls7"><item id="ric7"></item></div><div class="lname" id="cname7"></div><div class="lhearts" id="lh7"><img id="rh7_0"><img id="rh7_1"><img id="rh7_2"></div></div>
+      <div class="lcell" id="row8" style="display:none;"><img class="lsel" id="sel8" src="rare_select.png" style="display:none;"><div class="lslot" id="ls8"><item id="ric8"></item></div><div class="lname" id="cname8"></div><div class="lhearts" id="lh8"><img id="rh8_0"><img id="rh8_1"><img id="rh8_2"></div></div>
+      <div class="lcell" id="row9" style="display:none;"><img class="lsel" id="sel9" src="rare_select.png" style="display:none;"><div class="lslot" id="ls9"><item id="ric9"></item></div><div class="lname" id="cname9"></div><div class="lhearts" id="lh9"><img id="rh9_0"><img id="rh9_1"><img id="rh9_2"></div></div>
+      <div id="listEmpty" style="display:none;">该维度暂无稀客配置</div>
+    </div>
+    <img class="placed decoration" id="divider" src="rare_scroll_track.png" alt="">
+    <!-- 自定义滚动条滑块：wrapper 只改 top（不碰 img 节点，避免重写 style 闪烁），菱形标原比例不拉伸 -->
+    <div class="placed" id="scrollThumb" style="display:none;"><img id="scrollThumbImg" src="rare_scroll_knob.png" alt=""></div>
+
+    <!-- 右栏：选中稀客详情 -->
+    <div class="placed" id="rName">稀客情报</div>
+    <img class="placed decoration" id="bh0" src="rare_heart_empty.png" alt="">
+    <img class="placed decoration" id="bh1" src="rare_heart_empty.png" alt="">
+    <img class="placed decoration" id="bh2" src="rare_heart_empty.png" alt="">
+    <div class="placed" id="rAffNum">-</div>
+    <div class="placed" id="rAffMax"></div>
+    <div class="placed fact-label" id="fRaceL">种族</div>
+    <div class="placed fact-value" id="rRaceV">-</div>
+    <div class="placed fact-label" id="fWorkL">初登场</div>
+    <div class="placed fact-value" id="rWorkV">-</div>
+    <div class="placed fact-label" id="fDimL">出现维度</div>
+    <div class="placed fact-value" id="rDimV">-</div>
+    <div class="placed section-title" id="descTitle">简介</div>
+    <div class="placed" id="rDesc">点击左侧稀客查看设定。</div>
+    <div class="placed" id="payTitle">报酬</div>
+    <div class="placed trow" id="tier0" style="display:none;">
+      <div class="thwrap" id="tw0"><img id="th0_0"><img id="th0_1"><img id="th0_2"></div>
+      <div class="ttxt" id="thtxt0"></div>
+      <div class="dslots" id="ds0">
+        <div class="dslot" id="drop0_0" style="display:none;"><item id="di0_0"></item><div class="cnt" id="dt0_0"></div></div>
+        <div class="dslot" id="drop0_1" style="display:none;"><item id="di0_1"></item><div class="cnt" id="dt0_1"></div></div>
+        <div class="dslot" id="drop0_2" style="display:none;"><item id="di0_2"></item><div class="cnt" id="dt0_2"></div></div>
+        <div class="dslot" id="drop0_3" style="display:none;"><item id="di0_3"></item><div class="cnt" id="dt0_3"></div></div>
       </div>
-
-      <!-- ===== 右：角色信息（悬停填充）===== -->
-      <div class="right" id="right">
-        <div class="rtitle" id="rTitle">稀客情报</div>
-        <div class="rlore" id="rRace"><b>种族：</b><span id="rRaceV">-</span></div>
-        <div class="rlore" id="rWork"><b>出现作品：</b><span id="rWorkV">-</span></div>
-        <div class="rdesc" id="rDesc">点击左侧角色卡片查看设定。</div>
-        <div class="raff" id="rAff">当前好感度：<span id="rAffNum">-</span><span class="hearts" style="margin-left:10px;"><img id="rhh0" style="width:28px;height:28px;"><img id="rhh1" style="width:28px;height:28px;"><img id="rhh2" style="width:28px;height:28px;"></span></div>
-        <div id="rDrops">
-          <div class="tier" id="tier0" style="display:none;">
-            <div class="tier-h"><span class="hearts"><img id="th0_0" style="width:22px;height:22px;"><img id="th0_1" style="width:22px;height:22px;"><img id="th0_2" style="width:22px;height:22px;"></span><span id="thtxt0"></span></div>
-            <div class="drops">
-              <div class="drop" id="drop0_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_0"></item></div></div><span class="dtext" id="dt0_0"></span></div>
-              <div class="drop" id="drop0_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_1"></item></div></div><span class="dtext" id="dt0_1"></span></div>
-              <div class="drop" id="drop0_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_2"></item></div></div><span class="dtext" id="dt0_2"></span></div>
-              <div class="drop" id="drop0_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di0_3"></item></div></div><span class="dtext" id="dt0_3"></span></div>
-            </div>
-          </div>
-          <div class="tier" id="tier1" style="display:none;">
-            <div class="tier-h"><span class="hearts"><img id="th1_0" style="width:22px;height:22px;"><img id="th1_1" style="width:22px;height:22px;"><img id="th1_2" style="width:22px;height:22px;"></span><span id="thtxt1"></span></div>
-            <div class="drops">
-              <div class="drop" id="drop1_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_0"></item></div></div><span class="dtext" id="dt1_0"></span></div>
-              <div class="drop" id="drop1_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_1"></item></div></div><span class="dtext" id="dt1_1"></span></div>
-              <div class="drop" id="drop1_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_2"></item></div></div><span class="dtext" id="dt1_2"></span></div>
-              <div class="drop" id="drop1_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di1_3"></item></div></div><span class="dtext" id="dt1_3"></span></div>
-            </div>
-          </div>
-          <div class="tier" id="tier2" style="display:none;">
-            <div class="tier-h"><span class="hearts"><img id="th2_0" style="width:22px;height:22px;"><img id="th2_1" style="width:22px;height:22px;"><img id="th2_2" style="width:22px;height:22px;"></span><span id="thtxt2"></span></div>
-            <div class="drops">
-              <div class="drop" id="drop2_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_0"></item></div></div><span class="dtext" id="dt2_0"></span></div>
-              <div class="drop" id="drop2_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_1"></item></div></div><span class="dtext" id="dt2_1"></span></div>
-              <div class="drop" id="drop2_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_2"></item></div></div><span class="dtext" id="dt2_2"></span></div>
-              <div class="drop" id="drop2_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di2_3"></item></div></div><span class="dtext" id="dt2_3"></span></div>
-            </div>
-          </div>
-          <div class="tier" id="tier3" style="display:none;">
-            <div class="tier-h"><span class="hearts"><img id="th3_0" style="width:22px;height:22px;"><img id="th3_1" style="width:22px;height:22px;"><img id="th3_2" style="width:22px;height:22px;"></span><span id="thtxt3"></span></div>
-            <div class="drops">
-              <div class="drop" id="drop3_0" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_0"></item></div></div><span class="dtext" id="dt3_0"></span></div>
-              <div class="drop" id="drop3_1" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_1"></item></div></div><span class="dtext" id="dt3_1"></span></div>
-              <div class="drop" id="drop3_2" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_2"></item></div></div><span class="dtext" id="dt3_2"></span></div>
-              <div class="drop" id="drop3_3" style="display:none;"><div class="dbox"><div class="dwrap"><item id="di3_3"></item></div></div><span class="dtext" id="dt3_3"></span></div>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="placed trow" id="tier1" style="display:none;">
+      <div class="thwrap" id="tw1"><img id="th1_0"><img id="th1_1"><img id="th1_2"></div>
+      <div class="ttxt" id="thtxt1"></div>
+      <div class="dslots" id="ds1">
+        <div class="dslot" id="drop1_0" style="display:none;"><item id="di1_0"></item><div class="cnt" id="dt1_0"></div></div>
+        <div class="dslot" id="drop1_1" style="display:none;"><item id="di1_1"></item><div class="cnt" id="dt1_1"></div></div>
+        <div class="dslot" id="drop1_2" style="display:none;"><item id="di1_2"></item><div class="cnt" id="dt1_2"></div></div>
+        <div class="dslot" id="drop1_3" style="display:none;"><item id="di1_3"></item><div class="cnt" id="dt1_3"></div></div>
+      </div>
+    </div>
+    <div class="placed trow" id="tier2" style="display:none;">
+      <div class="thwrap" id="tw2"><img id="th2_0"><img id="th2_1"><img id="th2_2"></div>
+      <div class="ttxt" id="thtxt2"></div>
+      <div class="dslots" id="ds2">
+        <div class="dslot" id="drop2_0" style="display:none;"><item id="di2_0"></item><div class="cnt" id="dt2_0"></div></div>
+        <div class="dslot" id="drop2_1" style="display:none;"><item id="di2_1"></item><div class="cnt" id="dt2_1"></div></div>
+        <div class="dslot" id="drop2_2" style="display:none;"><item id="di2_2"></item><div class="cnt" id="dt2_2"></div></div>
+        <div class="dslot" id="drop2_3" style="display:none;"><item id="di2_3"></item><div class="cnt" id="dt2_3"></div></div>
+      </div>
+    </div>
+    <div class="placed trow" id="tier3" style="display:none;">
+      <div class="thwrap" id="tw3"><img id="th3_0"><img id="th3_1"><img id="th3_2"></div>
+      <div class="ttxt" id="thtxt3"></div>
+      <div class="dslots" id="ds3">
+        <div class="dslot" id="drop3_0" style="display:none;"><item id="di3_0"></item><div class="cnt" id="dt3_0"></div></div>
+        <div class="dslot" id="drop3_1" style="display:none;"><item id="di3_1"></item><div class="cnt" id="dt3_1"></div></div>
+        <div class="dslot" id="drop3_2" style="display:none;"><item id="di3_2"></item><div class="cnt" id="dt3_2"></div></div>
+        <div class="dslot" id="drop3_3" style="display:none;"><item id="di3_3"></item><div class="cnt" id="dt3_3"></div></div>
       </div>
     </div>
   </div>
@@ -224,6 +227,10 @@
     var MAX_CARDS = 10;
     var MAX_TIERS = 4;
     var MAX_DROPS = 4;
+    var selectedIdx = -1;
+    var pageScale = 1;
+    var emptyVisible = false;
+    var scrollPoll = null;
     var DIM_NAMES = {
       "minecraft:overworld": "主世界",
       "marguerite:old_hell": "旧地狱",
@@ -231,74 +238,313 @@
       "ad_astra:moon": "月球"
     };
 
-    function setHearts(prefix, n) {
+    // 行/档/掉落槽显隐与选中态：状态与布局分离，layoutPage 统一重写内联样式。
+    var rowState = [];
+    var tierState = [];
+    var dropState = [];
+    for (var s0 = 0; s0 < MAX_CARDS; s0++) rowState.push({ visible: false, active: false, lift: false, offset: 0, tw: null });
+    for (var s1 = 0; s1 < MAX_TIERS; s1++) {
+      tierState.push({ visible: false, unlocked: false });
+      dropState.push([false, false, false, false]);
+    }
+
+    function px(value) { return (value * pageScale).toFixed(3) + "px"; }
+    function sizeStyle(width, height) { return "width:" + px(width) + ";height:" + px(height) + ";"; }
+    function place(id, x, y, width, height, fontSize) {
+      var style = "left:" + px(x) + ";top:" + px(y) + ";" + sizeStyle(width, height);
+      if (fontSize) style += "font-size:" + px(fontSize) + ";";
+      document.getElementById(id).setAttribute("style", style);
+    }
+    function itemStyle(scale) { return sizeStyle(32, 32) + "transform:scale(" + scale + ");"; }
+
+    // ===== 动画：AUI 忽略 transform/transition；入场走 CSS opacity 关键帧（唯一可靠路径），
+    // 位移类 JS 逐帧但每帧只写单个行元素的 style（整棵重写会全页重排卡顿）=====
+    function tween(ms, fps, step, done) {
+      var t0 = Date.now();
+      var h = setInterval(function () {
+        var p = (Date.now() - t0) / ms;
+        if (p >= 1) { p = 1; clearInterval(h); }
+        step(p);
+        if (p === 1 && done) done();
+      }, fps);
+      return h;
+    }
+    function ease(p) { return 1 - Math.pow(1 - p, 3); }
+
+    // 页面切换入场：整体从 -24px 下移落位（~30fps、只写 top 单属性、一次性 220ms）。
+    var stageTop = -24;
+    function setStageStyle() {
+      document.getElementById("rareStage").setAttribute("style", sizeStyle(1650, 1093) + "top:" + px(stageTop) + ";");
+    }
+    function playEntry() {
+      tween(220, 33, function (p) {
+        stageTop = -24 * (1 - ease(p));
+        setStageStyle();
+      }, function () {
+        stageTop = 0;
+        setStageStyle();
+      });
+    }
+
+    // ===== 页签悬浮上移：mouseenter/leave 触发 120ms 补间，每帧只写该页签一个元素 =====
+    var TABS = [
+      { id: "characterTab", x: 60, y: 45, w: 114, h: 70 },
+      { id: "rareTab", x: 187, y: 0, w: 114, h: 70 }
+    ];
+    var tabLift = [0, 0];
+    var tabTw = [null, null];
+    function placeTab(k) {
+      var t = TABS[k];
+      place(t.id, t.x, t.y - tabLift[k], t.w, t.h);
+    }
+    function hoverTab(k, on) {
+      if (tabTw[k]) clearInterval(tabTw[k]);
+      var from = tabLift[k], to = on ? Math.min(16, TABS[k].y) : 0;
+      tabTw[k] = tween(120, 33, function (p) {
+        tabLift[k] = from + (to - from) * ease(p);
+        placeTab(k);
+      }, function () {
+        tabTw[k] = null;
+        tabLift[k] = to;
+        placeTab(k);
+      });
+    }
+
+    // 点击后单元格从 +10px 上移归位：每帧仅重写行元素自身。
+    function settleRow(i) {
+      var st = rowState[i];
+      if (st.tw) clearInterval(st.tw);
+      var rowEl = document.getElementById("row" + i);
+      st.tw = tween(180, 33, function (p) {
+        st.offset = 10 * (1 - ease(p));
+        rowEl.setAttribute("style", rowBoxStyle(i));
+      }, function () {
+        st.tw = null;
+        st.offset = 0;
+        rowEl.setAttribute("style", rowBoxStyle(i));
+      });
+    }
+
+    function rowBoxStyle(i) {
+      var st = rowState[i];
+      if (!st.visible) return "display:none;";
+      // 选中双圈边框由 ring 叠层 PNG 承担（不用 CSS border，避免盒模型错位）。
+      return "display:flex;width:" + px(167) + ";height:" + px(282) +
+        ";position:relative;top:" + px((st.lift ? -4 : 0) + (st.offset || 0)) +
+        ";background-image:url('rare_card.png');background-size:100% 100%;";
+    }
+
+    function applyRowStyle(i) {
+      var st = rowState[i];
+      document.getElementById("row" + i).setAttribute("style", rowBoxStyle(i));
+      if (!st.visible) return;
+      // 卡框 167×282（设计稿 frame-uSs-1，已清除占位手办）；选中叠一体图 rare_select.png（双圈橙框+橙渐变）。
+      // 手办 scale10.5（15 的 0.7 倍，视觉约 168 高）：盒居中 110 → 视觉 26..194，
+      // 姓名 228..247、爱心 251..275 ≤ 282。
+      document.getElementById("sel" + i).setAttribute("style",
+        (st.active ? "display:block;" : "display:none;") + "left:0;top:0;" + sizeStyle(167, 282));
+      document.getElementById("ls" + i).setAttribute("style", "margin-top:" + px(30) + ";" + sizeStyle(160, 160));
+      document.getElementById("ric" + i).setAttribute("style", itemStyle(10.5));
+      document.getElementById("cname" + i).setAttribute("style",
+        "margin-top:" + px(30) + ";" + sizeStyle(167, 19) + "font-size:" + px(18) + ";");
+      document.getElementById("lh" + i).setAttribute("style", "margin-top:" + px(4) + ";" + sizeStyle(79, 24));
       for (var k = 0; k < 3; k++) {
-        var img = document.getElementById(prefix + k);
-        if (img) img.setAttribute("src", (k < n) ? "heart.png" : "heart_empty.png");
+        document.getElementById("rh" + i + "_" + k).setAttribute("style", sizeStyle(25, 24));
       }
     }
 
-    // ===== 左侧列表：填充正方形卡片 =====
-    function renderList() {
-      var dimName = DIM_NAMES[VIEW.dim] || VIEW.dim || "";
-      document.getElementById("title").textContent = "稀客 · " + dimName;
-      var arr = VIEW.list || [];
-      document.getElementById("listEmpty").setAttribute("style", arr.length === 0 ? "display:block;" : "display:none;");
-      for (var i = 0; i < MAX_CARDS; i++) {
-        var card = document.getElementById("card" + i);
-        if (!card) continue;
-        if (i < arr.length) {
-          var r = arr[i];
-          card.setAttribute("style", "display:flex;");
-          document.getElementById("ric" + i).textContent = r.figure;
-          document.getElementById("cname" + i).textContent = r.name;
-          setHearts("rh" + i + "_", r.hearts);
-        } else {
-          card.setAttribute("style", "display:none;");
+    function applyTierStyle(t, baseStyle) {
+      var st = tierState[t];
+      var style = st.visible
+        ? "display:flex;background-image:url('" + (st.unlocked ? "rare_row_active.png" : "rare_row.png") +
+          "');background-size:100% 100%;"
+        : "display:none;";
+      document.getElementById("tier" + t).setAttribute("style", baseStyle + style);
+    }
+
+    function layoutPage() {
+      var width = Number(window.innerWidth);
+      var height = Number(window.innerHeight);
+      if (width <= 0 || height <= 0) return;
+      // AUI 关闭/重建 Screen 后旧 resize 监听仍可能触发；节点不存在立即返回防崩客户端 tick。
+      if (!document.getElementById("rareStage")) return;
+      pageScale = Math.min(width / 1920, height / 1213);
+      setStageStyle();
+      place("paper", 0, 70, 1650, 956);
+      placeTab(0);
+      placeTab(1);
+      document.getElementById("characterTabImg").setAttribute("style", sizeStyle(114, 210));
+      document.getElementById("rareTabImg").setAttribute("style", sizeStyle(114, 210));
+      place("charTabShadow", 60, 57, 114, 13);
+      place("rareTabShadow", 187, 56, 114, 14);
+      place("closeBtn", 1534, 119, 48, 48, 36);
+      // 容器 529 = 3×167+2×12+4 余量：AUI flex wrap 临界 bug（子项+gap 恰等于容器宽会提前换行），
+      // 留 4px 余量保证任意窗口比例下都一行三个；余量随 pageScale 等比缩放恒为正。
+      place("listBox", 101, 165, 529, 765);
+      var lb = document.getElementById("listBox");
+      lb.setAttribute("style", lb.getAttribute("style") + "gap:" + px(12) + ";");
+      for (var i = 0; i < MAX_CARDS; i++) applyRowStyle(i);
+      document.getElementById("listEmpty").setAttribute("style",
+        (emptyVisible ? "display:block;" : "display:none;") + "width:" + px(529) +
+        ";font-size:" + px(20) + ";margin-top:" + px(40) + ";");
+      place("divider", 639, 165, 31, 765);
+      // 滑块菱形标尺寸只写一次（31×20 原比例），后续仅 wrapper 改 top
+      document.getElementById("scrollThumbImg").setAttribute("style", sizeStyle(31, 20));
+      place("rName", 726, 165, 783, 101, 96);
+      for (var b = 0; b < 3; b++) place("bh" + b, 1335 + b * 62, 165, 58, 54);
+      place("rAffNum", 1335, 221, 90, 52, 48);
+      place("rAffMax", 1427, 240, 90, 26, 20);
+      var labels = ["fRaceL", "fWorkL", "fDimL"];
+      var values = ["rRaceV", "rWorkV", "rDimV"];
+      for (var f = 0; f < 3; f++) {
+        var y = 352 + f * 42;
+        place(labels[f], 729, y, 110, 25, 20);
+        place(values[f], 855, y - 3, 240, 32, 24);
+      }
+      place("descTitle", 1207, 352, 60, 25, 20);
+      place("rDesc", 1207, 382, 300, 175, 20);
+      place("payTitle", 722, 562, 200, 43, 30);
+      for (var t = 0; t < MAX_TIERS; t++) {
+        var tierBase = "left:" + px(722) + ";top:" + px(609 + t * 91) + ";" + sizeStyle(749, 87);
+        applyTierStyle(t, tierBase);
+        document.getElementById("tw" + t).setAttribute("style", "margin-left:" + px(40) + ";" + sizeStyle(86, 26));
+        for (var th = 0; th < 3; th++) {
+          document.getElementById("th" + t + "_" + th).setAttribute("style", sizeStyle(26, 24));
+        }
+        document.getElementById("thtxt" + t).setAttribute("style", "margin-left:" + px(8) + ";" + sizeStyle(170, 24) + "font-size:" + px(18) + ";");
+        // 槽组右缘顶格：行宽 749 - 右内衬 32 - 槽组 324 - 左组 304 = 89 起排；row-reverse 下 0 号槽贴最右。
+        document.getElementById("ds" + t).setAttribute("style", "margin-left:" + px(89) + ";" + sizeStyle(324, 75));
+        for (var d = 0; d < MAX_DROPS; d++) {
+          document.getElementById("drop" + t + "_" + d).setAttribute("style",
+            (dropState[t][d] ? "display:flex;" : "display:none;") + sizeStyle(75, 75) +
+            ";margin-right:" + px(d === 0 ? 0 : 8) + ";");
+          document.getElementById("di" + t + "_" + d).setAttribute("style", itemStyle(3.3));
+          document.getElementById("dt" + t + "_" + d).setAttribute("style",
+            "right:" + px(2) + ";bottom:" + px(2) + ";" + sizeStyle(28, 18) + "font-size:" + px(14) + ";");
         }
       }
     }
 
-    // ===== 右侧信息：悬停某卡片时填充 =====
+    // ===== 自定义滚动条：分隔笔刷=轨道，同图叠层=滑块（设计稿滚动条.html 双层结构）。
+    // AUI 无可靠 scroll 事件（字节码仅 scrollTop/scrollHeight 属性），用 50ms 轮询+变更检测同步。=====
+    var lastScrollKey = "";
+    function updateScrollThumb() {
+      var lb = document.getElementById("listBox");
+      var thumb = document.getElementById("scrollThumb");
+      if (!lb || !thumb) return;
+      var visible = 0;
+      for (var i = 0; i < MAX_CARDS; i++) if (rowState[i].visible) visible++;
+      var contentH = visible > 0 ? visible * 294 - 12 : 0;
+      var viewH = 765;
+      if (contentH <= viewH) {
+        if (lastScrollKey !== "none") {
+          lastScrollKey = "none";
+          thumb.setAttribute("style", "display:none;");
+        }
+        return;
+      }
+      var top = lb.scrollTop || 0;
+      var sh = lb.scrollHeight || contentH;
+      // scrollTop/scrollHeight 可能是缩放后像素，用 contentH 量级判别
+      var viewS = (sh > contentH * 1.5) ? viewH * pageScale : viewH;
+      var maxScroll = Math.max(1, sh - viewS);
+      var ratio = Math.min(1, Math.max(0, top / maxScroll));
+      // 滑块=菱形标原比例：显示宽 31 → 高 20（186×118 裁剪），只做平移不拉伸
+      var knobH = 20;
+      var key = top + "|" + visible + "|" + pageScale;
+      if (key === lastScrollKey) return;
+      lastScrollKey = key;
+      thumb.setAttribute("style", "display:block;left:" + px(639) +
+        ";top:" + px(165 + ratio * (viewH - knobH)) + ";" + sizeStyle(31, knobH));
+    }
+
+    function setHearts(prefix, n, filled, empty) {
+      for (var k = 0; k < 3; k++) {
+        var img = document.getElementById(prefix + k);
+        if (img) img.setAttribute("src", (k < n) ? filled : empty);
+      }
+    }
+
+    // ===== 左侧列表 =====
+    function renderList() {
+      var arr = VIEW.list || [];
+      emptyVisible = arr.length === 0;
+      if (emptyVisible) document.getElementById("listEmpty").textContent = "该维度暂无稀客配置";
+      for (var i = 0; i < MAX_CARDS; i++) {
+        if (i < arr.length) {
+          var r = arr[i];
+          rowState[i].visible = true;
+          document.getElementById("ric" + i).textContent = r.figure;
+          document.getElementById("cname" + i).textContent = r.name;
+          setHearts("rh" + i + "_", r.hearts, "rare_heart_s.png", "rare_heart_s_empty.png");
+        } else {
+          rowState[i].visible = false;
+        }
+      }
+      updateScrollThumb();
+    }
+
+    // ===== 右侧详情 =====
     function showRight(idx) {
       var r = (VIEW.list || [])[idx];
       if (!r) return;
-      document.getElementById("rTitle").textContent = r.name;
+      selectedIdx = idx;
+      for (var i = 0; i < MAX_CARDS; i++) {
+        rowState[i].active = (i === idx);
+      }
+      document.getElementById("rName").textContent = r.name;
+      setHearts("bh", r.hearts, "rare_heart.png", "rare_heart_empty.png");
+      var tiers = r.tiers || [];
+      var maxTh = 0;
+      for (var t = 0; t < tiers.length; t++) {
+        if (tiers[t].threshold != null && tiers[t].threshold > maxTh) maxTh = tiers[t].threshold;
+      }
+      document.getElementById("rAffNum").textContent = "" + r.affection;
+      document.getElementById("rAffMax").textContent = maxTh > 0 ? ("/" + maxTh) : "";
       document.getElementById("rRaceV").textContent = r.race || "-";
       document.getElementById("rWorkV").textContent = r.work || "-";
+      document.getElementById("rDimV").textContent = DIM_NAMES[VIEW.dim] || VIEW.dim || "-";
       document.getElementById("rDesc").textContent = r.desc || "（暂无设定）";
-      document.getElementById("rAffNum").textContent = "" + r.affection;
-      setHearts("rhh", r.hearts);
+      document.getElementById("rDesc").scrollTop = 0;
 
-      var tiers = r.tiers || [];
-      for (var t = 0; t < MAX_TIERS; t++) {
-        var tierEl = document.getElementById("tier" + t);
-        if (!tierEl) continue;
-        if (t < tiers.length) {
-          tierEl.setAttribute("style", "display:block;");
-          var tier = tiers[t];
-          setHearts("th" + t + "_", tier.hearts);
-          document.getElementById("thtxt" + t).textContent = "  好感度达到 " + (tier.threshold != null ? tier.threshold : 0);
+      // ACTIVE 橙条只给“最高已解锁档”（设计稿样例：79 好感只有 50 档高亮），其余档用普通条。
+      var maxUnlocked = -1;
+      for (var mu = 0; mu < tiers.length; mu++) {
+        if (tiers[mu].threshold != null && r.affection >= tiers[mu].threshold) maxUnlocked = mu;
+      }
+      for (var tt = 0; tt < MAX_TIERS; tt++) {
+        if (tt < tiers.length) {
+          var tier = tiers[tt];
+          tierState[tt].visible = true;
+          tierState[tt].unlocked = (tt === maxUnlocked);
+          setHearts("th" + tt + "_", tier.hearts, "rare_heart.png", "rare_heart_empty.png");
+          document.getElementById("thtxt" + tt).textContent = "好感度达到 " + (tier.threshold != null ? tier.threshold : 0);
           var items = tier.items || [];
           for (var k = 0; k < MAX_DROPS; k++) {
-            var dropEl = document.getElementById("drop" + t + "_" + k);
-            if (!dropEl) continue;
+            dropState[tt][k] = k < items.length;
             if (k < items.length) {
-              dropEl.setAttribute("style", "display:flex;");
-              document.getElementById("di" + t + "_" + k).textContent = items[k].item;
-              var cnt = (items[k].min === items[k].max) ? ("x" + items[k].min) : ("x" + items[k].min + "-" + items[k].max);
-              document.getElementById("dt" + t + "_" + k).textContent = cnt;
-            } else {
-              dropEl.setAttribute("style", "display:none;");
+              document.getElementById("di" + tt + "_" + k).textContent = items[k].item;
+              // 徽章只示保底数量（"xN"）：区间写法 "xN-M" 在 28px 徽章里会被裁成拖尾减号。
+              var cnt = "x" + items[k].min;
+              document.getElementById("dt" + tt + "_" + k).textContent = cnt;
             }
           }
         } else {
-          tierEl.setAttribute("style", "display:none;");
+          tierState[tt].visible = false;
         }
       }
+      layoutPage();
     }
 
     // ===== 启动 =====
+    function onResize() {
+      if (!document.getElementById("rareStage")) {
+        window.removeEventListener("resize", onResize);
+        return;
+      }
+      layoutPage();
+    }
+
     function boot() {
       var closeBtn = document.getElementById("closeBtn");
       if (closeBtn) {
@@ -306,14 +552,44 @@
           try { ApricityUIRef.closeScreen(); } catch (e) {}
         });
       }
+      document.getElementById("characterTab").addEventListener("click", function () {
+        var player = McClient.getInstance().player;
+        if (player) player.sendData("pf_character_gallery_open", {});
+      });
+      for (var tk = 0; tk < TABS.length; tk++) {
+        (function (kk) {
+          var el = document.getElementById(TABS[kk].id);
+          if (!el) return;
+          el.addEventListener("mouseenter", function () { hoverTab(kk, true); });
+          el.addEventListener("mouseleave", function () { hoverTab(kk, false); });
+        })(tk);
+      }
       for (var i = 0; i < MAX_CARDS; i++) {
         (function (idx) {
-          var card = document.getElementById("card" + idx);
-          if (!card) return;
-          var handler = function () { if (VIEW && idx < (VIEW.list || []).length) showRight(idx); };
-          card.addEventListener("click", handler);
+          var row = document.getElementById("row" + idx);
+          if (!row) return;
+          row.addEventListener("click", function () {
+            if (VIEW && idx < (VIEW.list || []).length) {
+              settleRow(idx);
+              showRight(idx);
+            }
+          });
+          // 悬浮小幅上移（AUI 无 transition，直接落位）
+          row.addEventListener("mouseenter", function () { rowState[idx].lift = true; applyRowStyle(idx); });
+          row.addEventListener("mouseleave", function () { rowState[idx].lift = false; applyRowStyle(idx); });
         })(i);
       }
+      window.addEventListener("resize", onResize);
+      document.addEventListener("unload", function () {
+        window.removeEventListener("resize", onResize);
+        if (scrollPoll) clearInterval(scrollPoll);
+      });
+      scrollPoll = setInterval(updateScrollThumb, 50);
+      // wheel 即时同步：消除 50ms 轮询滞后造成的跳变/闪烁观感
+      var lbEl = document.getElementById("listBox");
+      if (lbEl) lbEl.addEventListener("wheel", function () { updateScrollThumb(); });
+      layoutPage();
+      playEntry();
       attempt(0);
     }
 
@@ -327,11 +603,14 @@
       } catch (e) { ok = false; }
       if (ok && VIEW) {
         renderList();
+        layoutPage();
+        if ((VIEW.list || []).length > 0) showRight(0);
       } else if (n < 40) {
         setTimeout(function () { attempt(n + 1); }, 50);
       } else {
-        document.getElementById("listEmpty").setAttribute("style", "display:block;");
+        emptyVisible = true;
         document.getElementById("listEmpty").textContent = "未获取到好感度数据，请关闭后重试";
+        layoutPage();
       }
     }
 

@@ -33,3 +33,6 @@ minecraft:village_plains
 minecraft:village_savanna
 minecraft:village_snowy
 minecraft:village_taiga
+youkaishomecoming:cirno_nest
+youkaishomecoming:hakurei_shrine
+youkaishomecoming:youkai_nest

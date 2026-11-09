@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- 渐隐遮罩图隔离测试页：纯黑背景 + 单张渐变图（原尺寸不缩放），/fadetest 打开。 -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <meta name="aui-mouse-events" content="intercept">
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #000000; image-rendering: pixelated; }
+    /* A/B：左=v9 原尺寸 1:1（minification=0，应平滑）；右=v9 缩半（minification=2x，复现引擎过滤链缺陷作对照）。 */
+    #fade { position: absolute; left: 60px; top: 100px; width: 680px; height: 366px; }
+    #fadeHalf { position: absolute; left: 780px; top: 100px; width: 340px; height: 183px; }
+  </style>
+</head>
+<body>
+  <img id="fade" src="gallery_fade_tex_v9.png">
+  <img id="fadeHalf" src="gallery_fade_tex_v9.png">
+</body>
+</html>

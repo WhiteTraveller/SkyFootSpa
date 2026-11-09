@@ -99,6 +99,8 @@ ClientEvents.tick(event => {
         } catch (e) {}
         try {
             staminaDoc = ApricityUI.createDocument("kubejs/stamina_hud.html")
+            // createDocument 默认 reloadPersistent=true，AUI 会在任何 MC 界面打开时把它重绘到界面上方；关掉后只在 HUD 阶段绘制，被背包等界面盖住
+            staminaDoc.setReloadPersistent(false)
             staminaInitialized = true
             staminaTickCount = 0
             updateStaminaBar(staminaDoc, staminaValue, STAMINA_MAX)

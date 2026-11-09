@@ -14,8 +14,8 @@ let ApricityUIGallery = Java.loadClass("com.sighs.apricityui.ApricityUI")
 
 NetworkEvents.dataReceived('pf_character_gallery_open_ui', event => {
     try {
-        // 先关闭配置容器 Screen，再打开图鉴 Screen（串行，保证顺序）
-        try { ApricityUIGallery.closeScreen() } catch (e) {}
+        // 不要先 closeScreen()：setScreen(null) 会触发原版 grabMouse 把光标瞬移到屏幕中心；
+        // screen() 直接替换当前界面，旧界面 removed() 会自动通知服务端关闭容器。
         ApricityUIGallery.screen("kubejs/character_gallery.html")
         console.log("[PF-GALLERY-UI] 打开人物图鉴")
     } catch (e) {

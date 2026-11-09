@@ -79,7 +79,7 @@ function pfEntityShopBe(entity, level) {
 // ========== 头顶名牌（爱心行 + 名字行）==========
 
 /**
- * 为稀客实体设置两行头顶名牌：上一行爱心，下一行“★稀客 名字 Lv.x”
+ * 为稀客实体设置两行头顶名牌：上一行爱心，下一行“★稀客 名字”
  * 好感度取实体生成时的快照（本次服务期间不变）
  * @param {$LivingEntity_} entity 稀客实体
  * @param {Object} rareDef 稀客定义
@@ -87,9 +87,8 @@ function pfEntityShopBe(entity, level) {
  */
 function pfApplyRareNameTag(entity, rareDef, affection) {
     try {
-        let lvl = global.pfCustomerLevel.pfGetLevel(entity)
         let hearts = global.pfCustomerTypes.pfRareHeartsText(affection)
-        let nameLine = '§d★稀客§r ' + (rareDef ? rareDef.name : '稀客') + ' §7Lv.' + lvl
+        let nameLine = '§d★稀客§r ' + (rareDef ? rareDef.name : '稀客')
         // 两行名牌：爱心行 + 名字行。
         // 用 append 把换行拆成独立组件段，而不是把 '\n' 塞进整串交给 Text.of 的 § 遗留解析
         // （整串解析时 '\n' 会被处理掉，导致头顶只显示一行）。

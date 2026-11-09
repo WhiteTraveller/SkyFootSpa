@@ -23,8 +23,11 @@ let COUNTDOWN_SECONDS = 10
 let REQUIRED_AMOUNT = 1000
 let OUTPUT_FLUID_ID = 'kubejs:foot_water'
 let OUTPUT_FUMA_FLUID_ID = 'kubejs:fuma_foot_water'
+let OUTPUT_OIL_FLUID_ID = 'kubejs:oil_foot_water'
 // 妖怪/妖精顾客产出富魔洗脚水的类别列表
 let FUMA_CUSTOMER_CATEGORIES = ['youkai', 'yousei']
+// 鬼族顾客产出含油洗脚水的类别列表（第三章石油线）
+let OIL_CUSTOMER_CATEGORIES = ['oni']
 
 // ----------------- Forge / Create 反射类加载（用于直接操作 FluidHandler） -----------------
 let PF_JC = {} // JavaClasses
@@ -140,9 +143,9 @@ function pfReadBasinFluid(level, pos) {
 
 // ----------------- 判定 Basin 内是否包含已使用洗脚水 -----------------
 // Basin 可能同时存在多个 tank（InputTanks x2 + OutputTanks x2），
-// 只要任何一个 tank 含 kubejs:foot_water 或 kubejs:fuma_foot_water 就视为有废水，禁止泡脚。
+// 只要任何一个 tank 含 kubejs:foot_water / kubejs:fuma_foot_water / kubejs:oil_foot_water 就视为有废水，禁止泡脚。
 function pfIsUsedWaterFluid(fid) {
-    return fid === OUTPUT_FLUID_ID || fid === OUTPUT_FUMA_FLUID_ID
+    return fid === OUTPUT_FLUID_ID || fid === OUTPUT_FUMA_FLUID_ID || fid === OUTPUT_OIL_FLUID_ID
 }
 
 function pfBasinContainsUsedWater(level, pos) {
@@ -185,6 +188,7 @@ function pfBasinContainsUsedWater(level, pos) {
         // 只要整段 NBT 中出现任一废水流体 ID 就视为有废水
         if (s.indexOf('FluidName:"' + OUTPUT_FLUID_ID + '"') >= 0) return true
         if (s.indexOf('FluidName:"' + OUTPUT_FUMA_FLUID_ID + '"') >= 0) return true
+        if (s.indexOf('FluidName:"' + OUTPUT_OIL_FLUID_ID + '"') >= 0) return true
         return false
     } catch (e) {
         return false
@@ -413,6 +417,13 @@ function pfTickBasinSoak(ent, level, sleepDuration) {
             for (let i = 0; i < FUMA_CUSTOMER_CATEGORIES.length; i++) {
                 if (customerCat === FUMA_CUSTOMER_CATEGORIES[i]) {
                     outputFluid = OUTPUT_FUMA_FLUID_ID
+                    break
+                }
+            }
+            // 鬼族(oni)顾客产出含油洗脚水（第三章石油线）
+            for (let i = 0; i < OIL_CUSTOMER_CATEGORIES.length; i++) {
+                if (customerCat === OIL_CUSTOMER_CATEGORIES[i]) {
+                    outputFluid = OUTPUT_OIL_FLUID_ID
                     break
                 }
             }

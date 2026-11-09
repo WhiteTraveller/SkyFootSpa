@@ -25,16 +25,21 @@
 //   color                —— bucket / 流体颜色（int，0xRRGGBB）
 //   description          —— 桶 tooltip 描述
 //   ingredients          —— shapeless 合成除水桶外的原料（string 数组）
-//   satisfactionBonus    —— 泡脚完成时给"顾客实体"追加的满意度（pfSatisfaction）
+//   satisfactionBonus    —— 泡脚完成时给"顾客实体"追加的满意度（pfSatisfaction）；可为负数（如皴水 -25）
 //   demandBonus          —— 每部位需求随机增量上限：每部位独立 roll [0, demandBonus]（含端点）
 //   demandBonusPerPart   —— 精细控制每部位上限 {jiaozhang,jiaogen,jiaozhi,jiaoxin}
 //                           每部位独立 roll [0, upper]；若设置则覆盖 demandBonus
 //   moneyDrop            —— 泡脚完成时即时掉落的 copper 数量（按 coinsje 贪心拆分硬币）
+//   itemDrops            —— 泡脚完成时在顾客位置掉落的物品，[{item,min,max,labelZH}]
+//                           数量按 [min,max] 随机整数 roll（含端点）；labelZH 用于 tooltip 与完成提示
 //   cunBonusPerClick     —— 写入顾客 NBT：pfCunBonusPerClick，搓脚时每次点击额外掉落 N 个皴
 //                           （独立计算：不受搓泥宝 ×2 倍率影响，直接累加到 rollBase 之外）
 //   playerEffects        —— 泡脚完成时给玩家施加的药水效果，[{id,duration,amp}]
 //   entityEffects        —— 泡脚完成时给顾客施加的药水效果（通常用于视觉）
 //   onFinish             —— 自定义回调 function(player, entity, water)，在默认效果之后执行
+//   externalFluid        —— true=流体已在别处注册（如皴水 cun_water.js），跳过 soakWaters.js 自动流体注册
+//   customRecipe         —— true=配方自定义（IE搅拌机/Create特殊搅拌/已有产线/仅商店购买无配方），
+//                           跳过 recipes_soak_water_create.js 自动 Create mixing 生成
 // ============================================================
 
 function SoakWaterRegister() {
@@ -93,10 +98,13 @@ function SoakWater() {
     this.demandBonus = 0
     this.demandBonusPerPart = null
     this.moneyDrop = 0
+    this.itemDrops = []      // 泡脚完成掉落的物品：[{ item, min, max, labelZH }]
     this.cunBonusPerClick = 0
     this.playerEffects = []
     this.entityEffects = []
     this.onFinish = null
+    this.externalFluid = false   // 流体已在别处注册，跳过自动流体注册（如皴水）
+    this.customRecipe = false    // 配方自定义，跳过自动 Create mixing 生成（如豪华牛奶水/强力去灰水/皴水）
 
     this.getFluidId = function () { return "kubejs:" + this.name }
     this.getBucketId = function () { return "kubejs:" + this.name + "_bucket" }
@@ -111,10 +119,13 @@ function SoakWater() {
     this.setDemandBonus = function (v) { this.demandBonus = v; return this }
     this.setDemandBonusPerPart = function (v) { this.demandBonusPerPart = v; return this }
     this.setMoneyDrop = function (v) { this.moneyDrop = v; return this }
+    this.setItemDrops = function (v) { this.itemDrops = v; return this }
     this.setCunBonusPerClick = function (v) { this.cunBonusPerClick = v; return this }
     this.setPlayerEffects = function (v) { this.playerEffects = v; return this }
     this.setEntityEffects = function (v) { this.entityEffects = v; return this }
     this.setOnFinish = function (v) { this.onFinish = v; return this }
+    this.setExternalFluid = function (v) { this.externalFluid = v; return this }
+    this.setCustomRecipe = function (v) { this.customRecipe = v; return this }
 }
 
 global.soakWaterRegister = new SoakWaterRegister()

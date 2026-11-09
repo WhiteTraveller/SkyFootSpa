@@ -43,21 +43,21 @@ let STAMINA_ATTR = 'kubejs:serve.stamina_cost.'
 
 // ========== 属性修改快捷函数 ==========
 
-// 全部位金钱修改
+// 全部手法金钱修改
 global.modifyAllMoney = function(player, modName, value) {
     for (let p = 0; p < RELIC_PARTS.length; p++) {
         player.modifyAttribute(MONEY_ATTR + RELIC_PARTS[p], modName, value, 'addition')
     }
 }
 
-// 全部位满意度修改
+// 全部手法满意度修改
 global.modifyAllSat = function(player, modName, value) {
     for (let p = 0; p < RELIC_PARTS.length; p++) {
         player.modifyAttribute(SAT_ATTR + RELIC_PARTS[p], modName, value, 'addition')
     }
 }
 
-// 全部位体力消耗修改
+// 全部手法体力消耗修改
 global.modifyAllStaminaCost = function(player, modName, value) {
     for (let p = 0; p < RELIC_PARTS.length; p++) {
         player.modifyAttribute(STAMINA_ATTR + RELIC_PARTS[p], modName, value, 'addition')

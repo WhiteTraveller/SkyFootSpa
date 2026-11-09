@@ -1,0 +1,99 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: main
+nodes_managed: true
+exported_at: "2026-10-11T02:10:57Z"
+modules:
+    "":
+        dir_name: 洗手 Minecraft 整合包根（Forge 1.20.1 + KubeJS）
+        title: 洗手 Minecraft 整合包根（Forge 1.20.1 + KubeJS）
+        scope:
+            - README.md
+            - .gitignore
+            - AGENTS.md
+            - LICENSE
+            - PLAN.md
+            - apricity.zip
+            - hs_err_pid3344.log
+            - hs_err_pid39656.log
+            - hs_err_pid39784.log
+            - hs_err_pid55380.log
+            - replay_pid3344.log
+            - replay_pid39656.log
+            - replay_pid55380.log
+            - tlm_custom_pack.zip
+            - 洗手.jar
+            - 洗手.json
+        source_files: []
+        children:
+            - apricity_ui_assets
+            - docs
+            - fancymenu_data
+            - kubejs_scripts
+            - mod_configs
+            - mods_jars
+        depends_on: []
+        related_to: []
+    apricity_ui_assets:
+        dir_name: ApricityUI 前端资源与 UI 适配文档
+        title: ApricityUI 前端资源与 UI 适配文档
+        scope:
+            - apricity/
+            - components/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: kubejs_scripts
+    docs:
+        dir_name: 整合包设计文档与本地知识库
+        title: 整合包设计文档与本地知识库
+        scope:
+            - docs/
+            - knowledge_base/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    fancymenu_data:
+        dir_name: FancyMenu 运行时数据与缓存目录
+        title: FancyMenu 运行时数据与缓存目录
+        scope:
+            - fancymenu_data/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: mods_jars
+    kubejs_scripts:
+        dir_name: KubeJS 玩法脚本与资源包（寻路泡脚_Boss_遗物_手机_体力）
+        title: KubeJS 玩法脚本与资源包（寻路泡脚/Boss/遗物/手机/体力）
+        scope:
+            - kubejs/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: apricity_ui_assets
+    mod_configs:
+        dir_name: 默认配置文件集合
+        title: 默认配置文件集合
+        scope:
+            - defaultconfigs/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: mods_jars
+    mods_jars:
+        dir_name: Forge 1.20.1 整合包模组集合（mods_）
+        title: Forge 1.20.1 整合包模组集合（mods/）
+        scope:
+            - mods/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: fancymenu_data
+            - path: mod_configs

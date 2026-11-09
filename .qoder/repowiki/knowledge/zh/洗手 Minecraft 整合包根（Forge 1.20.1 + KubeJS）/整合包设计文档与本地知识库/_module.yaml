@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: docs
+title: 整合包设计文档与本地知识库
+scope:
+    - docs/
+    - knowledge_base/
+source_files: []
+depends_on: []
+related_to: []

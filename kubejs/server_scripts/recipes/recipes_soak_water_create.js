@@ -21,6 +21,7 @@ ServerEvents.recipes(event => {
     let waters = global.soakWaterRegister ? global.soakWaterRegister.waters : []
     for (let i = 0; i < waters.length; i++) {
         let w = waters[i]
+        if (w.customRecipe) continue   // 配方自定义（IE搅拌机/Create特殊搅拌/已有产线），跳过自动 mixing
         try {
             // 输入：水 1000mb + 额外流体（如牛奶） + 物品原料列表
             let inputs = [Fluid.of('minecraft:water', 1000)]

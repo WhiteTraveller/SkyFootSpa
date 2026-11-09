@@ -3,9 +3,6 @@ type = customizablemenus
 dev.xkmc.l2tabs.compat.CuriosListScreen {
 }
 
-net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen {
-}
-
 net.minecraft.client.gui.screens.TitleScreen {
 }
 

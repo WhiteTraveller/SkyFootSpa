@@ -319,14 +319,6 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                 }
             } catch (e) { console.log('[SLEEP-JS] 稀客好感度结算失败: ' + e) }
 
-            let finishPlayer = null
-            if (typeof global.aTip.findActionPlayer === 'function') {
-                finishPlayer = global.aTip.findActionPlayer(entity, level)
-            }
-            if (finishPlayer && global.aTip && typeof global.aTip.isStage === 'function' && global.aTip.isStage(finishPlayer, 'wait_rub_foot') && typeof global.aTip.advance === 'function') {
-                global.aTip.advance(finishPlayer, 'wait_rub_foot', 'done', 'pathfinder_service_finish_tip')
-            }
-
             return true
         }
     }

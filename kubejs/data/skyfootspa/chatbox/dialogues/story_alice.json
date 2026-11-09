@@ -6,24 +6,24 @@
     "ch0_prologue": [
       {
         "dialogBox": {
-          "text": "喂喂喂"
+          "text": "喂喂喂，清醒了吗？能听见我说话吗？"
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_confuse",
             "renderOrder": 10,
             "replace": true,
-            "animation": "TALK"
+            "animation": "LOOK_AROUND_HOP"
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "清醒了吗？"
+          "text": "呃……按照说明书，唤醒流程应该没错啊。"
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_confuse",
             "renderOrder": 10,
             "replace": true
           }
@@ -31,84 +31,36 @@
       },
       {
         "dialogBox": {
-          "text": "能听见我说话吗"
+          "text": "？？？"
         },
         "portrait": [
           {
-            "id": "alice_grin",
-            "renderOrder": 10,
-            "replace": true
+            "id": "alice_confuse",
+            "animation": "NOT_TALK",
+            "brightness": 70
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "呃……按照说明书，唤醒流程应该没错啊"
-        },
-        "portrait": [
-          {
-            "id": "alice_sullen",
-            "renderOrder": 10,
-            "replace": true
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "……"
-        },
-        "portrait": [
-          {
-            "brightness": 70,
-            "id": "alice_sullen",
-            "animation": "NOT_TALK"
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "……我来看看，“若出现故障请前往畜生界灵长园联系埴安神袿姬”"
-        },
-        "portrait": [
-          {
-            "id": "alice_sullen",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "TALK"
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "这维修服务难道还要我自己把东西搬过去吗？"
-        },
-        "portrait": [
-          {
-            "id": "alice_sullen",
-            "renderOrder": 10,
-            "replace": true
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "只能自己解决了。"
+          "text": "……我来看看，“若出现故障请前往畜生界灵长园联系埴安神袿姬”。"
         },
         "portrait": [
           {
             "id": "alice",
             "renderOrder": 10,
-            "replace": true
+            "replace": true,
+            "animation": "HOP"
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "不过我对这种构造不是很熟，直接拆开可能会坏。"
+          "text": "不仅不包邮费还要我自己把东西搬过去吗？不如自己解决了。"
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_grin_angry",
             "renderOrder": 10,
             "replace": true
           }
@@ -116,36 +68,37 @@
       },
       {
         "dialogBox": {
-          "text": "那就试试土办法好了。"
+          "text": "既然我对这种构造不是很熟，那就试试土办法好了。"
         },
         "portrait": [
           {
             "id": "alice",
             "renderOrder": 10,
-            "replace": true
+            "replace": true,
+            "scale": 2.6
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "魔理沙说，不管是什么设备，只要敲一下就会变好。"
+          "text": "听魔理沙说，对于大多数设备，只要敲一下就会变好。"
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice",
             "renderOrder": 10,
             "replace": true,
-            "animation": "BOUNCE"
+            "scale": 2.6
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "停停停停停停！"
+          "text": "停停停停停停"
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -157,7 +110,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_flowers",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
@@ -166,36 +119,11 @@
       },
       {
         "dialogBox": {
-          "text": ""
+          "text": "呃，刚刚头还有点晕，能不能劳烦您先把大锤收起来。"
         },
         "portrait": [
           {
-            "id": "alice",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "PAN_DOWN"
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "呃，不好意思，刚刚头有点晕。"
-        },
-        "portrait": [
-          {
-            "id": "alice",
-            "animation": "NOT_TALK",
-            "brightness": 70
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "所以能不能劳烦您先把大锤收起来。"
-        },
-        "portrait": [
-          {
-            "id": "alice",
+            "id": "alice_flowers",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -207,20 +135,20 @@
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_close_eyes_sweat",
             "renderOrder": 10,
             "replace": true,
-            "animation": "TALK"
+            "animation": "SQUAT"
           }
         ]
       },
       {
         "dialogBox": {
-          "text": "（我看上去像是没被吓到的样子吗？）"
+          "text": "这真的算是维修吗？"
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_close_eyes_sweat",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -232,7 +160,7 @@
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_close_eyes_sweat",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -240,11 +168,11 @@
       },
       {
         "dialogBox": {
-          "text": "我现在似乎什么也不知道。"
+          "text": "我似乎什么也不知道。"
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_close_eyes_sweat",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -269,9 +197,10 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_grin",
             "renderOrder": 10,
-            "replace": true
+            "replace": true,
+            "animation": "HOP"
           }
         ]
       },
@@ -281,20 +210,33 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "而你呢，是一个土偶，简单来说应该是类似于仿生人和机器人之类的……"
+        },
+        "portrait": [
+          {
+            "id": "alice_raise_eyebrow",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
           },
           "names"
         ]
       },
       {
         "dialogBox": {
-          "text": "而你呢，是一个土偶，简单的来说应该是类似于仿生人和机器人之类的……仿生人这种词你应该还听得懂吧，我不知道你的知识库储备怎么样。"
+          "text": "这种词你应该还听的懂吧，我不知道你的知识库储备怎么样。"
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_raise_eyebrow",
             "renderOrder": 10,
             "replace": true
           },
@@ -307,19 +249,20 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_raise_eyebrow",
             "animation": "NOT_TALK",
             "brightness": 70
           }
-        ]
+        ],
+        "sound": "minecraft:entity.player.levelup"
       },
       {
         "dialogBox": {
-          "text": "在地狱的畜生界有一位名叫埴安神袿姬的女士很擅长制作土偶，由于跟我用的人偶有些许共同之处……事实上我以前也想过要不要用土偶，所以她之前送了我一个作为礼物，也就是现在在我面前的你。"
+          "text": "有一位朋友将你制作出来并送给了我，"
         },
         "portrait": [
           {
-            "id": "alice_close_eyes",
+            "id": "alice_grin_eyebrow",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
@@ -329,11 +272,11 @@
       },
       {
         "dialogBox": {
-          "text": "不过由于我用自制的人偶已经养成习惯了，所以收到后就一直堆在仓库里。"
+          "text": "不过由于我用自制的人偶已经成习惯了，收到后就一直堆在仓库里。"
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_grin_eyebrow",
             "renderOrder": 10,
             "replace": true
           },
@@ -346,32 +289,6 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "BOUNCE"
-          },
-          "names"
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "那你现在是有什么活要我干吗？"
-        },
-        "portrait": [
-          {
-            "id": "alice_grin",
-            "animation": "NOT_TALK",
-            "brightness": 70
-          }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，各方面都几乎如同它的名字般梦幻。但在这平和温馨的日常下，总是潜藏着浑浊的污秽。"
-        },
-        "portrait": [
-          {
             "id": "alice",
             "renderOrder": 10,
             "replace": true,
@@ -382,7 +299,33 @@
       },
       {
         "dialogBox": {
-          "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种黑暗不断生根发芽。而如今对于这个幻想乡所积攒的陈腐习气我已经无法忍受了。"
+          "text": "那你现在把我掏出来是有什么活要我干吗？"
+        },
+        "portrait": [
+          {
+            "id": "alice",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，确实如同它的名字般梦幻。"
+        },
+        "portrait": [
+          {
+            "id": "alice_sullen",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "SQUAT"
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "但在这平和温馨的日常下，总是潜藏着浑浊的污秽。"
         },
         "portrait": [
           {
@@ -395,9 +338,39 @@
       },
       {
         "dialogBox": {
-          "text": "于是，现在我准备对幻想乡进行一场彻底的创新性变革。"
+          "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种陈腐的黑暗不断生根发芽。"
         },
         "portrait": [
+          {
+            "id": "alice_grin_angry",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "HOP"
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "而我已经无法继续忍受了。于是现在，我要对幻想乡进行一场彻底的创新性变革。"
+        },
+        "portrait": [
+          {
+            "id": "alice_grin_angry",
+            "renderOrder": 10,
+            "replace": true
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "为此，我需要更多人手的协助。"
+        },
+        "portrait": [
+          {
+            "id": "speed_lines"
+          },
           {
             "id": "alice_grin",
             "renderOrder": 10,
@@ -408,11 +381,14 @@
       },
       {
         "dialogBox": {
-          "text": "而为此，我需要更多人手的协助。"
+          "text": "你是我能想到的最佳人选，请务必借给我你的力量。"
         },
         "portrait": [
           {
-            "id": "alice_close_eyes",
+            "id": "speed_lines"
+          },
+          {
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
           },
@@ -421,34 +397,30 @@
       },
       {
         "dialogBox": {
-          "text": "你是我能想到的最佳人选，所以请务必借给我你的力量。"
+          "text": "难道你是想……造反？！"
         },
         "portrait": [
           {
-            "id": "alice_grin_eyebrow",
-            "renderOrder": 10,
-            "replace": true
+            "id": "speed_lines",
+            "animation": "LINES_SHAKE",
+            "loop": true
           },
-          "names"
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "难道你是想……"
-        },
-        "portrait": [
           {
-            "id": "alice_grin_eyebrow",
+            "id": "alice_grin",
             "animation": "NOT_TALK",
             "brightness": 70
           }
-        ]
+        ],
+        "sound": "minecraft:block.anvil.land"
       },
       {
         "dialogBox": {
-          "text": "所以，我现在命令你为洗脚城大店长，统率全城。"
+          "text": "所以，我现在命你为洗脚城大店长，统率全城。"
         },
         "portrait": [
+          {
+            "id": "speed_lines"
+          },
           {
             "id": "alice_grin",
             "renderOrder": 10,
@@ -464,6 +436,9 @@
         },
         "portrait": [
           {
+            "id": "speed_lines"
+          },
+          {
             "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
@@ -477,13 +452,17 @@
         },
         "portrait": [
           {
+            "id": "speed_lines"
+          },
+          {
             "id": "alice_grin",
             "renderOrder": 10,
             "replace": true,
-            "animation": "BOUNCE"
+            "scale": 2.6
           },
           "names"
-        ]
+        ],
+        "sound": "minecraft:entity.villager.celebrate"
       },
       {
         "dialogBox": {
@@ -493,7 +472,8 @@
           {
             "id": "alice_grin",
             "animation": "NOT_TALK",
-            "brightness": 70
+            "brightness": 70,
+            "scale": 2.6
           }
         ]
       },
@@ -511,11 +491,11 @@
       },
       {
         "dialogBox": {
-          "text": "不好意思，我的说明可能跳过了一些步骤。"
+          "text": "展开来说就是，这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。"
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_raise_eyebrow",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
@@ -525,24 +505,11 @@
       },
       {
         "dialogBox": {
-          "text": "幻想乡在某种角度上是一个怀旧的产物。"
+          "text": "随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的避风港。"
         },
         "portrait": [
           {
-            "id": "alice",
-            "renderOrder": 10,
-            "replace": true
-          },
-          "names"
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的，地球上的避风港。"
-        },
-        "portrait": [
-          {
-            "id": "alice_close_eyes",
+            "id": "alice_raise_eyebrow",
             "renderOrder": 10,
             "replace": true
           },
@@ -555,7 +522,7 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
           },
@@ -564,11 +531,11 @@
       },
       {
         "dialogBox": {
-          "text": "而幻想乡内是有人类存在的，他们也就在同一时间和外界断绝了联系。"
+          "text": "而幻想乡里也是有人类存在的。"
         },
         "portrait": [
           {
-            "id": "alice_close_eyes",
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
           },
@@ -581,20 +548,21 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_close_eyes",
             "renderOrder": 10,
-            "replace": true
+            "replace": true,
+            "animation": "SQUAT"
           },
           "names"
         ]
       },
       {
         "dialogBox": {
-          "text": "也就是说，幻想乡人类的卫生状态以外界的现代标准来看有点不达标。"
+          "text": "也就是说，幻想乡的卫生状态以外界的现代标准来看有点不达标。"
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_close_eyes",
             "renderOrder": 10,
             "replace": true
           },
@@ -607,13 +575,34 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "speed_lines"
+          },
+          {
+            "id": "alice_grin_eyebrow",
             "renderOrder": 10,
             "replace": true,
-            "animation": "BOUNCE"
+            "animation": "HOP"
           },
           "names"
         ]
+      },
+      {
+        "dialogBox": {
+          "text": "原来前面的污秽指的是字面意义上的卫生问题吗！"
+        },
+        "portrait": [
+          {
+            "id": "speed_lines",
+            "animation": "LINES_SHAKE",
+            "loop": true
+          },
+          {
+            "id": "alice_grin_eyebrow",
+            "animation": "NOT_TALK",
+            "brightness": 70
+          }
+        ],
+        "sound": "minecraft:block.anvil.land"
       },
       {
         "dialogBox": {
@@ -621,7 +610,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_grin_eyebrow",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -633,7 +622,7 @@
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_close_eyes_sweat",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
@@ -647,9 +636,10 @@
         },
         "portrait": [
           {
-            "id": "alice_raise_eyebrow",
+            "id": "alice_sullen",
             "renderOrder": 10,
-            "replace": true
+            "replace": true,
+            "animation": "SQUAT"
           },
           "names"
         ]
@@ -660,7 +650,7 @@
         },
         "portrait": [
           {
-            "id": "alice_raise_eyebrow",
+            "id": "alice_sullen",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -672,24 +662,12 @@
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_sullen",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
           },
           "names"
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "……"
-        },
-        "portrait": [
-          {
-            "id": "alice_confuse",
-            "animation": "NOT_TALK",
-            "brightness": 70
-          }
         ]
       },
       {
@@ -698,7 +676,7 @@
         },
         "portrait": [
           {
-            "id": "alice_confuse",
+            "id": "alice_sullen",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -706,25 +684,25 @@
       },
       {
         "dialogBox": {
-          "text": "你觉得呢。"
+          "text": "你要不用你的鼻子来自己确认一下？"
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_close_eyes_angry",
             "renderOrder": 10,
             "replace": true,
-            "animation": "TALK"
+            "animation": "HOP"
           },
           "names"
         ]
       },
       {
         "dialogBox": {
-          "text": "……我觉得应该是香的，至少不是臭。"
+          "text": "不用了，像你这样的美少女，脚一定是如同盛开的花朵般芬芳，"
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_close_eyes_angry",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -732,11 +710,11 @@
       },
       {
         "dialogBox": {
-          "text": "原来前面的污秽指的是字面意义上的卫生问题吗。"
+          "text": "我怕一闻就陶醉于其中无法自拔了。"
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_close_eyes_angry",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -748,7 +726,7 @@
         },
         "portrait": [
           {
-            "id": "alice_sullen",
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
@@ -762,7 +740,7 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_grin",
             "renderOrder": 10,
             "replace": true
           },
@@ -775,7 +753,7 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_grin",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -787,21 +765,40 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "speed_lines"
+          },
+          {
+            "id": "alice_flowers",
             "renderOrder": 10,
             "replace": true,
-            "animation": "BOUNCE"
+            "animation": "HOP"
           },
           "names"
-        ]
+        ],
+        "sound": "minecraft:entity.player.levelup"
       },
       {
         "dialogBox": {
-          "text": "这可是我好不容易才想出来的完美方案，既能改善幻想乡里的卫生条件，又能展现我们非常在乎个人卫生。简直是一举两得。"
+          "text": "这可是我好不容易才想出来的完美方案，既能改善幻想乡里的卫生条件，又能展现我们非常在乎个人卫生，甚至能促进经济发展。"
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_raise_eyebrow",
+            "renderOrder": 10,
+            "replace": true,
+            "animation": "TALK"
+          },
+          "names"
+        ],
+        "sound": "minecraft:entity.villager.celebrate"
+      },
+      {
+        "dialogBox": {
+          "text": "简直是一举两得……不对是三得。"
+        },
+        "portrait": [
+          {
+            "id": "alice_raise_eyebrow",
             "renderOrder": 10,
             "replace": true
           },
@@ -814,7 +811,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_raise_eyebrow",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -826,7 +823,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_raise_eyebrow",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -834,14 +831,28 @@
       },
       {
         "dialogBox": {
-          "text": "没错，毕竟我自己的人偶都是需要我手动操纵的，而我现在又有其它事要做，所以还是作为土偶可以自主行动的你更加适合。"
+          "text": "没错，毕竟我自己的人偶都是需要我手动操纵的，而我现在又有其它事要做，"
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_flowers",
             "renderOrder": 10,
             "replace": true,
             "animation": "TALK"
+          },
+          "names"
+        ],
+        "sound": "minecraft:entity.player.levelup"
+      },
+      {
+        "dialogBox": {
+          "text": "所以还是作为土偶可以自主行动的你更加适合。"
+        },
+        "portrait": [
+          {
+            "id": "alice_flowers",
+            "renderOrder": 10,
+            "replace": true
           },
           "names"
         ]
@@ -852,7 +863,7 @@
         },
         "portrait": [
           {
-            "id": "alice",
+            "id": "alice_flowers",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -864,21 +875,21 @@
         },
         "portrait": [
           {
-            "id": "alice_grin",
+            "id": "alice_grin_eyebrow",
             "renderOrder": 10,
             "replace": true,
-            "animation": "TALK"
+            "animation": "HOP"
           },
           "names"
         ]
       },
       {
         "dialogBox": {
-          "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我觉得我和她们间的差别还是不小的。"
+          "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我自认为和她们间的差别还是不小的。"
         },
         "portrait": [
           {
-            "id": "alice_grin_eyebrow",
+            "id": "alice_close_eyes",
             "renderOrder": 10,
             "replace": true
           },
@@ -891,7 +902,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin_eyebrow",
+            "id": "alice_close_eyes",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -903,7 +914,7 @@
         },
         "portrait": [
           {
-            "id": "alice_grin_eyebrow",
+            "id": "alice_close_eyes",
             "animation": "NOT_TALK",
             "brightness": 70
           }
@@ -911,14 +922,27 @@
       },
       {
         "dialogBox": {
-          "text": "好的，不过在经营的时候要小心脚下。为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。"
+          "text": "好的，不过在经营的时候要小心脚下。"
         },
         "portrait": [
           {
-            "id": "alice_close_eyes",
+            "id": "alice_flowers",
             "renderOrder": 10,
             "replace": true,
-            "animation": "TALK"
+            "animation": "HOP"
+          },
+          "names"
+        ]
+      },
+      {
+        "dialogBox": {
+          "text": "为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。"
+        },
+        "portrait": [
+          {
+            "id": "alice_flowers",
+            "renderOrder": 10,
+            "replace": true
           },
           "names"
         ]
@@ -929,24 +953,10 @@
         },
         "portrait": [
           {
-            "id": "alice_close_eyes",
+            "id": "alice_flowers",
             "animation": "NOT_TALK",
             "brightness": 70
           }
-        ]
-      },
-      {
-        "dialogBox": {
-          "text": "接下来，我会帮你熟悉一遍必要的经营步骤。"
-        },
-        "portrait": [
-          {
-            "id": "alice_grin",
-            "renderOrder": 10,
-            "replace": true,
-            "animation": "TALK"
-          },
-          "names"
         ]
       }
     ],

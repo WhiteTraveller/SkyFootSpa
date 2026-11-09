@@ -90,6 +90,8 @@ function Relic() {
     this.rarity = global.raritys.common
     this.pool = global.relicPool.common
     this.stage = 0  // 所属阶段 1~5
+    this.nineGridStar = false  // 悬停 tooltip 引导网格中央 3×3（除中心）显示五角星
+    this.tooltipHeight = 2  // tooltip 左侧描述面板中段图片张数，文本过长时调大
     this.getRelicId = function() {
         return "marguerite:" + this.name
     }
@@ -132,6 +134,10 @@ function Relic() {
         this.texture = texture
         return this
     }
+    this.setTooltipHeight = function(tooltipHeight) {
+        this.tooltipHeight = tooltipHeight
+        return this
+    }
     this.setName = function(name) {
         this.name = name
         return this
@@ -170,6 +176,10 @@ function Relic() {
     }
     this.setStage = function(stage) {
         this.stage = stage
+        return this
+    }
+    this.setNineGridStar = function(nineGridStar) {
+        this.nineGridStar = nineGridStar
         return this
     }
 

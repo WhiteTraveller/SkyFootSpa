@@ -330,11 +330,7 @@
         ],
         "options": [
           {
-            "text": "好哦",
-            "click": {
-              "type": "command",
-              "value": "auratip_openshop"
-            }
+            "text": "好哦"
           }
         ]
       }

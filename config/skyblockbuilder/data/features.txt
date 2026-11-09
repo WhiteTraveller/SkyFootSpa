@@ -250,3 +250,13 @@ ubesdelight:patch_wild_garlic
 ubesdelight:patch_wild_ginger
 ubesdelight:patch_wild_lemongrass
 ubesdelight:patch_wild_ube
+youkaishomecoming:black_grape
+youkaishomecoming:coffea
+youkaishomecoming:cucumber
+youkaishomecoming:mandrake
+youkaishomecoming:red_grape
+youkaishomecoming:redbean
+youkaishomecoming:soybean
+youkaishomecoming:tea
+youkaishomecoming:udumbara
+youkaishomecoming:white_grape

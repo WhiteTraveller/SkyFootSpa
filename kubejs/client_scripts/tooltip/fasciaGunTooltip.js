@@ -55,7 +55,7 @@ ItemEvents.tooltip(function(event) {
     }
 
     // ==================== 四个筋膜枪头 ====================
-    var partNames = { jiaozhi: '脚趾', jiaozhang: '脚掌', jiaoxin: '脚心', jiaogen: '脚跟' }
+    var partNames = { jiaozhi: '按', jiaozhang: '推', jiaoxin: '搓', jiaogen: '揉' }
     var parts = ['jiaozhi', 'jiaozhang', 'jiaoxin', 'jiaogen']
 
     for (var j = 0; j < parts.length; j++) {

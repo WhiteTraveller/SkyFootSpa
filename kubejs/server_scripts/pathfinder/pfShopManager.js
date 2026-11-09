@@ -356,6 +356,57 @@ function pfCloseShop(level, beOrPosOrReason, reasonMaybe) {
 }
 
 /**
+ * 本店路径上是否已有指定稀客（存活且 pfShopBase 指向本方块）
+ * 扫描整个维度而非 pfShopSpawnedUuids：关店会清空该列表，但服务中的稀客仍在
+ */
+function pfShopHasRareOnRoute(level, be, rareId) {
+    let base = pfShopGetBase(be)
+    let entities = level.getEntities()
+    for (let i = 0; i < entities.size(); i++) {
+        let ent = entities.get(i)
+        if (!ent.isAlive()) continue
+        let pd = ent.persistentData
+        if (("" + pd.getString("pfRareId")) !== rareId) continue
+        if ((pd.getInt("pfShopBaseX") | 0) === base.x &&
+            (pd.getInt("pfShopBaseY") | 0) === base.y &&
+            (pd.getInt("pfShopBaseZ") | 0) === base.z) return true
+    }
+    return false
+}
+
+/**
+ * 在本店路径起点生成一位稀客（自然生成与茶水召唤共用）
+ * @returns 生成的实体，失败返回 null
+ */
+function pfShopSpawnRare(level, be, rareDef, player) {
+    let base = pfShopGetBase(be)
+    console.log("[PF-SHOP] ★稀客光临: " + rareDef.name + "(" + rareDef.id + "), 模型: " + rareDef.model + ", 维度: " + level.getDimension())
+    try {
+        let walker = global.pfEntitySpawner.pfSpawnWalker(
+            level, base.x, base.y, base.z,
+            pfShopGetRouteStr(be), pfShopGetQueuePos(be), player, rareDef.model, null, true, '', rareDef
+        )
+        // 稀客不参与种族评价系统（与 Boss 一致，置空类别）
+        walker.persistentData.putString('pfCustomerCategory', '')
+        // 读取本方块已存储的该稀客好感度，作为本次服务的快照（结算掉落档位按“更新前好感度”判定）
+        let affection = global.pfRareAffection.pfGetBeAffection(be, rareDef.id)
+        walker.persistentData.putInt('pfRareAffSnapshot', affection)
+        // 头顶名牌：上一行爱心（好感度），下一行 ★稀客 + 名字
+        global.pfRareAffection.pfApplyRareNameTag(walker, rareDef, affection)
+        pfShopAddSpawnedUuid(be, "" + walker.getUuid())
+        if (player) {
+            let hearts = global.pfCustomerTypes.pfRareHeartsText(affection)
+            player.tell('§d★ 稀客 §e' + rareDef.name + ' §d光临了本店！' + hearts + ' §7好感度 ' + affection)
+            player.tell('§7需求是普通顾客的 §e1.5 §7倍，好好招待可提升好感度！')
+        }
+        return walker
+    } catch (e) {
+        console.log("[PF-SHOP] 生成稀客失败: " + e)
+        return null
+    }
+}
+
+/**
  * 开店tick处理 - 由 pfMain 每 tick 调用，传入触发方块的 BE
  * 计数器满 PF_SPAWN_INTERVAL 即判定一次
  */
@@ -399,29 +450,9 @@ function pfShopTick(level, entity) {
     let queuePos = pfShopGetQueuePos(be)
 
     if (rareDef) {
-        console.log("[PF-SHOP] ★稀客光临: " + rareDef.name + "(" + rareDef.id + "), 模型: " + rareDef.model + ", 维度: " + level.getDimension())
-        try {
-            let walker = global.pfEntitySpawner.pfSpawnWalker(
-                level, base.x, base.y, base.z,
-                routeStr, queuePos, player, rareDef.model, null, true, '', rareDef
-            )
-            // 稀客不参与种族评价系统（与 Boss 一致，置空类别）
-            walker.persistentData.putString('pfCustomerCategory', '')
-            // 读取本方块已存储的该稀客好感度，作为本次服务的快照（结算掉落档位按“更新前好感度”判定）
-            let affection = global.pfRareAffection.pfGetBeAffection(be, rareDef.id)
-            walker.persistentData.putInt('pfRareAffSnapshot', affection)
-            // 头顶名牌：上一行爱心（好感度），下一行 ★稀客 + 名字 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
-            global.pfRareAffection.pfApplyRareNameTag(walker, rareDef, affection)
-            pfShopAddSpawnedUuid(be, "" + walker.getUuid())
-            // 向开店玩家提示稀客光临（含当前好感度与爱心）
-            if (player) {
-                let hearts = global.pfCustomerTypes.pfRareHeartsText(affection)
-                player.tell('§d★ 稀客 §e' + rareDef.name + ' §d光临了本店！' + hearts + ' §7好感度 ' + affection)
-                player.tell('§7需求是普通顾客的 §e1.5 §7倍，好好招待可提升好感度！')
-            }
-        } catch (e) {
-            console.log("[PF-SHOP] 生成稀客失败: " + e)
-        }
+        // 已在本店路径上的稀客不重复生成（茶水召唤与自然生成共用此约束）
+        if (pfShopHasRareOnRoute(level, be, rareDef.id)) return
+        pfShopSpawnRare(level, be, rareDef, player)
         return
     }
 
@@ -437,8 +468,9 @@ function pfShopTick(level, entity) {
             routeStr, queuePos, player, result.model, null, true, result.category
         )
         walker.persistentData.putString('pfCustomerCategory', result.category)
-        // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
-        global.pfCustomerLevel.pfRefreshNameTag(walker, result.name)
+        // 头顶名牌：显示种族名
+        walker.setCustomName(Text.of(result.name || '顾客'))
+        walker.setCustomNameVisible(true)
         pfShopAddSpawnedUuid(be, "" + walker.getUuid())
         // 自动开店不再发送“××类顾客来了！”，只保留 pfSpawnWalker 内部的顾客话语广播
     } catch (e) {
@@ -466,7 +498,13 @@ global.pfShopManager = {
     pfShopRefreshBeds: pfShopRefreshBeds,
     pfShopReserveBed: pfShopReserveBed,
     pfShopReleaseBed: pfShopReleaseBed,
-    pfShopRemoveBedAt: pfShopRemoveBedAt
+    pfShopRemoveBedAt: pfShopRemoveBedAt,
+    // 稀客（茶水召唤使用）
+    pfDimId: pfDimId,
+    pfShopGetBase: pfShopGetBase,
+    pfShopGetRouteStr: pfShopGetRouteStr,
+    pfShopHasRareOnRoute: pfShopHasRareOnRoute,
+    pfShopSpawnRare: pfShopSpawnRare
 }
 
 console.log("[PF-SHOP] 开店管理模块已加载")

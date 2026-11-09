@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: apricity_ui_assets
+title: ApricityUI 前端资源与 UI 适配文档
+scope:
+    - apricity/
+    - components/
+source_files: []
+depends_on: []
+related_to:
+    - path: kubejs_scripts

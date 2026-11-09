@@ -8,6 +8,10 @@ if (Platform.isClientEnvironment()) {
         let DOC_PATH = "kubejs/tooltip.html"
         let ApricityUI = Java.loadClass("com.sighs.apricityui.ApricityUI")
         let AuiPosition = Java.loadClass("com.sighs.apricityui.layout.Position")
+        let Minecraft = Java.loadClass("net.minecraft.client.Minecraft")
+        let RenderSystem = Java.loadClass("com.mojang.blaze3d.systems.RenderSystem")
+        let GameRenderer = Java.loadClass("net.minecraft.client.renderer.GameRenderer")
+        let ResourceLocation = Java.loadClass("net.minecraft.resources.ResourceLocation")
         let tooltipDocument = null
         let tooltipRoot = null
         let tooltipReady = false
@@ -16,6 +20,14 @@ if (Platform.isClientEnvironment()) {
         let isShowingCustom = false
         let lastPosX = -1
         let lastPosY = -1
+
+        // 九宫格星标（原版渲染叠在真实槽位上）：星形贴图 256×256、星占左上 18×18
+        let NS_STAR_COUNT = 8
+        let NS_SLOT = 18
+        let nsLastDebugAt = 0
+        let STAR_RL = new ResourceLocation("kubejs", "textures/gui/nine_star.png")
+        // 与 tooltip_desc_mid.png 高度一致
+        let DESC_MID_HEIGHT = 108
 
         let relicIdSet = null
         let relicColorCache = null
@@ -34,11 +46,12 @@ if (Platform.isClientEnvironment()) {
                 let id = "marguerite:" + relic.name
                 relicIdSet[id] = true
 
-                let color = "rgb(189, 180, 61)" // gold（默认）
+                // 标题文字色：浅纸底上需用深色系
+                let color = "rgb(140, 100, 20)"
                 let rarity = relic.rarity
-                if (rarity && rarity.name === "少见") color = "rgb(88, 149, 88)"
-                else if (rarity && rarity.name === "稀有") color = "rgb(163, 77, 132)"
-                else if (rarity && rarity.name === "史诗") color = "rgb(142, 50, 50)"
+                if (rarity && rarity.name === "少见") color = "rgb(50, 115, 50)"
+                else if (rarity && rarity.name === "稀有") color = "rgb(130, 45, 105)"
+                else if (rarity && rarity.name === "史诗") color = "rgb(150, 35, 25)"
                 relicColorCache[id] = color
             }
 
@@ -96,6 +109,98 @@ if (Platform.isClientEnvironment()) {
             lastPosY = -9999
         }
 
+        // ---------- 九宫格星标：叠在真实容器槽位上 ----------
+        function nsDbg(msg) {
+            let now = Date.now()
+            if (now - nsLastDebugAt < 2000) return
+            nsLastDebugAt = now
+            console.log("[NINE-STAR] " + msg)
+        }
+
+        // 原版渲染：在 8 个真实邻槽坐标上 blit 星形贴图（必然可见，不依赖 AUI 绘制）
+        function drawNineStars(pose, screen, mx, my) {
+            let menu = screen.getMenu()
+            let guiLeft = screen.getGuiLeft()
+            let guiTop = screen.getGuiTop()
+            let slots = menu.slots
+            let hovered = findHoveredSlot(slots, guiLeft, guiTop, mx, my)
+            if (hovered == null) return false
+            let hStack = hovered.getItem()
+            let rd = (hStack && !hStack.isEmpty()) ? getRelicData("" + hStack.getId()) : null
+            if (!rd || rd.nineGridStar !== true) return false
+            let neighbors = findNeighborSlots(slots, hovered)
+            if (neighbors.length === 0) return false
+            RenderSystem.enableBlend()
+            RenderSystem.defaultBlendFunc()
+            RenderSystem.setShader(GameRenderer.getPositionTexShader())
+            RenderSystem.setShaderTexture(0, STAR_RL)
+            RenderSystem.setShaderColor(1.0, 1.0, 1.0, 1.0)
+            for (let k = 0; k < neighbors.length; k++) {
+                let n = neighbors.get(k)
+                // screen 本身是 GuiComponent 子类，直接调实例 blit，避免启动期加载 GuiComponent 类失败
+                screen.blit(pose, guiLeft + n.x, guiTop + n.y, 0, 0, NS_SLOT, NS_SLOT)
+            }
+            return true
+        }
+
+        function findHoveredSlot(slots, guiLeft, guiTop, mx, my) {
+            for (let i = 0; i < slots.size(); i++) {
+                let s = slots.get(i)
+                let sx = guiLeft + s.x
+                let sy = guiTop + s.y
+                if (mx >= sx && mx < sx + NS_SLOT && my >= sy && my < sy + NS_SLOT) {
+                    return s
+                }
+            }
+            return null
+        }
+
+        function findNeighborSlots(slots, hovered) {
+            let result = []
+            for (let i = 0; i < slots.size() && result.length < NS_STAR_COUNT; i++) {
+                let s = slots.get(i)
+                let dx = s.x - hovered.x
+                let dy = s.y - hovered.y
+                if (dx === 0 && dy === 0) continue
+                if ((dx === -NS_SLOT || dx === 0 || dx === NS_SLOT) &&
+                    (dy === -NS_SLOT || dy === 0 || dy === NS_SLOT)) {
+                    result.push(s)
+                }
+            }
+            return result
+        }
+
+        // 该 Forge 版本的 ScreenEvent$Render$Post 在 Rhino 下无 getPoseStack()；
+        // 沿类链反射读私有字段 poseStack（Forge 自有字段名，运行时不被混淆）
+        function getPoseStackOf(event) {
+            let cls = event.getClass()
+            while (cls != null) {
+                try {
+                    let f = cls.getDeclaredField("poseStack")
+                    f.setAccessible(true)
+                    return f.get(event)
+                } catch (e) {
+                    cls = cls.getSuperclass()
+                }
+            }
+            return null
+        }
+
+        // 容器界面渲染后叠加九宫格星标（原版 PoseStack 绘制，位于界面之上）
+        ForgeEvents.onEvent("net.minecraftforge.client.event.ScreenEvent$Render$Post", function(event) {
+            try {
+                let screen = event.getScreen()
+                if (screen == null) return
+                let pose = getPoseStackOf(event)
+                if (pose == null) { nsDbg("poseStack=null"); return }
+                if (drawNineStars(pose, screen, event.getMouseX(), event.getMouseY())) {
+                    nsDbg("drawn")
+                }
+            } catch (e) {
+                nsDbg("ERR " + e)
+            }
+        })
+
         ForgeEvents.onEvent("net.minecraftforge.event.entity.player.ItemTooltipEvent", function(event) {
             let stack = event.getItemStack()
             if (!isRelicItem(stack)) {
@@ -107,7 +212,8 @@ if (Platform.isClientEnvironment()) {
             }
 
             let currentId = "" + stack.getId()
-            if (!ensureTooltipOnce()) return
+            // 进游戏时搜索索引会为所有物品生成 tooltip 文本，不能在这里创建文档，只在真实渲染（RenderTooltipEvent）时创建
+            if (!tooltipReady) return
 
             if (currentId !== lastItemId) {
                 if (!rebuildTooltip(currentId)) return
@@ -162,12 +268,14 @@ if (Platform.isClientEnvironment()) {
             }
 
             let titleEl = tooltipDocument.getElementById("title")
-            if (titleEl) titleEl.innerText = relicData.nameZH || relicData.name || ""
+            if (titleEl) {
+                titleEl.innerText = relicData.nameZH || relicData.name || ""
+                titleEl.setAttribute("style", "color: " + (relicColorCache[itemId] || "rgb(140, 100, 20)") + ";")
+            }
 
-            let header = tooltipDocument.getElementById("header")
-            if (header) {
-                let color = relicColorCache[itemId] || "rgb(189, 180, 61)"
-                header.setAttribute("style", "background-color: " + color + ";")
+            let descMid = tooltipDocument.getElementById("desc-mid")
+            if (descMid) {
+                descMid.setAttribute("style", "height: " + (relicData.tooltipHeight * DESC_MID_HEIGHT) + "px;")
             }
 
             let mainDescText = tooltipDocument.getElementById("main-desc-text")
@@ -218,12 +326,14 @@ if (Platform.isClientEnvironment()) {
                         style = "background-color: rgb(" + red + ", " + green + ", " + blue + ");"
                     }
 
-                    if (rowIndex === 2 && columnIndex === 2) {
-                        let texturePath = getRelicTexturePath(relicData)
-                        if (texturePath) style += "background-image: url(" + texturePath + ");"
-                    }
                     cell.setAttribute("style", style)
                 }
+            }
+
+            let icon = tooltipDocument.getElementById("guide-icon")
+            if (icon) {
+                let texturePath = getRelicTexturePath(relicData)
+                icon.setAttribute("style", texturePath ? "background-image: url(" + texturePath + ");" : "")
             }
         }
 

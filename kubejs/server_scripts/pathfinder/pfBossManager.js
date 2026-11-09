@@ -19,8 +19,9 @@ function pfSpawnBossOnRoute(player, level, baseX, baseY, baseZ, routeStr, queueP
 
         // Boss 不参与常规顾客类别评价系统（pfShouldWakeUp 里根据 category 判断）
         walker.persistentData.putString('pfCustomerCategory', '')
-        // 头顶名牌：Boss 名 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
-        global.pfCustomerLevel.pfRefreshNameTag(walker, bossDef.name)
+        // 头顶名牌：显示 Boss 名
+        walker.setCustomName(Text.of(bossDef.name || '顾客'))
+        walker.setCustomNameVisible(true)
 
         // 如果 shop 已开，把 boss uuid 纳入统一管理（开店状态持久化在 BlockEntity NBT 中）
         try {

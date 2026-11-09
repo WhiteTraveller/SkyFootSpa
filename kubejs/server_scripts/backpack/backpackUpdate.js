@@ -26,7 +26,7 @@ function getAttributeList() {
   // 我们的“服务玩法”自定义属性：
   // - 每个部位有三条：满意度增量 sat_gain / 金钱增量 money_gain / 体力消耗 stamina_cost
   // - 这 12 条属性由 startup_scripts/attributes/serveAttributes.js 注册并挂到玩家身上
-  let parts = ["jiaozhi", "jiaozhang", "jiaoxin", "jiaogen"]
+  let parts = ["jiaozhi", "jiaozhang", "jiaoxin", "jiaogen", "jiaobei"]
   for (let i = 0; i < parts.length; i++) {
     let p = parts[i]
     attrs.push("kubejs:serve.sat_gain." + p)

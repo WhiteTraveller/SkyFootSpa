@@ -1,14 +1,16 @@
 <!doctype html>
 <!--
-  人物图鉴界面（Screen 类型）—— 卡片立绘版
-  - 左侧：2×3 角色卡片网格，每卡为 <texture> 头像 + 名称 + 种族标签，点击切换右侧详情。
-  - 右侧上半：卡片立绘大图(<img>，按源图 860×1536 比例显式写宽高、不用 object-fit) + 角色情报并排。
-  - 右侧下半：剧情对话列表，点击跳转对应 chatbox 对话。
-  - 点击立绘图片可打开全屏 lightbox 查看大图。
-  - 卡片图片：<img src="相对路径"> 引用 apricity/kubejs/ 下的 *_card.png（860×1536）。
-  - 【重要】静态预渲染槽位 + getElementById 填充，不往容器动态增删节点。
-  - 和风纸质配色：暖米黄渐变底 + 墨色外框 + 朱红镶边/点缀。viewport=browser + intercept。
-  - 背景/边框一律用实色（AUI 下半透明与渐变混合不稳定）。
+  人物图鉴界面（Screen 类型）—— 按「角色.html」设计稿还原。
+  - 顶部六角色头像；左侧姓名/资料，中央透明立绘，右侧简介/回想。
+  - gallery_paper.png 已合成原稿纸纹与四角纹样，避免 AUI 镜像、伪元素与叠层差异。
+  - gallery_portrait_* 为透明立绘；点击后仍查看原来的 860×1536 完整卡片。
+  - 无能力栏；种族/初登场/所属势力值字号统一 36；立绘按可见高度=容器 3/4 放大，
+    容器 overflow 裁掉底部 1/4；底部渐隐遮罩已按需求移除（立绘直接裁切收尾）。
+  - 早苗立绘由资源包 kochiya_sanae illust+face/default 合成裁切（local/refresh-sanae.cjs，206×313）。
+  - 字体按设计稿：中文 ZhaohuaMinB Black、英文名 KingHwaOldSong，@font-face 注册本地 ttf。
+  - 所有图片均为本地资源，布局按 1920×1213 稿件等比换算实际像素宽高，不用 transform 缩放。
+  - 固定 DOM 槽位、DOMContentLoaded 初始化、实色按钮、纯文件名图片引用。
+  - 保留原 pf_gallery_play_dialogue 网络契约；稀客页签复用 pf_rare_affection_open。
 -->
 <html>
 <head>
@@ -17,269 +19,172 @@
   <meta name="aui-viewport" content="mode=browser">
   <meta name="aui-mouse-events" content="intercept">
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; }
+    /* 设计稿字体：中文=ZhaohuaMinB Black（朝華標題B），英文名=KingHwaOldSong（京華老宋體）。
+       写法对齐 AUI ore 主题：@font-face + 相对页面目录的 url。 */
+    @font-face {
+      font-family: GalleryZhaohua;
+      src: url("fonts/zhaohua_minb_black.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: GalleryKinghwa;
+      src: url("fonts/kinghwa_oldsong_regular.ttf") format("truetype");
+    }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; image-rendering: pixelated; }
     body {
+      position: relative;
       background: transparent;
-      color: #4a3c2a;
+      color: #1c0606;
+      font-family: "GalleryZhaohua", "SimSun", "Noto Serif CJK SC", serif;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    /* ===== 和风纸质面板 ===== */
-    .wrap {
-      width: 1260px;
-      background: linear-gradient(155deg, #f8f1de 0%, #f1e6cd 48%, #eaddbf 100%);
-      border: 2px solid #5b4a36;
-      box-shadow: 0 0 0 3px rgba(181, 67, 42, 0.22);
-      padding: 24px 28px;
-      display: flex;
-      flex-direction: column;
-    }
-    .hd { display: flex; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid rgba(181, 67, 42, 0.45); }
-    .title { font-size: 38px; color: #b5432a; font-weight: bold; padding-left: 14px; border-left: 6px solid #b5432a; }
-    .spacer { flex: 1 1 auto; }
-    .close { cursor: pointer; color: #6b5a45; font-size: 38px; padding: 0 12px; }
-    .close:hover { color: #b5432a; }
-
-    .main { display: flex; gap: 20px; }
-
-    /* ===== 左：2×3 卡片列表（flex-wrap，不用 AUI 维护不佳的 grid）=====
-       横向：2 列×206px + 1 间距×14px = 426px（容器 428px，留 2px 余量避免换行临界）
-       纵向：3 行×272px + 2 间距×14px = 844px（容器 848px）
-       align-content:flex-start 防止行被 stretch 拉高 */
-    .left {
-      flex-grow: 0;
-      flex-shrink: 0;
-      width: 428px;
-      height: 848px;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 14px;
-    }
-    /* 卡片：flex-wrap 子项，flex-grow/shrink:0 锁定 206×272 不伸缩；
-       box-sizing:border-box 使宽高含边框；单色渐变背景规避 AUI 块级背景不稳定 */
+    /* 尺寸由 layoutPage 等比写入实际像素，避免视觉缩放与鼠标命中错位。 */
+    /* AUI 1.2.7 实测：absolute 且 z-index:auto 的元素会被画在 z-index:0 兄弟（纸纹底图）之下，
+       故 .placed 统一显式 z-index:1，#paper 用 id 选择器压回 0。 */
+    #galleryStage { position: relative; width: 1650px; height: 1093px; flex-grow: 0; flex-shrink: 0; }
+    /* 入场动画见 JS playEntry()：从 -24px 下移落位（AUI 忽略 transform，opacity 淡入已按需求弃用）。 */
+    .placed { position: absolute; box-sizing: border-box; z-index: 1; }
+    img, texture { display: block; flex-grow: 0; flex-shrink: 0; }
+    .decoration { pointer-events: none; }
+    /* 设计稿层级：纸面盖在页签之上——非当前页签沉到纸底只露一截；页签 z0、纸面 z1。 */
+    #paper { z-index: 1; }
+    .tab { overflow: hidden; cursor: pointer; z-index: 0; }
+    .tab:hover { opacity: 0.9; }
+    /* 页签阴影条：贴在纸顶线（y=70）上缘、盖在页签上方。 */
+    #charTabShadow { z-index: 2; }
+    #rareTabShadow { z-index: 2; }
+    #closeBtn { color: #933434; cursor: pointer; text-align: center; z-index: 3; }
+    #closeBtn:hover { color: #1c0606; }
+    #avatarStrip { display: flex; justify-content: space-between; align-items: flex-start; z-index: 2; }
     .card {
+      position: relative;
       flex-grow: 0;
       flex-shrink: 0;
       box-sizing: border-box;
-      width: 206px;
-      height: 272px;
-      background: linear-gradient(#fdf8ec, #fdf8ec);
-      border: 2px solid #d5cabb;
-      border-left: 5px solid #d5cabb;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       cursor: pointer;
-      padding: 0;
+      border-bottom: 2px solid transparent;
     }
-    .card:hover { background: linear-gradient(#f7e6d9, #f7e6d9); }
-    /* 头像区域：width:100% 填满卡片内容宽 + 居中，确保不同尺寸源贴图显示一致 */
-    .avatar-box {
-      width: 100%;
-      height: 188px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    /* 头像统一 150×150 显示，flex-shrink:0 锁定不被压缩，源图均为正方形不会拉伸 */
-    .avatar-box texture { width: 150px; height: 150px; flex-grow: 0; flex-shrink: 0; }
-    /* 角色名 */
-    .cname {
-      font-size: 23px;
-      color: #4a3c2a;
-      font-weight: bold;
-      margin-top: 6px;
-      text-align: center;
-      width: 100%;
-    }
-    /* 种族标签 */
-    .ctag {
-      font-size: 17px;
-      color: #8a7a63;
-      margin-top: 3px;
-      text-align: center;
-    }
-
-    /* ===== 右：角色详情 =====
-       宽度账：1204(内容宽) - 428(左) - 20(gap) = 756px
-       布局：上半 = 卡片图(left) + 信息(right)，下半 = 对话列表 */
-    .right {
-      flex-grow: 0;
-      flex-shrink: 0;
-      flex-basis: 756px;
-      width: 756px;
-      height: 848px;
-      background: linear-gradient(#f7efdf, #f7efdf);
-      border: 2px solid #d5cabb;
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-    }
-    /* 上半区：卡片图 + 信息并排 */
-    .top-row {
-      display: flex;
-      gap: 20px;
-      height: 460px;
-      margin-bottom: 14px;
-    }
-    /* 卡片图容器（860:1536 固定比例）：flex-shrink:0 锁定宽度，不被右侧信息挤压 */
-    .portrait-area {
-      flex-grow: 0;
-      flex-shrink: 0;
-      flex-basis: 300px;
-      width: 300px;
-      height: 460px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(#fffcf4, #fffcf4);
-      border: 2px solid #e2d8c6;
-      cursor: pointer;
-    }
-    /* 源图 860×1536，height 430 → width=round(430×860/1536)=241；显式宽高 + flex 不伸缩，避免横向压缩 */
-    #bigCard { width: 241px; height: 430px; flex-grow: 0; flex-shrink: 0; }
-    /* 信息栏：占据剩余宽度，min-width:0 让长文本换行而不反推 portrait-area */
-    .info-col {
-      flex-grow: 1;
-      flex-shrink: 1;
-      flex-basis: auto;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      padding-top: 4px;
-    }
-    .rname {
-      font-size: 33px;
-      color: #b5432a;
-      font-weight: bold;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid rgba(91, 74, 54, 0.3);
-    }
-    .rinfo { font-size: 22px; color: #5a4a36; margin-bottom: 7px; }
-    .rinfo b { color: #41556b; }
-    .rdesc { font-size: 19px; color: #6b5a45; margin-top: 10px; }
-
-    /* ===== 下半区：对话列表 ===== */
-    .dlg-section {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      border-top: 2px solid rgba(91, 74, 54, 0.3);
-      padding-top: 10px;
-    }
-    .dlg-title {
-      font-size: 24px;
-      color: #b5432a;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .dlg-list {
-      flex: 1 1 auto;
-      overflow-y: auto;
-    }
-    /* 对话条目：单色渐变背景（同卡片，规避 AUI 块级背景不稳定） */
+    .card:hover { background: #e9dcd6; }
+    .avatar { pointer-events: none; }
+    /* 选中态头像叠框：中心透明的双圈框图，盖在头像外沿一圈。 */
+    .avsel { position: absolute; pointer-events: none; z-index: 2; }
+    #rName { font-weight: bold; line-height: 1.1; white-space: pre-wrap; }
+    #rNameEn { color: #c38a8a; line-height: 1.05; font-family: "GalleryKinghwa", "Times New Roman", serif; }
+    .fact-label { color: #704646; }
+    .fact-value { text-align: right; font-weight: bold; white-space: nowrap; }
+    /* 立绘容器 overflow 裁掉底部 1/4；图片顶对齐使裁剪只作用于底部。
+       底部渐隐遮罩已按需求移除；如再需要，AUI 1.2.7 下仅“叠 div 纸色 rgba 渐变”可行
+       （mask-image 合成黑盒、mix-blend-mode 无实现、烘焙 PNG 需重启）。 */
+    #portraitArea { cursor: pointer; overflow: hidden; z-index: 1; }
+    /* 立绘改绝对定位：居中由布局算 left，入场补间写绝对 left/top（本页验证最充分的原语），
+       规避 flex 子项 margin 与 img relative 在 AUI 的不确定行为。 */
+    #bigCard { pointer-events: none; position: absolute; }
+    /* 立绘底部渐隐：原立绘 + 渐变透明叠层（gallery_fade_tex_v10.png，680×240 1:1 烘焙、
+       幂曲线 t^0.45、row0 全透），贴容器底；AUI 对低 alpha 有阈值截断（硬横线），
+       幂曲线把低 alpha 区压到顶缘几行内以减轻可见度。不透明合成路线（bake-portrait-paper.cjs）
+       已按用户要求回退，脚本留存备用。 */
+    #portraitFade { pointer-events: none; z-index: 2; }
+    #portraitHint { color: #9b7772; text-align: center; pointer-events: none; }
+    #portraitAuthor { color: #9b7772; text-align: right; white-space: nowrap; pointer-events: none; z-index: 3; }
+    .section-title { color: #933434; font-weight: bold; }
+    #rDesc { line-height: 1.7; white-space: pre-wrap; overflow-y: auto; }
+    #dlgList { z-index: 2; }
     .dlg-item {
-      padding: 10px 14px;
-      margin-bottom: 8px;
-      background: linear-gradient(#fdf8ec, #fdf8ec);
-      border: 2px solid #d5cabb;
-      cursor: pointer;
-      font-size: 21px;
-      color: #4a3c2a;
+      position: relative;
+      box-sizing: border-box;
       display: flex;
       align-items: center;
+      background: linear-gradient(#e9dfdd, #e9dfdd);
+      border-left: 10px solid #933434;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .dlg-item:hover { background: linear-gradient(#f7e6d9, #f7e6d9); border-color: #c0603e; }
-    .dlg-chapter {
-      font-size: 17px;
-      color: #8a7a63;
-      margin-left: 10px;
-    }
-    .dlg-empty { font-size: 20px; color: #8a7a63; padding: 8px 0; }
-
-    /* ===== 大图查看覆盖层（lightbox）—— 实色背景，不用 rgba ===== */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #1a1a1a;
+    .dlg-item:hover { background: linear-gradient(#d9c2bd, #d9c2bd); }
+    .dlg-name { pointer-events: none; }
+    .dlg-empty {
+      position: relative;
+      box-sizing: border-box;
+      color: #ffffff;
+      background: linear-gradient(#a49a98, #a49a98);
+      border-left: 10px solid #491c1c;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 999;
+      pointer-events: none;
     }
-    /* lightbox 大图：源图 860×1536，height 804 → width=round(804×860/1536)=450（同样显式宽高，不用 object-fit） */
-    #lightboxImg { width: 450px; height: 804px; }
-    .lightbox-hint {
+    /* absolute + flex 覆盖全屏；隐藏时同时移走并关闭命中，避免 AUI 遮挡底层。 */
+    #lightbox {
       position: absolute;
-      bottom: 20px;
-      font-size: 20px;
-      color: #cccccc;
+      width: 100%; height: 100%;
+      background: #1a1a1a;
+      align-items: center; justify-content: center;
+      cursor: pointer; z-index: 999;
     }
-
-    /* texture 扩展元素需要 display */
-    texture { display: block; }
+    #lightboxImg { width: 450px; height: 804px; pointer-events: none; }
+    #lightboxHint { position: absolute; bottom: 20px; color: #cccccc; pointer-events: none; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hd">
-      <span class="title">人物图鉴</span>
-      <span class="spacer"></span>
-      <span class="close" id="closeBtn">x</span>
+  <div id="galleryStage">
+    <img class="placed decoration" id="paper" src="gallery_paper.png" alt="">
+    <div class="placed tab" id="characterTab" title="人物图鉴">
+      <img id="characterTabImg" class="decoration" src="tab_character_v2.png" alt="角色">
+    </div>
+    <div class="placed tab" id="rareTab" title="查看稀客好感度">
+      <img id="rareTabImg" class="decoration" src="tab_rare_v2.png" alt="稀客">
+    </div>
+    <!-- 页签阴影：纸顶线上、盖在对应页签上方（z 高于纸面与页签） -->
+    <img class="placed decoration" id="charTabShadow" src="tab_character_shadow.png" alt="">
+    <img class="placed decoration" id="rareTabShadow" src="tab_rare_shadow.png" alt="">
+    <div class="placed" id="closeBtn" title="关闭人物图鉴">×</div>
+
+    <!-- 保留六个固定头像槽位，头像自带主题色像素边框。 -->
+    <div class="placed" id="avatarStrip">
+      <div class="card" id="card0"><texture class="avatar" id="av0"></texture><img class="avsel" id="avsel0" src="chara_select.png" style="display:none;"></div>
+      <div class="card" id="card1"><texture class="avatar" id="av1"></texture><img class="avsel" id="avsel1" src="chara_select.png" style="display:none;"></div>
+      <div class="card" id="card2"><texture class="avatar" id="av2"></texture><img class="avsel" id="avsel2" src="chara_select.png" style="display:none;"></div>
+      <div class="card" id="card3"><texture class="avatar" id="av3"></texture><img class="avsel" id="avsel3" src="chara_select.png" style="display:none;"></div>
+      <div class="card" id="card4"><texture class="avatar" id="av4"></texture><img class="avsel" id="avsel4" src="chara_select.png" style="display:none;"></div>
+      <div class="card" id="card5"><texture class="avatar" id="av5"></texture><img class="avsel" id="avsel5" src="chara_select.png" style="display:none;"></div>
     </div>
 
-    <div class="main">
-      <!-- ===== 左：6 个角色卡片槽位 ===== -->
-      <div class="left" id="left">
-        <div class="card" id="card0"><div class="avatar-box"><texture id="av0"></texture></div><div class="cname" id="cn0"></div><div class="ctag" id="ct0"></div></div>
-        <div class="card" id="card1"><div class="avatar-box"><texture id="av1"></texture></div><div class="cname" id="cn1"></div><div class="ctag" id="ct1"></div></div>
-        <div class="card" id="card2"><div class="avatar-box"><texture id="av2"></texture></div><div class="cname" id="cn2"></div><div class="ctag" id="ct2"></div></div>
-        <div class="card" id="card3"><div class="avatar-box"><texture id="av3"></texture></div><div class="cname" id="cn3"></div><div class="ctag" id="ct3"></div></div>
-        <div class="card" id="card4"><div class="avatar-box"><texture id="av4"></texture></div><div class="cname" id="cn4"></div><div class="ctag" id="ct4"></div></div>
-        <div class="card" id="card5"><div class="avatar-box"><texture id="av5"></texture></div><div class="cname" id="cn5"></div><div class="ctag" id="ct5"></div></div>
-      </div>
+    <div class="placed" id="rName">人物图鉴</div>
+    <div class="placed" id="rNameEn"></div>
+    <img class="placed decoration" id="raceBrush" src="gallery_brush_long.png" alt="">
+    <div class="placed fact-label" id="rRace">种族</div>
+    <div class="placed fact-value" id="rRaceV"></div>
+    <img class="placed decoration" id="workBrush" src="gallery_brush_long.png" alt="">
+    <div class="placed fact-label" id="rWork">初登场</div>
+    <div class="placed fact-value" id="rWorkV"></div>
+    <img class="placed decoration" id="factionBrush" src="gallery_brush_long.png" alt="">
+    <div class="placed fact-label" id="rFaction">所属势力</div>
+    <div class="placed fact-value" id="rFactionV"></div>
 
-      <!-- ===== 右：角色详情 + 对话列表 ===== -->
-      <div class="right" id="right">
-        <!-- 上半：卡片图 + 信息 -->
-        <div class="top-row" id="topRow">
-          <div class="portrait-area" id="portraitArea">
-            <img id="bigCard">
-          </div>
-          <div class="info-col" id="infoCol">
-            <div class="rname" id="rName">人物图鉴</div>
-            <div class="rinfo" id="rRace"><b>种族：</b><span id="rRaceV">-</span></div>
-            <div class="rinfo" id="rAbility"><b>能力：</b><span id="rAbilityV">-</span></div>
-            <div class="rinfo" id="rWork"><b>初登场：</b><span id="rWorkV">-</span></div>
-            <div class="rdesc" id="rDesc">点击左侧角色卡片查看图鉴情报。</div>
-          </div>
-        </div>
-        <!-- 下半：对话列表（最多 4 条静态槽位） -->
-        <div class="dlg-section">
-          <div class="dlg-title">剧情对话</div>
-          <div class="dlg-list" id="dlgList">
-            <div class="dlg-item" id="dlg0" style="display:none;"><span id="dlgName0"></span><span class="dlg-chapter" id="dlgCh0"></span></div>
-            <div class="dlg-item" id="dlg1" style="display:none;"><span id="dlgName1"></span><span class="dlg-chapter" id="dlgCh1"></span></div>
-            <div class="dlg-item" id="dlg2" style="display:none;"><span id="dlgName2"></span><span class="dlg-chapter" id="dlgCh2"></span></div>
-            <div class="dlg-item" id="dlg3" style="display:none;"><span id="dlgName3"></span><span class="dlg-chapter" id="dlgCh3"></span></div>
-            <div class="dlg-empty" id="dlgEmpty" style="display:none;">暂无对话记录</div>
-          </div>
-        </div>
-      </div>
+    <div class="placed" id="portraitArea" title="点击查看完整角色卡片"><img id="bigCard" alt="角色立绘"></div>
+    <!-- 立绘底部渐隐叠层：v10 幂曲线渐变透明图（680×240 1:1 烘焙），贴容器底 -->
+    <img class="placed decoration" id="portraitFade" src="gallery_fade_tex_v10.png" alt="">
+    <div class="placed" id="portraitHint">点击立绘 · 查看完整卡片</div>
+    <!-- 立绘右下角作者署名：除早苗为白色旅人外均 i2kag -->
+    <div class="placed" id="portraitAuthor">AUTHOR: i2kag</div>
+
+    <div class="placed section-title" id="descTitle">简介</div>
+    <img class="placed decoration" id="descBrush" src="gallery_brush_short.png" alt="">
+    <div class="placed" id="rDesc"></div>
+    <div class="placed section-title" id="dlgTitle">回想</div>
+    <img class="placed decoration" id="dlgBrush" src="gallery_brush_short.png" alt="">
+    <div class="placed" id="dlgList">
+      <div class="dlg-item" id="dlg0" style="display:none;"><span class="dlg-name" id="dlgName0"></span></div>
+      <div class="dlg-item" id="dlg1" style="display:none;"><span class="dlg-name" id="dlgName1"></span></div>
+      <div class="dlg-item" id="dlg2" style="display:none;"><span class="dlg-name" id="dlgName2"></span></div>
+      <div class="dlg-item" id="dlg3" style="display:none;"><span class="dlg-name" id="dlgName3"></span></div>
+      <div class="dlg-empty" id="dlgEmpty" style="display:none;">暂无更多回想</div>
     </div>
   </div>
 
-  <!-- 大图查看覆盖层：点击立绘后显示，再次点击关闭 -->
-  <div class="lightbox" id="lightbox" style="display:none;">
-    <img id="lightboxImg">
-    <div class="lightbox-hint">点击任意位置关闭</div>
+  <!-- 大图查看覆盖层：点击立绘后显示，再次点击关闭。 -->
+  <div id="lightbox" style="display:none;left:-10000px;top:-10000px;pointer-events:none;">
+    <img id="lightboxImg" alt="完整角色卡片">
+    <div id="lightboxHint">点击任意位置返回图鉴</div>
   </div>
 
   <script>
@@ -298,6 +203,8 @@
         desc: "博丽神社的巫女，幻想乡的守护者。以解决异变为日常，性格悠然洒脱，无论人妖一视同仁地退治。",
         avatar: "skyfootspa:textures/avatars/reimu.png",
         card: "reimu_card.png",
+        portrait: "gallery_portrait_reimu.png", portraitWidth: 164, portraitHeight: 350,
+        faction: "博丽神社",
         theme: "#c82d30",
         dialogues: [
           { file: "reimu", id: "ch1_reimu", label: "第一章·巡查" },
@@ -313,6 +220,8 @@
         desc: "住在魔法之森的人偶师，以七色的人偶操术闻名。表面冷淡寡言，实则热心肠。",
         avatar: "skyfootspa:textures/avatars/alice.png",
         card: "alice_card.png",
+        portrait: "gallery_portrait_alice.png", portraitWidth: 165, portraitHeight: 372,
+        faction: "魔法之森",
         theme: "#e8b22c",
         dialogues: [
           { file: "alice", id: "ch0_prologue", label: "序章·开场" },
@@ -330,6 +239,8 @@
         desc: "守矢神社的风祝，身为现人神的巫女。从外界迁入幻想乡，性格积极认真。",
         avatar: "skyfootspa:textures/avatars/sanae.png",
         card: "kochiya_sanae_card.png",
+        portrait: "gallery_portrait_sanae.png", portraitWidth: 206, portraitHeight: 313,
+        faction: "守矢神社",
         theme: "#27ae60",
         dialogues: [
           { file: "sanae", id: "ch3_sanae", label: "第三章·核聚变推销" },
@@ -345,6 +256,8 @@
         desc: "旧地狱的妖怪猫，负责将尸体运入灼热地狱坑。性格开朗健谈，能化身为火车形态。",
         avatar: "skyfootspa:textures/avatars/rin_calm.png",
         card: "kaenbyou_rin_card.png",
+        portrait: "gallery_portrait_rin.png", portraitWidth: 190, portraitHeight: 328,
+        faction: "地灵殿",
         theme: "#3a3a42",
         dialogues: [
           { file: "rin", id: "ch2_rin", label: "第二章·传信" },
@@ -361,6 +274,8 @@
         desc: "旧地狱的鬼族强者，拥有无穷怪力与不屈体魄。性格豪爽直率、好酒好战。",
         avatar: "skyfootspa:textures/avatars/yuugi.png",
         card: "hoshiguma_yuugi_card.png",
+        portrait: "gallery_portrait_yuugi.png", portraitWidth: 182, portraitHeight: 364,
+        faction: "旧地狱",
         theme: "#b8860b",
         dialogues: [
           { file: "yuugi", id: "ch2_yuugi", label: "第二章·温泉街踢馆" },
@@ -376,6 +291,8 @@
         desc: "玄武之泽的河童工程师，天才发明家。商业头脑精明，擅长水利工程与光学迷彩。",
         avatar: "skyfootspa:textures/avatars/hchq_1.png",
         card: "kawashiro_card.png",
+        portrait: "gallery_portrait_nitori.png", portraitWidth: 176, portraitHeight: 325,
+        faction: "妖怪之山",
         theme: "#359dd5",
         dialogues: [
           { file: "nitori", id: "ch1_nitori", label: "第一章·来访与实力证明" },
@@ -387,67 +304,234 @@
     var MAX_CARDS = 6;
     var selectedIdx = -1;
 
-    // ===== 渲染左侧卡片（头像 + 名称 + 种族标签） =====
+    // ===== 渲染顶部头像，复用原头像及其主题色像素边框。 =====
     function renderCards() {
       for (var i = 0; i < MAX_CARDS; i++) {
         var ch = CHARACTERS[i];
-        var texEl = document.getElementById("av" + i);
-        if (texEl) texEl.setAttribute("src", ch.avatar);
-        var nameEl = document.getElementById("cn" + i);
-        if (nameEl) nameEl.textContent = ch.name;
-        var tagEl = document.getElementById("ct" + i);
-        if (tagEl) tagEl.textContent = ch.race;
-        var card = document.getElementById("card" + i);
-        if (card) card.setAttribute("style", "border-left-color:" + ch.theme + ";background:linear-gradient(#fdf8ec,#fdf8ec);");
+        document.getElementById("av" + i).setAttribute("src", ch.avatar);
+        document.getElementById("card" + i).setAttribute("title", ch.name + " · " + ch.race);
       }
     }
 
-    // ===== 右侧详情切换 =====
     var MAX_DLGS = 4;
+    var pageScale = 1;
+
+    function px(value) { return (value * pageScale).toFixed(3) + "px"; }
+    function sizeStyle(width, height) { return "width:" + px(width) + ";height:" + px(height) + ";"; }
+    function placeStyle(x, y, width, height, fontSize) {
+      var style = "left:" + px(x) + ";top:" + px(y) + ";" + sizeStyle(width, height);
+      if (fontSize) style += "font-size:" + px(fontSize) + ";";
+      return style;
+    }
+    function place(id, x, y, width, height, fontSize) {
+      document.getElementById(id).setAttribute("style", placeStyle(x, y, width, height, fontSize));
+    }
+
+    // ===== 页面切换入场：整体从 -24px 下移落位（JS 逐帧 ~30fps、只写 top 单属性、一次性 220ms）=====
+    var stageTop = -24;
+    function setStageStyle() {
+      document.getElementById("galleryStage").setAttribute("style", sizeStyle(1650, 1093) + "top:" + px(stageTop) + ";");
+    }
+    function playEntry() {
+      var t0 = Date.now();
+      var h = setInterval(function () {
+        var p = (Date.now() - t0) / 220;
+        if (p >= 1) { p = 1; clearInterval(h); }
+        var e = 1 - Math.pow(1 - p, 3);
+        stageTop = -24 * (1 - e);
+        setStageStyle();
+      }, 33);
+    }
+
+    // ===== 立绘切换入场：从左上 (-64,-28) 滑向右下落位，~30fps 每帧只写 bigCard 绝对 left/top =====
+    var portraitSize = "";
+    var portraitX0 = 0;
+    var portraitTw = null;
+    function portraitStyleAt(offX, offY) {
+      return "left:" + px(portraitX0 + offX) + ";top:" + px(offY) + ";" + portraitSize;
+    }
+    function playPortraitEntry() {
+      if (portraitTw) clearInterval(portraitTw);
+      // 同步落起始帧（左上），避免与 layoutPage 落位之间闪一帧终态
+      var el0 = document.getElementById("bigCard");
+      if (el0) el0.setAttribute("style", portraitStyleAt(-64, -28));
+      var t0 = Date.now();
+      portraitTw = setInterval(function () {
+        var p = (Date.now() - t0) / 240;
+        if (p >= 1) { p = 1; clearInterval(portraitTw); portraitTw = null; }
+        var el = document.getElementById("bigCard");
+        if (!el) { if (portraitTw) clearInterval(portraitTw); portraitTw = null; return; }
+        var e = 1 - Math.pow(1 - p, 3);
+        el.setAttribute("style", portraitStyleAt(-64 * (1 - e), -28 * (1 - e)));
+      }, 33);
+    }
+
+    // ===== 名称切换入场：从左（-40/-24）向右滑入落位，~30fps；位移改 left 重建（margin 在 AUI 未验证） =====
+    var namePA = null, namePB = null, nameTw = null;
+    function nameStyleA(off) { return placeStyle(namePA[0] + off, namePA[1], namePA[2], namePA[3], namePA[4]); }
+    function nameStyleB(off) { return placeStyle(namePB[0] + off, namePB[1], namePB[2], namePB[3], namePB[4]); }
+    function playNameEntry() {
+      if (nameTw) clearInterval(nameTw);
+      var a0 = document.getElementById("rName"), b0 = document.getElementById("rNameEn");
+      if (a0) a0.setAttribute("style", nameStyleA(-40));
+      if (b0) b0.setAttribute("style", nameStyleB(-24));
+      var t0 = Date.now();
+      nameTw = setInterval(function () {
+        var p = (Date.now() - t0) / 260;
+        if (p >= 1) { p = 1; clearInterval(nameTw); nameTw = null; }
+        var a = document.getElementById("rName"), b = document.getElementById("rNameEn");
+        if (!a && !b) { if (nameTw) clearInterval(nameTw); nameTw = null; return; }
+        var e = 1 - Math.pow(1 - p, 3);
+        if (a) a.setAttribute("style", nameStyleA(-40 * (1 - e)));
+        if (b) b.setAttribute("style", nameStyleB(-24 * (1 - e)));
+      }, 33);
+    }
+
+    // ===== 页签悬浮上移：mouseenter/leave 触发 120ms 补间，每帧只写该页签一个元素 =====
+    function tween(ms, fps, step, done) {
+      var t0 = Date.now();
+      var h = setInterval(function () {
+        var p = (Date.now() - t0) / ms;
+        if (p >= 1) { p = 1; clearInterval(h); }
+        step(p);
+        if (p === 1 && done) done();
+      }, fps);
+      return h;
+    }
+    function ease(p) { return 1 - Math.pow(1 - p, 3); }
+    var TABS = [
+      { id: "characterTab", x: 60, y: 0, w: 114, h: 70 },
+      // 沉底页签盒加高到 70：盒底(38+70=108)恒在纸顶 70 之下被纸盖住，
+      // hover 上移 16 后盒底 92 仍藏纸下——长图不被裁出截断边，阴影与页签连续紧贴。
+      { id: "rareTab", x: 187, y: 38, w: 114, h: 70 }
+    ];
+    var tabLift = [0, 0];
+    var tabTw = [null, null];
+    function placeTab(k) {
+      var t = TABS[k];
+      place(t.id, t.x, t.y - tabLift[k], t.w, t.h);
+    }
+    function hoverTab(k, on) {
+      if (tabTw[k]) clearInterval(tabTw[k]);
+      var from = tabLift[k], to = on ? Math.min(16, TABS[k].y) : 0;
+      tabTw[k] = tween(120, 33, function (p) {
+        tabLift[k] = from + (to - from) * ease(p);
+        placeTab(k);
+      }, function () {
+        tabTw[k] = null;
+        tabLift[k] = to;
+        placeTab(k);
+      });
+    }
+
+    // 同时换算布局、字体与图片双维度，保留 browser 视口，不以 transform 缩放交互区域。
+    function layoutPage() {
+      var width = Number(window.innerWidth);
+      var height = Number(window.innerHeight);
+      if (width <= 0 || height <= 0 || selectedIdx < 0) return;
+      // AUI 关闭/重建 Screen 后仍可能向旧 window 监听器派发 resize；文档节点已不存在时
+      // 立即返回，否则异常会经 fireResizeEvent 穿到 Client.tick 直接崩客户端
+      // （见 crash-reports/crash-2026-10-18_12.02.10-client.txt）。
+      if (!document.getElementById("galleryStage")) return;
+      pageScale = Math.min(width / 1920, height / 1213);
+      var ch = CHARACTERS[selectedIdx];
+      setStageStyle();
+      place("paper", 0, 70, 1650, 956);
+      placeTab(0);
+      placeTab(1);
+      document.getElementById("characterTabImg").setAttribute("style", sizeStyle(114, 210));
+      document.getElementById("rareTabImg").setAttribute("style", sizeStyle(114, 210));
+      place("charTabShadow", 60, 57, 114, 13);
+      place("rareTabShadow", 187, 59, 114, 14);
+      place("closeBtn", 1534, 119, 48, 48, 36);
+      place("avatarStrip", 401, 134, 848, 86);
+      for (var i = 0; i < MAX_CARDS; i++) {
+        var selCard = (i === selectedIdx);
+        // 选中：轻微上移 4px + 底部红色横线加粗到 4px + 叠双圈框图
+        document.getElementById("card" + i).setAttribute("style", sizeStyle(64, 80) +
+          "top:" + px(selCard ? -4 : 0) + ";" +
+          "border-bottom-width:" + px(selCard ? 4 : 2) + ";border-bottom-color:" + (selCard ? "#933434" : "transparent") + ";");
+        document.getElementById("av" + i).setAttribute("style", sizeStyle(64, 64));
+        document.getElementById("avsel" + i).setAttribute("style",
+          (selCard ? "display:block;" : "display:none;") +
+          "left:" + px(-4) + ";top:" + px(-4) + ";" + sizeStyle(72, 72));
+      }
+      var longName = ch.name.length > 6;
+      namePA = [96, 258, 435, longName ? 140 : 112, longName ? 54 : (ch.name.length > 4 ? 76 : 96)];
+      namePB = [96, longName ? 410 : 374, 435, 145, ch.nameEn.length > 14 ? 50 : 64];
+      document.getElementById("rName").setAttribute("style", nameStyleA(0));
+      document.getElementById("rNameEn").setAttribute("style", nameStyleB(0));
+      var labels = ["rRace", "rWork", "rFaction"];
+      var values = ["rRaceV", "rWorkV", "rFactionV"];
+      var brushes = ["raceBrush", "workBrush", "factionBrush"];
+      for (var f = 0; f < 3; f++) {
+        var y = 670 + f * 82;
+        place(brushes[f], 96, y + 30, 254, 24);
+        place(labels[f], 96, y + 5, 82, 25, 20);
+        // 三项资料值字号统一（设计稿 36）；右缘对齐笔刷右端，容纳 5 字作品名。
+        place(values[f], 170, y - 8, 180, 44, 36);
+      }
+      place("portraitArea", 492, 258, 680, 710);
+      // 渐隐叠层 v10：680×240（高度按用户要求降低），贴立绘容器底 968
+      place("portraitFade", 492, 728, 680, 240);
+      // 立绘按“可见高度=容器/0.75”放大：容器 overflow 裁掉底部四分之一。
+      var portraitScale = Math.min(680 / ch.portraitWidth, (710 / 0.75) / ch.portraitHeight);
+      var pw = ch.portraitWidth * portraitScale, phh = ch.portraitHeight * portraitScale;
+      portraitSize = sizeStyle(pw, phh);
+      portraitX0 = (680 - pw) / 2;
+      document.getElementById("bigCard").setAttribute("style", portraitStyleAt(0, 0));
+      place("portraitHint", 594, 982, 490, 26, 18);
+      // 署名贴立绘容器右下角（容器 492,258,680,710）
+      place("portraitAuthor", 872, 932, 300, 30, 20);
+      place("descTitle", 1190, 258, 187, 28, 20);
+      place("descBrush", 1183, 279, 187, 24);
+      place("rDesc", 1190, 318, 363, 212, 20);
+      place("dlgTitle", 1190, 562, 187, 28, 20);
+      place("dlgBrush", 1183, 585, 187, 24);
+      place("dlgList", 1190, 626, 363, 310);
+      var dlgs = ch.dialogues || [];
+      var rowStyle = sizeStyle(360, 40) + "margin-bottom:" + px(20) + ";padding-left:" + px(12) +
+        ";border-left-width:" + px(10) + ";font-size:" + px(24) + ";";
+      for (var d = 0; d < MAX_DLGS; d++) {
+        document.getElementById("dlg" + d).setAttribute("style", rowStyle +
+          (d < dlgs.length ? "display:flex;pointer-events:auto;" : "display:none;pointer-events:none;"));
+      }
+      var empty = document.getElementById("dlgEmpty");
+      empty.textContent = dlgs.length === 0 ? "暂无对话记录" : "暂无更多回想";
+      empty.setAttribute("style", rowStyle + (dlgs.length < MAX_DLGS ? "display:flex;" : "display:none;") + "pointer-events:none;");
+      // 完整卡片保持 860:1536；不随中央立绘裁边而改变大图来源。
+      var cardHeight = Math.min(1000, height - 80 * pageScale, (width - 64 * pageScale) * 1536 / 860);
+      document.getElementById("lightboxImg").setAttribute("style",
+        "width:" + (cardHeight * 860 / 1536).toFixed(3) + "px;height:" + cardHeight.toFixed(3) + "px;");
+      document.getElementById("lightboxHint").setAttribute("style", "font-size:" + px(20) + ";bottom:" + px(12) + ";");
+    }
+
+    // ===== 详情切换：数据与剧情 ID 沿用原图鉴。 =====
 
     function showDetail(idx) {
       if (idx < 0 || idx >= CHARACTERS.length) return;
       var ch = CHARACTERS[idx];
       selectedIdx = idx;
 
-      // 卡片选中态（直接切换样式，显式包含 background 避免 AUI 层叠异常）
-      for (var i = 0; i < MAX_CARDS; i++) {
-        var card = document.getElementById("card" + i);
-        if (!card) continue;
-        if (i === idx) {
-          card.setAttribute("style",
-            "border-color:" + ch.theme + ";border-left:5px solid " + ch.theme + ";background:linear-gradient(#f5e2d0,#f5e2d0);");
-        } else {
-          card.setAttribute("style", "border-left-color:" + CHARACTERS[i].theme + ";background:linear-gradient(#fdf8ec,#fdf8ec);");
-        }
-      }
-
-      // 右侧卡片大图
-      var bigCard = document.getElementById("bigCard");
-      if (bigCard) bigCard.setAttribute("src", ch.card);
-
-      // 右侧文字
-      document.getElementById("rName").textContent = ch.name + "  " + ch.nameEn;
+      document.getElementById("bigCard").setAttribute("src", ch.portrait);
+      document.getElementById("bigCard").setAttribute("alt", ch.name);
+      document.getElementById("rName").textContent = ch.name.length > 6 ? ch.name.replace("·", "·\n") : ch.name;
+      document.getElementById("rNameEn").textContent = ch.nameEn;
       document.getElementById("rRaceV").textContent = ch.race;
-      document.getElementById("rAbilityV").textContent = ch.ability;
       document.getElementById("rWorkV").textContent = ch.work;
+      document.getElementById("rFactionV").textContent = ch.faction;
       document.getElementById("rDesc").textContent = ch.desc;
+      document.getElementById("rDesc").scrollTop = 0;
+      document.getElementById("portraitAuthor").textContent =
+        "AUTHOR: " + (ch.name === "东风谷早苗" ? "白色旅人" : "i2kag");
 
-      // 对话列表
       var dlgs = ch.dialogues || [];
-      document.getElementById("dlgEmpty").setAttribute("style",
-        dlgs.length === 0 ? "display:block;" : "display:none;");
       for (var d = 0; d < MAX_DLGS; d++) {
-        var dlgEl = document.getElementById("dlg" + d);
-        if (!dlgEl) continue;
-        if (d < dlgs.length) {
-          dlgEl.setAttribute("style", "display:flex;");
-          document.getElementById("dlgName" + d).textContent = dlgs[d].label;
-          document.getElementById("dlgCh" + d).textContent = dlgs[d].id;
-        } else {
-          dlgEl.setAttribute("style", "display:none;");
-        }
+        document.getElementById("dlgName" + d).textContent = d < dlgs.length ? dlgs[d].label : "";
       }
+      layoutPage();
+      playPortraitEntry();
+      playNameEntry();
     }
 
     // ===== 点击对话条目：关闭图鉴 → 服务端执行 chatbox 命令 =====
@@ -464,28 +548,40 @@
 
     // ===== 大图查看（lightbox） =====
     function openLightbox() {
-      var bigCard = document.getElementById("bigCard");
-      if (!bigCard) return;
-      var src = bigCard.getAttribute("src");
-      if (!src) return;
-      var lb = document.getElementById("lightbox");
-      var lbImg = document.getElementById("lightboxImg");
-      if (lbImg) lbImg.setAttribute("src", src);
-      if (lb) lb.setAttribute("style", "display:flex;");
+      if (selectedIdx < 0) return;
+      document.getElementById("lightboxImg").setAttribute("src", CHARACTERS[selectedIdx].card);
+      document.getElementById("lightbox").setAttribute("style", "display:flex;left:0;top:0;pointer-events:auto;");
     }
 
     function closeLightbox() {
-      var lb = document.getElementById("lightbox");
-      if (lb) lb.setAttribute("style", "display:none;");
+      document.getElementById("lightbox").setAttribute("style", "display:none;left:-10000px;top:-10000px;pointer-events:none;");
     }
 
     // ===== 启动 =====
+    // AUI 文档被重建或 Screen 关闭后，旧 window 监听器仍可能收到 resize：
+    // 节点不存在时自摘监听并返回，避免在死文档上抛异常崩客户端 tick。
+    function onResize() {
+      if (!document.getElementById("galleryStage")) {
+        window.removeEventListener("resize", onResize);
+        return;
+      }
+      layoutPage();
+    }
+
     function boot() {
       var closeBtn = document.getElementById("closeBtn");
       if (closeBtn) {
         closeBtn.addEventListener("click", function () {
           try { ApricityUIRef.closeScreen(); } catch (e) {}
         });
+      }
+      for (var tk = 0; tk < TABS.length; tk++) {
+        (function (kk) {
+          var el = document.getElementById(TABS[kk].id);
+          if (!el) return;
+          el.addEventListener("mouseenter", function () { hoverTab(kk, true); });
+          el.addEventListener("mouseleave", function () { hoverTab(kk, false); });
+        })(tk);
       }
 
       // 卡片点击
@@ -516,8 +612,19 @@
       var lb = document.getElementById("lightbox");
       if (lb) lb.addEventListener("click", closeLightbox);
 
+      // 沿用配置方块保存的上下文，由服务端读取真实好感度后切换页面。
+      document.getElementById("rareTab").addEventListener("click", function () {
+        var player = McClient.getInstance().player;
+        if (player) player.sendData("pf_rare_affection_open", {});
+      });
+      window.addEventListener("resize", onResize);
+      document.addEventListener("unload", function () {
+        window.removeEventListener("resize", onResize);
+      });
+      closeLightbox();
       renderCards();
       showDetail(0);
+      playEntry();
     }
 
     document.addEventListener("DOMContentLoaded", boot);

@@ -1,4 +1,8 @@
 <!doctype html>
+<!--
+  遗物 tooltip：标题栏 + 左侧描述面板（上/中×N/下，N=遗物 tooltipHeight）+ 右侧引导网格方框。
+  素材按设计稿 1111×470 的 25/48 预缩放到 CSS 尺寸：tooltip_header 579×57、tooltip_desc_* 394 宽（中段 108 高）、tooltip_guide 180×180。
+-->
 <html>
 <head>
   <meta charset="utf-8">
@@ -11,27 +15,31 @@
         <span id="title"></span>
     </div>
     <div id="content">
-      <div id="desc-area">
-        <div id="main-desc">
+      <div id="desc-panel">
+        <div id="desc-top"></div>
+        <div id="desc-mid"></div>
+        <div id="desc-bottom"></div>
+        <div id="desc-area">
+          <div id="main-desc">
             <span id="main-desc-text"></span>
-        </div>
-        <div id="sub-desc">
+          </div>
+          <div id="sub-desc">
             <span id="sub-desc-text"></span>
-        </div>
-        <div id="story">
-            <span id="story-text">
-                
-            </span>
+          </div>
+          <div id="story">
+            <span id="story-text"></span>
+          </div>
         </div>
       </div>
       <div id="guide-area">
         <div id="guide-grid">
           <div class="gr"><div class="gc" id="guide-cell-0"></div><div class="gc" id="guide-cell-1"></div><div class="gc" id="guide-cell-2"></div><div class="gc" id="guide-cell-3"></div><div class="gc" id="guide-cell-4"></div></div>
           <div class="gr"><div class="gc" id="guide-cell-5"></div><div class="gc" id="guide-cell-6"></div><div class="gc" id="guide-cell-7"></div><div class="gc" id="guide-cell-8"></div><div class="gc" id="guide-cell-9"></div></div>
-          <div class="gr"><div class="gc" id="guide-cell-10"></div><div class="gc" id="guide-cell-11"></div><div class="gc guide-center" id="guide-cell-12"></div><div class="gc" id="guide-cell-13"></div><div class="gc" id="guide-cell-14"></div></div>
+          <div class="gr"><div class="gc" id="guide-cell-10"></div><div class="gc" id="guide-cell-11"></div><div class="gc" id="guide-cell-12"></div><div class="gc" id="guide-cell-13"></div><div class="gc" id="guide-cell-14"></div></div>
           <div class="gr"><div class="gc" id="guide-cell-15"></div><div class="gc" id="guide-cell-16"></div><div class="gc" id="guide-cell-17"></div><div class="gc" id="guide-cell-18"></div><div class="gc" id="guide-cell-19"></div></div>
           <div class="gr"><div class="gc" id="guide-cell-20"></div><div class="gc" id="guide-cell-21"></div><div class="gc" id="guide-cell-22"></div><div class="gc" id="guide-cell-23"></div><div class="gc" id="guide-cell-24"></div></div>
         </div>
+        <div id="guide-icon"></div>
       </div>
     </div>
   </div>
@@ -39,6 +47,7 @@
 
 <style>
   html, body {
+    image-rendering: pixelated;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -60,86 +69,147 @@
   }
 
   @keyframes tooltip-fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 
   @keyframes tooltip-fade-out {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+    0% { opacity: 1; }
+    100% { opacity: 0; }
   }
 
+  /* translateZ 决定跨 Document 叠放（stamina_hud 用 -1000 与之对称），不可删 */
   #tooltip {
     position: fixed;
+    /* 默认在屏幕外，悬停时由 tooltip.js 内联 left/top 覆盖 */
+    left: -9999px;
+    top: -9999px;
     font-family: "default";
-    font-size: 15px;
+    font-size: 24px;
     transform: translateZ(1000px);
-    min-width: 230px;
-    max-width: 360px;
+    width: 579px;
     margin-left: 11px;
+    display: flex;
+    flex-direction: column;
   }
 
   #header {
-    --red: rgb(142, 50, 50);
-    --blue: rgb(193, 193, 193);
-    --purple: rgb(163, 77, 132);
-    --green: rgb(88, 149, 88);
-    --gold: rgb(189, 180, 61);
-    background-color: var(--gold);
-    color: #fff;
-    line-height: 18px;
-    padding-left: 6px;
-    padding-right: 6px;
-    text-stroke: 2px #555;
-    margin-bottom: 2px;
+    width: 579px;
+    height: 57px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    /* 避开左端旋纹装饰 */
+    padding-left: 58px;
+    background-image: url(tooltip_header.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    color: #8e3212;
+    margin-bottom: 7px;
+  }
+
+  #title {
+    white-space: nowrap;
   }
 
   #content {
-    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     flex-direction: row;
-    padding: 7px;
+    align-items: flex-start;
   }
 
-  #desc-area {
+  #desc-panel {
+    position: relative;
+    width: 394px;
+    flex-grow: 0;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    width: 125px;
-    color: #ddd;
-    text-stroke: 0px;
+  }
+
+  #desc-top {
+    width: 394px;
+    height: 43px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-image: url(tooltip_desc_top.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* 高度由 tooltip.js 按 tooltipHeight × 108 写入；中段素材纵向均匀，拉伸与平铺 N 张等效 */
+  #desc-mid {
+    width: 394px;
+    height: 216px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-image: url(tooltip_desc_mid.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  #desc-bottom {
+    width: 394px;
+    height: 31px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-image: url(tooltip_desc_bottom.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* 文本绝对定位叠在面板图上，起始高度可压进上段装饰区 */
+  #desc-area {
+    position: absolute;
+    left: 0;
+    top: 32px;
+    width: 394px;
+    box-sizing: border-box;
+    padding-left: 26px;
+    padding-right: 19px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    color: #4a2a1a;
   }
 
   #main-desc {
-    margin-bottom: 4px;
-    line-height: 14px;
+    line-height: 25px;
+    margin-bottom: 6px;
   }
 
   #sub-desc {
-    line-height: 14px;
-    color: #aaa;
+    line-height: 25px;
+    color: #7b5640;
+    margin-bottom: 6px;
+  }
+
+  #story {
+    line-height: 25px;
+    color: #a08670;
   }
 
   #guide-area {
-    padding-left: 8px;
-    margin-left: 8px;
+    position: relative;
+    width: 180px;
+    height: 180px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: 5px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url(tooltip_guide.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
 
   #guide-grid {
     display: flex;
     flex-direction: column;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    border-radius: 4px;
-    padding: 4px;
   }
 
   .gr {
@@ -153,50 +223,26 @@
   }
 
   .gc {
-    width: 14px;
-    height: 14px;
-    margin-right: 2px;
-    background-color: rgba(255, 255, 255, 0.25);
-    transform-origin: center;
-    animation: gc-pop 0.2s ease-out forwards;
-    transform: scale(0);
+    width: 22px;
+    height: 22px;
+    margin-right: 3px;
+    background-color: rgba(142, 50, 18, 0.15);
   }
-
-  @keyframes gc-pop {
-    0% {
-      transform: scale(0);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  /* 对角线延迟：行+列 */
-  .gr:nth-child(1) .gc:nth-child(1) { animation-delay: 0ms; }
-  .gr:nth-child(1) .gc:nth-child(2), .gr:nth-child(2) .gc:nth-child(1) { animation-delay: 30ms; }
-  .gr:nth-child(1) .gc:nth-child(3), .gr:nth-child(2) .gc:nth-child(2), .gr:nth-child(3) .gc:nth-child(1) { animation-delay: 60ms; }
-  .gr:nth-child(1) .gc:nth-child(4), .gr:nth-child(2) .gc:nth-child(3), .gr:nth-child(3) .gc:nth-child(2), .gr:nth-child(4) .gc:nth-child(1) { animation-delay: 90ms; }
-  .gr:nth-child(1) .gc:nth-child(5), .gr:nth-child(2) .gc:nth-child(4), .gr:nth-child(3) .gc:nth-child(3), .gr:nth-child(4) .gc:nth-child(2), .gr:nth-child(5) .gc:nth-child(1) { animation-delay: 120ms; }
-  .gr:nth-child(2) .gc:nth-child(5), .gr:nth-child(3) .gc:nth-child(4), .gr:nth-child(4) .gc:nth-child(3), .gr:nth-child(5) .gc:nth-child(2) { animation-delay: 150ms; }
-  .gr:nth-child(3) .gc:nth-child(5), .gr:nth-child(4) .gc:nth-child(4), .gr:nth-child(5) .gc:nth-child(3) { animation-delay: 180ms; }
-  .gr:nth-child(4) .gc:nth-child(5), .gr:nth-child(5) .gc:nth-child(4) { animation-delay: 210ms; }
-  .gr:nth-child(5) .gc:nth-child(5) { animation-delay: 240ms; }
 
   .gc:last-child {
     margin-right: 0;
   }
 
-  .guide-center {
-    background-size: 14px 14px;
+  /* 遗物贴图为中心格 1.5 倍（33px），单独一层盖在网格中心，允许压住相邻格 */
+  #guide-icon {
+    position: absolute;
+    left: 73px;
+    top: 73px;
+    width: 33px;
+    height: 33px;
+    z-index: 1;
+    background-size: 33px 33px;
     background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  #story {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.144);
-    color: #9f9f9f;
-    padding: 4px;
   }
 </style>
 </html>

@@ -11,10 +11,10 @@
 
 StartupEvents.registry("item", event => {
     let hands = [
-        { id: "marguerite:hand_jiaozhang", name: "§e搓脚掌的手", tip: "§7右键脚 → 搓脚掌", tex: "kubejs:item/hand_jiaozhang" },
-        { id: "marguerite:hand_jiaoxin",   name: "§d搓脚心的手", tip: "§7右键脚 → 搓脚心", tex: "kubejs:item/hand_jiaoxin" },
-        { id: "marguerite:hand_jiaogen",   name: "§a搓脚跟的手", tip: "§7右键脚 → 搓脚跟", tex: "kubejs:item/hand_jiaogen" },
-        { id: "marguerite:hand_jiaozhi",   name: "§b搓脚趾的手", tip: "§7右键脚 → 搓脚趾", tex: "kubejs:item/hand_jiaozhi" }
+        { id: "marguerite:hand_jiaozhang", name: "§e推的手", tip: "§7在顾客的脚上反复划动 → 推", tex: "kubejs:item/hand_jiaozhang" },
+        { id: "marguerite:hand_jiaoxin",   name: "§d搓的手", tip: "§7在顾客的脚上反复划动 → 搓", tex: "kubejs:item/hand_jiaoxin" },
+        { id: "marguerite:hand_jiaogen",   name: "§a揉的手", tip: "§7在顾客的脚上反复划动 → 揉", tex: "kubejs:item/hand_jiaogen" },
+        { id: "marguerite:hand_jiaozhi",   name: "§b按的手", tip: "§7在顾客的脚上反复划动 → 按", tex: "kubejs:item/hand_jiaozhi" }
     ]
 
     for (let i = 0; i < hands.length; i++) {

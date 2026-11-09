@@ -54,8 +54,9 @@ function pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, routeStr, qu
             level, baseX, baseY, baseZ, routeStr, queuePos, player, chosenModel, null, false, chosenKey
         )
         walker.persistentData.putString("pfCustomerCategory", chosenKey)
-        // 头顶名牌：种族 + 等级（等级已在 pfSpawnWalker 中 roll 好并存入手持物品）
-        global.pfCustomerLevel.pfRefreshNameTag(walker, chosenCategory.name)
+        // 头顶名牌：显示种族名
+        walker.setCustomName(Text.of(chosenCategory.name || '顾客'))
+        walker.setCustomNameVisible(true)
 
         // 已开店则纳入统一管理（开店状态持久化在 pathfinder_block 的 BlockEntity 中）
         try {

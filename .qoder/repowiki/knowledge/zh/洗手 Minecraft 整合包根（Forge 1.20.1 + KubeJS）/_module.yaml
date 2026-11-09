@@ -1,0 +1,23 @@
+schema_version: 1
+module_path: ""
+title: 洗手 Minecraft 整合包根（Forge 1.20.1 + KubeJS）
+scope:
+    - README.md
+    - .gitignore
+    - AGENTS.md
+    - LICENSE
+    - PLAN.md
+    - apricity.zip
+    - hs_err_pid3344.log
+    - hs_err_pid39656.log
+    - hs_err_pid39784.log
+    - hs_err_pid55380.log
+    - replay_pid3344.log
+    - replay_pid39656.log
+    - replay_pid55380.log
+    - tlm_custom_pack.zip
+    - 洗手.jar
+    - 洗手.json
+source_files: []
+depends_on: []
+related_to: []

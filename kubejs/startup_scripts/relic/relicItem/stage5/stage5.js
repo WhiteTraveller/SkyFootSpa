@@ -32,12 +32,12 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 52. 红雾瓶 - 魔法/人工制品 - 全部位+5💰，全部位-8%满意度；底部2行每有1"魔法"遗物，惩罚-2%
+// 52. 红雾瓶 - 魔法/人工制品 - 全部手法+5💰，全部手法-8%满意度；底部2行每有1"魔法"遗物，惩罚-2%
 global.relicRegister.register(function(relic) {
     relic.setName("red_mist_bottle")
     .setTexture("red_mist_bottle.png")
         .setNameZH("红雾瓶")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+5")).append(Text.gray(" 全部位满意度")).append(Text.red("-8%")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+5")).append(Text.gray(" 全部手法满意度")).append(Text.red("-8%")))
         .setSpecialDescription(Text.gray("底部2行每有1个").append(Text.yellow("魔法")).append(Text.gray("遗物，惩罚")).append(Text.green("-2%")))
         .setStory("封印红雾的瓶子，底部的魔法之力能压制雾气。")
         .setTags([global.margueriteTags.magic, global.margueriteTags.artifact])
@@ -63,12 +63,12 @@ global.relicRegister.register(function(relic) {
 
 // ===== 高级 🔵 ×4 =====
 
-// 53. 五色灯 - 导电/人工制品 - 全部位+5💰，全部位-6%满意度；同行有5种不同标签时惩罚消失
+// 53. 五色灯 - 导电/人工制品 - 全部手法+5💰，全部手法-6%满意度；同行有5种不同标签时惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("five_color_lamp")
     .setTexture("five_color_lamp.png")
         .setNameZH("五色灯")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+5")).append(Text.gray(" 全部位满意度")).append(Text.red("-6%")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+5")).append(Text.gray(" 全部手法满意度")).append(Text.red("-6%")))
         .setSpecialDescription(Text.gray("同行有5种不同标签时，惩罚消失"))
         .setStory("五色的魔法灯，同行的多样性点亮全部颜色时光芒万丈。")
         .setTags([global.margueriteTags.conductive, global.margueriteTags.artifact])
@@ -93,13 +93,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 54. 反魂蝶 - 魔法 - 脚心+8💰，脚后跟+8💰；同列遗物"空满交替"时全部位+5💰
+// 54. 反魂蝶 - 魔法 - 搓+8💰，揉+8💰；同列遗物"空满交替"时全部手法+5💰
 global.relicRegister.register(function(relic) {
     relic.setName("resurrection_butterfly")
     .setTexture("resurrection_butterfly.png")
         .setNameZH("反魂蝶")
-        .setDescription(Text.gray("脚心/脚后跟金钱").append(Text.green("+8")))
-        .setSpecialDescription(Text.gray("同列遗物\"空满交替\"排列时，全部位金钱").append(Text.green("+5")))
+        .setDescription(Text.gray("搓/揉金钱").append(Text.green("+8")))
+        .setSpecialDescription(Text.gray("同列遗物\"空满交替\"排列时，全部手法金钱").append(Text.green("+5")))
         .setStory("西行寺幽幽子的反魂蝶，同列空与满交替时亡灵之舞最美。")
         .setTags([global.margueriteTags.magic])
         .setGuideTexture([
@@ -138,13 +138,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 55. 梦槌 - 木制/魔法 - 全部位-5💰，全部位+10%满意度；同行有"木制"遗物时全部位+8💰
+// 55. 梦槌 - 木制/魔法 - 全部手法-5💰，全部手法+10%满意度；同行有"木制"遗物时全部手法+8💰
 global.relicRegister.register(function(relic) {
     relic.setName("dream_mallet")
     .setTexture("dream_mallet.png")
         .setNameZH("梦槌")
-        .setDescription(Text.gray("全部位金钱").append(Text.red("-5")).append(Text.gray(" 全部位满意度")).append(Text.green("+10%")))
-        .setSpecialDescription(Text.gray("同行有").append(Text.yellow("木制")).append(Text.gray("遗物时，全部位金钱")).append(Text.green("+8")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.red("-5")).append(Text.gray(" 全部手法满意度")).append(Text.green("+10%")))
+        .setSpecialDescription(Text.gray("同行有").append(Text.yellow("木制")).append(Text.gray("遗物时，全部手法金钱")).append(Text.green("+8")))
         .setStory("梦境中的木槌，同行的木制伙伴让美梦成真。")
         .setTags([global.margueriteTags.wooden, global.margueriteTags.magic])
         .setGuideTexture([
@@ -170,13 +170,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 56. 三界仪 - 魔法/人工制品 - 脚心+8💰；背包分上中下三区，每区至少有1"魔法"遗物时全部位+6💰
+// 56. 三界仪 - 魔法/人工制品 - 搓+8💰；背包分上中下三区，每区至少有1"魔法"遗物时全部手法+6💰
 global.relicRegister.register(function(relic) {
     relic.setName("three_realm_device")
     .setTexture("three_realm_device.png")
         .setNameZH("三界仪")
-        .setDescription(Text.gray("脚心金钱").append(Text.green("+8")))
-        .setSpecialDescription(Text.gray("背包上/中/下三区各至少有1个").append(Text.yellow("魔法")).append(Text.gray("遗物时，全部位金钱")).append(Text.green("+6")))
+        .setDescription(Text.gray("搓金钱").append(Text.green("+8")))
+        .setSpecialDescription(Text.gray("背包上/中/下三区各至少有1个").append(Text.yellow("魔法")).append(Text.gray("遗物时，全部手法金钱")).append(Text.green("+6")))
         .setStory("连接三界的仪器，上中下均有魔法存在时通道开启。")
         .setTags([global.margueriteTags.magic, global.margueriteTags.artifact])
         .setGuideTexture([
@@ -219,12 +219,12 @@ global.relicRegister.register(function(relic) {
 
 // ===== 稀有 🟣 ×4 =====
 
-// 57. 不死焰 - 魔法 - 脚心+12💰，全部位-10%满意度；九宫格有3+遗物时惩罚-5%
+// 57. 不死焰 - 魔法 - 搓+12💰，全部手法-10%满意度；九宫格有3+遗物时惩罚-5%
 global.relicRegister.register(function(relic) {
     relic.setName("undying_flame")
     .setTexture("undying_flame.png")
         .setNameZH("不死焰")
-        .setDescription(Text.gray("脚心金钱").append(Text.green("+12")).append(Text.gray(" 全部位满意度")).append(Text.red("-10%")))
+        .setDescription(Text.gray("搓金钱").append(Text.green("+12")).append(Text.gray(" 全部手法满意度")).append(Text.red("-10%")))
         .setSpecialDescription(Text.gray("九宫格有3个以上遗物时，惩罚").append(Text.green("-5%")))
         .setStory("藤原妹红的不死之焰，周围有足够的同伴时火焰变得温和。")
         .setTags([global.margueriteTags.magic])
@@ -248,12 +248,12 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 58. 碎裂镜 - 魔法/人工制品 - 脚背+15💰，全部位-15%满意度；同行有"人工制品"遗物时惩罚-5%
+// 58. 碎裂镜 - 魔法/人工制品 - 脚背+15💰，全部手法-15%满意度；同行有"人工制品"遗物时惩罚-5%
 global.relicRegister.register(function(relic) {
     relic.setName("shattered_mirror")
     .setTexture("shattered_mirror.png")
         .setNameZH("碎裂镜")
-        .setDescription(Text.gray("脚背金钱").append(Text.green("+15")).append(Text.gray(" 全部位满意度")).append(Text.red("-15%")))
+        .setDescription(Text.gray("脚背金钱").append(Text.green("+15")).append(Text.gray(" 全部手法满意度")).append(Text.red("-15%")))
         .setSpecialDescription(Text.gray("同行有").append(Text.yellow("人工制品")).append(Text.gray("遗物时，惩罚")).append(Text.green("-5%")))
         .setStory("碎裂的古镜，同行的人工制品能修补裂痕。")
         .setTags([global.margueriteTags.magic, global.margueriteTags.artifact])
@@ -277,13 +277,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 59. 现世刃 - 金属 - 脚背+10💰，脚掌-6💰；同行遗物金钱效果从左到右递增时脚掌惩罚消失
+// 59. 现世刃 - 金属 - 脚背+10💰，推-6💰；同行遗物金钱效果从左到右递增时推惩罚消失
 global.relicRegister.register(function(relic) {
     relic.setName("reality_blade")
     .setTexture("reality_blade.png")
         .setNameZH("现世刃")
-        .setDescription(Text.gray("脚背金钱").append(Text.green("+10")).append(Text.gray(" 脚掌金钱")).append(Text.red("-6")))
-        .setSpecialDescription(Text.gray("同行遗物从左到右无空隙排列时，脚掌惩罚消失"))
+        .setDescription(Text.gray("脚背金钱").append(Text.green("+10")).append(Text.gray(" 推金钱")).append(Text.red("-6")))
+        .setSpecialDescription(Text.gray("同行遗物从左到右无空隙排列时，推惩罚消失"))
         .setStory("斩断现世与幽世的刀刃，同行物品紧密排列时刀鞘稳固。")
         .setTags([global.margueriteTags.metal])
         .setGuideTexture([
@@ -321,13 +321,13 @@ global.relicRegister.register(function(relic) {
         .setPool(global.relicPool.common)
 })
 
-// 60. 后户之钥 - 金属/魔法 - 全部位+3💰；标签种类每+1种，全部位+1💰（最多+10💰）
+// 60. 后户之钥 - 金属/魔法 - 全部手法+3💰；标签种类每+1种，全部手法+1💰（最多+10💰）
 global.relicRegister.register(function(relic) {
     relic.setName("key_of_back_door")
     .setTexture("key_of_back_door.png")
         .setNameZH("后户之钥")
-        .setDescription(Text.gray("全部位金钱").append(Text.green("+3")))
-        .setSpecialDescription(Text.gray("背包标签种类每+1种，全部位金钱").append(Text.green("+1")).append(Text.gray("（最多+10）")))
+        .setDescription(Text.gray("全部手法金钱").append(Text.green("+3")))
+        .setSpecialDescription(Text.gray("背包标签种类每+1种，全部手法金钱").append(Text.green("+1")).append(Text.gray("（最多+10）")))
         .setStory("通往后户之国的钥匙，背包中的多样性就是打开大门的密码。")
         .setTags([global.margueriteTags.metal, global.margueriteTags.magic])
         .setGuideTexture([

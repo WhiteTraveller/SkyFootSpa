@@ -392,7 +392,7 @@ function pfRollCustomer(player, level) {
 //   - 需求数量为普通顾客的 PF_RARE_DEMAND_MULTIPLIER 倍（默认 1.5，四舍五入，在 pfSpawnWalker 内应用）
 //   - 实体 persistentData 写入 pfRareId 标记
 //   - 不参与种族评价系统（pfCustomerCategory 置空，与 Boss 一致）
-//   - 头顶名牌显示 "★稀客 <名字> Lv.x"
+//   - 头顶名牌显示 "★稀客 <名字>"
 //
 // 选取原则：模型全部来自本文件已登记的 TLM 模型池，
 // 且不与所在维度的普通顾客类别池重叠（普通类别加载时随机固定皮肤，
@@ -415,7 +415,7 @@ let PF_RARE_AFFECTION_SAT_OFFSET = 50
 // 每个稀客按“当前爱心数”（0/1/2/3）掉落不同物品。
 // 掉落项格式：{ item: '命名空间:物品id', min: 最小数量, max: 最大数量 }（数量在 [min,max] 内随机）。
 // 优先用稀客自身的 drops（每个稀客可独立配置）；未配置时回退到下面的全局默认表。
-// 全局默认为一二阶段材料阶梯（皴→铁粒/煤→精密构件→魔力粉）；当前 20 位稀客均已配置专属 drops，此表仅作未来新增稀客未配 drops 时的兜底。
+// 全局默认为一二阶段材料阶梯（皴→铁粒/煤→精密构件→魔力粉）；当前 18 位稀客均已配置专属 drops，此表仅作未来新增稀客未配 drops 时的兜底。
 let PF_RARE_DEFAULT_DROPS = {
     0: [ { item: 'marguerite:cun', min: 2, max: 4 } ],
     1: [ { item: 'minecraft:iron_nugget', min: 3, max: 6 }, { item: 'minecraft:coal', min: 1, max: 2 } ],
@@ -485,16 +485,6 @@ let PF_RARE_BY_DIMENSION = {
             }
         },
         {
-            id: 'rare_flandre', name: '芙兰朵露·斯卡蕾特', model: 'touhou_little_maid:flandre_scarlet', weight: 1,
-            // (B) 破坏·水晶：紫水晶 → 赛特斯石英(1心解锁) → 魔力粉(3心最高级)
-            drops: {
-                0: [{ item: 'minecraft:amethyst_shard', min: 2, max: 4 }],
-                1: [{ item: 'minecraft:amethyst_shard', min: 4, max: 8 }, { item: 'ae2:certus_quartz_crystal', min: 1, max: 2 }],
-                2: [{ item: 'minecraft:amethyst_shard', min: 6, max: 10 }, { item: 'ae2:certus_quartz_crystal', min: 2, max: 3 }],
-                3: [{ item: 'minecraft:amethyst_shard', min: 8, max: 12 }, { item: 'ae2:certus_quartz_crystal', min: 3, max: 4 }, { item: 'marguerite:magic_dust', min: 1, max: 2 }]
-            }
-        },
-        {
             id: 'rare_yuka', name: '风见幽香', model: 'touhou_little_maid:kazami_yuka', weight: 1,
             // (B) 花妖·自然：草灰 → 骨(1心解锁) → 绿宝石(3心最高级)
             drops: {
@@ -515,23 +505,13 @@ let PF_RARE_BY_DIMENSION = {
             }
         },
         {
-            id: 'rare_eirin', name: '八意永琳', model: 'touhou_little_maid:yagokoro_eirin', weight: 1,
-            // (B) 月之药师：萤石粉 → 电解质水瓶(1心解锁) → 魔力粉仙丹(3心最高级)
+            id: 'rare_nitori', name: '河城荷取', model: 'touhou_little_maid:kawasiro_nitori', weight: 1,
+            // (B) 河童工程师：铜粒 → 锌粒(1心解锁) → 精密构件(3心最高级)
             drops: {
-                0: [{ item: 'minecraft:glowstone_dust', min: 2, max: 3 }],
-                1: [{ item: 'minecraft:glowstone_dust', min: 3, max: 5 }, { item: 'marguerite:electrolyte_bottle', min: 1, max: 1 }],
-                2: [{ item: 'minecraft:glowstone_dust', min: 4, max: 6 }, { item: 'marguerite:electrolyte_bottle', min: 1, max: 2 }],
-                3: [{ item: 'minecraft:glowstone_dust', min: 5, max: 8 }, { item: 'marguerite:electrolyte_bottle', min: 2, max: 2 }, { item: 'marguerite:magic_dust', min: 1, max: 2 }]
-            }
-        },
-        {
-            id: 'rare_kanako', name: '八坂神奈子', model: 'touhou_little_maid:yasaka_kanako', weight: 1,
-            // (B) 神明·信仰：石英 → 金锭(1心解锁) → 精密构件(3心最高级)
-            drops: {
-                0: [{ item: 'minecraft:quartz', min: 2, max: 4 }],
-                1: [{ item: 'minecraft:quartz', min: 3, max: 6 }, { item: 'minecraft:gold_ingot', min: 1, max: 2 }],
-                2: [{ item: 'minecraft:quartz', min: 5, max: 8 }, { item: 'minecraft:gold_ingot', min: 2, max: 3 }],
-                3: [{ item: 'minecraft:quartz', min: 6, max: 10 }, { item: 'minecraft:gold_ingot', min: 3, max: 4 }, { item: 'create:precision_mechanism', min: 1, max: 2 }]
+                0: [{ item: 'create:copper_nugget', min: 2, max: 4 }],
+                1: [{ item: 'create:copper_nugget', min: 4, max: 8 }, { item: 'create:zinc_nugget', min: 2, max: 3 }],
+                2: [{ item: 'create:copper_nugget', min: 6, max: 10 }, { item: 'create:zinc_nugget', min: 3, max: 5 }],
+                3: [{ item: 'create:copper_nugget', min: 8, max: 12 }, { item: 'create:zinc_nugget', min: 4, max: 6 }, { item: 'create:precision_mechanism', min: 1, max: 2 }]
             }
         }
     ],
@@ -773,11 +753,9 @@ let PF_RARE_LORE = {
     'rare_yuyuko':      { race: '幽灵',             work: '东方妖妖梦', desc: '白玉楼之主、亡灵的公主，能操纵死亡。' },
     'rare_youmu':       { race: '半人半灵',         work: '东方妖妖梦', desc: '白玉楼庭师兼剑士，二刀流斩断烦恼。' },
     'rare_remilia':     { race: '吸血鬼',           work: '东方红魔乡', desc: '红魔馆之主，操纵命运的幼女吸血鬼。' },
-    'rare_flandre':     { race: '吸血鬼',           work: '东方红魔乡', desc: '蕾米莉亚之妹，被囚地下室多年，握有破坏一切之能。' },
     'rare_yuka':        { race: '妖怪（花）',       work: '东方花映塚', desc: '喜爱鲜花的花妖，操纵花程度的能力，实力深不可测。' },
     'rare_aya':         { race: '天狗',             work: '东方风神录', desc: '发行《文文。新闻》的天狗记者，操纵风、速度极快。' },
-    'rare_eirin':       { race: '月人',             work: '东方永夜抄', desc: '月之都的贤者与药师，蓬莱之药的制作者。' },
-    'rare_kanako':      { race: '神明',             work: '东方风神录', desc: '守矢神社的祭神、八坂之神，收集信仰、操纵乾坤。' },
+    'rare_nitori':      { race: '河童',             work: '东方风神录', desc: '妖怪之山的河童工程师，热爱黄瓜与机械，能操纵水。' },
     'rare_yuyuko_hell': { race: '幽灵',             work: '东方妖妖梦', desc: '冥界的亡灵公主、白玉楼之主（旧地狱访客）。' },
     'rare_youmu_hell':  { race: '半人半灵',         work: '东方妖妖梦', desc: '半人半灵的剑士庭师（旧地狱访客）。' },
     'rare_komachi':     { race: '死神',             work: '东方花映塚', desc: '三途河的摆渡死神，引导亡魂，懒散却称职。' },

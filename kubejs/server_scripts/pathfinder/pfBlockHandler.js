@@ -57,12 +57,6 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
         console.log("[PF] 打开开店方块配置界面, 坐标=" + cfgX + "," + cfgY + "," + cfgZ)
         return
     }
-    let teachingStage = global.aTip && typeof global.aTip.getStage === 'function'
-        ? global.aTip.getStage(player)
-        : ""
-    let openShopTeaching = teachingStage === "wait_pathfinder_click"
-    let voucherTeaching = teachingStage === "wait_voucher_click"
-
     // 预约凭证检测：手持 voucher_* 时走凭证分支（无视昼夜）
     let voucherCategory = null
     let mainHand = player.getMainHandItem()
@@ -90,9 +84,6 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
     // 白天检测（boss/开店需白天；voucher 绕过；旧地狱维度 fixed_time 恒夜，无视昼夜）
     if (!voucherCategory && !global.pfShopManager.pfIsOldHell(level) && !global.pfShopManager.pfIsDaytime(level)) {
         player.tell("§c🌙 现在是晚上，无法" + (bossDef ? "召唤 Boss" : "开店") + "！请等到白天")
-        if (openShopTeaching && global.aTip && typeof global.aTip.showNightClose === 'function') {
-            global.aTip.showNightClose(player)
-        }
         return
     }
 
@@ -171,9 +162,6 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
             mainHand.setCount(mainHand.getCount() - 1)
         }
         global.pfVoucherManager.pfSpawnVoucherCustomer(player, level, baseX, baseY, baseZ, result[0], queuePos, voucherCategory)
-        if (voucherTeaching && global.aTip && typeof global.aTip.advance === 'function') {
-            global.aTip.advance(player, "wait_voucher_click", "wait_soak_click", "pathfinder_water_soak_click_tip")
-        }
         return
     }
 
@@ -192,9 +180,6 @@ BlockEvents.rightClicked("kubejs:pathfinder_block", event => {
 
     // 开店：保存路线数据，启动定时生成顾客
     global.pfShopManager.pfOpenShop(player, level, baseX, baseY, baseZ, result[0], queuePos)
-    if (openShopTeaching && global.aTip && typeof global.aTip.advance === 'function') {
-        global.aTip.advance(player, "wait_pathfinder_click", "wait_voucher_click", "pathfinder_voucher_click_tip")
-    }
 })
 
 console.log("[PF-BLOCK] 方块事件处理器已加载")

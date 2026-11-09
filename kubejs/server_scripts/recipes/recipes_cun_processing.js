@@ -6,6 +6,7 @@
 //   ① 皴块 + 水(1000mb) → [动力搅拌(不加热)] → 皴水(1000mb) + 洗净的皴块
 //   ② 洗净的皴块 → [黄铜/进阶黄铜筛网] → 二倍铁矿粒 + 其余矿粒 + 煤炭(30%/45%)
 //   ③ 皴水(8000mb) → [动力搅拌(加热)] → 赛特斯石英
+//   ④ 赛特斯石英 → [石磨/粉碎轮] → 赛特斯石英粉（供强力去灰水等）
 // ============================================================
 
 ServerEvents.recipes(event => {
@@ -89,5 +90,23 @@ ServerEvents.recipes(event => {
         console.log('[CUN-PROC] ③ Create mixing API 不可用，跳过')
     }
 
-    console.log('[CUN-PROC] 第二章皴处理线配方注册完成（共3步）')
+    // ========== ④ 赛特斯石英晶体 → 赛特斯石英粉（石磨 / 粉碎轮）==========
+    // 供第二章泡脚水「强力去灰水」（草灰水 + 赛特斯石英粉）等使用
+    if (event.recipes && event.recipes.create) {
+        try {
+            if (typeof event.recipes.create.milling === 'function') {
+                event.recipes.create.milling('ae2:certus_quartz_dust', 'ae2:certus_quartz_crystal')
+                    .id('kubejs:milling_certus_quartz_to_dust')
+            }
+            if (typeof event.recipes.create.crushing === 'function') {
+                event.recipes.create.crushing('ae2:certus_quartz_dust', 'ae2:certus_quartz_crystal')
+                    .id('kubejs:crushing_certus_quartz_to_dust')
+            }
+            console.log('[CUN-PROC] ④ 赛特斯石英粉碎配方已注册: 晶体 → 粉（石磨 / 粉碎轮）')
+        } catch (e) {
+            console.log('[CUN-PROC] ④ 赛特斯石英粉碎配方注册失败: ' + e)
+        }
+    }
+
+    console.log('[CUN-PROC] 第二章皴处理线配方注册完成')
 })

@@ -49,10 +49,10 @@ function buildFasciaGunCapability() {
 
 // 部位中文名映射
 var PART_DISPLAY_NAMES = {
-    jiaozhi: '脚趾',
-    jiaozhang: '脚掌',
-    jiaoxin: '脚心',
-    jiaogen: '脚跟'
+    jiaozhi: '按',
+    jiaozhang: '推',
+    jiaoxin: '搓',
+    jiaogen: '揉'
 }
 
 // 四个部位列表

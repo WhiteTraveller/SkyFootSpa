@@ -42,7 +42,8 @@ function pfSendDemandSync(player, entityUuid, nbt, part) {
         demandJiaogen: nbt.getInt('pfDemandJiaogen'),
         demandJiaozhi: nbt.getInt('pfDemandJiaozhi'),
         demandJiaoxin: nbt.getInt('pfDemandJiaoxin'),
-        satisfaction: nbt.getInt('pfSatisfaction')
+        satisfaction: nbt.getInt('pfSatisfaction'),
+        foodServed: nbt.getInt('pfFoodServed')
     })
 }
 
@@ -60,7 +61,33 @@ function setupNetworkHandlers() {
         
         console.log("[FOOT-DRAG] receive requestId=" + clientRequestId + " player=" + player.getUsername() +
             " uuid=" + entityUuid + " mainHand=" + player.getMainHandItem().id + " autoSequence=" + autoSequenceGun)
-        
+
+        // 羽毛搓脚 = 送客：顾客直接起床离开，不结算、不发奖励、不计评价
+        let dismissHeld = player.getMainHandItem()
+        if (dismissHeld && dismissHeld.id === 'minecraft:feather') {
+            let dismissEntities = level.getEntities()
+            let dismissTarget = null
+            for (let di = 0; di < dismissEntities.size(); di++) {
+                let dEnt = dismissEntities.get(di)
+                if ("" + dEnt.getUuid() === entityUuid) {
+                    dismissTarget = dEnt
+                    break
+                }
+            }
+            if (!dismissTarget) {
+                console.log("[PF-DISMISS] 未找到实体 uuid=" + entityUuid)
+                return
+            }
+            // 拖动会连续触发事件，只对仍躺床（phase=3）的顾客执行起床
+            if (global.pfEntityData.pfGetPhase(dismissTarget) !== 3) {
+                return
+            }
+            global.pfSleepManager.pfWakeUp(dismissTarget, level)
+            player.tell("§7已送客（未结算，无奖励）")
+            console.log("[PF-DISMISS] 羽毛送客成功 uuid=" + entityUuid)
+            return
+        }
+
         // 确定需求键
         let demandKey = null
         if (!autoSequenceGun) {
@@ -385,10 +412,7 @@ function setupNetworkHandlers() {
         }
         
         // 开始泡脚（传入桶 id 以便后续根据水种类应用效果）
-        let started = global.pfSoakManager.pfStartSoak(targetEntity, player, bucketId)
-        if (started && global.aTip && typeof global.aTip.isStage === 'function' && global.aTip.isStage(player, "wait_soak_click") && typeof global.aTip.advance === 'function') {
-            global.aTip.advance(player, "wait_soak_click", "wait_rub_foot", "pathfinder_rub_foot_tip")
-        }
+        global.pfSoakManager.pfStartSoak(targetEntity, player, bucketId)
 
         // 记录操作玩家 UUID（用于后续结算时回查）
         let soakItem = targetEntity.getMainHandItem()
@@ -399,15 +423,20 @@ function setupNetworkHandlers() {
         }
     })
 
-    // 客户端点击送客按钮：顾客直接起床，不结算、不发奖励、不计评价
-    // 实现思路：绕开 sleep.js 里“需求全零 → 掊硚币 + 记评价”的结算分支，
-    //   直接调 pfSleepManager.pfWakeUp。pfWakeUp 只清醒熟状、设 phase=2，不参与金钱/评价。
-    NetworkEvents.dataReceived('foot_dismiss_customer', event => {
-        let entityUuid = event.data.entityUuid
+    // 客户端点击需求清单的“茶”按钮：消耗手持已登记食物（global.foodRegister），
+    // 为服务中的顾客增加需求/满意度，并尝试召唤该食物对应的稀客（路径上已有则不重复召唤）
+    NetworkEvents.dataReceived('foot_serve_food', event => {
+        let entityUuid = "" + event.data.entityUuid
         let player = event.player
         let level = player.level
 
-        console.log("[PF-DISMISS] 收到送客请求 entityUuid=" + entityUuid)
+        let mainHand = player.getMainHandItem()
+        let heldId = mainHand ? ("" + mainHand.id) : ""
+        let food = global.foodRegister ? global.foodRegister.getFood(heldId) : null
+        if (!food) {
+            player.setStatusMessage("§c需要手持可招待的茶水！")
+            return
+        }
 
         let entities = level.getEntities()
         let targetEntity = null
@@ -418,23 +447,84 @@ function setupNetworkHandlers() {
                 break
             }
         }
-        if (!targetEntity) {
-            console.log("[PF-DISMISS] 未找到实体 uuid=" + entityUuid)
+        if (!targetEntity || global.pfEntityData.pfGetPhase(targetEntity) !== 3) {
+            player.setStatusMessage("§c只能招待正在服务中的顾客")
+            return
+        }
+        let item = targetEntity.getMainHandItem()
+        if (!item || item.id !== global.pfConstants.SYNC_ITEM_ID || !item.nbt) {
+            console.log("[PF-FOOD] 顾客缺少同步物品 uuid=" + entityUuid)
+            return
+        }
+        if (item.nbt.getInt('pfFoodServed') === 1) {
+            player.setStatusMessage("§c这位顾客已经喝过茶了")
             return
         }
 
-        if (!global.pfSleepManager || typeof global.pfSleepManager.pfWakeUp !== 'function') {
-            console.log("[PF-DISMISS] pfSleepManager.pfWakeUp 未就绪")
-            return
+        if (!player.isCreative()) {
+            mainHand.setCount(mainHand.getCount() - 1)
+            if (food.container) player.give(Item.of(food.container))
         }
 
-        try {
-            global.pfSleepManager.pfWakeUp(targetEntity, level)
-            player.tell("§7已送客（未结算，无奖励）")
-            console.log("[PF-DISMISS] 送客成功 uuid=" + entityUuid)
-        } catch (e) {
-            console.log("[PF-DISMISS] pfWakeUp 调用异常: " + e)
+        let partKeys = { jiaozhang: 'pfDemandJiaozhang', jiaogen: 'pfDemandJiaogen', jiaozhi: 'pfDemandJiaozhi', jiaoxin: 'pfDemandJiaoxin' }
+        let partNames = { jiaozhang: '推', jiaogen: '揉', jiaozhi: '按', jiaoxin: '搓' }
+        let nbt = item.nbt
+        let effectTexts = []
+        let addDemand = function (part, n) {
+            let key = partKeys[part]
+            if (!key || n <= 0) return
+            let patch = {}
+            patch[key] = (nbt.getInt(key) || 0) + n
+            nbt.merge(patch)
+            effectTexts.push(partNames[part] + "需求+" + n)
         }
+        for (let part in food.demands) addDemand(part, food.demands[part] | 0)
+        if (food.randomDemand > 0) {
+            let parts = ['jiaozhang', 'jiaogen', 'jiaozhi', 'jiaoxin']
+            addDemand(parts[Math.floor(Math.random() * parts.length)], food.randomDemand)
+        }
+        if (food.satisfaction > 0) {
+            let satApplied = pfApplyBossSatMul(targetEntity, food.satisfaction)
+            nbt.merge({ pfSatisfaction: Math.min(100, (nbt.getInt('pfSatisfaction') || 0) + satApplied) })
+            effectTexts.push("满意度+" + satApplied)
+        }
+        nbt.pfActionPlayerUuid = "" + player.getUuid()
+        nbt.merge({ pfFoodServed: 1 })
+        targetEntity.setMainHandItem(item.withNBT(nbt))
+        try { pfSendDemandSync(player, entityUuid, nbt, '') } catch (e) {
+            console.log('[PF-FOOD] 需求同步失败: ' + e)
+        }
+        player.tell("§a招待了 §e" + (food.name || heldId) + (effectTexts.length > 0 ? " §7| §b" + effectTexts.join("，") : ""))
+        console.log("[PF-FOOD] 招待 " + heldId + " uuid=" + entityUuid + " 效果=" + effectTexts.join(","))
+
+        if (!food.rareGuests || food.rareGuests.length === 0) return
+
+        let shop = global.pfShopManager
+        let bx = targetEntity.persistentData.getInt("pfShopBaseX") | 0
+        let by = targetEntity.persistentData.getInt("pfShopBaseY") | 0
+        let bz = targetEntity.persistentData.getInt("pfShopBaseZ") | 0
+        let be = shop.pfShopGetBE(level, bx, by, bz)
+        if (!be || !shop.pfShopGetIsOpen(be) || !shop.pfShopGetRouteStr(be) || !shop.pfShopGetQueuePos(be)) {
+            player.tell("§7店铺未开张，稀客不会前来")
+            return
+        }
+        let dimId = shop.pfDimId(level)
+        let rareDef = null
+        for (let i = 0; i < food.rareGuests.length && !rareDef; i++) {
+            rareDef = global.pfCustomerTypes.pfRareFind(dimId, food.rareGuests[i])
+        }
+        if (!rareDef) {
+            player.tell("§7这里没有会被这杯茶吸引的稀客")
+            return
+        }
+        if (shop.pfShopHasRareOnRoute(level, be, rareDef.id)) {
+            player.tell("§d稀客 §e" + rareDef.name + " §d已经在店里了，不会重复出现")
+            return
+        }
+        let playerUuid = "" + be.persistentData.getString("pfShopPlayerUuid")
+        let shopPlayer = null
+        try { shopPlayer = playerUuid ? level.getPlayerByUUID(playerUuid) : null } catch (e) { shopPlayer = null }
+        shop.pfShopSpawnRare(level, be, rareDef, shopPlayer || player)
     })
 }
 

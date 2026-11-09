@@ -23,32 +23,18 @@
 
 | ID | 名称 | 源码位置 |
 | --- | --- | --- |
-| `boost_chip_toe` | 增幅芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:10` |
-| `heal_chip_sole` | 治愈芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:41` |
-| `resonance_chip_heel` | 共振芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:65` |
-| `light_chip_center` | 轻载芯片：脚心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:95` |
-| `precise_chip_toe` | 精准芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:119` |
-| `overclock_chip_toe` | 超频芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:149` |
-| `extend_chip_sole` | 延伸芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:178` |
-| `recycle_chip_center` | 回收芯片：脚心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:208` |
-| `enhance_chip_heel` | 强化芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:239` |
-| `knowledge_chip_all` | 知识芯片：全部 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:272` |
-| `command_chip_sole` | 统御芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:302` |
-| `root_chip_heel` | 扎根芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:330` |
-| `harmony_chip_all` | 共鸣芯片：全部 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:359` |
-| `sharp_chip_toe` | 锐利芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:392` |
-| `press_chip_sole` | 按压芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:417` |
-| `soothe_chip_center` | 舒缓芯片：脚心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:441` |
-| `solid_chip_heel` | 稳固芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:465` |
-| `versatile_chip_all` | 泛用芯片：全部 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:490` |
-| `greed_chip_toe` | 贪婪芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:516` |
-| `comfort_chip_sole` | 抚慰芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:543` |
-| `breathe_chip_center` | 吐纳芯片：脚心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:574` |
-| `equilibrium_chip_heel` | 平衡芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:605` |
-| `exploit_chip_toe` | 压榨芯片：脚趾 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:638` |
-| `spring_chip_sole` | 涌泉芯片：脚掌 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:666` |
-| `serene_chip_center` | 宁静芯片：脚心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:695` |
-| `bedrock_chip_heel` | 磐石芯片：脚跟 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:725` |
+| `squeeze_chip_toe` | 进阶芯片：压榨 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:33` |
+| `rush_chip_sole` | 进阶芯片：赶工 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:49` |
+| `slack_chip_center` | 进阶芯片：偷懒 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:65` |
+| `idle_chip_heel` | 进阶芯片：清闲 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:81` |
+| `craft_chip_all` | 进阶芯片：匠心 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:97` |
+| `monopoly_chip_toe` | 进阶芯片：垄断 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:115` |
+| `shutdown_chip_sole` | 进阶芯片：停摆 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:131` |
+| `ardor_chip_center` | 进阶芯片：热忱 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:147` |
+| `converge_chip_heel` | 进阶芯片：聚能 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:170` |
+| `trance_chip_all` | 进阶芯片：忘我 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:186` |
+| `slouch_chip_toe` | 进阶芯片：摸鱼 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:202` |
+| `nimble_chip_sole` | 进阶芯片：游刃 | `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js:218` |
 
 ## 阶段 3
 
@@ -99,6 +85,12 @@
 | `shattered_mirror` | 碎裂镜 | `kubejs/startup_scripts/relic/relicItem/stage5/stage5.js:253` |
 | `reality_blade` | 现世刃 | `kubejs/startup_scripts/relic/relicItem/stage5/stage5.js:282` |
 | `key_of_back_door` | 后户之钥 | `kubejs/startup_scripts/relic/relicItem/stage5/stage5.js:326` |
+
+## 无阶段
+
+| ID | 名称 | 源码位置 |
+| --- | --- | --- |
+| `socks` | 袜子 | `kubejs/startup_scripts/relic/relicItem/socks.js:9` |
 
 ## 背包镶板
 

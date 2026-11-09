@@ -7,39 +7,35 @@
 </head>
 <body>
   <div class="foot-ui-container">
-    <!-- 送客按钮：右上角小按钮，点击后顾客直接起床（不结算、不发奖励） -->
-    <div id="dismissBtn" class="dismiss-btn">×</div>
     <div class="up">
       <div class="header">
-        <span class="title">需求清单</span>
+        <span class="title" id="titleText">需求清单</span>
       </div>
       <div class="requireList">
         <div class="left">
           <div class="footsole">
-            <span class="label">脚掌：</span>
+            <span class="label" id="labelJiaozhang">推：</span>
             <span class="count" id="countJiaozhang">2次</span>
           </div>
           <div class="footheart">
-            <span class="label">脚心：</span>
+            <span class="label" id="labelJiaoxin">搓：</span>
             <span class="count" id="countJiaoxin">3次</span>
           </div>
         </div>
         <div class="right">
           <div class="toe">
-            <span class="label">脚趾：</span>
+            <span class="label" id="labelJiaozhi">按：</span>
             <span class="count" id="countJiaozhi">2次</span>
           </div>
                     <div class="heel">
-            <span class="label">脚跟：</span>
+            <span class="label" id="labelJiaogen">揉：</span>
             <span class="count" id="countJiaogen">1次</span>
           </div>
         </div>
       </div>
-      <!-- 满意度和步骤 -->
+      <!-- 满意度 -->
       <div class="satisfaction">
-          <span class="satisfaction-text">
-            满意度:
-          </span>
+        <span class="satisfaction-text" id="satisfactionLabel">满意度:</span>
         <span class="progress-wrapper">
           <span class="progress-bg">
             <span class="progress-fill" id="satisfactionFill" style="width: 0%"></span>
@@ -47,12 +43,11 @@
         </span>
         <span class="progress-percent" id="satisfactionPercent">0%</span>
       </div>
+    </div>
 
-      <!-- 步骤记录 -->
-      <div class="steps-container" id="stepsContainer">
-        <span class="steps-label">已执行:</span>
-        <span class="steps-text" id="stepsText"></span>
-      </div>
+    <!-- 茶水按钮：需求清单正下方，消耗手持已登记的茶水（foot_serve_food） -->
+    <div id="serveFoodBtn" class="serve-food-btn">
+      <span class="serve-food-text" id="serveFoodText">茶水</span>
     </div>
 
     <div class="down">
@@ -68,8 +63,15 @@
   </div>
 </body>
 <style>
+  /* 需求清单字体：ZhaohuaMinB Black（同人物图鉴），@font-face 相对页面目录 */
+  @font-face {
+    font-family: FootZhaohua;
+    src: url("fonts/zhaohua_minb_black.ttf") format("truetype");
+  }
+
   /* 主容器 */
   html, body {
+    image-rendering: crisp-edges;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -87,11 +89,14 @@
     box-sizing: border-box;
   }
 
+  /* 需求清单底图：require_bg.png 去掉中间 44 行（原“已执行”一行）后的 400x236 版本 → 100x59 */
   .up {
-    height: 70px;
-    flex: 0 0 70px;
+    height: 59px;
+    flex: 0 0 59px;
     overflow: hidden;
-    background: url('text.png') no-repeat center center;
+    background-image: url('require_bg_short.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     position: relative;
     z-index: 2;
   }
@@ -105,9 +110,10 @@
   }
 
   .title {
+    font-family: "FootZhaohua", "SimSun", serif;
     color: #844c24;
     font-size: 7px;
-    font-weight: 400;
+    font-weight: bold;
     letter-spacing: 0px;
     line-height: 1;
     text-align: left;
@@ -239,52 +245,32 @@
     margin-left: 2px;
   }
 
-  /* 步骤记录容器 */
-  .steps-container {
+  /* 茶水按钮：背景为需求清单底图的顶部 40 行 + 底部 36 行拼接（serve_food_btn_bg.png，400x76 → 100x19） */
+  .serve-food-btn {
     position: absolute;
-    left: 8px;
-    top: 54px;
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    max-width: 84px;
-  }
-
-  .steps-label {
-    font-size: 6px;
-    color: #844c24;
-    white-space: nowrap;
-    margin-right: 4px;
-  }
-
-  .steps-text {
-    font-size: 6px;
-    color: #844c24;
-  }
-
-  /* 送客按钮（尺寸小于部位按钮 20x15） */
-  .dismiss-btn {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    border: 1px solid #844c24;
-    background: rgba(255, 235, 200, 0.85);
-    color: #844c24;
-    font-size: 10px;
-    font-weight: 400;
-    text-align: center;
-    line-height: 12px;
+    left: 0px;
+    top: 61px;
+    width: 100px;
+    height: 19px;
+    background-image: url('serve_food_btn_bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     cursor: pointer;
     transform: translateZ(0px);
-    z-index: 0;
+    z-index: 2;
   }
 
-  .dismiss-btn:active {
-    transform: scale(0.85) translateZ(0px);
+  .serve-food-btn:active {
+    transform: scale(0.95) translateZ(0px);
+  }
+
+  .serve-food-text {
+    position: absolute;
+    left: 43px;
+    top: 6px;
+    font-size: 7px;
+    line-height: 1;
+    color: #844c24;
   }
 
 
@@ -298,7 +284,7 @@
 
   /* 拖动跟随物品图标：不受 .foot-image overflow 裁剪 */
   .down {
-    margin-top: 55px;
+    margin-top: 66px;
     position: relative;
     flex: 0 0 100px;
     z-index: 1;

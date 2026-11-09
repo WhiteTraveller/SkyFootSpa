@@ -293,12 +293,12 @@
 		}
 		{
 			dependencies: ["68C33EF0DE4ED699"]
-			hide_dependency_lines: true
 			description: [
 				"§b碳刷§r——发电机的关键零件。"
 				""
 				"§a配方§r：§f煤炭§r等合成，详见游戏内配方。"
 			]
+			hide_dependency_lines: true
 			id: "372CFF77E5A3F42F"
 			tasks: [{
 				id: "1B76615723593331"
@@ -361,12 +361,12 @@
 				"4AA6E8AF9A328B3E"
 				"5961F8B54395B082"
 			]
-			hide_dependency_lines: false
 			description: [
 				"§f生物柴油§r——§b柴油发电机§r的高效燃料。"
 				""
 				"§a配方§r：§b精炼机§r中 §f乙醇§r + §f植物油§r 合成。"
 			]
+			hide_dependency_lines: false
 			id: "50EC9EA48DC3174E"
 			shape: "square"
 			size: 1.0d
@@ -453,12 +453,12 @@
 				"5C02B2974F91E960"
 				"5279C7FBDADAE041"
 			]
-			icon: "immersiveengineering:fermenter"
 			description: [
 				"§b沉浸工程§r的大型机器（发酵机、精炼机、压榨机、灌装机等）都要靠§e工程块§r与电力搭建。"
 				""
 				"备齐工程块、发上电，就能铺开这些大机器了。"
 			]
+			icon: "immersiveengineering:fermenter"
 			id: "20162E74B5ACFA0A"
 			shape: "square"
 			size: 1.5d
@@ -704,87 +704,6 @@
 			y: 0.0d
 		}
 		{
-			description: [
-				"§d增幅芯片：脚趾§r——脚趾§a金钱 +3§r、全部位§c满意度 -3§r。"
-				""
-				"§e特殊§r：九宫格每有 1 个遗物，脚趾满意度 §a+1§r。"
-				""
-				"§7来源：遗物抽奖（盲盒），装备于芯片槽。"
-			]
-			id: "57C2EA675BE4627F"
-			tasks: [{
-				id: "6CCDDA1C62586006"
-				item: "marguerite:boost_chip_toe"
-				type: "item"
-			}]
-			x: 25.0d
-			y: -2.0d
-		}
-		{
-			description: [
-				"§d治愈芯片：脚掌§r——全部位§a满意度 +3§r、脚心§c金钱 -1§r。"
-				""
-				"§7来源：遗物抽奖（盲盒），装备于芯片槽。"
-			]
-			id: "0A3429B09BDBB33C"
-			tasks: [{
-				id: "3EFF876F99CDA321"
-				item: "marguerite:heal_chip_sole"
-				type: "item"
-			}]
-			x: 25.0d
-			y: 0.0d
-		}
-		{
-			description: [
-				"§d共振芯片：脚跟§r——脚跟§a金钱 +3§r、全部位§c满意度 -3§r。"
-				""
-				"§e特殊§r：相邻有§e金属§r遗物时，满意度惩罚消失。"
-				""
-				"§7来源：遗物抽奖（盲盒），装备于芯片槽。"
-			]
-			id: "37E645DFCB6196D5"
-			tasks: [{
-				id: "1D8DB19E2169B1D3"
-				item: "marguerite:resonance_chip_heel"
-				type: "item"
-			}]
-			x: 27.0d
-			y: -2.0d
-		}
-		{
-			description: [
-				"§d轻载芯片：脚心§r——全部位§a体力消耗 -10§r、脚心§c满意度 -2§r。"
-				""
-				"§7来源：遗物抽奖（盲盒），装备于芯片槽。"
-			]
-			id: "28568C322C4CC848"
-			tasks: [{
-				id: "6B690DA50026B212"
-				item: "marguerite:light_chip_center"
-				type: "item"
-			}]
-			x: 27.0d
-			y: 0.0d
-		}
-		{
-			description: [
-				"§d精准芯片：脚趾§r——脚心§a金钱 +2§r、脚趾§c金钱 -1§r。"
-				""
-				"§e特殊§r：九宫格每有 1 个空位，脚趾金钱 §a+1§r。"
-				""
-				"§7来源：遗物抽奖（盲盒），装备于芯片槽。"
-			]
-			id: "03E06BFF0F4BCCCC"
-			tasks: [{
-				id: "2D5E3C33B6B1290E"
-				item: "marguerite:precise_chip_toe"
-				type: "item"
-			}]
-			x: 25.0d
-			y: 2.0d
-		}
-		{
 			dependencies: ["3181F1E618B84C49"]
 			description: [
 				"§6栏位扩大器·二型§r——进一步解锁更多§e芯片槽§r。"
@@ -861,7 +780,7 @@
 			y: 2.0d
 		}
 		{
-			dependencies: ["03C8DAD2E99EBB5C"]
+			dependencies: ["3181F1E618B84C49"]
 			description: [
 				"§b星熊勇仪§r——旧地狱的鬼族，力大无穷。"
 				""
@@ -886,8 +805,147 @@
 				}
 				type: "item"
 			}]
-			x: 1.0d
-			y: 2.0d
+			x: 26.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5B1F5D6D4A044B5B"]
+			description: [
+				"皴块水洗滤出的§8皴水§r——浑浊，却别有用途。"
+				""
+				"§e获取方式§r：§f皴块§r + 水在§b机械动力工作盆§r搅拌，副产§8皴水§r（同时得到§f洗净皴块§r）。"
+				""
+				"§a功能§r："
+				"· 泡脚：可直接当泡脚水，但浑浊刺鼻，顾客§c满意度 -25§r，且§e各部位需求 +0~2§r。"
+				"· 加热 8 桶可析出§d赛特斯石英§r。"
+				""
+				"§7廉价的泡脚水，救急可以，别指望顾客满意。"
+			]
+			icon: "kubejs:cun_water_bucket"
+			id: "32F74307E04D9028"
+			rewards: [{
+				count: 3
+				id: "23A794331718CECD"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "45902040A7ACDCDF"
+				item: "kubejs:cun_water_bucket"
+				type: "item"
+			}]
+			title: "浊水藏晶"
+			x: 5.0d
+			y: 6.0d
+		}
+		{
+			description: [
+				"§d赛特斯石英§r——§b应用能源§r的核心材料，本章电子产线的钥匙。"
+				""
+				"§a配方§r（本包魔改）：§8皴水§r 8 桶在§b机械动力工作盆§r中§c加热搅拌§r析出。"
+				"· 无需原版§b应用能源§r的复杂设备与材料，一池皴水足矣。"
+				""
+				"§e用途§r：高阶顾客需求、研磨成粉等。"
+			]
+			icon: "ae2:certus_quartz_crystal"
+			id: "7A7EF9B18360931A"
+			rewards: [{
+				count: 5
+				id: "4A1C54AF0FAC71B6"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.5d
+			tasks: [{
+				id: "511C387D8BF0407A"
+				item: "ae2:certus_quartz_crystal"
+				type: "item"
+			}]
+			title: "芯的基石"
+			x: 5.0d
+			y: 4.0d
+		}
+		{
+			description: [
+				"§d赛特斯石英粉§r——研磨后的石英细粉。"
+				""
+				"§a配方§r：§d赛特斯石英§r经§b机械动力石磨§r或§b粉碎轮§r研磨得到。"
+				""
+				"§e用途§r：调制§8强力去灰水§r等。"
+			]
+			icon: "ae2:certus_quartz_dust"
+			id: "52903A4D297490F7"
+			rewards: [{
+				count: 5
+				id: "72E183E820457CF8"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "23A30E616E06818E"
+				item: "ae2:certus_quartz_dust"
+				type: "item"
+			}]
+			title: "研磨石英"
+			x: 7.0d
+			y: 4.0d
+		}
+		{
+			description: [
+				"§8强力去灰水§r——草灰水的强化版，去死皮更狠。"
+				""
+				"§a配方§r：§8草灰水§r 1 桶 + §d赛特斯石英粉§r在§b机械动力工作盆§r搅拌。"
+				""
+				"§a功能§r：泡脚后顾客§e搓脚掉皴 +3/次§r（比第一章食盐水更强）。"
+			]
+			icon: "kubejs:strong_ash_water_bucket"
+			id: "2A0D612CFA303E3F"
+			rewards: [{
+				count: 8
+				id: "45CA57E64CAF18A1"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.5d
+			tasks: [{
+				id: "02317253909C4C53"
+				item: "kubejs:strong_ash_water_bucket"
+				type: "item"
+			}]
+			title: "淬石灰浆"
+			x: 9.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["20162E74B5ACFA0A"]
+			description: [
+				"§6豪华牛奶水§r——牛奶水的鎏金升级，财运亨通。"
+				""
+				"§a配方§r：§f牛奶水§r 1 桶 + §e金粉§r在§b沉浸工程工业搅拌机§r中搅拌。"
+				"· §c注意§r：必须用§b沉浸工程工业搅拌机§r，机械动力搅拌机无法完成。"
+				""
+				"§a功能§r：泡脚后立即掉落 §635 铜币§r（比第一章花椒水更多）。"
+			]
+			icon: "kubejs:deluxe_milk_water_bucket"
+			id: "4840EA4FAF2CBDFA"
+			rewards: [{
+				count: 8
+				id: "3AB08467C3337374"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.5d
+			tasks: [{
+				id: "553606F89B2FB483"
+				item: "kubejs:deluxe_milk_water_bucket"
+				type: "item"
+			}]
+			title: "鎏金乳香"
+			x: 20.25d
+			y: 5.25d
 		}
 	]
 	title: "第二章"

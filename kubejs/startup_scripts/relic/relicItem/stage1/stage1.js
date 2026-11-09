@@ -8,7 +8,7 @@ global.relicRegister.currentStage = 1
 
 // 描述片段拼装（正值绿色，负值红色；体力消耗方向相反：+体力红色、-体力绿色）
 function descMoney(n) {
-    return Text.gray("所有部位金钱").append(n >= 0 ? Text.green("+" + n) : Text.red("" + n))
+    return Text.gray("所有手法金钱").append(n >= 0 ? Text.green("+" + n) : Text.red("" + n))
 }
 function descSat(n) {
     return Text.gray(" 满意度").append(n >= 0 ? Text.green("+" + n) : Text.red("" + n))

@@ -77,6 +77,17 @@
         "value": 1000
       }
     },
+    "youkaishomecoming:hit_box": {
+      "enabled": false,
+      "min": {
+        "default": -0.2,
+        "value": -0.2
+      },
+      "max": {
+        "default": 1,
+        "value": 1
+      }
+    },
     "kubejs:serve.sat_gain.jiaozhi": {
       "enabled": false,
       "min": {
@@ -108,6 +119,28 @@
       "max": {
         "default": 1000,
         "value": 1000
+      }
+    },
+    "youkaishomecoming:max_resource": {
+      "enabled": false,
+      "min": {
+        "default": -10,
+        "value": -10
+      },
+      "max": {
+        "default": 10,
+        "value": 10
+      }
+    },
+    "youkaishomecoming:initial_power": {
+      "enabled": false,
+      "min": {
+        "default": -10,
+        "value": -10
+      },
+      "max": {
+        "default": 10,
+        "value": 10
       }
     },
     "attributeslib:cold_damage": {
@@ -163,6 +196,17 @@
       "max": {
         "default": 10000,
         "value": 10000
+      }
+    },
+    "youkaishomecoming:max_power": {
+      "enabled": false,
+      "min": {
+        "default": -10,
+        "value": -10
+      },
+      "max": {
+        "default": 10,
+        "value": 10
       }
     },
     "touhou_little_maid:maid_passive_use_shield_tick": {
@@ -671,6 +715,17 @@
         "value": 1024
       }
     },
+    "youkaishomecoming:initial_resource": {
+      "enabled": false,
+      "min": {
+        "default": -10,
+        "value": -10
+      },
+      "max": {
+        "default": 10,
+        "value": 10
+      }
+    },
     "l2damagetracker:magic_damage": {
       "enabled": false,
       "min": {
@@ -768,6 +823,17 @@
       "max": {
         "default": 1,
         "value": 1
+      }
+    },
+    "youkaishomecoming:graze_effectiveness": {
+      "enabled": false,
+      "min": {
+        "default": 0,
+        "value": 0
+      },
+      "max": {
+        "default": 10,
+        "value": 10
       }
     },
     "attributeslib:life_steal": {

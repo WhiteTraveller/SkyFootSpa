@@ -8,6 +8,10 @@
 //
 // 富魔洗脚水：妖怪/妖精顾客泡脚产生的废水变体，
 // 与普通洗脚水共享同一 tag 和配方。
+//
+// 含油洗脚水：鬼族(oni)顾客泡脚产生的废水变体（第三章石油线）。
+// 剧情设定为鬼族当年在血池干活被"腌入味"、如今从脚上搓下的石油，
+// 经 CDG 分馏塔分馏出 洗脚水(1000mb) + 原油(100mb)，不并入通用废水桶 tag。
 // ============================================================
 
 StartupEvents.registry("fluid", event => {
@@ -38,6 +42,20 @@ StartupEvents.registry("fluid", event => {
     } catch (e) {
         console.log('[USED-FOOT-WATER] 富魔洗脚水注册失败: ' + e)
     }
+
+    // --- 含油洗脚水（鬼族 oni 顾客产出，第三章石油线） ---
+    try {
+        let builder = event.create('oil_foot_water')
+            .displayName('§8含油洗脚水')
+            .bucketColor(0x2A2118)
+            .thinTexture(0x2A2118)
+            .stillTexture('minecraft:block/water_still')
+            .flowingTexture('minecraft:block/water_flow')
+        try { builder.textColor(0x2A2118) } catch (e) { }
+        console.log('[USED-FOOT-WATER] 已注册流体 kubejs:oil_foot_water')
+    } catch (e) {
+        console.log('[USED-FOOT-WATER] 含油洗脚水注册失败: ' + e)
+    }
 })
 
 // 常量导出，供服务端脚本引用
@@ -46,5 +64,7 @@ global.pfUsedFootWater = {
     BUCKET_ID: 'kubejs:foot_water_bucket',
     FUMA_FLUID_ID: 'kubejs:fuma_foot_water',
     FUMA_BUCKET_ID: 'kubejs:fuma_foot_water_bucket',
+    OIL_FLUID_ID: 'kubejs:oil_foot_water',
+    OIL_BUCKET_ID: 'kubejs:oil_foot_water_bucket',
     REQUIRED_AMOUNT: 1000
 }

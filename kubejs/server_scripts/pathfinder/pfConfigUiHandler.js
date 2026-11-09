@@ -43,15 +43,11 @@ NetworkEvents.dataReceived('pf_rare_affection_open', event => {
     // 1) 先推数据：客户端 rare_affection_ui.js 收到后仅存入 global.pfRareAffectionView，
     //    rare_affection.html 页面脚本轮询读取渲染（menu 打开与数据到达顺序由页面轮询容错）。
     player.sendData('pf_rare_affection_data', { json: JSON.stringify(payload) })
-    // 2) 服务端用 menu(...).bind(...) 打开稀客列表【容器 Screen】，替换当前配置容器。
-    //    按需求“稀客页面不设计物品槽位绑定”：只 bind player() 作为容器最小数据源，HTML 内不放 <container>，
-    //    页面纯展示 + <item> 渲染手办，无任何库存槽位交互。改用 menu（而非客户端 screen）意在让
-    //    物品图标进入容器 Screen 的原生渲染上下文，尝试修复 plain Screen 下 TLM 3D 手办 <item> 渲染发黑。
-    let ApricityUIRareMenu = Java.loadClass("com.sighs.apricityui.ApricityUI")
-    ApricityUIRareMenu.menu(player, "kubejs/rare_affection.html").bind(function (binding) {
-        binding.player()
-    })
-    console.log('[PF-CONFIG-UI] menu 打开稀客好感度容器 dim=' + dim + ' 稀客数=' + view.length)
+    // 2) 出 UI 方式与人物图鉴页统一：客户端 screen() 打开普通 Screen（rare_affection_ui.js 监听
+    //    pf_rare_affection_open_ui 后 closeScreen + screen），不再用服务端 menu 容器宿主
+    //    （页面无物品槽位；当年 <item> 发黑实为手办 NBT 缺字段，与宿主无关）。
+    player.sendData('pf_rare_affection_open_ui', {})
+    console.log('[PF-CONFIG-UI] 通知客户端打开稀客好感度 Screen dim=' + dim + ' 稀客数=' + view.length)
 })
 
 // "人物图鉴"按钮：无需服务端数据，直接通知客户端关闭配置容器并打开图鉴 Screen

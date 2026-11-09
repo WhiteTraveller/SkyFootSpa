@@ -160,15 +160,6 @@ function pfMoveStep(ent, level) {
             }
             level.spawnParticles("minecraft:poof", false, fx, entY + 1, fz, 0.5, 1, 0.5, 50, 0)
             console.log("[PF] FINISH at (" + fx.toFixed(1) + "," + fz.toFixed(1) + ")")
-            if (global.aTip && typeof global.aTip.closePlayerTip === "function") {
-                let finishPlayer = null
-                if (typeof global.aTip.findActionPlayer === "function") {
-                    finishPlayer = global.aTip.findActionPlayer(ent, level)
-                }
-                if (finishPlayer) {
-                    global.aTip.closePlayerTip(finishPlayer)
-                }
-            }
             let bedPos = global.pfEntityData.pfGetBedInfo(ent)
             if (bedPos && global.pfShopManager && global.pfShopManager.pfShopReleaseBed) {
                 let bx = ent.persistentData.getInt("pfShopBaseX") | 0

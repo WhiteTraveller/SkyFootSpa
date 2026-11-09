@@ -66,11 +66,7 @@
 			description: [
 				"「皴」是顾客脚部老去角质的统称，是后续一切合成与产线的基础原料。"
 				""
-				"§e获取方式§r：为顾客提供搓脚服务，每次触碰需求部位会随机掉落 §a3~5§r 个皴。"
-				""
-				"§b加成道具§r："
-				"· §6搓泥宝§r（精油）：副手持有时搓脚掉落翻倍，消耗 1 点耐久"
-				"· 随着后续游戏进程，将会解锁更多道具提高产量"
+				"§e获取方式§r：为顾客提供搓脚服务，每次触碰需求部位会掉落皴。"
 				""
 				"先服务一位顾客，试着获取吧！（呕）"
 			]
@@ -147,8 +143,6 @@
 				"§a9 个皴§r可以合成 §f1 个皴块§r。"
 				""
 				"皴块是筛矿产线的原料，可以被§b动力筛子§r筛选出铁粒、铜粒、金粒、锌粒与石英。"
-				""
-				"先在工作台合出第一块皴块吧。"
 			]
 			icon: "marguerite:cun_block"
 			id: "3117AB70F0AEC7F7"
@@ -232,7 +226,7 @@
 		}
 		{
 			dependencies: ["5D10D03366DB0677"]
-			description: ["将皴块与§b线筛网§r投入§b动力筛子§r，即可随机筛出：铁粒、铜粒、金粒、锌粒、石英。§r"]
+			description: ["将皴块与§b线筛网§r投入§b动力筛子§r，即可随机筛出各种矿物。§r"]
 			icon: "minecraft:iron_nugget"
 			id: "314C359231516C59"
 			rewards: [{
@@ -279,11 +273,7 @@
 				"314C359231516C59"
 				"51624AFBB7E4F90F"
 			]
-			description: [
-				"§b安山岩§r是机械工业的基石，由§f鹅卵石§r与§f闪长岩§r合成获得。"
-				""
-				"它是合成§e安山合金§r的关键材料——而安山合金正是通往§b机械动力§r动力产线的第一道门槛。"
-			]
+			description: ["§b安山岩§r是机械工业的基石，由§f鹅卵石§r与§f闪长岩§r合成获得。"]
 			icon: "minecraft:andesite"
 			id: "7B3A5D9E2F1C8046"
 			rewards: [{
@@ -680,59 +670,6 @@
 			y: 0.0d
 		}
 		{
-			dependencies: ["7B3A5D9E2F1C8100"]
-			description: [
-				"§b动力搅拌器§r 配合工作盆可以实现流体配方搅拌。"
-				""
-				"泡脚水、黄铜锭、安山合金等配方都需要它。解锁后即可开启泡脚水产线。"
-			]
-			icon: "create:mechanical_mixer"
-			id: "433DE54F04296649"
-			rewards: [{
-				count: 10
-				id: "04D07D60A0C9531E"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "3EF390D2C3BBDCEC"
-				item: "create:mechanical_mixer"
-				type: "item"
-			}]
-			title: "动力搅拌器"
-			x: 14.0d
-			y: 6.0d
-		}
-		{
-			dependencies: [
-				"433DE54F04296649"
-				"5D4ACE6A91785B48"
-			]
-			description: [
-				"§6生姜水§r —— §7温通经脉，专精各部位需求§r"
-				""
-				"§a配方§r：§b工作盆§r + §f水 1 桶§r + §e姜§r，启动§b动力搅拌器§r搅拌即可得§6生姜水§r流体；空桶右键工作盆取出得§6生姜水桶§r。"
-				""
-				"§e使用方式§r：顾客泡脚时，手持§6生姜水桶§r右键触发——每个部位随机 §a0~3§r 点需求加成。"
-			]
-			icon: "kubejs:ginger_water_bucket"
-			id: "7B3A5D9E2F1C8260"
-			rewards: [{
-				count: 3
-				id: "7B3A5D9E2F1C8262"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "7B3A5D9E2F1C8261"
-				item: "kubejs:ginger_water_bucket"
-				type: "item"
-			}]
-			title: "泡脚水：生姜水"
-			x: 16.0d
-			y: 8.0d
-		}
-		{
 			dependencies: ["47911DBA354F2830"]
 			description: ["§c红石粉§r 是§b精密构件§r合成中不可替代的材料。在前期你可以直接在商店购买"]
 			icon: "minecraft:redstone"
@@ -805,15 +742,7 @@
 				"7B3A5D9E2F1C8210"
 				"7B3A5D9E2F1C8230"
 			]
-			description: [
-				"§b精密构件§r 是合成§e芯片遗物§r的核心材料。"
-				""
-				"§a合成步骤§r："
-				"· 基材：§f黄铜板§r"
-				"· 由机械手持材料依次在基材上 §6"
-				"· 循环 §e5 次§r 后产出精密构件"
-				"§7掌握精密构件，就能开始打造属于你的第一批芯片遗物了。§r"
-			]
+			description: ["§b精密构件§r 是合成§e芯片遗物§r的核心材料。"]
 			icon: "create:precision_mechanism"
 			id: "7B3A5D9E2F1C8220"
 			rewards: [{
@@ -823,14 +752,14 @@
 				type: "item"
 			}]
 			shape: "square"
-			size: 1.5d
+			size: 1.0d
 			tasks: [{
 				id: "7B3A5D9E2F1C8221"
 				item: "create:precision_mechanism"
 				type: "item"
 			}]
 			title: "精密构件"
-			x: 20.0d
+			x: 22.0d
 			y: -2.0d
 		}
 		{
@@ -896,10 +825,6 @@
 			y: -10.0d
 		}
 		{
-			dependencies: [
-				"494196DBF4AA9FCE"
-				"7B3A5D9E2F1C8220"
-			]
 			description: [
 				"你的名声传到了神社，§b博丽灵梦§r亲自前来一探究竟。"
 				""
@@ -933,7 +858,7 @@
 				type: "checkmark"
 			}]
 			x: 2.0d
-			y: 8.0d
+			y: 7.0d
 		}
 		{
 			dependencies: ["29ED21FA69A44D13"]
@@ -977,48 +902,6 @@
 		}
 		{
 			dependencies: [
-				"433DE54F04296649"
-				"10594BB272A65BC9"
-			]
-			description: [
-				"§f牛奶水§r——§7满床乳香 §8|§7 专精：立即掉钱。"
-				""
-				"§a配方§r：§b工作盆§r 注入 §f水 1 桶§r + §f牛奶 1 桶§r，§b动力搅拌器§r搅拌后空桶取出。"
-				""
-				"§e效果§r：顾客泡脚完成§a立即掉 5 枚铜币§r。"
-			]
-			id: "6F8970449BC88E4E"
-			tasks: [{
-				id: "2D384B045C4457C5"
-				item: "kubejs:milk_water_bucket"
-				type: "item"
-			}]
-			x: 16.0d
-			y: 4.0d
-		}
-		{
-			dependencies: [
-				"433DE54F04296649"
-				"7F74A15B9B195DE3"
-			]
-			description: [
-				"§8草灰水§r——§7草灰去角质 §8|§7 专精：搓脚掉皴。"
-				""
-				"§a配方§r：§b工作盆§r 注入 §f水 1 桶§r + §8草灰§r，§b动力搅拌器§r搅拌后空桶取出。"
-				""
-				"§e效果§r：搓脚时每次§a额外掉 1 个皴§r。"
-			]
-			id: "5B3670BB4E80FFAF"
-			tasks: [{
-				id: "76963775825A4B79"
-				item: "kubejs:grass_ash_water_bucket"
-				type: "item"
-			}]
-			x: 16.0d
-			y: 6.0d
-		}
-		{
-			dependencies: [
 				"610F10EC9FEE4CE9"
 				"03EFA7BE40402DF6"
 			]
@@ -1039,77 +922,11 @@
 			y: 0.0d
 		}
 		{
-			description: [
-				"§f草§r——破坏草丛即可收集的常见植物。"
-				""
-				"§e用途§r：§b熔炉§r烧制成§8草灰§r。"
-			]
-			id: "29A8F821BC716344"
-			tasks: [{
-				id: "7FBF525A7DC47728"
-				item: "minecraft:grass"
-				type: "item"
-			}]
-			x: 20.0d
-			y: 6.0d
-		}
-		{
-			dependencies: ["29A8F821BC716344"]
-			description: [
-				"§8草灰§r——草本植物焚烧后的残余。"
-				""
-				"§a配方§r：§f草 / 高草 / 蕨 / 大型蕨§r 放入§b熔炉§r烧制。"
-				""
-				"§e用途§r：调配§8草灰水§r（搓脚掉皴 +1）。"
-			]
-			id: "7F74A15B9B195DE3"
-			tasks: [{
-				id: "60C71D2F332D2B47"
-				item: "marguerite:grass_ash"
-				type: "item"
-			}]
-			x: 18.0d
-			y: 6.0d
-		}
-		{
-			dependencies: ["7D33DC93A634EF7C"]
-			description: [
-				"§f牛奶桶§r——用§f空桶§r右键§b牛§r挤奶获得。"
-				""
-				"§e用途§r：调配§f牛奶水§r泡脚水。"
-			]
-			id: "10594BB272A65BC9"
-			tasks: [{
-				id: "50607C5349A6FF45"
-				item: "minecraft:milk_bucket"
-				type: "item"
-			}]
-			x: 20.0d
-			y: 4.0d
-		}
-		{
-			description: [
-				"§e姜§r——调配§6生姜水§r的关键原料。"
-				""
-				"§7农耕获取，详见游戏内配方。"
-			]
-			id: "5D4ACE6A91785B48"
-			tasks: [{
-				id: "2C667B5EBE8B7011"
-				item: "ubesdelight:ginger"
-				type: "item"
-			}]
-			x: 20.0d
-			y: 8.0d
-		}
-		{
 			dependencies: ["494196DBF4AA9FCE"]
 			description: [
 				"§8洗脚水§r——顾客泡脚后§b工作盆§r里剩下的废水。"
 				""
 				"§e获取方式§r：泡脚倒计时结束后，盆中泡脚水转为废水，用§f空桶§r右键取出。"
-				""
-				"§e用途§r：§b厨锅§r煮成§f盐§r，或用§b液体垃圾桶§r处理。"
 			]
 			id: "4F97186849B00F06"
 			tasks: [{
@@ -1163,11 +980,7 @@
 				"0A462696D0925D02"
 				"7B3A5D9E2F1C8230"
 			]
-			description: [
-				"§b磨制玫瑰石英§r——§e电子管§r的核心材料。"
-				""
-				"§a配方§r：§c红石§r + §f石英§r 制成§d玫瑰石英§r，再用§b砂纸§r打磨（详见游戏内配方）。"
-			]
+			description: ["§b磨制玫瑰石英§r——§e电子管§r的核心材料。"]
 			id: "3F288A4C2CD5B94C"
 			tasks: [{
 				id: "5B188F88C92CCCC4"
@@ -1175,7 +988,7 @@
 				type: "item"
 			}]
 			x: 22.0d
-			y: 4.0d
+			y: 0.0d
 		}
 		{
 			dependencies: ["3F288A4C2CD5B94C"]
@@ -1232,11 +1045,7 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：敛财§r——所有部位§a金钱 +1§r、§c满意度 -1§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铜粉§r + §f金粉§r。"
-			]
+			description: ["§d基础芯片：敛财§r——所有部位§a金钱 +1§r、§c满意度 -1§r。"]
 			id: "24E775561DAFB297"
 			tasks: [{
 				id: "18D337CC8E2DC6EE"
@@ -1248,19 +1057,15 @@
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：勤劳§r——所有部位§a金钱 +1§r、§c体力消耗 +10§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铜粉§r + §f铁粉§r。"
-			]
+			description: ["§d基础芯片：勤劳§r——所有部位§a金钱 +1§r、§c体力消耗 +10§r。"]
 			id: "59331FCB907CEBE5"
 			tasks: [{
 				id: "6C1AE7D3C206B38E"
 				item: "marguerite:basic_chip_sole"
 				type: "item"
 			}]
-			x: 22.0d
-			y: -2.0d
+			x: 20.0d
+			y: -4.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
@@ -1275,24 +1080,20 @@
 				item: "marguerite:basic_chip_center"
 				type: "item"
 			}]
-			x: 22.0d
-			y: 0.0d
+			x: 20.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：用心§r——所有部位§a满意度 +1§r、§c体力消耗 +10§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f金粉§r + §f铁粉§r。"
-			]
+			description: ["§r + f铁粉§r。"]
 			id: "736D2E89559B2B8B"
 			tasks: [{
 				id: "3E72739D6340FAAE"
 				item: "marguerite:general_chip_all"
 				type: "item"
 			}]
-			x: 26.0d
-			y: -2.0d
+			x: 20.0d
+			y: -6.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
@@ -1341,7 +1142,7 @@
 				type: "item"
 			}]
 			x: 24.0d
-			y: -2.0d
+			y: -6.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
@@ -1356,21 +1157,15 @@
 				item: "marguerite:eco_chip_center"
 				type: "item"
 			}]
-			x: 24.0d
-			y: 0.0d
+			x: 22.0d
+			y: -8.0d
 		}
 		{
 			dependencies: [
 				"2C92FF8892F38FDC"
 				"7B3A5D9E2F1C8220"
 			]
-			description: [
-				"§6栏位扩大器·一型§r——解锁被背包镶板占据的§e芯片槽§r。"
-				""
-				"§a配方§r：3×3，§f铁板 ×4§r + §f铜板 ×4§r + §b精密构件§r（中心）。"
-				""
-				"§7装上对应等级的扩大器后，才能取下背包镶板、腾出芯片槽。"
-			]
+			description: ["§6栏位扩大器·一型§r——解锁被背包镶板占据的§e芯片槽§r。"]
 			id: "41840CF6F1387414"
 			shape: "square"
 			size: 1.5d
@@ -1384,11 +1179,7 @@
 		}
 		{
 			dependencies: ["4F97186849B00F06"]
-			description: [
-				"§f盐§r——§b电解质水§r的原料。"
-				""
-				"§a配方§r：把§8洗脚水桶§r放进§b厨锅§r（§b炉灶§r上）烹煮，得§f盐§r并归还§f空桶§r。"
-			]
+			description: ["§f盐§r——§b电解质水§r的原料。"]
 			id: "6B96992B6F2A526E"
 			tasks: [{
 				id: "4928FE63EF0C9D4D"
@@ -1411,7 +1202,7 @@
 				item: "minecraft:sugar_cane"
 				type: "item"
 			}]
-			x: -2.0d
+			x: 0.0d
 			y: 2.0d
 		}
 		{
@@ -1427,7 +1218,7 @@
 				item: "minecraft:sugar"
 				type: "item"
 			}]
-			x: -2.0d
+			x: 0.0d
 			y: 0.0d
 		}
 		{
@@ -1435,8 +1226,6 @@
 				"150E3FE2FD04A6BE"
 				"6B96992B6F2A526E"
 				"66959BE2AC7A1A2C"
-				"6BEFE1AA8EEA0654"
-				"163A530DA5EC6FE7"
 				"7745620940DB40CC"
 				"62E4C654ECE2E45B"
 			]
@@ -1451,13 +1240,13 @@
 			]
 			id: "13E6F23D19349B09"
 			shape: "square"
-			size: 1.5d
+			size: 1.0d
 			tasks: [{
 				id: "7D973E4BCFCA47DB"
 				item: "marguerite:electrolyte_bottle"
 				type: "item"
 			}]
-			x: -8.0d
+			x: -4.0d
 			y: -2.0d
 		}
 		{
@@ -1469,7 +1258,7 @@
 				item: "lemoned:lemon_seeds"
 				type: "item"
 			}]
-			x: -4.0d
+			x: -2.0d
 			y: 2.0d
 		}
 		{
@@ -1481,7 +1270,7 @@
 				item: "lemoned:lemon"
 				type: "item"
 			}]
-			x: -4.0d
+			x: -2.0d
 			y: 0.0d
 		}
 		{
@@ -1502,58 +1291,6 @@
 			y: 2.0d
 		}
 		{
-			dependencies: ["3FB48582777D4852"]
-			description: [
-				"§b炉灶§r——§b农夫乐事§r的烹饪热源。"
-				""
-				"§e用途§r：架上§b厨锅§r煮制食材（如§f盐§r）。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "6BEFE1AA8EEA0654"
-			tasks: [{
-				id: "4796A77ACFB48B44"
-				item: "farmersdelight:stove"
-				type: "item"
-			}]
-			x: -6.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["3FB48582777D4852"]
-			description: [
-				"§b厨锅§r——置于§b炉灶§r上烹煮。"
-				""
-				"§e用途§r：把§8洗脚水桶§r煮成§f盐§r。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "163A530DA5EC6FE7"
-			tasks: [{
-				id: "7B28FB1ED70CCC35"
-				item: "farmersdelight:cooking_pot"
-				type: "item"
-			}]
-			x: -10.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f红砖§r——§b商店§r购买，或烧制§f粘土球§r。"
-				""
-				"§e用途§r：合成§b炉灶§r、§b厨锅§r等。"
-			]
-			id: "3FB48582777D4852"
-			tasks: [{
-				id: "5426D8CBB414B168"
-				item: "minecraft:brick"
-				type: "item"
-			}]
-			x: -8.0d
-			y: 2.0d
-		}
-		{
 			dependencies: ["5343606BA59A1D03"]
 			description: [
 				"§b注液器§r——§b机械动力§r 灌装流体的装置。"
@@ -1568,7 +1305,7 @@
 				item: "create:spout"
 				type: "item"
 			}]
-			x: -8.0d
+			x: -4.0d
 			y: -8.0d
 		}
 		{
@@ -1602,7 +1339,7 @@
 				item: "minecraft:sand"
 				type: "item"
 			}]
-			x: -12.0d
+			x: -4.0d
 			y: 2.0d
 		}
 		{
@@ -1618,24 +1355,8 @@
 				item: "minecraft:glass_bottle"
 				type: "item"
 			}]
-			x: -12.0d
+			x: -4.0d
 			y: 0.0d
-		}
-		{
-			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f牛刷怪蛋§r——§b商店§r购买，放置后得到§b牛§r。"
-				""
-				"§e用途§r：挤§f牛奶§r（§f牛奶水§r原料）。"
-			]
-			id: "7D33DC93A634EF7C"
-			tasks: [{
-				id: "2BFF72274A2FA0A0"
-				item: "minecraft:cow_spawn_egg"
-				type: "item"
-			}]
-			x: 16.0d
-			y: 2.0d
 		}
 		{
 			dependencies: ["2C92FF8892F38FDC"]
@@ -1683,6 +1404,855 @@
 			title: "河城荷取的来访"
 			x: 2.0d
 			y: -2.0d
+		}
+		{
+			dependencies: ["47911DBA354F2830"]
+			description: [
+				"§f茶籽§r是一切茶饮的起点。"
+				""
+				"§e获取方式§r："
+				"· 破坏§f野生茶树§r掉落"
+				"· 茶树的下半株同样会掉落茶籽"
+				""
+				"把茶籽种在§f草方块§r上，就能长出§f茶树§r。"
+			]
+			id: "1F1C5CC8741B03FA"
+			rewards: [{
+				count: 2
+				id: "39D3AC569470FB71"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "6B2BD8162D403FEE"
+				item: "youkaishomecoming:tea_seeds"
+				type: "item"
+			}]
+			title: "一粒茶籽"
+			x: 6.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["1F1C5CC8741B03FA"]
+			description: [
+				"§f茶树§r长成后即可采摘§e生茶叶§r。"
+				""
+				"§c注意§r：只能在茶树§c开花前§r采摘，开花后就采不到茶叶了。"
+				""
+				"生茶叶经过§b蒸§r、§b晒§r、§b焙§r、§b发酵§r等不同工序，会变成六种不同的茶叶。"
+			]
+			id: "29B7C02DFB33B21B"
+			rewards: [{
+				count: 3
+				id: "2F4407C9BF05B58A"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "2FC1176FAF90A9FC"
+				item: "youkaishomecoming:tea_leaves"
+				type: "item"
+			}]
+			title: "采青"
+			x: 6.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["29B7C02DFB33B21B"]
+			description: [
+				"§b茶壶§r是泡茶的核心器具。"
+				""
+				"§a使用方法§r："
+				"· 放在§c热源§r（如营火、岩浆块、炉灶）上方"
+				"· 持§f水桶§r或§f水瓶§r右键添水"
+				"· 放入 §a4§r 份茶叶（或对应配料），泡出 §a1 桶§r茶水"
+				"· 每 §a1/4 桶§r茶水装一瓶：持空§f玻璃瓶§r右键茶壶，或用§b注液器§r灌装"
+			]
+			id: "04A4C82CFC22E77D"
+			rewards: [{
+				count: 10
+				id: "05515539F1F66126"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "728CDFA4662E2185"
+				item: "youkaishomecoming:kettle"
+				type: "item"
+			}]
+			title: "一壶清茶"
+			x: 8.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["29B7C02DFB33B21B"]
+			description: [
+				"把§f生茶叶§r送进§b蒸笼§r蒸制，就能得到§e绿茶叶§r。"
+				""
+				"§a蒸笼搭建§r："
+				"· §b蒸锅§r：§f竹子 ×2§r + §f铁锭 ×3§r + §f粘土球 ×2§r"
+				"· §b蒸笼§r：§f竹块§r在切石机中切制；§b蒸笼盖§r：任意§f木板§r在切石机中切制"
+				"· 蒸锅下方放§c热源§r、锅内加水，上方叠上蒸笼并盖好蒸笼盖"
+				""
+				"§7蒸笼可以层层叠高，一次蒸更多茶叶。§r"
+			]
+			icon: "youkaishomecoming:green_tea_leaves"
+			id: "27D3225F27855066"
+			rewards: [{
+				count: 5
+				id: "7DB3696BC235A0A3"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [
+				{
+					id: "5CF2F6355F71D2F6"
+					item: "youkaishomecoming:steamer_pot"
+					type: "item"
+				}
+				{
+					id: "256E242D9E5194E0"
+					item: "youkaishomecoming:steamer_rack"
+					type: "item"
+				}
+				{
+					id: "59FA567253F0F711"
+					item: "youkaishomecoming:green_tea_leaves"
+					type: "item"
+				}
+			]
+			title: "蒸青"
+			x: 6.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["27D3225F27855066"]
+			description: [
+				"把§e绿茶叶§r放到§b晒干架§r上晾晒，即可得到§e黄茶叶§r。"
+				""
+				"§b晒干架§r：§f竹块§r在切石机中切制。"
+			]
+			id: "4D5610EA7E51DEBE"
+			rewards: [{
+				count: 3
+				id: "6124B101DCE6E062"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "292EC4D37C48DDF3"
+				item: "youkaishomecoming:yellow_tea_leaves"
+				type: "item"
+			}]
+			title: "闷黄"
+			x: 8.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["27D3225F27855066"]
+			description: ["把§e绿茶叶§r放进§b发酵桶§r，静置约 §a90 秒§r，即可发酵成§e黑茶叶§r。"]
+			icon: "youkaishomecoming:dark_tea_leaves"
+			id: "2FEDCA5FEB5CC956"
+			rewards: [{
+				count: 5
+				id: "577418484FF71EDC"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [
+				{
+					id: "4CFAFC8C3B7B409D"
+					item: "youkaishomecoming:fermentation_tank"
+					type: "item"
+				}
+				{
+					id: "6E499B7B334BC005"
+					item: "youkaishomecoming:dark_tea_leaves"
+					type: "item"
+				}
+			]
+			title: "渥堆"
+			x: 4.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["29B7C02DFB33B21B"]
+			description: [
+				"把§f生茶叶§r放到§b晒干架§r上晾晒，即可得到§e白茶叶§r。"
+				""
+				"§b晒干架§r：§f竹块§r在切石机中切制。"
+				""
+				"§7白茶叶还能继续加工成乌龙茶叶与红茶叶。§r"
+			]
+			icon: "youkaishomecoming:white_tea_leaves"
+			id: "218A9BA53D4784A8"
+			rewards: [{
+				count: 5
+				id: "3151F419694D5410"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [
+				{
+					id: "5533AB6F56DE1D59"
+					item: "youkaishomecoming:drying_rack"
+					type: "item"
+				}
+				{
+					id: "7415B911BF95B68F"
+					item: "youkaishomecoming:white_tea_leaves"
+					type: "item"
+				}
+			]
+			title: "晒白"
+			x: 10.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["218A9BA53D4784A8"]
+			description: ["把§e白茶叶§r放到§b营火§r上烘焙，即可得到§e乌龙茶叶§r。"]
+			id: "5C3C37E1E2F6819E"
+			rewards: [{
+				count: 3
+				id: "43C375D862C1330E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "30C1ED6743F37CD5"
+				item: "youkaishomecoming:oolong_tea_leaves"
+				type: "item"
+			}]
+			title: "焙火"
+			x: 12.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["218A9BA53D4784A8"]
+			description: ["把§e白茶叶§r放进§b发酵桶§r，静置约 §a90 秒§r，即可发酵成§e红茶叶§r。"]
+			id: "56E61D51C2A03DAF"
+			rewards: [{
+				count: 3
+				id: "205C6309FE43F923"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "20D783435EEAC2AE"
+				item: "youkaishomecoming:black_tea_leaves"
+				type: "item"
+			}]
+			title: "全发酵"
+			x: 14.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["27D3225F27855066"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e绿茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：§a脚掌§r需求 +1，满意度 §a+5§r。"
+			]
+			id: "777FE5E073667689"
+			rewards: [{
+				count: 3
+				id: "32DD92537129BC72"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "29A3AB5F75A7BFA4"
+				item: "youkaishomecoming:green_tea"
+				type: "item"
+			}]
+			x: 5.5d
+			y: 8.0d
+		}
+		{
+			dependencies: ["4D5610EA7E51DEBE"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e黄茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d八云蓝§r。"
+			]
+			id: "7B26D0C15DD7AEE9"
+			rewards: [{
+				count: 5
+				id: "69C346A437167F83"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "79F5CCD61A98B906"
+				item: "youkaishomecoming:yellow_tea"
+				type: "item"
+			}]
+			x: 8.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["2FEDCA5FEB5CC956"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e黑茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：随机一个部位需求 §a+2§r。"
+			]
+			id: "45C0AD6B0E4F7768"
+			rewards: [{
+				count: 3
+				id: "47D26CACD453CBF7"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "1AA51986958AC40C"
+				item: "youkaishomecoming:dark_tea"
+				type: "item"
+			}]
+			x: 4.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["5C3C37E1E2F6819E"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e乌龙茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：§a脚趾§r需求 +1，满意度 §a+5§r。"
+			]
+			id: "66A3FF2E90875F6E"
+			rewards: [{
+				count: 3
+				id: "6900347FADFA9CD6"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "494B180A1CC42A9C"
+				item: "youkaishomecoming:oolong_tea"
+				type: "item"
+			}]
+			x: 12.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["218A9BA53D4784A8"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e白茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：§a脚心§r需求 +1，满意度 §a+5§r。"
+			]
+			id: "187CD332668777E3"
+			rewards: [{
+				count: 3
+				id: "334EC1378B7521AC"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "6B1B2F1A626F701E"
+				item: "youkaishomecoming:white_tea"
+				type: "item"
+			}]
+			x: 10.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["56E61D51C2A03DAF"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e红茶叶 ×4§r"
+				""
+				"§e奉茶效果§r：§a脚跟§r需求 +1，满意度 §a+5§r。"
+			]
+			id: "60F8B4AA9BBD4028"
+			rewards: [{
+				count: 3
+				id: "6C52FCF6E266CD20"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "6BAD1FD5B7A68A7F"
+				item: "youkaishomecoming:black_tea"
+				type: "item"
+			}]
+			x: 14.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["27D3225F27855066"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e绿茶叶 ×2§r + §f稻米 ×2§r"
+				"§7稻米来自农夫乐事的稻谷作物。§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d魂魄妖梦§r。"
+			]
+			id: "3D8A9FEC74F6FFDC"
+			rewards: [{
+				count: 5
+				id: "34B085137330FFE1"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "470062D0E3AAEC2D"
+				item: "youkaishomecoming:genmai_tea"
+				type: "item"
+			}]
+			x: 6.5d
+			y: 8.0d
+		}
+		{
+			dependencies: ["56E61D51C2A03DAF"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §d瓶装血液 ×2§r"
+				"§c注意§r：瓶装血液需在妖怪化或半妖怪化状态下持小刀、副手持玻璃瓶击杀人类生物获得。"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d蕾米莉亚·斯卡蕾特§r。"
+			]
+			id: "6AC60D06C6994337"
+			rewards: [{
+				count: 5
+				id: "5FF9C50D5562204E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7C75A6D99C4E52A5"
+				item: "youkaishomecoming:scarlet_tea"
+				type: "item"
+			}]
+			x: 15.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["56E61D51C2A03DAF"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §f糖§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d八云紫§r。"
+			]
+			id: "7D774AE4465FECEB"
+			rewards: [{
+				count: 5
+				id: "4FD788DE68D88C88"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "28FFF920DD50C010"
+				item: "youkaishomecoming:saidi_tea"
+				type: "item"
+			}]
+			x: 16.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["56E61D51C2A03DAF"]
+			description: [
+				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §f可可豆§r + §f牛奶瓶§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d射命丸文§r。"
+			]
+			id: "3765BE88F95E2AF9"
+			rewards: [{
+				count: 5
+				id: "1E3511FC104481E9"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "21449A7312149FD3"
+				item: "youkaishomecoming:tea_mocha"
+				type: "item"
+			}]
+			x: 17.0d
+			y: 8.0d
+		}
+		{
+			description: [
+				"§a配方§r：§b茶壶§r + §f樱花树叶 ×2§r + §f蜂蜜瓶§r"
+				"§7樱花树叶可用剪刀从樱花树上剪下。§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d西行寺幽幽子§r。"
+			]
+			id: "2BE06B38B3FFF13C"
+			rewards: [{
+				count: 5
+				id: "6B75E8E75CE984C4"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "308BF7A9B85811A4"
+				item: "youkaishomecoming:sakura_honey_tea"
+				type: "item"
+			}]
+			x: 19.0d
+			y: 8.0d
+		}
+		{
+			description: [
+				"§a配方§r：§b茶壶§r + §f矢车菊 ×4§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d风见幽香§r。"
+			]
+			id: "256BAA3F79C9353A"
+			rewards: [{
+				count: 5
+				id: "56660CFB5AF9113E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "24A3ED9E57A1A6AC"
+				item: "youkaishomecoming:cornflower_tea"
+				type: "item"
+			}]
+			x: 20.0d
+			y: 8.0d
+		}
+		{
+			description: [
+				"§a配方§r：§b茶壶§r + §f卷心菜 ×4§r"
+				"§7卷心菜来自农夫乐事的卷心菜作物。§r"
+				""
+				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d河城荷取§r。"
+			]
+			id: "0AB8A830DFBA4B09"
+			rewards: [{
+				count: 5
+				id: "2025868B6BFB39BB"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "223ABD4C119F7256"
+				item: "youkaishomecoming:green_water"
+				type: "item"
+			}]
+			x: 18.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["3D8A9FEC74F6FFDC"]
+			description: [
+				"§d半人半灵§r · 出自§7「东方妖妖梦」§r"
+				""
+				"白玉楼庭师兼剑士，二刀流斩断烦恼。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d玄米茶§r，魂魄妖梦便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§f铁粒§r → §f铁板§r → §e精密构件§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:konpaku_youmu"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "3E42CAA0FDE2CAB1"
+			rewards: [{
+				count: 10
+				id: "233E6D1031A2DC91"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "2BC35E2027365F33"
+				title: "迎接魂魄妖梦"
+				type: "checkmark"
+			}]
+			title: "稀客：魂魄妖梦"
+			x: 6.5d
+			y: 10.0d
+		}
+		{
+			dependencies: ["7B26D0C15DD7AEE9"]
+			description: [
+				"§d妖怪（九尾狐）§r · 出自§7「东方妖妖梦」§r"
+				""
+				"八云紫的式神、九尾之狐，亦是橙的主人，精于术算。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d黄茶§r，八云蓝便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§f金粒§r → §f萤石粉§r → §6金锭§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:yakumo_ran"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "15E1DFBA096C5FC2"
+			rewards: [{
+				count: 10
+				id: "428B1E9B9D5EF7BE"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "1F0DDA42BDD3A3A0"
+				title: "迎接八云蓝"
+				type: "checkmark"
+			}]
+			title: "稀客：八云蓝"
+			x: 8.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["6AC60D06C6994337"]
+			description: [
+				"§d吸血鬼§r · 出自§7「东方红魔乡」§r"
+				""
+				"红魔馆之主，操纵命运的幼女吸血鬼。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d红魔馆红茶§r，蕾米莉亚·斯卡蕾特便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§c红石§r与§f铜粒§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:remilia_scarlet"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "31170C67374B5E30"
+			rewards: [{
+				count: 10
+				id: "666A61B39298ECA2"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "484F95EE12D19BA8"
+				title: "迎接蕾米莉亚·斯卡蕾特"
+				type: "checkmark"
+			}]
+			title: "稀客：蕾米莉亚·斯卡蕾特"
+			x: 15.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["7D774AE4465FECEB"]
+			description: [
+				"§d妖怪（境界）§r · 出自§7「东方妖妖梦」§r"
+				""
+				"操纵境界的隙间妖怪，幻想乡贤者之一，神出鬼没。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d埃及糖茶§r，八云紫便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§d紫水晶碎片§r → §d末影珍珠§r → §d赛特斯石英§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:yukari_yakumo"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "303F97ACD1850B5B"
+			rewards: [{
+				count: 10
+				id: "3521F7F1C58A94EC"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "7A47E27AD6198593"
+				title: "迎接八云紫"
+				type: "checkmark"
+			}]
+			title: "稀客：八云紫"
+			x: 16.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["3765BE88F95E2AF9"]
+			description: [
+				"§d天狗§r · 出自§7「东方风神录」§r"
+				""
+				"发行《文文。新闻》的天狗记者，操纵风、速度极快。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d摩卡茶§r，射命丸文便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§f纸§r与§f羽毛§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:syameimaru_aya"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "6D13F90C79855B2E"
+			rewards: [{
+				count: 10
+				id: "376A91E986977B1C"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "5667882B95F25A5A"
+				title: "迎接射命丸文"
+				type: "checkmark"
+			}]
+			title: "稀客：射命丸文"
+			x: 17.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["2BE06B38B3FFF13C"]
+			description: [
+				"§d幽灵§r · 出自§7「东方妖妖梦」§r"
+				""
+				"白玉楼之主、亡灵的公主，能操纵死亡。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d樱花蜜茶§r，西行寺幽幽子便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§f石英§r与§f骨头§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:saigyouji_yuyuko"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "0988DC7BEAAB73D8"
+			rewards: [{
+				count: 10
+				id: "6B9B028F57A5C860"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "51BD57A7493B9EAF"
+				title: "迎接西行寺幽幽子"
+				type: "checkmark"
+			}]
+			title: "稀客：西行寺幽幽子"
+			x: 19.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["256BAA3F79C9353A"]
+			description: [
+				"§d妖怪（花）§r · 出自§7「东方花映塚」§r"
+				""
+				"喜爱鲜花的花妖，实力深不可测。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d矢车菊茶§r，风见幽香便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§8草灰§r → §f骨头§r → §a绿宝石§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:kazami_yuka"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "7CFE7C5CF04D0F5D"
+			rewards: [{
+				count: 10
+				id: "6D1ED1780FA96560"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "2A9C70C68CD753E2"
+				title: "迎接风见幽香"
+				type: "checkmark"
+			}]
+			title: "稀客：风见幽香"
+			x: 20.0d
+			y: 10.0d
+		}
+		{
+			dependencies: ["0AB8A830DFBA4B09"]
+			description: [
+				"§d河童§r · 出自§7「东方风神录」§r"
+				""
+				"妖怪之山的河童工程师，热爱黄瓜与机械，能操纵水。"
+				""
+				"§e招待方式§r：为正在服务的顾客奉上一杯§d青汁§r，河城荷取便会循着茶香来访。"
+				""
+				"§a来访回礼§r：§f铜粒§r → §f锌粒§r → §e精密构件§r；好感越高，回礼越丰厚。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:kawasiro_nitori"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "5B2CBFF59E36F3C8"
+			rewards: [{
+				count: 10
+				id: "12D8101B485F6D6E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "5A08CE27FB73AD70"
+				title: "迎接河城荷取"
+				type: "checkmark"
+			}]
+			title: "稀客：河城荷取"
+			x: 18.0d
+			y: 10.0d
 		}
 	]
 	title: "第一章"

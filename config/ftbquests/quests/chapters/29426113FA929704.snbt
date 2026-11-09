@@ -5,6 +5,14 @@
 	group: "703E058CBE887155"
 	icon: "minecraft:nether_star"
 	id: "29426113FA929704"
+	images: [{
+		height: 3.0d
+		image: "skyfootspa:textures/avatars/alice.png"
+		rotation: 0.0d
+		width: 3.0d
+		x: 7.0d
+		y: -6.5d
+	}]
 	order_index: 0
 	quest_links: [ ]
 	quests: [
@@ -39,16 +47,12 @@
 		{
 			dependencies: ["0D3D46BFF19509D8"]
 			description: [
-				"§6铜币§r(Copper Coin) 是洗脚店经济体系的基础货币——搓脚掉落、任务奖励、商店交易，一切都从它开始。"
+				"§6币§r "
+				"是洗脚店经济体系的基础货币。"
 				""
 				"§a获取方式§r："
-				"· §e开店服务§r：顾客结算时按满意度掉落硬币"
-				"· §e任务奖励§r：本任务书几乎每个节点都赠送若干铜币"
-				"· §e搓脚掉落§r：随搓脚获得的小额财富"
-				""
-				"§b小提示§r：攒够 §f9 枚铜币§r 可以在工作台按 3×3 升阶为 §71 枚铁币§r；以此类推直到钻石币。"
-				""
-				"§7任务目标：持有 1 枚 §fcoinsje:copper_coin§r 即可完成。§r"
+				"§e开店服务§r：顾客结算时按满意度掉落硬币"
+				"§e任务奖励§r：本任务书几乎每个节点都赠送若干铜币§r"
 			]
 			icon: "coinsje:copper_coin"
 			id: "7B3A5D9E2F1C8300"
@@ -65,16 +69,15 @@
 				type: "item"
 			}]
 			title: "第一桶金"
-			x: 11.0d
+			x: 14.0d
 			y: -3.0d
 		}
 		{
-			dependencies: ["1AD9CACAA44EDA80"]
+			dependencies: ["556C60C85311BA8E"]
 			description: [
-				"1.&4红色地毯&r是顾客判定的&b寻路点&r"
-				"2.&1蓝色地毯&r是顾客排队的&b等待点&r"
-				"3.&6黄色地毯&r是顾客最终消失的&b终点&r"
-				"4.一个完整的路径必须：以&5寻路方块&r为起点、路径中间有且仅有1个&1蓝色地毯&r、以一个&6黄色地毯&r为终点、中间以&4红色地毯&r相连"
+				"&4红色地毯&r是顾客判定的&b寻路点&r"
+				"&6黄色地毯&r是顾客最终消失的&b终点&r"
+				"一个完整的路径必须：以&5寻路方块&r为起点、以一个&6黄色地毯&r为终点、中间以&4红色地毯&r相连"
 			]
 			icon: "minecraft:red_carpet"
 			id: "376BDD47335AF7C9"
@@ -84,14 +87,14 @@
 				type: "checkmark"
 			}]
 			title: "顾客的寻路机制"
-			x: 6.0d
+			x: 8.5d
 			y: -3.0d
 		}
 		{
 			dependencies: ["376BDD47335AF7C9"]
 			description: [
-				"当&1蓝色地毯&r后面的&4红色地毯&r有临近的&b空床位&r时，顾客便会自动上床接受服务"
-				"1.&e泡脚阶段&r：你需要在床正前方下方的&b工作盆&r（洗脚盆）内倒入&b洗脚水&r，顾客在泡脚倒计时后会进入&e搓脚阶段&r"
+				"当&4红色地毯&r有临近的&b空床位&r时，顾客便会自动上床接受服务"
+				"1.&e泡脚阶段&r：你需要在床正前方下方的&b工作盆&r内倒入&b洗脚水&r，顾客在泡脚倒计时后会进入&e搓脚阶段&r"
 				"2.&e搓脚阶段&r：你可以看到顾客对于脚的部位有不同次数的需求，&b使用对应的手在下方“脚”的部位晃动鼠标（无需点击）&r即可进行搓脚。全部需求都被满足时，将会给予你对应数量的报酬"
 			]
 			icon: "minecraft:water_bucket"
@@ -124,16 +127,17 @@
 				type: "checkmark"
 			}]
 			title: "服务你的顾客"
-			x: 8.5d
+			x: 11.0d
 			y: -3.0d
 		}
 		{
 			dependencies: ["1AD9CACAA44EDA80"]
 			dependency_requirement: "all_started"
 			description: [
-				"1.你只能在白天开店"
-				"2.当进入黑夜时，足浴店会自动闭店并清除等待区的顾客，并保留处于床上的顾客"
-				"3.开店属性由触发开店的玩家决定"
+				"右键寻路方块可以开店"
+				"你只能在白天开店"
+				"当进入黑夜时，足浴店会自动闭店并清除等待区的顾客，并保留处于床上的顾客"
+				"开店属性由触发开店的玩家决定"
 			]
 			icon: "marguerite:phone_s23ultra"
 			id: "556C60C85311BA8E"
@@ -142,8 +146,8 @@
 				title: "开店与关店"
 				type: "checkmark"
 			}]
-			x: 3.5d
-			y: -0.5d
+			x: 6.0d
+			y: -3.0d
 		}
 		{
 			dependencies: ["0D3D46BFF19509D8"]
@@ -159,7 +163,7 @@
 				title: "体力值"
 				type: "checkmark"
 			}]
-			x: 8.5d
+			x: 11.0d
 			y: -0.5d
 		}
 		{

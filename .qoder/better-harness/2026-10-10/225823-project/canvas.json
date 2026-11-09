@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 2,
+  "summary": {
+    "evidenceMode": "session-rich",
+    "evidenceBoundary": {
+      "manifest": {
+        "schemaVersion": 2,
+        "sourceFingerprint": "75cebb1a53875ab1",
+        "adapterVersion": "qoder-task-loop-source-v2",
+        "platform": "qoder",
+        "selection": {
+          "strategy": "all-eligible",
+          "eligibleCount": 3,
+          "analyzedCount": 3,
+          "confidence": "High"
+        }
+      },
+      "episodeCoverage": {
+        "episodeCount": 2,
+        "editedEpisodeCount": 2,
+        "closedEpisodeCount": 0,
+        "recoveredEpisodeCount": 0
+      },
+      "deliveryEvidenceLevels": [],
+      "sourceGaps": []
+    },
+    "semanticFacets": {
+      "schemaVersion": 1,
+      "status": "supplementary",
+      "entries": [
+        {
+          "id": "session-insight:source-coverage",
+          "kind": "redacted-summary",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "source-coverage",
+            "High"
+          ],
+          "summary": "Analyzed 3 of 3 sessions; 1/5 enabled source roots exist. Use this as the current workspace evidence boundary for final insight cards.",
+          "evidenceRefs": [],
+          "modelVersion": "session-insights-v1"
+        },
+        {
+          "id": "session-insight:validation-behavior",
+          "kind": "redacted-summary",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "validation-behavior",
+            "Low"
+          ],
+          "summary": "No validation command category was observed in the analyzed session sample. Inspect more sessions or add explicit validation guidance before claiming validation-after-edit behavior.",
+          "evidenceRefs": [],
+          "modelVersion": "session-insights-v1"
+        },
+        {
+          "id": "session-insight:post-edit-validation",
+          "kind": "rework-correction",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "post-edit-validation",
+            "High"
+          ],
+          "summary": "Observed 2 edit event(s), but no later validation command in the analyzed sample. Keep this as bounded sample context only; fewer than five project edit events is too small for a post-edit finding.",
+          "evidenceRefs": [
+            {
+              "kind": "execution-transcript",
+              "id": "session-insight-3-1",
+              "type": "assistant",
+              "line": 34
+            }
+          ],
+          "modelVersion": "session-insights-v1"
+        },
+        {
+          "id": "session-insight:execution-friction",
+          "kind": "friction-taxonomy",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "execution-friction",
+            "Low"
+          ],
+          "summary": "No strong execution friction signal in the analyzed sample. Keep friction claims narrow unless additional failed commands, rejected actions, or warnings are inspected.",
+          "evidenceRefs": [],
+          "modelVersion": "session-insights-v1"
+        },
+        {
+          "id": "session-insight:tool-mix",
+          "kind": "redacted-summary",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "tool-mix",
+            "High"
+          ],
+          "summary": "Most observed tool: browser-use_evaluate_script (11). Use this as workflow evidence, then inspect bounded sessions before claiming user intent.",
+          "evidenceRefs": [
+            {
+              "kind": "execution-transcript",
+              "id": "session-insight-5-1",
+              "type": "assistant",
+              "line": 7
+            }
+          ],
+          "modelVersion": "session-insights-v1"
+        },
+        {
+          "id": "session-insight:session-usage-efficiency",
+          "kind": "redacted-summary",
+          "episodeRef": null,
+          "status": "candidate",
+          "labels": [
+            "session-usage-efficiency",
+            "High"
+          ],
+          "summary": "本次分析覆盖 3 个会话，未发现达到阈值的活跃长会话。 这些活动证据只描述投入；当前 token 或 credit 证据不足，不能据此推断模型偏好、质量或节省。",
+          "evidenceRefs": [],
+          "modelVersion": "session-insights-v1"
+        }
+      ]
+    },
+    "learningCapture": {
+      "schemaVersion": 1,
+      "state": "N/A",
+      "summary": "暂不适用——需要两个可比的观察窗口和一次改进对比。",
+      "interventions": []
+    },
+    "aiAgentPractice": {
+      "inspectedSurfaces": [
+        "Rules",
+        "Skills"
+      ],
+      "coverageRows": [
+        {
+          "surface": "Rules",
+          "scopes": [
+            "Project"
+          ],
+          "count": 1,
+          "paths": [
+            "AGENTS.md"
+          ]
+        },
+        {
+          "surface": "Skills",
+          "scopes": [
+            "Project"
+          ],
+          "count": 1,
+          "paths": [
+            ".qoder/skills/chatbox-dialogue-config/SKILL.md"
+          ]
+        },
+        {
+          "surface": "Hooks",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        },
+        {
+          "surface": "Commands",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        },
+        {
+          "surface": "Custom Agents",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        },
+        {
+          "surface": "MCP",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        },
+        {
+          "surface": "Workflows",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        },
+        {
+          "surface": "Memories",
+          "scopes": [
+            "Project"
+          ],
+          "count": 0
+        }
+      ],
+      "repositorySourceRows": [],
+      "memoryDetails": {
+        "contentPolicy": "metadata-only",
+        "scanState": "scanned-empty",
+        "scopeCounts": [],
+        "integrity": {
+          "status": "reviewed",
+          "titleCount": 0,
+          "reviewedTitleCount": 0,
+          "truncated": false,
+          "exactCollisionGroups": 0,
+          "similarityCandidates": 0
+        }
+      }
+    },
+    "usageActivity": {
+      "schemaVersion": 2,
+      "dateBasis": "UTC",
+      "measurementBasis": "session-starts-active-estimate-model-active-session-days-skill-invocations-and-loads",
+      "truncated": false,
+      "dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "sessions": {
+        "total": 3,
+        "starts": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        "activeMinutes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          15.9
+        ]
+      },
+      "models": [],
+      "skills": []
+    },
+    "usageEfficiency": {
+      "schemaVersion": 2,
+      "selection": {
+        "strategy": "all-eligible",
+        "eligibleSessionCount": 3,
+        "analyzedSessionCount": 3,
+        "complete": true
+      },
+      "roles": {
+        "userThreadCandidateCount": 3,
+        "childAgentCandidateCount": 0
+      },
+      "longSessions": {
+        "activeCount": 0,
+        "wallOnlyCount": 0,
+        "longestActiveMinutes": 0,
+        "activeRatio": 0,
+        "estimate": {
+          "method": "capped-event-gap",
+          "activeThresholdMinutes": 45,
+          "gapCapMinutes": 5,
+          "idleGapMinutes": 30
+        },
+        "samples": []
+      },
+      "accounting": {
+        "mode": "effort-proxy",
+        "responseCount": 0,
+        "modelAttributedResponseCount": 0,
+        "unattributedResponseCount": 0,
+        "usageFieldObservedCount": 0,
+        "nonZeroUsageCount": 0,
+        "exactCreditsAvailable": false,
+        "pricingVersion": null
+      },
+      "modelUsage": [],
+      "outcomeReview": {
+        "status": "not-applicable",
+        "reviewedCandidateCount": 0,
+        "reviewedActiveLongCount": 0,
+        "comparableModelOutcomeEvidence": false,
+        "recommendation": "controlled-a-b-required"
+      }
+    },
+    "projectName": "洗手",
+    "locale": "zh-CN",
+    "modelId": "agent-work-loop-v4",
+    "reportContractVersion": 26,
+    "overview": "AGENTS.md 提供了扎实的模块级上下文路由、真实存在的命令白名单校验与明确的强制安全规则，是本工程 Harness 的明显强项；但沿用旧包名的 .gitignore 让大量未跟踪的运行时产物淹没了可评审的代码变更边界，核心泡脚结算路径上的空 catch 既违背其自订的“不乱加兜底”规范又掩盖了写入失败，而本观察窗口稀疏的会话证据使验证与学习回路无法被证实。",
+    "dimensions": [
+      {
+        "id": "task-understanding",
+        "label": "任务理解",
+        "score": 57,
+        "summary": "AGENTS.md 将任务路由到各模块 owner 与 global.* 契约，上下文地图扎实；但沿用旧包名的 .gitignore 使生成物与运行时产物同源码的变更边界不可追溯，且本窗口缺少已执行的任务证据。",
+        "findingRefs": [
+          "gitignore-stale-names-drown-change-diff"
+        ]
+      },
+      {
+        "id": "controlled-execution",
+        "label": "可控执行",
+        "score": 63,
+        "summary": "启动方式（PCL 启动器 / 重载 KubeJS）有文档，UI 到服务端命令处存在真实的白名单校验（pfConfigUiHandler.js），强制安全规则明确；但这些均停留在声明层，无 doctor/reset 脚本，本窗口也未被执行验证。",
+        "findingRefs": []
+      },
+      {
+        "id": "change-validation",
+        "label": "改动验证",
+        "score": 45,
+        "summary": "无自动化测试、lint 或 CI，验证依赖人工进游戏观察；核心结算写入路径的空 catch 削弱了失败可诊断性。文档化的人工验证路径存在，但本窗口未被执行观测。",
+        "findingRefs": [
+          "silent-catch-hides-basin-write-failures"
+        ]
+      },
+      {
+        "id": "reliable-delivery",
+        "label": "可靠交付",
+        "score": 40,
+        "summary": "无 CI、PR 或合并门禁，交付验收为人工声明；git 提供回滚能力（Present），但本窗口没有任何可观测的交付或验收信号。",
+        "findingRefs": []
+      },
+      {
+        "id": "learning-capture",
+        "label": "经验沉淀",
+        "score": 36,
+        "summary": "完成了有界评审，但会话证据缺归一化事件、无可比 Episode，既无法识别重复工作也无后续窗口对照；本窗口学习沉淀状态为 N/A（需两个可比窗口与一次改进对比），因此留在证据边界而不作为可提升的发现。",
+        "findingRefs": []
+      }
+    ],
+    "assignmentSummaries": []
+  },
+  "findings": [
+    {
+      "id": "gitignore-stale-names-drown-change-diff",
+      "title": "未被忽略的运行时产物淹没了可评审的代码变更",
+      "severity": "Medium",
+      "reason": ".gitignore 第 33-35 行仍沿用旧包名（洗-natives/、洗.jar、洗.json），与当前实例名“洗手”不匹配，因此 洗手.jar、洗手.json、洗手-natives/ 等产物未被忽略；apricity.zip、tlm_custom_pack.zip、hs_err_pid*.log、replay_pid*.log 也无对应规则（第 40 行只忽略 tlm_custom_pack/ 目录而非 .zip）。本次证据采集的 diffImpact 报告 changedLines≈503547、diffScore=100（critical），其主体正是这些未跟踪的运行时产物与崩溃日志，而真实源码改动只有约 6 个文件、约 200 行，导致评审者无法从 git 变更中一眼看清真实改动范围。不确定性：未运行 git 逐条确认每个产物的忽略状态，结论基于 .gitignore 文本与实际存在的产物文件比对。",
+      "dimensionRefs": [
+        "task-understanding"
+      ],
+      "aiFixPrompt": "/better-harness fix this issue\n\n将 .gitignore 中沿用旧包名的条目更正为当前实例名（洗手.jar、洗手.json、洗手-natives/），并为 apricity.zip、tlm_custom_pack.zip、hs_err_pid*.log、replay_pid*.log 等未跟踪的运行时产物补充忽略规则，使代码变更边界可评审。遵守 AGENTS.md 的强制安全规则：只逐个修改明确的行，不做批量删除或无关重构。\n\n## Validation\n\n- 运行 git check-ignore -v 洗手.jar 洗手.json apricity.zip tlm_custom_pack.zip，确认每个产物都命中忽略规则\n- 运行 git status --short，确认未跟踪列表不再被运行时产物淹没，只剩真实源码改动",
+      "expectedArtifact": "Config",
+      "expectedOutput": [
+        "Update the existing Config owner identified by the reviewed evidence and retain a focused validation result."
+      ]
+    },
+    {
+      "id": "silent-catch-hides-basin-write-failures",
+      "title": "核心泡脚结算的写入失败被静默吞掉，难以诊断",
+      "severity": "Medium",
+      "reason": "kubejs/server_scripts/pathfinder/pfBasinSoakManager.js 第 346 行在核心泡脚结算写流体的循环里使用空 catch（try { server.runCommandSilent(cmds[i]) } catch (e) { }），一旦 data modify block 写入 Basin NBT 失败就会被完全吞掉；这违背 AGENTS.md 第 202 行的“不乱加兜底……不要用宽泛兜底吞掉真实错误”。目前只能靠第 326 与 352 行的 [PF-BASIN] [BEFORE]/[AFTER] entityData 日志人工比对来间接判断写入是否生效，失败时无任何带前缀的错误输出。不确定性：未运行游戏触发结算确认这些命令在当前版本是否真的会失败，问题在于失败不可诊断而非已确证的功能缺陷。",
+      "dimensionRefs": [
+        "change-validation"
+      ],
+      "aiFixPrompt": "/better-harness fix this issue\n\n将 kubejs/server_scripts/pathfinder/pfBasinSoakManager.js 第 346 行写流体循环中的空 catch 改为带 [PF-BASIN] 前缀的错误日志（输出失败的命令索引与异常信息），保留现有 [BEFORE]/[AFTER] 日志与命令写入逻辑不变，使 Basin 写入失败可被立即诊断。遵守 AGENTS.md：最小范围修改，不动无关模块。\n\n## Validation\n\n- 重载 KubeJS 后触发一次泡脚结算，观察 logs 中出现带 [PF-BASIN] 前缀的写入日志\n- 人为构造一次写入失败（如错误的流体 id 或槽位），确认 logs 立即打印带前缀的错误而非静默无输出",
+      "expectedArtifact": "Code",
+      "expectedOutput": [
+        "Update the existing Code owner identified by the reviewed evidence and retain a focused validation result."
+      ]
+    }
+  ]
+}

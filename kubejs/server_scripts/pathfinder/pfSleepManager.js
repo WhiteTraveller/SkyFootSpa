@@ -324,16 +324,6 @@ function pfDismissBrokenBedCustomer(ent, level, reason) {
         ent.persistentData.putInt("pfPhase", 0)
     }
 
-    // 关闭 AuraTip；foot_ui.js 也会因 pfPhase 不再为 3 而移除窗口。
-    try {
-        if (global.aTip && typeof global.aTip.findActionPlayer === "function") {
-            let actionPlayer = global.aTip.findActionPlayer(ent, level)
-            if (actionPlayer && typeof global.aTip.closePlayerTip === "function") {
-                global.aTip.closePlayerTip(actionPlayer)
-            }
-        }
-    } catch (e) {}
-
     try {
         level.spawnParticles("minecraft:poof", false,
             ent.getX(), ent.getY() + 1, ent.getZ(), 0.5, 1, 0.5, 30, 0)

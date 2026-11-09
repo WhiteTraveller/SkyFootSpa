@@ -8,9 +8,10 @@
 //   1) 增加顾客各部位需求（pfDemandJiaozhang/Jiaogen/Jiaozhi/Jiaoxin）
 //   2) 提高满意度（pfSatisfaction）
 //   3) 即时掉落钱（按 coinsje 贪心拆分硬币，参考 sleep.js）
-//   4) 增加每次搓脚掉落皴数量（写入 pfCunBonusPerClick，独立计算）
-//   5) 玩家/实体药水附加（视觉 & 额外 buff）
-//   6) 自定义 onFinish 回调
+//   4) 即时掉落物品（itemDrops，数量按 [min,max] 随机，如鱼疗水的热带鱼）
+//   5) 增加每次搓脚掉落皴数量（写入 pfCunBonusPerClick，独立计算）
+//   6) 玩家/实体药水附加（视觉 & 额外 buff）
+//   7) 自定义 onFinish 回调
 // ============================================================
 
 // 金币面额表（copper 基准，与 sleep.js 一致）
@@ -78,6 +79,31 @@ function pfDropCoinsGreedy(level, x, y, z, totalCopper) {
     }
 }
 
+// 把 itemDrops 配置 roll 成实际数量后在坐标掉落（每种按 64 上限分批 summon）
+// 配置项：{ item, min, max, labelZH }；返回 [{ label, count }] 供完成提示使用
+function pfDropItemStacks(level, x, y, z, itemDrops) {
+    let dropped = []
+    let server = level.getServer()
+    for (let i = 0; i < itemDrops.length; i++) {
+        let d = itemDrops[i]
+        if (!d || !d.item) continue
+        let min = d.min | 0
+        let max = d.max | 0
+        if (max < min) max = min
+        let count = min + Math.floor(Math.random() * (max - min + 1)) // [min, max]
+        if (count <= 0) continue
+        let batch = count
+        while (batch > 0) {
+            let c = Math.min(64, batch)
+            let cmd = 'summon item ' + x + ' ' + y + ' ' + z + ' {Item:{id:"' + d.item + '",Count:' + c + 'b}}'
+            server.runCommandSilent(cmd)
+            batch -= c
+        }
+        dropped.push({ label: d.labelZH ? ('' + d.labelZH) : ('' + d.item), count: count })
+    }
+    return dropped
+}
+
 // 计算每部位需求增量
 // - demandBonusPerPart：精细控制，每部位独立 roll [0, upper] 随机
 // - demandBonus：4 部位通用上限，每部位独立 roll [0, demandBonus] 随机
@@ -142,8 +168,8 @@ function pfApplySoakEffects(entity, bucketId) {
         }
     }
 
-    // 2) 追加满意度
-    if (syncItemOk && water.satisfactionBonus > 0) {
+    // 2) 追加满意度（支持负数，如皴水 -25）
+    if (syncItemOk && water.satisfactionBonus !== 0) {
         try {
             let curr = nbt.getInt('pfSatisfaction') || 0
             nbt.pfSatisfaction = curr + water.satisfactionBonus
@@ -178,7 +204,22 @@ function pfApplySoakEffects(entity, bucketId) {
         }
     }
 
-    // 5) 给玩家施加附加药水效果
+    // 5) 即时掉落物品（如鱼疗水的热带鱼）
+    let droppedItems = []
+    if (water.itemDrops && water.itemDrops.length > 0) {
+        try {
+            droppedItems = pfDropItemStacks(level, entity.x, entity.y + 0.5, entity.z, water.itemDrops)
+            if (droppedItems.length > 0) {
+                let summary = []
+                for (let i = 0; i < droppedItems.length; i++) summary.push(droppedItems[i].label + 'x' + droppedItems[i].count)
+                console.log('[SOAK-WATER] 掉落物品: ' + summary.join(', ') + ' (' + water.name + ')')
+            }
+        } catch (e) {
+            console.log("[SOAK-WATER] 掉落物品失败: " + e)
+        }
+    }
+
+    // 6) 给玩家施加附加药水效果
     if (player && water.playerEffects && water.playerEffects.length > 0) {
         let name = player.getUsername()
         for (let i = 0; i < water.playerEffects.length; i++) {
@@ -193,7 +234,7 @@ function pfApplySoakEffects(entity, bucketId) {
         }
     }
 
-    // 6) 给实体施加附加药水效果（通常用于视觉）
+    // 7) 给实体施加附加药水效果（通常用于视觉）
     if (water.entityEffects && water.entityEffects.length > 0) {
         for (let i = 0; i < water.entityEffects.length; i++) {
             let ef = water.entityEffects[i]
@@ -205,7 +246,7 @@ function pfApplySoakEffects(entity, bucketId) {
         }
     }
 
-    // 7) 自定义回调
+    // 8) 自定义回调
     if (typeof water.onFinish === 'function') {
         try { water.onFinish(player, entity, water) } catch (e) {
             console.log("[SOAK-WATER] onFinish 回调异常: " + e)
@@ -216,8 +257,11 @@ function pfApplySoakEffects(entity, bucketId) {
     if (player) {
         let parts = []
         if (water.demandBonus || water.demandBonusPerPart) parts.push('§e需求+')
-        if (water.satisfactionBonus > 0) parts.push('§d满意度+' + water.satisfactionBonus)
+        if (water.satisfactionBonus !== 0) parts.push('§d满意度' + (water.satisfactionBonus > 0 ? '+' : '') + water.satisfactionBonus)
         if (water.moneyDrop > 0) parts.push('§6💰+' + water.moneyDrop)
+        for (let i = 0; i < droppedItems.length; i++) {
+            parts.push('§b' + droppedItems[i].label + '+' + droppedItems[i].count)
+        }
         if (water.cunBonusPerClick > 0) parts.push('§f皴+' + water.cunBonusPerClick + '/次')
         player.tell('§b✦ §f' + water.nameZH + ' §b泡脚完成！§7' + (parts.length > 0 ? '(' + parts.join(' §7| ') + '§7)' : ''))
     }

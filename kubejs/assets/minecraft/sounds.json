@@ -1,0 +1,76 @@
+{
+  "music.overworld": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/overworld/alice", "stream": true },
+      { "name": "bgm/overworld/shanghai_teahouse", "stream": true }
+    ]
+  },
+  "music.creative": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/overworld/alice", "stream": true },
+      { "name": "bgm/overworld/shanghai_teahouse", "stream": true }
+    ]
+  },
+  "music.under_water": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/overworld/alice", "stream": true },
+      { "name": "bgm/overworld/shanghai_teahouse", "stream": true }
+    ]
+  },
+  "music.nether.nether_wastes": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.nether.crimson_forest": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.nether.soul_sand_valley": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.nether.basalt_deltas": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.end": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.dragon": {
+    "replace": true,
+    "sounds": [
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  },
+  "music.old_hell": {
+    "sounds": [
+      { "name": "bgm/old_hell/chirei_homecoming", "stream": true },
+      { "name": "bgm/old_hell/hell_lullaby", "stream": true },
+      { "name": "bgm/old_hell/old_hell_street", "stream": true }
+    ]
+  }
+}

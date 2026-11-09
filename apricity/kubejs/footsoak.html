@@ -9,14 +9,14 @@
 <body>
   <div class="soak-container" id="soakContainer">
     <div class="bg"></div>
-    <!-- 按钮区域 -->
-    <div class="button-layer" id="buttonLayer">
-      <button id="soakBtn" class="soakBtn"></button>
+    <!-- 桶点击区域：桶贴图16x16放大3倍=48x48 -->
+    <div class="button-layer" id="soakBtn">
+      <img id="bucketImg" class="bucket-img" src="bucket_empty.png" />
     </div>
-    <!-- 文字区域 -->
+    <!-- 文字区域：未泡脚引导文案两行，泡脚中改为单行「泡脚中」 -->
     <div class="text-layer">
-      <span class="title" id="mainTitle"></span>
-      <span class="tips" id="tipsText"></span>
+      <span class="tips tips-line1" id="soakText1">在工作盆内放入泡脚水</span>
+      <span class="tips tips-line2" id="soakText2">进行泡脚</span>
       <!-- 泡脚进度条（常驻DOM，通过opacity+width+innerText控制视觉显隐） -->
       <div class="progress-wrapper" id="progressWrapper" style="opacity: 0">
         <span class="progress-bg">
@@ -30,6 +30,7 @@
 
 <style>
   html, body {
+    image-rendering: crisp-edges;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -48,50 +49,37 @@
     pointer-events: none;
   }
 
-  .soak-container.active {
-
-  }
-
   .bg {
     position: absolute;
     left: 0;
     top: 0;
-    background: url('soak1.png') center/contain no-repeat;
+    background: url('soak_basin.png') center/contain no-repeat;
     width: 120px;
     height: 100px;
     overflow: hidden;
-    align-items: center;
-    justify-content: center;
     z-index: 0;
     pointer-events: none;
   }
 
-  /* 按钮区域 */
+  /* 桶点击区域 */
   .button-layer {
     position: absolute;
-    left: 37px;
-    top: 12px;
-    width: 46px;
-    height: 46px;
+    left: 36px;
+    top: 6px;
+    width: 48px;
+    height: 48px;
     overflow: hidden;
     pointer-events: auto;
+    cursor: pointer;
     z-index: 2;
   }
 
-
-  .soakBtn {
-    position: relative;
-    width: 46px;
-    height: 46px;
-    cursor: pointer;
-    background: url('botton.png') center/contain no-repeat;
-    border: 0;
-    padding: 0;
-    transition: transform 0.3s ease-in-out;
-    pointer-events: auto;
-  }
-  .soakBtn.active {
-    transform: scale(0.85);
+  .bucket-img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+    pointer-events: none;
   }
 
   /* 文字区域 */
@@ -107,58 +95,34 @@
     z-index: 3;
   }
 
-  .title {
-    position: absolute;
-    left: 0;
-    top: 61px;
-    width: 120px;
-    height: 12px;
-    display: block;
-    text-align: center;
-    font-size: 8px;
-    font-weight: bold;
-    color: #ffffff;
-    white-space: nowrap;
-    line-height: 12px;
-  }
-
-  .title.active {
-    color: #ffffff;
-  }
-
   .tips {
     position: absolute;
     left: 0;
-    top: 74px;
     width: 120px;
-    height: 11px;
+    height: 10px;
     display: block;
     font-size: 7px;
     text-align: center;
-    color: #ffffff;
+    color: #6b4226;
     white-space: nowrap;
-    line-height: 11px;
+    line-height: 10px;
   }
 
-  .tips.active {
-    color: #ffffff;
+  .tips-line1 {
+    top: 58px;
   }
 
-  .tips.hidden {
-    display: none;
+  .tips-line2 {
+    top: 69px;
   }
 
   /* 泡脚进度条（横向） */
   .progress-wrapper {
     position: absolute;
     left: 28px;
-    top: 87px;
+    top: 85px;
     width: 64px;
     height: 8px;
-  }
-
-  .progress-wrapper.hidden {
-    display: none;
   }
 
   .progress-bg {
@@ -166,7 +130,7 @@
     left: 0;
     width: 46px;
     height: 5px;
-    background-color: rgba(80, 80, 80, 0.7);
+    background-color: rgba(107, 66, 38, 0.35);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -177,7 +141,7 @@
     top: 0;
     height: 100%;
     width: 100%;
-    background: #ffffff;
+    background: #b0561f;
     border-radius: 2px;
     transition: width 0.1s linear;
   }
@@ -188,7 +152,7 @@
     top: 0;
     width: 14px;
     text-align: left;
-    color: #ffffff;
+    color: #6b4226;
     font-size: 6px;
     white-space: nowrap;
   }
