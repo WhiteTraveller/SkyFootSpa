@@ -13,7 +13,7 @@ layout-meta {
 }
 
 menu_background {
-  image_path = [source:local]/config/fancymenu/assets/cover1.png
+  image_path = [source:local]/config/fancymenu/assets/cover_1.png
   slide = false
   repeat_texture = false
   parallax = false
