@@ -36,16 +36,32 @@ function getAttributeList() {
   return attrs
 }
 
-global.updatePlayerBackpack = function (player) {
+function getEntityBackpackAttributeList(entity) {
+  let attrs = getAttributeList()
+  // 玩家历史逻辑会清掉通用遗物 modifier 后重建；女仆只清自定义搓脚属性，
+  // 避免把 TLM/装备本身的生命、护甲等 modifier 一并移除。
+  try {
+    if (entity && !entity.isPlayer()) {
+      return attrs.filter(id => id.indexOf('kubejs:serve.') === 0)
+    }
+  } catch (e) {}
+  return attrs
+}
+
+global.updateEntityBackpack = function (entity) {
+  if (!entity) return
   // 获取Curios物品
   let curiosHelper = curiosApi.getCuriosHelper();
-  let curiosAll = curiosHelper.getEquippedCurios(player).resolve().get();
+  let equipped = curiosHelper.getEquippedCurios(entity)
+  if (!equipped.isPresent()) return
+  let curiosAll = equipped.resolve().get();
 
   // 1) 先清空所有已在属性上的 modifier（相当于“清缓存”）
-  for (let i = 0; i < getAttributeList().length; i++) {
-    if (player.getAttributes().hasAttribute(getAttributeList()[i])) {
-      if (player.getAttribute(getAttributeList()[i]) != null) {
-        player.getAttribute(getAttributeList()[i]).removeModifiers();
+  let attrs = getEntityBackpackAttributeList(entity)
+  for (let i = 0; i < attrs.length; i++) {
+    if (entity.getAttributes().hasAttribute(attrs[i])) {
+      if (entity.getAttribute(attrs[i]) != null) {
+        entity.getAttribute(attrs[i]).removeModifiers();
       }
     }
   }
@@ -56,9 +72,18 @@ global.updatePlayerBackpack = function (player) {
     let curiosItem = curiosAll.getStackInSlot(i);
     if (!curiosItem.isEmpty()) {
       // 根据物品执行不同效果
-      allRelicEffect(player, curiosItem.getId(), i);
+      allRelicEffect(entity, curiosItem.getId(), i);
     }
   }
+}
+
+// 保留旧 API，玩家和女仆都经过同一个重算实现。
+global.updatePlayerBackpack = function (player) {
+  global.updateEntityBackpack(player)
+}
+
+global.updateMaidBackpack = function (maid) {
+  global.updateEntityBackpack(maid)
 }
   
 function allRelicEffect(player, name, i) {

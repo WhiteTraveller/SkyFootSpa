@@ -1,5 +1,7 @@
 // priority: 8
 let $RangedAttribute = Java.loadClass('net.minecraft.world.entity.ai.attributes.RangedAttribute')
+let $ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation')
+let $ForgeRegistries = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
 
 function createRangedAttribute(descriptionId, defaultValue, min, max) {
   let attr = new $RangedAttribute(descriptionId, defaultValue, min, max)
@@ -40,13 +42,37 @@ StartupEvents.registry('attribute', event => {
 })
 
 ForgeModEvents.onEvent('net.minecraftforge.event.entity.EntityAttributeModificationEvent', event => {
+  // EntityAttributeModificationEvent 的 Java 签名要求 EntityType/Attribute
+  // 对象；这里显式从 Forge 注册表解析，避免 Rhino 把字符串当作对象时
+  // 在不同 KubeJS 版本中出现重载匹配差异。
+  let playerType = $ForgeRegistries.ENTITY_TYPES.getValue(new $ResourceLocation('minecraft:player'))
+  let maidType = $ForgeRegistries.ENTITY_TYPES.getValue(new $ResourceLocation('touhou_little_maid:maid'))
+  if (playerType == null || maidType == null) {
+    console.warn('[SERVE-ATTR] 未找到 player 或 maid 实体类型，跳过属性挂载')
+    return
+  }
+  let attached = 0
   for (let i = 0; i < SERVE_PARTS.length; i++) {
     let p = SERVE_PARTS[i]
     let sat = 'kubejs:serve.sat_gain.' + p
     let money = 'kubejs:serve.money_gain.' + p
     let stamina = 'kubejs:serve.stamina_cost.' + p
-    if (!event.has('player', sat)) event.add('player', sat)
-    if (!event.has('player', money)) event.add('player', money)
-    if (!event.has('player', stamina)) event.add('player', stamina)
+    let satAttr = $ForgeRegistries.ATTRIBUTES.getValue(new $ResourceLocation(sat))
+    let moneyAttr = $ForgeRegistries.ATTRIBUTES.getValue(new $ResourceLocation(money))
+    let staminaAttr = $ForgeRegistries.ATTRIBUTES.getValue(new $ResourceLocation(stamina))
+    if (satAttr == null || moneyAttr == null || staminaAttr == null) {
+      console.warn('[SERVE-ATTR] 未找到属性注册项: ' + p)
+      continue
+    }
+    if (!event.has(playerType, satAttr)) { event.add(playerType, satAttr); attached++ }
+    if (!event.has(playerType, moneyAttr)) { event.add(playerType, moneyAttr); attached++ }
+    if (!event.has(playerType, staminaAttr)) { event.add(playerType, staminaAttr); attached++ }
+
+    // 女仆也使用同一套搓脚属性。遗物的 onLoad 会直接写入目标实体，
+    // 因此必须在实体类型创建属性集时同时挂载这些属性。
+    if (!event.has(maidType, satAttr)) { event.add(maidType, satAttr); attached++ }
+    if (!event.has(maidType, moneyAttr)) { event.add(maidType, moneyAttr); attached++ }
+    if (!event.has(maidType, staminaAttr)) { event.add(maidType, staminaAttr); attached++ }
   }
+  console.info('[SERVE-ATTR] 已挂载玩家/女仆搓脚属性，新增实例=' + attached)
 })

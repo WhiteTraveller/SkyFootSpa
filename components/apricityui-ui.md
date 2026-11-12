@@ -87,6 +87,13 @@ Gensyo 和抽卡弹窗注意点：
 
 `<img>` 和 `background-image` 默认 `image-rendering: auto`，放大时一律线性过滤，低分辨率像素图会变糊。像素图元素要加 `image-rendering: pixelated`：放大用最近邻、缩小仍用线性。`crisp-edges` 为始终最近邻。该属性会继承父元素。mod 无全局开关，本项目每个页面的 `html, body` 规则都已加 `image-rendering: pixelated`，新建页面也要加上。WorldWindow 例外：mod 按 CSS 尺寸而非屏幕像素判断缩放，世界 UI 在 CSS 里略缩小、屏幕上却被大幅放大，`pixelated` 仍会走线性变糊，所以 `footui.html`、`footsoak.html` 根规则用 `crisp-edges`，新增 WorldWindow 页面同理。
 
+## 女仆饰品属性统计（TLM 女仆容器叠加层）
+
+- 触发页签：`kubejs/startup_scripts/ui/maid_stats_ui.js` 使用 TLM 官方 `MaidContainerGuiEvent$Render` 在 `leftPos+194, topPos+5` 绘制第 5 个页签（24×26，贴图 `touhou_little_maid:textures/gui/maid_gui_side.png`，`u=207,v=21` 空白页签底 + 铁剑图标）。`MaidContainerGuiEvent$Tooltip` 在 TLM 原生控件之后调用 `GuiGraphics.renderTooltip` 绘制两行原生 tooltip，因此不会被铁剑覆盖，并自动保留黑色外框、暗紫背景和屏幕边界定位。`getGuiLeft()/getGuiTop()` 是 protected，事件提供的 `getLeftPos()/getTopPos()` 直接作为坐标来源；`Java.loadClass` 拿到的类包装没有 `isInstance`（调用会抛错），界面识别一律走「菜单有 `getMaid()`」探测，结果由 client tick 写入 `global.pfMaidGuiOpen` 供渲染阶段复用。
+- 数据：点击页签发 `pf_maid_stats_request`（`entityId`），`kubejs/server_scripts/backpack/maid_stats.js` 尝试校验当前打开的是同一女仆的容器（取不到菜单时退回距离校验）且距离 ≤144 后才统计，然后 `pf_maid_stats_sync` 回推 `json`。
+- 统计方式：启动期把 `kubejs:serve.*` 属性同时挂到玩家和 `touhou_little_maid:maid`，女仆生成、遗物换装和统计请求都会调用 `global.updateMaidBackpack(maid)` 重算真实 modifier。服务端给 `relic.onLoad` 传代理对象捕获每件遗物的属性来源，并在执行期间把位置辅助函数临时换成 6×6 语义（`finally` 还原）；面板的“属性合计”只返回 15 项搓脚属性，读取女仆实体的最终 `getValue()`，同时附带基础值和每件遗物的来源 modifier。
+- 展示：`kubejs/client_scripts/ui/maid_stats_ui.js` 把 `apricity/kubejs/maid_stats.html` 作为 `reloadPersistent=true` 的 Overlay 叠在 TLM 容器界面上，关闭后 TLM 界面保留（Overlay 不是 Screen）。HTML 页面将合计属性、饰品和每条 modifier 渲染为可悬浮行，详情框显示基础值、当前值、来源和运算方式。ESC 由 `ScreenEvent$KeyPressed$Pre` 拦截为「只关统计页」，点击前四个 TLM 原生页签会先释放统计页状态再放行原生切换，TLM 界面关闭时 Overlay 自动回收。
+
 ## 调试建议
 
 - 查 UI 脚本错误：`rg -n "FOOT-UI|STAMINA-HUD|PHONE|createWorldWindow|ambiguous|Error in 'ClientEvents.tick'" logs/latest.log logs/debug.log logs/aui.log`

@@ -1,0 +1,386 @@
+<!doctype html>
+<!--
+  女仆 Curios 饰品属性统计（ApricityUI Overlay）
+  - html/body 完全透明！不遮挡底下 TLM 界面（剑 tab、装饰图、Curios 槽全程可见）
+  - 只有中间的 #panel 是凸起灰面板，叠加在 TLM 界面上
+  - 右上 × 按钮：仿 MC 灰色小按钮
+  - 关闭路径：① × 按钮；② ESC（startup ScreenEvent 拦截）
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="aui-font-mode" content="web">
+  <meta name="aui-viewport" content="mode=browser">
+  <style>
+    /* ===== 全屏透明：不遮挡底下任何东西 ===== */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      image-rendering: pixelated;
+      background: transparent;    /* 关键！完全透明 */
+    }
+    body {
+      position: relative;
+      font-family: "SimSun", "Noto Serif CJK SC", serif;
+    }
+
+    /* ===== 凸起灰面板 —— 与 TLM 主面板同一套凹凸边框 ===== */
+    #panel {
+      position: absolute;
+      /* 下移 5% 让顶部页签保持完整可见。 */
+      top: 15%;
+      left: 50%;
+      right: auto;
+      margin-left: -220px;
+      width: 440px;
+      height: 80%;
+      box-sizing: border-box;
+      padding: 8px 10px 10px 10px;
+      background: #c6c6c6;
+      /* 上左高光白 2px、下右深灰 2px —— 和 TLM 主面板一致 */
+      border-top: 2px solid #f0f0f0;
+      border-left: 2px solid #f0f0f0;
+      border-right: 2px solid #555555;
+      border-bottom: 2px solid #555555;
+      /* 内部光影，去掉之前的额外黑外框 */
+      box-shadow:
+        inset -1px -1px 0 #888888,
+        inset  1px  1px 0 #ffffff;
+      color: #3f3f3f;
+      font-size: 11px;
+      line-height: 1.35;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 标题 */
+    #title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 20px;
+      padding: 2px 28px 6px 0;
+      border-bottom: 1px solid #111111;
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ===== 关闭按钮 —— 和面板同套凹凸边框 ===== */
+    #closeBtn {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      width: 18px;
+      height: 18px;
+      line-height: 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #222222;
+      cursor: pointer;
+      background: #b5b5b5;
+      border-top: 2px solid #f0f0f0;
+      border-left: 2px solid #f0f0f0;
+      border-right: 2px solid #555555;
+      border-bottom: 2px solid #555555;
+      box-shadow:
+        inset -1px -1px 0 #888888,
+        inset  1px  1px 0 #ffffff;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+    #closeBtn:hover  { background: #d0d0d0; }
+    #closeBtn:active {
+      /* 按下态：高光/阴影翻转 */
+      border-top: 2px solid #555555;
+      border-left: 2px solid #555555;
+      border-right: 2px solid #f0f0f0;
+      border-bottom: 2px solid #f0f0f0;
+      box-shadow:
+        inset  1px  1px 0 #888888,
+        inset -1px -1px 0 #ffffff;
+    }
+
+    /* ===== 内容区 ===== */
+    #scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 4px 4px 2px;
+    }
+    #content {
+      margin: 0;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #3f3f3f;
+    }
+    .section-title {
+      height: 24px;
+      line-height: 24px;
+      color: #333333;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid #888888;
+      margin: 3px 0 4px 0;
+    }
+    .stat-row,
+    .relic-row,
+    .modifier-row {
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 24px;
+      padding: 1px 5px;
+      border-bottom: 1px solid rgba(80, 80, 80, 0.18);
+      white-space: nowrap;
+      cursor: default;
+    }
+    .stat-row:hover,
+    .relic-row:hover,
+    .modifier-row:hover {
+      background: #dedede;
+    }
+    .stat-label,
+    .relic-name,
+    .modifier-label {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stat-value,
+    .relic-rarity,
+    .modifier-value {
+      flex-shrink: 0;
+      min-width: 80px;
+      margin-left: 12px;
+      text-align: right;
+      color: #222222;
+    }
+    .relic-row {
+      margin-top: 4px;
+      font-weight: bold;
+      background: #bdbdbd;
+    }
+    .relic-rarity {
+      min-width: 96px;
+      color: #555555;
+      font-weight: normal;
+    }
+    .modifier-row {
+      padding-left: 20px;
+      min-height: 22px;
+      font-size: 13px;
+    }
+    .modifier-value {
+      min-width: 66px;
+      color: #222222;
+    }
+    #detailTooltip {
+      display: none;
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 12px;
+      box-sizing: border-box;
+      max-height: 190px;
+      overflow: hidden;
+      padding: 8px 10px;
+      background: #100010;
+      border: 2px solid #ffffff;
+      box-shadow: 2px 2px 0 #555555;
+      color: #ffffff;
+      font-size: 13px;
+      line-height: 1.4;
+      z-index: 20;
+      pointer-events: none;
+    }
+    #detailTitle {
+      color: #ffff55;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #detailBody {
+      color: #ffffff;
+      white-space: pre-wrap;
+    }
+    #scroll::-webkit-scrollbar { width: 6px; }
+    #scroll::-webkit-scrollbar-track { background: #b0b0b0; }
+    #scroll::-webkit-scrollbar-thumb {
+      background: #7a7a7a;
+      border: 1px solid #111111;
+    }
+  </style>
+</head>
+<body>
+  <div id="panel">
+    <div id="title"></div>
+    <div id="closeBtn" title="关闭 (ESC)">×</div>
+    <div id="scroll">
+      <div id="content"></div>
+    </div>
+    <div id="detailTooltip">
+      <div id="detailTitle"></div>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var closeBtn = document.getElementById('closeBtn');
+      var content = document.getElementById('content');
+      var detailTooltip = document.getElementById('detailTooltip');
+      var detailTitle = document.getElementById('detailTitle');
+      var detailBody = document.getElementById('detailBody');
+      var lastJson = '';
+      var timer = null;
+
+      if (!closeBtn || !content || !detailTooltip) return;
+
+      closeBtn.addEventListener('click', function () {
+        try { Java.loadClass('com.sighs.apricityui.ApricityUI').removeDocument('kubejs/maid_stats.html'); } catch (e) {}
+        try { if (typeof global !== 'undefined') global.pfMaidStatsOpen = false; } catch (e) {}
+      });
+
+      function fmt(value, signed) {
+        var n = Math.round(Number(value || 0) * 100) / 100;
+        if (signed && n > 0) return '+' + n;
+        return '' + n;
+      }
+
+      function opLabel(operation) {
+        if (operation === 'addition') return '加法';
+        if (operation === 'multiply_base') return '基础值乘法';
+        if (operation === 'multiply_total') return '总值乘法';
+        return operation || '未知运算';
+      }
+
+      function clear(el) {
+        while (el.firstChild) el.removeChild(el.firstChild);
+      }
+
+      function node(tag, className, text) {
+        var el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text !== undefined) el.textContent = '' + text;
+        return el;
+      }
+
+      function showDetail(title, lines) {
+        detailTitle.textContent = title;
+        detailBody.textContent = lines.join('\n');
+        detailTooltip.setAttribute('style', 'display: block;');
+      }
+
+      function hideDetail() {
+        detailTooltip.setAttribute('style', 'display: none;');
+      }
+
+      function bindDetail(el, title, lines) {
+        el.addEventListener('mouseenter', function () { showDetail(title, lines); });
+        el.addEventListener('mouseleave', hideDetail);
+      }
+
+      function appendTotal(total) {
+        var row = node('div', 'stat-row');
+        row.appendChild(node('span', 'stat-label', total.label));
+        row.appendChild(node('span', 'stat-value', fmt(total.amount, false)));
+
+        var lines = [
+          '属性：' + total.label,
+          '基础值：' + fmt(total.base, false),
+          '当前值：' + fmt(total.amount, false)
+        ];
+        var sources = total.sources || [];
+        if (sources.length === 0) {
+          lines.push('来源：没有饰品加成');
+        } else {
+          lines.push('来源：');
+          for (var i = 0; i < sources.length; i++) {
+            lines.push('  ' + sources[i].name + '  ' + fmt(sources[i].amount, true) + '  [' + opLabel(sources[i].operation) + ']');
+          }
+        }
+        bindDetail(row, total.label, lines);
+        content.appendChild(row);
+      }
+
+      function appendRelic(relic) {
+        var row = node('div', 'relic-row');
+        row.appendChild(node('span', 'relic-name', relic.name));
+        row.appendChild(node('span', 'relic-rarity', relic.rarity || '普通'));
+        var mods = relic.mods || [];
+        var lines = ['饰品：' + relic.name];
+        if (relic.rarity) lines.push('稀有度：' + relic.rarity);
+        if (mods.length === 0) {
+          lines.push('无搓脚属性');
+        } else {
+          lines.push('提供属性：');
+          for (var i = 0; i < mods.length; i++) {
+            lines.push('  ' + fmt(mods[i].amount, true) + '  ' + mods[i].label + '  [' + opLabel(mods[i].operation) + ']');
+          }
+        }
+        bindDetail(row, relic.name, lines);
+        content.appendChild(row);
+
+        for (var j = 0; j < mods.length; j++) {
+          var mod = mods[j];
+          var modRow = node('div', 'modifier-row');
+          modRow.appendChild(node('span', 'modifier-label', mod.label));
+          modRow.appendChild(node('span', 'modifier-value', fmt(mod.amount, true)));
+          bindDetail(modRow, mod.label, [
+            '来源：' + relic.name,
+            '属性：' + mod.label,
+            '数值：' + fmt(mod.amount, true),
+            '运算：' + opLabel(mod.operation)
+          ]);
+          content.appendChild(modRow);
+        }
+      }
+
+      function render(payload) {
+        clear(content);
+        hideDetail();
+        var totals = payload.totals || [];
+        var curios = payload.curios || [];
+        document.getElementById('title').textContent = (payload.maidName || '女仆') + ' · ' + (payload.relicCount || 0) + ' 件饰品';
+
+        if (totals.length === 0 && curios.length === 0) {
+          content.appendChild(node('div', 'stat-row', '（未装备搓脚饰品）'));
+          return;
+        }
+        if (totals.length > 0) {
+          content.appendChild(node('div', 'section-title', '—— 搓脚属性合计 ——'));
+          for (var i = 0; i < totals.length; i++) appendTotal(totals[i]);
+        }
+        if (curios.length > 0) {
+          content.appendChild(node('div', 'section-title', '—— 饰品明细 ——'));
+          for (var j = 0; j < curios.length; j++) appendRelic(curios[j]);
+        }
+      }
+
+      function poll() {
+        var raw = '';
+        try { raw = typeof global !== 'undefined' ? '' + (global.pfMaidStatsJson || '') : ''; } catch (e) {}
+        if (!raw || raw === lastJson) return;
+        try {
+          render(JSON.parse(raw));
+          lastJson = raw;
+        } catch (e) {}
+      }
+
+      poll();
+      timer = setInterval(poll, 50);
+      document.addEventListener('unload', function () {
+        if (timer != null) clearInterval(timer);
+      });
+    })();
+  </script>
+</body>
+</html>

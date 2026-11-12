@@ -16,6 +16,29 @@ function pfGetAttributeValue(player, id, fallback) {
     return fallback
 }
 
+// 服务结算由玩家发起，但顾客女仆也可以装备遗物。
+// 保留玩家当前值，再叠加女仆相对自身基础值的 modifier，避免女仆的默认值覆盖玩家遗物。
+function pfGetServiceAttributeValue(player, target, id, fallback) {
+    let playerValue = pfGetAttributeValue(player, id, fallback)
+    if (!target || target === player) return playerValue
+    try {
+        let maidAttr = target.getAttribute(id)
+        if (maidAttr != null) {
+            let base = Number(maidAttr.getBaseValue())
+            return playerValue + (maidAttr.getValue() - base)
+        }
+    } catch (e) {}
+    return playerValue
+}
+
+function pfRefreshCustomerAttributes(target) {
+    try {
+        if (!target || !global.updateMaidBackpack) return
+        let probe = target.getAttribute('kubejs:serve.money_gain.jiaozhi')
+        if (probe != null) global.updateMaidBackpack(target)
+    } catch (e) {}
+}
+
 // 应用 Boss 满意度倍率：读取实体 persistentData.pfBossId，查 global.bossRegister 的倍率
 function pfApplyBossSatMul(entity, gain) {
     if (!entity || gain <= 0) return gain
@@ -122,6 +145,9 @@ function setupNetworkHandlers() {
             return
         }
 
+        // 旧存档中的女仆不会重新触发 EntityJoinLevelEvent；在首次服务前补做一次重算。
+        pfRefreshCustomerAttributes(targetEntity)
+
         if (autoSequenceGun) {
             let sequence = [
                 'pfDemandJiaozhang',
@@ -180,7 +206,7 @@ function setupNetworkHandlers() {
                     let val = nbt.getInt(dk) || 0
                     if (val > 0) {
                         let pn = partNames[dk]
-                        let stPerClick = Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + pn, 100.0))
+                        let stPerClick = Math.floor(pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.stamina_cost." + pn, 100.0))
                         totalStaminaCost += stPerClick * val
                         totalClicks += val
                     }
@@ -214,8 +240,8 @@ function setupNetworkHandlers() {
                     let val = nbt.getInt(dk) || 0
                     if (val > 0) {
                         let pn = partNames[dk]
-                        let satPer = pn ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + pn, 10.0) : 10.0
-                        let moneyPer = pn ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + pn, 1.0) : 1.0
+                        let satPer = pn ? pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.sat_gain." + pn, 10.0) : 10.0
+                        let moneyPer = pn ? pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.money_gain." + pn, 1.0) : 1.0
                         totalSatGain += Math.max(0, Math.floor(satPer)) * val
                         totalMoneyGain += Math.floor(moneyPer) * val
                         let clearPatch = {}
@@ -254,7 +280,7 @@ function setupNetworkHandlers() {
                 // ============================================================
                 // 筋膜枪优先消耗自身FE；持枪但电量不足时阻止服务，不回退到体力消耗。
                 // ============================================================
-                let staminaCost = part ? Math.floor(pfGetAttributeValue(player, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
+                let staminaCost = part ? Math.floor(pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.stamina_cost." + part, 100.0)) : 100
                 let requestedServiceCount = global.pfFasciaGunInterface &&
                     global.pfFasciaGunInterface.isUpgradedGun(player.getMainHandItem())
                     ? global.pfFasciaGunInterface.upgradedGunServiceCount
@@ -295,8 +321,8 @@ function setupNetworkHandlers() {
                     }
                 }
                 // FE 本次只扣一次；服务收益按实际完成次数逐次结算。
-                let satPart = part ? pfGetAttributeValue(player, "kubejs:serve.sat_gain." + part, 10.0) : 10.0
-                let moneyPart = part ? pfGetAttributeValue(player, "kubejs:serve.money_gain." + part, 1.0) : 1.0
+                let satPart = part ? pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.sat_gain." + part, 10.0) : 10.0
+                let moneyPart = part ? pfGetServiceAttributeValue(player, targetEntity, "kubejs:serve.money_gain." + part, 1.0) : 1.0
                 let satGain = Math.max(0, Math.floor(satPart))
                 let moneyGain = Math.floor(moneyPart)
                 let satisfaction = nbt.getInt('pfSatisfaction') || 0
