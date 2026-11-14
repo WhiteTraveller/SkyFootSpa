@@ -153,6 +153,10 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
             
             // 评价系统：满意度 >= 60 时，该类顾客评价+1
             let satisfaction = nbt.getInt('pfSatisfaction') || 0
+            // 女仆服务与玩家服务分开结算：拆出女仆贡献的满意度，剩余归玩家
+            let maidSat = Math.max(0, nbt.getInt('pfMaidSat') || 0)
+            let playerSat = Math.max(0, satisfaction - maidSat)
+            console.log('[SLEEP-JS] 结算拆分: 总满意度=' + satisfaction + ' 玩家=' + playerSat + ' 女仆=' + maidSat)
 
             // 满意度粒子特效：在顾客所在位置按满意度等级生成不同粒子
             try {
@@ -265,14 +269,14 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                 }
             }
 
-            // 高满意度奖励：满意度 > 60 时额外掉落一个下界之星
-            if (satisfaction > 60) {
+            // 高满意度奖励：玩家服务部分满意度 > 60 时额外掉落一个下界之星
+            if (playerSat > 60) {
                 let sx = entity.x
                 let sy = (entity.y + 1)
                 let sz = entity.z
                 let starCmd = 'summon item ' + sx + ' ' + sy + ' ' + sz + ' {Item:{id:"minecraft:nether_star",Count:1b}}'
                 level.getServer().runCommandSilent(starCmd)
-                console.log('[SLEEP-JS] 高满意度奖励: 掉落 1 个下界之星 (satisfaction=' + satisfaction + ')')
+                console.log('[SLEEP-JS] 高满意度奖励: 掉落 1 个下界之星 (playerSat=' + playerSat + ')')
 
                 // 从实体手持物品 NBT 读取"操作玩家 UUID"，回查对应玩家
                 let actionPlayer = null
@@ -288,7 +292,7 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                     }
                 }
                 if (actionPlayer) {
-                    actionPlayer.tell('§d✦ 顾客非常满意！获得下界之星 ×1 §7(满意度 ' + satisfaction + '%)')
+                    actionPlayer.tell('§d✦ 玩家服务部分获得下界之星 ×1 §7(玩家满意度 ' + playerSat + '%)')
                 } else {
                     console.log('[SLEEP-JS] 未找到操作玩家，UUID=' + actionUuid)
                 }
@@ -303,6 +307,10 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                         // 回查操作玩家，提示好感度变化
                         let affPlayer = null
                         let affUuid = '' + nbt.getString('pfActionPlayerUuid')
+                        // 女仆独立服务时没有操作玩家，退回到开店玩家做提示
+                        if (!affUuid || affUuid.length === 0) {
+                            affUuid = '' + entity.persistentData.getString('pfSpawnerPlayerUuid')
+                        }
                         if (affUuid && affUuid.length > 0) {
                             let ps = level.getPlayers()
                             for (let i = 0; i < ps.size(); i++) {
@@ -318,6 +326,13 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
                     }
                 }
             } catch (e) { console.log('[SLEEP-JS] 稀客好感度结算失败: ' + e) }
+
+            // ===== 女仆独立结算：硬币/星星在女仆脚下掉落，提示女仆主人 =====
+            try {
+                if (global.pfMaidService && typeof global.pfMaidService.settle === 'function') {
+                    global.pfMaidService.settle(entity, level, nbt)
+                }
+            } catch (e) { console.log('[SLEEP-JS] 女仆独立结算失败: ' + e) }
 
             return true
         }

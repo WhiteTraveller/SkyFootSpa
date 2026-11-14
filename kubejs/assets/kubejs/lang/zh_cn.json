@@ -26,5 +26,7 @@
     "attribute.name.serve.stamina_cost.jiaozhi": "按 体力消耗",
     "attribute.name.serve.stamina_cost.jiaozhang": "推 体力消耗",
     "attribute.name.serve.stamina_cost.jiaoxin": "搓 体力消耗",
-    "attribute.name.serve.stamina_cost.jiaogen": "揉 体力消耗"
+    "attribute.name.serve.stamina_cost.jiaogen": "揉 体力消耗",
+    "task.kubejs.foot_service": "搓脚服务",
+    "task.kubejs.foot_service.desc": "找到已进入搓脚环节的顾客床位旁坐垫坐下，每 5 秒随机完成一项搓脚需求。泡脚阶段的顾客不算服务目标，女仆会保持空闲去搜索其他待搓脚顾客。只服务坐垫紧贴床位的顾客，一个坐垫紧邻多张床时随机选一名服务到完成；顾客离开后 1 秒内无人则换到下一个坐垫，并顺带拾取掉落物。"
 }
