@@ -151,6 +151,19 @@ function pfProcessSleeping(ent, level, currTick) {
         } catch (e) {
             console.log("[PF-SLEEP] basin soak tick 异常: " + e)
         }
+
+        // Boss 挑战倒计时：每秒 -1 并同步手持NBT，归零则超时失败（下床 + 返还召唤券）
+        let bossId = '' + ent.persistentData.getString('pfBossId')
+        if (bossId && bossId.length > 0) {
+            let bossTimeLeft = (ent.persistentData.getInt('pfBossTimeLeft') | 0) - 1
+            if (bossTimeLeft < 0) bossTimeLeft = 0
+            ent.persistentData.putInt('pfBossTimeLeft', bossTimeLeft)
+            global.pfNbtSync.pfSyncBossTimeLeft(ent, bossTimeLeft)
+            if (bossTimeLeft <= 0) {
+                global.pfBossManager.pfBossFail(ent, level, 'timeout')
+                return { shouldWakeUp: false, sleepDuration: sleepSeconds * 20 }
+            }
+        }
     }
     
     // ---- 调用接口检测是否应该起床 ----

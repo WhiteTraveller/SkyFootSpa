@@ -6,10 +6,12 @@
 	icon: "marguerite:magic_dust"
 	id: "3982F16B48EBC9C6"
 	order_index: 2
+	quest_enhance_decorative_lines: [ ]
+	quest_enhance_hidden_dependency_lines: [ ]
 	quest_links: [ ]
 	quests: [
 		{
-			dependencies: ["03C8DAD2E99EBB5C"]
+			dependencies: ["6AE9A2D1E969212E"]
 			description: [
 				"妖怪和妖精顾客泡完脚后，工作盆中的废水会变成§5富魔洗脚水§r——这可不是普通的脏水。"
 				""
@@ -19,6 +21,7 @@
 			]
 			icon: "kubejs:fuma_foot_water_bucket"
 			id: "4BEFB16FC39E75E1"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "3D45D9B2AF99FC51"
@@ -32,75 +35,10 @@
 			}]
 			title: "魔力的残余"
 			x: 5.0d
-			y: -2.0d
+			y: -2.5d
 		}
 		{
-			dependencies: [
-				"4BEFB16FC39E75E1"
-				"297193E421C2316E"
-			]
-			description: [
-				"将§5富魔洗脚水§r与§6植物油§r在§b机械动力搅拌机§r中混合。"
-				""
-				"§e配方§r："
-				"· 输入：§5富魔洗脚水§r 1 桶 + §6植物油§r 1 桶"
-				"· 输出：§8洗脚水§r 1 桶 + §5富魔植物油§r 1 桶"
-				""
-				"魔力从废水转移到了植物油中，形成了§5富魔植物油§r——进一步提纯的基础。"
-			]
-			icon: "kubejs:fuma_plantoil_bucket"
-			id: "3B96F690D5622FC9"
-			rewards: [{
-				count: 5
-				id: "73D81B11D18A2AE5"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "4516FE180FE476DA"
-				item: "kubejs:fuma_plantoil_bucket"
-				type: "item"
-			}]
-			title: "萃取魔力"
-			x: 7.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["3B96F690D5622FC9"]
-			description: [
-				"使用§b沉浸工程的工业搅拌机§r，将§5富魔植物油§r与§f盐§r充分搅拌。"
-				""
-				"§e配方§r："
-				"· 输入：§5富魔植物油§r 1 桶 + §f盐§r ×1"
-				"· 输出：§d植物油-魔力悬浊液§r 1 桶"
-				""
-				"盐作为结晶核，使油中分散的魔力微粒聚集成悬浊状态。"
-				""
-				"§c注意§r：此步骤必须使用§b沉浸工程搅拌机§r（工业搅拌机），机械动力搅拌机无法完成。"
-			]
-			icon: "kubejs:plantoil_magic_suspension_bucket"
-			id: "4EA32F34294FB40F"
-			rewards: [{
-				count: 5
-				id: "62D5A50045EE957C"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "6F19EE579CFED720"
-				item: "kubejs:plantoil_magic_suspension_bucket"
-				type: "item"
-			}]
-			title: "盐析悬浊"
-			x: 9.0d
-			y: -2.0d
-		}
-		{
-			dependencies: [
-				"4EA32F34294FB40F"
-				"5C6BF0CF39FFC3BA"
-				"590E80671AE023B8"
-			]
+			dependencies: ["4BEFB16FC39E75E1"]
 			description: [
 				"最后一步：将§d植物油-魔力悬浊液§r送入§b机械动力搅拌机§r进行离心分离。"
 				""
@@ -113,6 +51,7 @@
 			]
 			icon: "marguerite:magic_dust"
 			id: "44D77937A91A4423"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [
 				{
 					count: 10
@@ -135,7 +74,7 @@
 				type: "item"
 			}]
 			title: "魔力结晶"
-			x: 9.0d
+			x: 5.0d
 			y: -4.0d
 		}
 		{
@@ -146,6 +85,7 @@
 				"完成她的来访后，解锁§5富魔洗脚水§r的魔力提炼线。"
 			]
 			id: "03C8DAD2E99EBB5C"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 2.0d
 			tasks: [{
@@ -164,8 +104,8 @@
 				}
 				type: "item"
 			}]
-			x: 1.0d
-			y: -2.0d
+			x: -1.0d
+			y: -1.0d
 		}
 		{
 			description: [
@@ -176,13 +116,14 @@
 				"§a配方§r：详见游戏内配方。"
 			]
 			id: "0519C26D98D9A8C9"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "4D00EBC6DE5744B8"
 				item: "immersiveengineering:coke_oven"
 				type: "item"
 			}]
-			x: 9.0d
-			y: 2.0d
+			x: 3.5d
+			y: 0.5d
 		}
 		{
 			dependencies: ["0519C26D98D9A8C9"]
@@ -193,6 +134,7 @@
 				"§e用途§r：防腐木、燃料，或进一步化工分馏。"
 			]
 			id: "3B6AF0959FAD8B8B"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 1.0d
 			tasks: [{
@@ -200,8 +142,8 @@
 				item: "immersiveengineering:creosote_bucket"
 				type: "item"
 			}]
-			x: 7.0d
-			y: 2.0d
+			x: 2.0d
+			y: 0.5d
 		}
 		{
 			dependencies: ["5B1F5D6D4A044B5B"]
@@ -210,28 +152,30 @@
 				"出铁是皴块的二倍，还有概率筛出煤炭。"
 			]
 			id: "68C33EF0DE4ED699"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "6C6F153F042CF598"
 				item: "minecraft:coal"
 				type: "item"
 			}]
-			x: 7.0d
-			y: 0.0d
+			x: 5.0d
+			y: -1.0d
 		}
 		{
-			dependencies: ["03C8DAD2E99EBB5C"]
+			dependencies: ["6AE9A2D1E969212E"]
 			description: [
 				"皴块和水一起进动力搅拌机搅。"
 				"出来的是洗净的皴块，滤出的皴水别倒，加热搅拌能出赛特斯石英。"
 			]
 			id: "5B1F5D6D4A044B5B"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "022697DA214A5CF4"
 				item: "marguerite:cleaned_cun_block"
 				type: "item"
 			}]
-			x: 5.0d
-			y: 0.0d
+			x: 3.5d
+			y: -1.0d
 		}
 		{
 			dependencies: [
@@ -243,13 +187,14 @@
 				"炼钢的高炉只认焦煤和焦煤块，木炭点不着。"
 			]
 			id: "0A13157C0DBFDF86"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "5C8FA608CAE02D0F"
 				item: "immersiveengineering:coal_coke"
 				type: "item"
 			}]
-			x: 9.0d
-			y: 0.0d
+			x: 5.0d
+			y: 0.5d
 		}
 		{
 			dependencies: [
@@ -264,15 +209,15 @@
 				"§e用途§r：工程块、钢制零件、筛网升级等。"
 			]
 			id: "2D185EC1B245676E"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
-			size: 1.5d
 			tasks: [{
 				id: "40ECA18C0450A466"
 				item: "immersiveengineering:ingot_steel"
 				type: "item"
 			}]
-			x: 11.0d
-			y: 0.0d
+			x: 5.0d
+			y: 2.0d
 		}
 		{
 			description: [
@@ -283,248 +228,48 @@
 				"§a配方§r：详见游戏内配方。"
 			]
 			id: "5134170A7BBA9714"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "29BD8738C4CFD57E"
 				item: "immersiveengineering:blast_furnace"
 				type: "item"
 			}]
-			x: 11.0d
-			y: -2.0d
+			x: 3.5d
+			y: 3.5d
 		}
 		{
-			dependencies: ["68C33EF0DE4ED699"]
+			dependencies: ["425DCD67A5F47349"]
 			description: [
 				"§b碳刷§r——发电机的关键零件。"
 				""
 				"§a配方§r：§f煤炭§r等合成，详见游戏内配方。"
 			]
-			hide_dependency_lines: true
 			id: "372CFF77E5A3F42F"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "1B76615723593331"
 				item: "create_new_age:carbon_brushes"
 				type: "item"
 			}]
-			x: 19.0d
-			y: 4.0d
+			x: 8.0d
+			y: 0.5d
 		}
 		{
+			dependencies: ["2D185EC1B245676E"]
 			description: [
 				"§b红石磁铁§r——搭建发电装置的零件。"
 				""
 				"§a配方§r：详见游戏内配方。"
 			]
 			id: "425DCD67A5F47349"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "14A7F2CAF881164C"
 				item: "create_new_age:redstone_magnet"
 				type: "item"
 			}]
-			x: 17.0d
-			y: 4.0d
-		}
-		{
-			dependencies: ["2D185EC1B245676E"]
-			description: [
-				"§b红石工程块§r——§b沉浸工程§r机器的通用构件。"
-				""
-				"§a配方§r（本包魔改）：板金属改用§f钢§r——钢板金属 + 铜锭 + 红石粉。"
-			]
-			id: "33CCADB74623E4FF"
-			tasks: [{
-				id: "08C27D5809188E7D"
-				item: "immersiveengineering:rs_engineering"
-				type: "item"
-			}]
-			x: 13.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["2D185EC1B245676E"]
-			description: [
-				"§b轻型工程块§r——§b沉浸工程§r机器的通用构件。"
-				""
-				"§a配方§r（本包魔改）：板金属改用§f钢§r——钢板金属 + 铁零件 + 铜锭。"
-			]
-			id: "5C02B2974F91E960"
-			tasks: [{
-				id: "7DFCB24BC80E3706"
-				item: "immersiveengineering:light_engineering"
-				type: "item"
-			}]
-			x: 13.0d
-			y: 0.0d
-		}
-		{
-			dependencies: [
-				"2FFBACFFC6C74E1F"
-				"4AA6E8AF9A328B3E"
-				"5961F8B54395B082"
-			]
-			description: [
-				"§f生物柴油§r——§b柴油发电机§r的高效燃料。"
-				""
-				"§a配方§r：§b精炼机§r中 §f乙醇§r + §f植物油§r 合成。"
-			]
-			hide_dependency_lines: false
-			id: "50EC9EA48DC3174E"
-			shape: "square"
-			size: 1.0d
-			tasks: [{
-				id: "41207E8481F47AF6"
-				item: "immersiveengineering:biodiesel_bucket"
-				type: "item"
-			}]
-			x: 17.0d
-			y: -4.0d
-		}
-		{
-			description: [
-				"§b柴油发电机§r——燃烧§f生物柴油§r / §f乙醇§r发电的引擎。"
-				""
-				"§e功能§r：为产线提供动力。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "59B4D39B9FEE9F46"
-			tasks: [{
-				id: "0D94D3101136D472"
-				item: "createdieselgenerators:diesel_engine"
-				type: "item"
-			}]
-			x: 15.0d
-			y: 4.0d
-		}
-		{
-			dependencies: ["20162E74B5ACFA0A"]
-			description: [
-				"§b发酵机§r——§b沉浸工程§r的酿造设备。"
-				""
-				"§e功能§r：农作物 / 糖 → §f乙醇§r。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "6BA228C35265FB4D"
-			tasks: [{
-				id: "6EC3CCED424E5FEF"
-				item: "immersiveengineering:fermenter"
-				type: "item"
-			}]
-			x: 19.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["20162E74B5ACFA0A"]
-			description: [
-				"§b精炼机§r——§b沉浸工程§r的化工设备。"
-				""
-				"§e功能§r：§f乙醇§r + §f植物油§r → §f生物柴油§r。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "2FFBACFFC6C74E1F"
-			tasks: [{
-				id: "42680CC64C6D558D"
-				item: "immersiveengineering:refinery"
-				type: "item"
-			}]
-			x: 17.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["6BA228C35265FB4D"]
-			description: [
-				"§f乙醇§r——生物柴油的原料，也可直接作燃料。"
-				""
-				"§a配方§r：§b发酵机§r酿造农作物 / 糖得到。"
-			]
-			id: "4AA6E8AF9A328B3E"
-			tasks: [{
-				id: "625FB0065CAD4B6B"
-				item: "immersiveengineering:ethanol_bucket"
-				type: "item"
-			}]
-			x: 19.0d
-			y: -4.0d
-		}
-		{
-			dependencies: [
-				"33CCADB74623E4FF"
-				"5C02B2974F91E960"
-				"5279C7FBDADAE041"
-			]
-			description: [
-				"§b沉浸工程§r的大型机器（发酵机、精炼机、压榨机、灌装机等）都要靠§e工程块§r与电力搭建。"
-				""
-				"备齐工程块、发上电，就能铺开这些大机器了。"
-			]
-			icon: "immersiveengineering:fermenter"
-			id: "20162E74B5ACFA0A"
-			shape: "square"
-			size: 1.5d
-			tasks: [{
-				id: "3F8F2AA2E3799F0B"
-				title: "沉浸工程的大机器"
-				type: "checkmark"
-			}]
-			x: 17.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["20162E74B5ACFA0A"]
-			description: [
-				"§b压榨机§r——§b沉浸工程§r的榨油设备。"
-				""
-				"§e功能§r：油料作物 → §f植物油§r + 渣饼。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "294F439C350EDA38"
-			tasks: [{
-				id: "4D85980FC63000DC"
-				item: "immersiveengineering:squeezer"
-				type: "item"
-			}]
-			x: 15.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["294F439C350EDA38"]
-			description: [
-				"§f植物油§r——生物柴油与魔力线的原料。"
-				""
-				"§a配方§r：§b压榨机§r榨取油料作物得到。"
-			]
-			id: "5961F8B54395B082"
-			tasks: [{
-				id: "1575EC6C1C01D3E6"
-				item: "immersiveengineering:plantoil_bucket"
-				type: "item"
-			}]
-			x: 15.0d
-			y: -4.0d
-		}
-		{
-			dependencies: [
-				"59B4D39B9FEE9F46"
-				"425DCD67A5F47349"
-				"372CFF77E5A3F42F"
-			]
-			description: [
-				"§e电力§r是§b沉浸工程§r大机器与§b充电站§r运转的前提。"
-				""
-				"用§b柴油发电机§r（烧生物柴油 / 乙醇）配合红石磁铁、碳刷，搭起你的第一套供电。"
-			]
-			id: "5279C7FBDADAE041"
-			shape: "square"
-			size: 1.5d
-			tasks: [{
-				id: "2D0FB6941041BEAB"
-				title: "开始发电"
-				type: "checkmark"
-			}]
-			x: 17.0d
-			y: 2.0d
+			x: 6.5d
+			y: 0.5d
 		}
 		{
 			dependencies: ["2D185EC1B245676E"]
@@ -534,53 +279,34 @@
 				"§a配方§r：§f钢锭§r等合成，详见游戏内配方。"
 			]
 			id: "5BE48E991BC4D8F2"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "0E82B22D3DB91C30"
 				item: "immersiveengineering:advanced_blast_furnace"
 				type: "item"
 			}]
-			x: 11.0d
+			x: 3.5d
 			y: 2.0d
 		}
 		{
-			dependencies: [
-				"5279C7FBDADAE041"
-				"5BE48E991BC4D8F2"
-			]
+			dependencies: ["5BE48E991BC4D8F2"]
 			description: [
 				"§b高炉预热器§r——贴在改良高炉旁鼓风，进一步加速炼钢。"
 				""
 				"§a配方§r：详见游戏内配方。"
 			]
 			id: "3D0BBC059B0FA5CF"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "6ED31B0D228BE113"
 				item: "immersiveengineering:blastfurnace_preheater"
 				type: "item"
 			}]
-			x: 13.0d
+			x: 2.0d
 			y: 2.0d
 		}
 		{
-			dependencies: ["5279C7FBDADAE041"]
-			description: [
-				"§b充电站§r——§b沉浸工程§r的充电设备。"
-				""
-				"§e功能§r：为§b筋膜枪§r等电动工具补充能量。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "79E650D6166F1839"
-			tasks: [{
-				id: "5E19FE3D2D766FA9"
-				item: "immersiveengineering:charging_station"
-				type: "item"
-			}]
-			x: 19.0d
-			y: 2.0d
-		}
-		{
-			dependencies: ["79E650D6166F1839"]
+			dependencies: ["2D185EC1B245676E"]
 			description: [
 				"§b§l筋膜枪§r——可充电的§e电动搓脚工具§r。"
 				""
@@ -591,108 +317,24 @@
 				"§7获取方式详见游戏内。"
 			]
 			id: "44BB1AA5AB070678"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "2E1E23BFD48D6481"
 				item: "marguerite:fascia_gun"
 				type: "item"
 			}]
-			x: 21.0d
+			x: 6.5d
 			y: 2.0d
 		}
 		{
-			description: [
-				"§b化学反应器§r——高级化工设备。"
-				""
-				"§e功能§r：魔力线提纯、琼浆等反应都离不开它。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "297193E421C2316E"
-			tasks: [{
-				id: "111132868E5B8707"
-				item: "immersiveindustry:chemical_reactor"
-				type: "item"
-			}]
-			x: 7.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["20162E74B5ACFA0A"]
-			description: [
-				"§b灌装机§r——§b沉浸工程§r的灌装设备。"
-				""
-				"§e功能§r：把流体灌入瓶 / 桶等容器。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "56500BE8BDD4E3B8"
-			tasks: [{
-				id: "3A92FBD06860B353"
-				item: "immersiveengineering:bottling_machine"
-				type: "item"
-			}]
-			x: 19.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["5EC4309DF3FCAC63"]
-			description: [
-				"§f酚醛树脂§r——生产§e硬质塑料板§r的中间体。"
-				""
-				"§a配方§r：由§f乙醛§r制得，详见游戏内配方。"
-			]
-			id: "251F48597CEE9D6E"
-			tasks: [{
-				id: "0BE1D406678374DD"
-				item: "immersiveengineering:phenolic_resin_bucket"
-				type: "item"
-			}]
-			x: 21.0d
-			y: -2.0d
-		}
-		{
-			dependencies: ["4AA6E8AF9A328B3E"]
-			description: [
-				"§f乙醛§r——§b沉浸工程§r化工中间体。"
-				""
-				"§a配方§r：由§f乙醇§r加工得到，详见游戏内配方。"
-			]
-			id: "5EC4309DF3FCAC63"
-			tasks: [{
-				id: "72045161ED1CDADD"
-				item: "immersiveengineering:acetaldehyde_bucket"
-				type: "item"
-			}]
-			x: 21.0d
-			y: -4.0d
-		}
-		{
-			dependencies: [
-				"56500BE8BDD4E3B8"
-				"251F48597CEE9D6E"
-			]
-			description: [
-				"§e硬质塑料板§r——§b高级电子元件§r的外壳材料。"
-				""
-				"§a配方§r：§f酚醛树脂§r经§b灌装机§r等加工，详见游戏内配方。"
-			]
-			id: "45E6A38BC8BE4882"
-			tasks: [{
-				id: "35B9BB44EFDD07BD"
-				item: "immersiveengineering:plate_duroplast"
-				type: "item"
-			}]
-			x: 21.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["45E6A38BC8BE4882"]
+			dependencies: ["1677730E9757A65C"]
 			description: [
 				"§b高级电子元件§r——§b沉浸工程§r高阶设备与§6二级芯片槽扩充器§r的核心零件。"
 				""
 				"§a配方§r（本包魔改）：在§b工程师工作台§r上，用§e塑料板§r + §f精密构件 ×2§r + §e琥珀金线§r组装。"
 			]
 			id: "3181F1E618B84C49"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 1.0d
 			tasks: [{
@@ -700,8 +342,8 @@
 				item: "immersiveengineering:component_electronic_adv"
 				type: "item"
 			}]
-			x: 23.0d
-			y: 0.0d
+			x: 9.5d
+			y: -4.0d
 		}
 		{
 			dependencies: ["3181F1E618B84C49"]
@@ -711,6 +353,7 @@
 				"§7需先掌握§b高级电子元件§r；获取方式详见游戏内。"
 			]
 			id: "65D5356847E1A17D"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 1.0d
 			tasks: [{
@@ -718,75 +361,17 @@
 				item: "marguerite:slot_expander_mk2"
 				type: "item"
 			}]
-			x: 23.0d
-			y: -6.0d
+			x: 9.5d
+			y: -5.5d
 		}
 		{
-			description: [
-				"§b工业电解槽§r——电解设备，需配合§b石墨电极§r使用。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "5C6BF0CF39FFC3BA"
-			tasks: [{
-				id: "2EB560E0C4A68FEE"
-				item: "immersiveindustry:industrial_electrolyzer"
-				type: "item"
-			}]
-			x: 11.0d
-			y: -6.0d
-		}
-		{
-			description: [
-				"§b石墨电极§r——§b工业电解槽§r / 电弧炉的耗材。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "590E80671AE023B8"
-			tasks: [{
-				id: "53E1F2B3BA3724C4"
-				item: {
-					Count: 1
-					id: "immersiveengineering:graphite_electrode"
-					tag: {
-						graphDmg: 0
-					}
-				}
-				type: "item"
-			}]
-			x: 11.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["3181F1E618B84C49"]
-			description: [
-				"§b黄铜筛网§r——§b机械动力筛分机§r的进阶筛网。"
-				""
-				"§e效果§r：筛矿产量 §a1.5×§r（比线筛网更高）。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
-			id: "50E21464AF71D8DA"
-			tasks: [{
-				id: "106C8C1477164A38"
-				item: {
-					Count: 1
-					id: "createsifter:brass_mesh"
-					tag: { }
-				}
-				type: "item"
-			}]
-			x: 23.0d
-			y: 2.0d
-		}
-		{
-			dependencies: ["3181F1E618B84C49"]
 			description: [
 				"§b星熊勇仪§r——旧地狱的鬼族，力大无穷。"
 				""
 				"旧地狱篇章的关键人物。"
 			]
 			id: "41D4231AC7906927"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 2.0d
 			tasks: [{
@@ -805,38 +390,8 @@
 				}
 				type: "item"
 			}]
-			x: 26.0d
-			y: 0.0d
-		}
-		{
-			dependencies: ["5B1F5D6D4A044B5B"]
-			description: [
-				"皴块水洗滤出的§8皴水§r——浑浊，却别有用途。"
-				""
-				"§e获取方式§r：§f皴块§r + 水在§b机械动力工作盆§r搅拌，副产§8皴水§r（同时得到§f洗净皴块§r）。"
-				""
-				"§a功能§r："
-				"· 泡脚：可直接当泡脚水，但浑浊刺鼻，顾客§c满意度 -25§r，且§e各部位需求 +0~2§r。"
-				"· 加热 8 桶可析出§d赛特斯石英§r。"
-				""
-				"§7廉价的泡脚水，救急可以，别指望顾客满意。"
-			]
-			icon: "kubejs:cun_water_bucket"
-			id: "32F74307E04D9028"
-			rewards: [{
-				count: 3
-				id: "23A794331718CECD"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "45902040A7ACDCDF"
-				item: "kubejs:cun_water_bucket"
-				type: "item"
-			}]
-			title: "浊水藏晶"
-			x: 5.0d
-			y: 6.0d
+			x: -1.0d
+			y: 5.0d
 		}
 		{
 			description: [
@@ -849,6 +404,7 @@
 			]
 			icon: "ae2:certus_quartz_crystal"
 			id: "7A7EF9B18360931A"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "4A1C54AF0FAC71B6"
@@ -856,96 +412,763 @@
 				type: "item"
 			}]
 			shape: "square"
-			size: 1.5d
 			tasks: [{
 				id: "511C387D8BF0407A"
 				item: "ae2:certus_quartz_crystal"
 				type: "item"
 			}]
 			title: "芯的基石"
-			x: 5.0d
-			y: 4.0d
+			x: 8.0d
+			y: -4.0d
 		}
 		{
-			description: [
-				"§d赛特斯石英粉§r——研磨后的石英细粉。"
-				""
-				"§a配方§r：§d赛特斯石英§r经§b机械动力石磨§r或§b粉碎轮§r研磨得到。"
-				""
-				"§e用途§r：调制§8强力去灰水§r等。"
-			]
-			icon: "ae2:certus_quartz_dust"
-			id: "52903A4D297490F7"
-			rewards: [{
-				count: 5
-				id: "72E183E820457CF8"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
+			dependencies: ["44D77937A91A4423"]
+			id: "5E65A231DC1AF8B7"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
-				id: "23A30E616E06818E"
+				id: "38BA79B476ADAAD0"
 				item: "ae2:certus_quartz_dust"
 				type: "item"
 			}]
-			title: "研磨石英"
-			x: 7.0d
-			y: 4.0d
+			x: 6.5d
+			y: -4.0d
 		}
 		{
-			description: [
-				"§8强力去灰水§r——草灰水的强化版，去死皮更狠。"
-				""
-				"§a配方§r：§8草灰水§r 1 桶 + §d赛特斯石英粉§r在§b机械动力工作盆§r搅拌。"
-				""
-				"§a功能§r：泡脚后顾客§e搓脚掉皴 +3/次§r（比第一章食盐水更强）。"
+			dependencies: ["372CFF77E5A3F42F"]
+			id: "490DF08F5F4B7F48"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "4833542555F2CF4A"
+				item: "ae2:charger"
+				type: "item"
+			}]
+			x: 6.5d
+			y: -1.0d
+		}
+		{
+			dependencies: [
+				"7A7EF9B18360931A"
+				"490DF08F5F4B7F48"
 			]
-			icon: "kubejs:strong_ash_water_bucket"
-			id: "2A0D612CFA303E3F"
+			id: "1677730E9757A65C"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "705775506C13FD8C"
+				item: "ae2:charged_certus_quartz_crystal"
+				type: "item"
+			}]
+			x: 8.0d
+			y: -2.5d
+		}
+		{
+			dependencies: [
+				"5E65A231DC1AF8B7"
+				"1677730E9757A65C"
+			]
+			description: [
+				"§d赛特斯石英§r——§b应用能源§r的核心材料，本章电子产线的钥匙。"
+				""
+				"§a配方§r（本包魔改）：§8皴水§r 8 桶在§b机械动力工作盆§r中§c加热搅拌§r析出。"
+				"· 无需原版§b应用能源§r的复杂设备与材料，一池皴水足矣。"
+				""
+				"§e用途§r：高阶顾客需求、研磨成粉等。"
+			]
+			icon: "ae2:certus_quartz_crystal"
+			id: "72C94A1211B740E6"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 8
-				id: "45CA57E64CAF18A1"
+				count: 5
+				id: "56A0015C66FEE532"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
 			shape: "square"
-			size: 1.5d
 			tasks: [{
-				id: "02317253909C4C53"
-				item: "kubejs:strong_ash_water_bucket"
+				id: "3694B96BE898DE8A"
+				item: "ae2:certus_quartz_crystal"
 				type: "item"
 			}]
-			title: "淬石灰浆"
-			x: 9.0d
-			y: 4.0d
+			title: "芯"
+			x: 6.5d
+			y: -2.5d
 		}
 		{
-			dependencies: ["20162E74B5ACFA0A"]
-			description: [
-				"§6豪华牛奶水§r——牛奶水的鎏金升级，财运亨通。"
-				""
-				"§a配方§r：§f牛奶水§r 1 桶 + §e金粉§r在§b沉浸工程工业搅拌机§r中搅拌。"
-				"· §c注意§r：必须用§b沉浸工程工业搅拌机§r，机械动力搅拌机无法完成。"
-				""
-				"§a功能§r：泡脚后立即掉落 §635 铜币§r（比第一章花椒水更多）。"
+			dependencies: ["44BB1AA5AB070678"]
+			id: "60A0871407A7EAE1"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "0DA4C4982EA661DF"
+				item: "marguerite:fascia_gun_head_jiaozhi"
+				type: "item"
+			}]
+			x: 8.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["44BB1AA5AB070678"]
+			id: "1D2476AEC56EB38D"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "5A88E6F924A8D38A"
+				item: "marguerite:fascia_gun_head_jiaozhang"
+				type: "item"
+			}]
+			x: 6.5d
+			y: 3.5d
+		}
+		{
+			dependencies: ["44BB1AA5AB070678"]
+			id: "4E4E890FBD120DBA"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "74951B651D7BCEFC"
+				item: "marguerite:fascia_gun_head_jiaoxin"
+				type: "item"
+			}]
+			x: 8.0d
+			y: 3.5d
+		}
+		{
+			dependencies: ["44BB1AA5AB070678"]
+			id: "36DEE326F0528027"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "354F67A1289C7AFF"
+				item: "marguerite:fascia_gun_head_jiaogen"
+				type: "item"
+			}]
+			x: 5.0d
+			y: 3.5d
+		}
+		{
+			dependencies: [
+				"241F6763BEA05FAC"
+				"0178452B8DE3E664"
 			]
-			icon: "kubejs:deluxe_milk_water_bucket"
-			id: "4840EA4FAF2CBDFA"
+			id: "6AE9A2D1E969212E"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "3C0832172B6A7AE9"
+				item: "create:blaze_burner"
+				type: "item"
+			}]
+			x: 3.5d
+			y: -2.5d
+		}
+		{
+			dependencies: ["03C8DAD2E99EBB5C"]
+			id: "241F6763BEA05FAC"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "55022E4CE070AD84"
+				item: "minecraft:blaze_spawn_egg"
+				type: "item"
+			}]
+			x: 2.0d
+			y: -2.5d
+		}
+		{
+			id: "0178452B8DE3E664"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "6C94DA11990DFA5C"
+				item: "create:empty_blaze_burner"
+				type: "item"
+			}]
+			x: 2.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["372CFF77E5A3F42F"]
+			id: "2AF2737A819096DC"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "2D0AB0925FAA6C1D"
+				item: "create_new_age:electrical_connector"
+				type: "item"
+			}]
+			x: 8.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2AF2737A819096DC"]
+			id: "5FE17D2CC9F1CE88"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "0693D9277838E72C"
+				item: "create_new_age:copper_wire"
+				type: "item"
+			}]
+			x: 9.5d
+			y: 0.5d
+		}
+		{
+			id: "4BC78D1ACCC5B3DC"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "65F6B9B01BE9C2EE"
+				item: "create_new_age:basic_energiser"
+				type: "item"
+			}]
+			x: 9.5d
+			y: -2.5d
+		}
+		{
+			dependencies: [
+				"5FE17D2CC9F1CE88"
+				"4BC78D1ACCC5B3DC"
+			]
+			id: "2150561A98A1902A"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "64746597C2B7D130"
+				item: "create_new_age:overcharged_iron_wire"
+				type: "item"
+			}]
+			x: 9.5d
+			y: -1.0d
+		}
+		{
+			dependencies: ["03C8DAD2E99EBB5C"]
+			description: [
+				"旧地狱的岩缝间长着§f野生咖啡树§r，破坏即可收获§e咖啡果§r。"
+				""
+				"§7咖啡是旧地狱的新风尚——比茶更浓、更提神，顾客也更愿意续杯。§r"
+			]
+			id: "56CDABCDD25342C1"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 8
-				id: "3AB08467C3337374"
+				count: 3
+				id: "6992DB66AFE714BD"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "2BB67B2C6F67751F"
+				item: "youkaishomecoming:coffee_berries"
+				type: "item"
+			}]
+			title: "咖啡果"
+			x: 3.5d
+			y: 5.0d
+		}
+		{
+			dependencies: ["56CDABCDD25342C1"]
+			description: [
+				"§a配方§r："
+				"· §f咖啡果§r无序合成 → §e生咖啡豆 ×1§r"
+				"· 用§f刀§r在§b砧板§r上切开 → §e生咖啡豆 ×2§r，更划算"
+			]
+			id: "291761D4CA8EE043"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 2
+				id: "1CC34A12F7F563A9"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "2867909C3DBFFA06"
+				item: "youkaishomecoming:green_coffee_bean"
+				type: "item"
+			}]
+			title: "取豆"
+			x: 3.5d
+			y: 6.5d
+		}
+		{
+			dependencies: ["291761D4CA8EE043"]
+			description: ["把§f生咖啡豆§r放进§b熔炉§r（或烟熏炉）烘焙，得到香气四溢的§e咖啡豆§r。"]
+			id: "629625520D96B985"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 3
+				id: "3182F79FED6E6590"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "1B7CCF25DCB21F99"
+				item: "youkaishomecoming:coffee_beans"
+				type: "item"
+			}]
+			title: "烘焙"
+			x: 5.0d
+			y: 5.0d
+		}
+		{
+			dependencies: ["629625520D96B985"]
+			description: ["用§f锹§r在§b砧板§r上把§e咖啡豆§r碾成§e咖啡粉§r——冲煮前的最后一步。"]
+			id: "1E70A5FD17D68046"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 3
+				id: "122E684C324BC63A"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "208DD45C08B5E4CC"
+				item: "youkaishomecoming:coffee_powder"
+				type: "item"
+			}]
+			title: "研磨"
+			x: 5.0d
+			y: 6.5d
+		}
+		{
+			dependencies: ["1E70A5FD17D68046"]
+			description: [
+				"§b摩卡壶§r是煮咖啡的核心器具。"
+				""
+				"§a配方§r：§f铁锭 ×2§r + §f铁粒 ×4§r + §f深板岩§r + §e咖啡粉§r + §f水瓶§r（详见游戏内配方）"
+				""
+				"§a使用方法§r："
+				"· 放在§c热源§r（如营火、岩浆块、炉灶）上方"
+				"· 放入材料与§f水瓶§r，煮出瓶装咖啡"
+				""
+				"§6再来一个§r：咖啡有 §a0%~40%§r 概率让顾客意犹未尽——茶水按钮不会消失，可以继续奉茶！效果越强，续杯率越低。"
+			]
+			hide_dependent_lines: true
+			id: "51F3BFFB24ED080C"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 10
+				id: "4BA0A8171245E7BD"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
 			shape: "square"
-			size: 1.5d
 			tasks: [{
-				id: "553606F89B2FB483"
-				item: "kubejs:deluxe_milk_water_bucket"
+				id: "0AD6D625DDDB5505"
+				item: "youkaishomecoming:moka_pot"
 				type: "item"
 			}]
-			title: "鎏金乳香"
-			x: 20.25d
-			y: 5.25d
+			title: "摩卡壶"
+			x: 6.5d
+			y: 5.0d
+		}
+		{
+			dependencies: ["56CDABCDD25342C1"]
+			description: [
+				"把§f野生咖啡树§r种在§f灰化土§r、§f泥巴§r或§f灵魂土§r上，就能建立自己的咖啡园。"
+				""
+				"§7旧地狱最不缺的就是灵魂土。§r"
+			]
+			id: "701C21D99B6EC13A"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 3
+				id: "738F1C72CEBEDE11"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "20820CD2B2DDD129"
+				item: "youkaishomecoming:wild_coffea"
+				type: "item"
+			}]
+			title: "扎根灵土"
+			x: 2.0d
+			y: 5.0d
+		}
+		{
+			dependencies: ["51F3BFFB24ED080C"]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e咖啡粉§r + §f水瓶§r"
+				""
+				"§e奉茶效果§r：§a脚掌§r需求 +2，满意度 §a+8§r。"
+				"§6再来一个§r：§a10%§r 概率可再奉一杯。"
+				""
+				"§7一小杯浓缩，是一切花式咖啡的基底。§r"
+			]
+			hide_dependent_lines: true
+			id: "53B430DB5428E713"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "17ABA1FE7A524921"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			tasks: [{
+				id: "3C2264680A269D4B"
+				item: "youkaishomecoming:espresso"
+				type: "item"
+			}]
+			title: "意式浓缩"
+			x: 6.5d
+			y: 6.5d
+		}
+		{
+			dependencies: ["53B430DB5428E713"]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f水瓶§r"
+				""
+				"§e奉茶效果§r：§a脚心§r需求 +2，满意度 §a+8§r。"
+				"§6再来一个§r：§a20%§r 概率可再奉一杯。"
+			]
+			id: "65E1F9DBE9A2D493"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "6F4C76DCD7B6F0B0"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "4562556761224624"
+				item: "youkaishomecoming:americano"
+				type: "item"
+			}]
+			x: 8.0d
+			y: 6.5d
+		}
+		{
+			dependencies: ["51F3BFFB24ED080C"]
+			description: [
+				"§a配方§r：§b烹饪锅§r + §f牛奶瓶 ×3§r → §e碗装奶油§r（返还碗）。"
+				""
+				"§7卡布奇诺与阿芙佳朵的灵魂配料。§r"
+			]
+			id: "42C46F4A05C4FE2E"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 3
+				id: "36156328F543DDA1"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "61493307A4700337"
+				item: "youkaishomecoming:bowl_of_cream"
+				type: "item"
+			}]
+			title: "碗装奶油"
+			x: 8.0d
+			y: 5.0d
+		}
+		{
+			dependencies: ["53B430DB5428E713"]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f牛奶瓶§r"
+				""
+				"§e奉茶效果§r：§a脚跟§r需求 +2，满意度 §a+8§r。"
+				"§6再来一个§r：§a20%§r 概率可再奉一杯。"
+			]
+			id: "3BFB54433EA452D5"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "459B98EEE14970FF"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7ADD02FD197816A5"
+				item: "youkaishomecoming:latte"
+				type: "item"
+			}]
+			x: 9.5d
+			y: 5.0d
+		}
+		{
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f牛奶瓶§r + §f碗装奶油§r"
+				""
+				"§e奉茶效果§r：满意度 §a+8§r，在§d旧地狱§r引来稀客§d古明地觉§r。"
+				"§6再来一个§r：§a10%§r 概率可再奉一杯。"
+			]
+			id: "41A1285CCB495C16"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "3AD40580DF58538A"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "7CE63566282253E5"
+				item: "youkaishomecoming:cappuccino"
+				type: "item"
+			}]
+			x: 9.5d
+			y: 6.5d
+		}
+		{
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f牛奶瓶§r + §f可可豆§r"
+				""
+				"§e奉茶效果§r：满意度 §a+8§r，在§d旧地狱§r引来稀客§d火焰猫燐§r。"
+				"§6再来一个§r：§a10%§r 概率可再奉一杯。"
+			]
+			id: "24F8BB68C237D1F9"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "7C6D9E09830C34BA"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "471678C18A58178D"
+				item: "youkaishomecoming:mocha"
+				type: "item"
+			}]
+			x: 11.0d
+			y: 6.5d
+		}
+		{
+			dependencies: [
+				"53B430DB5428E713"
+				"2D5C076CC65DB40A"
+			]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f冰块§r + §f碗装奶油§r"
+				""
+				"§e奉茶效果§r：满意度 §a+8§r，在§d旧地狱§r引来稀客§d灵乌路空§r。"
+				"§6再来一个§r：§a40%§r 概率可再奉一杯。"
+			]
+			id: "1004D807A9BE3A74"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "209E78F37ECC3FC5"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "4A7D7B267C45C42A"
+				item: "youkaishomecoming:affogato"
+				type: "item"
+			}]
+			x: 12.5d
+			y: 6.5d
+		}
+		{
+			dependencies: ["51F3BFFB24ED080C"]
+			description: [
+				"§a配方§r：用§f镐§r在§b砧板§r上敲碎§f冰§r → §e冰块 ×8§r。"
+				""
+				"§7冰需要精准采集才能整块取得。§r"
+			]
+			id: "2D5C076CC65DB40A"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 3
+				id: "554608797B40D9C7"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "389447F6518219C3"
+				item: "youkaishomecoming:ice_cube"
+				type: "item"
+			}]
+			title: "冰块"
+			x: 11.0d
+			y: 5.0d
+		}
+		{
+			dependencies: [
+				"53B430DB5428E713"
+				"1E70A5FD17D68046"
+			]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §e咖啡粉§r"
+				""
+				"§e奉茶效果§r：§a脚趾§r需求 +3，满意度 §a+8§r。"
+				"§7双份粉萃取的特浓，效果最强，顾客一杯就够（无续杯）。§r"
+			]
+			id: "41D64E0CCC7F1288"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "503FCC0742E00170"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "16BB597FE1B9DAA5"
+				item: "youkaishomecoming:ristretto"
+				type: "item"
+			}]
+			x: 5.0d
+			y: 8.0d
+		}
+		{
+			dependencies: ["53B430DB5428E713"]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §f碗装奶油§r"
+				""
+				"§e奉茶效果§r：§a脚心§r需求 +2，满意度 §a+8§r。"
+				"§6再来一个§r：§a10%§r 概率可再奉一杯。"
+			]
+			id: "010F34304A37D51A"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "4FA423475117B832"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "269C1632BC6DC5BF"
+				item: "youkaishomecoming:macchiato"
+				type: "item"
+			}]
+			x: 6.5d
+			y: 8.0d
+		}
+		{
+			dependencies: [
+				"53B430DB5428E713"
+				"1E70A5FD17D68046"
+			]
+			description: [
+				"§a配方§r：§b摩卡壶§r + §e意式浓缩§r + §e咖啡粉§r + §f碗装奶油§r"
+				""
+				"§e奉茶效果§r：§a脚掌§r需求 +3，满意度 §a+8§r。"
+				"§7奶油盖顶的特浓，效果最强，顾客一杯就够（无续杯）。§r"
+			]
+			id: "6FC77A98BF83F1E9"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 5
+				id: "76C8E7D78D97870E"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			tasks: [{
+				id: "5E25E2EC8C21B6CD"
+				item: "youkaishomecoming:con_panna"
+				type: "item"
+			}]
+			x: 3.5d
+			y: 8.0d
+		}
+		{
+			description: [
+				"§d妖怪（觉）§r · 出自§7「东方地灵殿」§r"
+				""
+				"地灵殿之主，能读取内心的觉妖怪，深居地底、喜静爱宠。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:komeiji_satori"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "6D02F27583301D0F"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 10
+				id: "2AE6AD33E81FD552"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.0d
+			tasks: [{
+				id: "64C6AD3C5CCED363"
+				title: "迎接古明地觉"
+				type: "checkmark"
+			}]
+			title: "稀客：古明地觉"
+			x: 8.0d
+			y: 8.0d
+		}
+		{
+			description: [
+				"§d妖怪（火车）§r · 出自§7「东方地灵殿」§r"
+				""
+				"觉的宠物猫车，推着小车运送尸体，开朗健谈。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:kaenbyou_rin"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "441AAE757E21EA52"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 10
+				id: "5677CCFD7559DE7D"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.0d
+			tasks: [{
+				id: "4F4E3C60AEB17886"
+				title: "迎接火焰猫燐"
+				type: "checkmark"
+			}]
+			title: "稀客：火焰猫燐"
+			x: 9.5d
+			y: 8.0d
+		}
+		{
+			dependencies: ["1004D807A9BE3A74"]
+			description: [
+				"§d地狱鸦§r · 出自§7「东方地灵殿」§r"
+				""
+				"觉的宠物地狱鸦，吞下八咫乌后掌握了核融合之力。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:reiuji_utsuho"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			id: "5CA6D8CD61454E1F"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				count: 10
+				id: "4C35095236A20955"
+				item: "coinsje:copper_coin"
+				type: "item"
+			}]
+			shape: "square"
+			size: 1.0d
+			tasks: [{
+				id: "5F28F5989D632E35"
+				title: "迎接灵乌路空"
+				type: "checkmark"
+			}]
+			title: "稀客：灵乌路空"
+			x: 11.0d
+			y: 8.0d
+		}
+		{
+			id: "694CF210695D0137"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "05B3891507ADEED5"
+				type: "checkmark"
+			}]
+			x: 2.0d
+			y: -4.0d
 		}
 	]
 	title: "第二章"

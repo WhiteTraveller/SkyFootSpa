@@ -1,0 +1,78 @@
+// ftb_quests_v0_1_2.zip: reference the original 512x512 atlas directly.
+// All pos values match meta.slices[].keys[0].bounds in ftb_quests.json.
+// The supplied JSON has no nine-slice centers, so corner=0 preserves each whole slice.
+[*]
+background: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=0,0,512,256; corner=0
+
+// Existing text/state colors are retained; the supplied atlas JSON defines no theme colors.
+text_color: #513B2B
+hover_text_color: #8D302A
+disabled_text_color: #8D7D70
+widget_border: #A15740
+widget_background: #D6BC99
+selected_chapter_highlight_1: #50A15740
+selected_chapter_highlight_2: #20A15740
+
+// left_panel_open: use the full 102px bounds, including its transparent column.
+context_menu: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=341,256,102,256; corner=0
+panel: {{context_menu}}
+
+// selected_border: no additional hover fill or recoloring of the supplied artwork.
+button: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=3,365,91,16; corner=0
+hover_button: {{button}}
+disabled_button: {{button}}
+container_slot: #20A15740 + hollow_rectangle:{{widget_border}}
+text_box: #E8D5B5 + hollow_rectangle:{{widget_border}}
+scroll_bar_background: #28A15740
+scroll_bar: #A15740
+
+// quest_background.
+quest_view_background: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=0,256,189,98; corner=0
+quest_view_border: #A15740
+quest_view_title: #6B3024
+tasks_text_color: #4E607A
+rewards_text_color: #8D302A
+
+// Icon bounds are taken directly from the supplied slice names, including its typos.
+alert_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=192,256,16,16; corner=0
+wiki_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=192,272,16,16; corner=0
+pin_icon_on: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=208,272,16,16; corner=0
+pin_icon_off: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=224,272,16,16; corner=0
+checkmark_task_inactive: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=208,256,16,16; corner=0
+checkmark_task_active: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=224,256,16,16; corner=0
+left_arrow: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=272,272,16,16; corner=0
+right_arrow: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=256,272,16,16; corner=0
+move_up_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=240,288,16,16; corner=0
+move_down_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=224,288,16,16; corner=0
+download_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=288,272,16,16; corner=0
+close_icon: part:ftbquests:textures/gui/ftbq_v0_1_2/ftb_quests.png; texture_w=512; texture_h=512; pos=240,272,16,16; corner=0
+
+// No replacement ALL/settings/editor artwork is supplied; retain existing mappings.
+collect_rewards_icon: ftbquests:textures/gui/ftbq/icon_all.png
+settings_icon: ftbquests:textures/gui/settings.png; color=#A15740
+save_icon: ftbquests:textures/gui/save.png; color=#A15740
+editor_icon_on: ftbquests:textures/gui/editor.png; color=#A13D34
+editor_icon_off: ftbquests:textures/gui/editor.png; color=#8D7D70
+hidden_icon: ftbquests:textures/gui/hidden.png; color=#8D7D70
+link_icon: ftbquests:textures/gui/link.png; color=#A15740
+
+// QuestPanel only binds ImageIcon textures and ignores slice UVs; PartIcon falls back
+// to the stock line. This is the exact 16x5 line grey slice, without canvas padding.
+dependency_line_texture: ftbquests:textures/gui/ftbq_v0_1_2/line_grey.png
+dependency_line_completed_color: #FA8070
+dependency_line_uncompleted_color: #DAD0CC
+dependency_line_requires_color: #FFB040
+dependency_line_required_for_color: #65BBFF
+quest_completed_color: #A13D34
+quest_started_color: #AC681E
+quest_not_started_color: #8A7971
+quest_locked_color: #998B81
+
+// QuestShape hardcodes textures/shapes/{id}/{shape,background,outline}.png and reads
+// shape.png itself for hit testing. These files use the exact original 32x32 slices:
+// square  = rectangle mask (0,384), background (32,384), outline (64,384).
+// circle  = circle    mask (0,416), background (32,416), outline (64,416).
+// octagon = octangle  mask (0,448), background (32,448), outline (64,448).
+// No alpha reduction, generated paper, resampling, or extra highlights are applied.
+// Fixed chapter arrows likewise retain exact solid-arrow slices at their native paths.
+// Narrow toolbars, image dividers and disabled-arrow variants have no theme hook here.

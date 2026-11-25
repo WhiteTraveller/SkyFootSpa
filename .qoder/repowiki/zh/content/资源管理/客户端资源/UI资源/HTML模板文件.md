@@ -6,10 +6,20 @@
 - [footsoak.html](file://apricity/kubejs/footsoak.html)
 - [phone.html](file://apricity/kubejs/phone.html)
 - [stamina_hud.html](file://apricity/kubejs/stamina_hud.html)
+- [maid_stats.html](file://apricity/kubejs/maid_stats.html)
 - [foot_ui.js](file://kubejs/client_scripts/ui/foot_ui.js)
 - [phone_ui.js](file://kubejs/client_scripts/ui/phone_ui.js)
 - [stamina_hud.js](file://kubejs/client_scripts/ui/stamina_hud.js)
+- [maid_stats_ui.js](file://kubejs/client_scripts/ui/maid_stats_ui.js)
+- [maid_stats.js](file://kubejs/server_scripts/backpack/maid_stats.js)
 </cite>
+
+## 更新摘要
+**变更内容**   
+- 新增女仆饰品属性统计界面（maid_stats.html）及其客户端脚本（maid_stats_ui.js）
+- 新增服务端统计逻辑（maid_stats.js）
+- 扩展了 ApriCity UI 框架的女仆配件系统功能
+- 更新了整体架构图和组件分析
 
 ## 目录
 1. [引言](#引言)
@@ -24,10 +34,10 @@
 10. [附录：模板参数与交互约定](#附录模板参数与交互约定)
 
 ## 引言
-本文件面向 ApriCity UI 框架中的 HTML 模板，聚焦四个关键界面：泡脚界面、泡脚倒计时界面、手机界面和体力 HUD 界面。文档从 HTML 结构、CSS 样式绑定、JavaScript 交互逻辑、DOM 组织方式、事件绑定机制、动态内容更新、模板参数传递、条件渲染和用户交互处理等维度进行系统化说明，并给出模板开发最佳实践与性能优化建议。
+本文件面向 ApriCity UI 框架中的 HTML 模板，聚焦五个关键界面：泡脚界面、泡脚倒计时界面、手机界面、体力 HUD 界面和女仆饰品属性统计界面。文档从 HTML 结构、CSS 样式绑定、JavaScript 交互逻辑、DOM 组织方式、事件绑定机制、动态内容更新、模板参数传递、条件渲染和用户交互处理等维度进行系统化说明，并给出模板开发最佳实践与性能优化建议。
 
 ## 项目结构
-ApriCity UI 的 UI 资源位于 `apricity/kubejs` 下的 HTML 模板文件，客户端脚本位于 `kubejs/client_scripts/ui`。HTML 模板通过 ApricityUI API 以 WorldWindow 或 Overlay 的形式加载到游戏世界中；客户端脚本负责创建窗口、绑定事件、同步服务端数据并驱动 DOM 更新。
+ApriCity UI 的 UI 资源位于 `apricity/kubejs` 下的 HTML 模板文件，客户端脚本位于 `kubejs/client_scripts/ui`，服务端逻辑位于 `kubejs/server_scripts/backpack`。HTML 模板通过 ApricityUI API 以 WorldWindow、Overlay 或 Screen 的形式加载到游戏世界中；客户端脚本负责创建窗口、绑定事件、同步服务端数据并驱动 DOM 更新。
 
 ```mermaid
 graph TB
@@ -36,22 +46,30 @@ FUI["footui.html<br/>泡脚界面"]
 FSOAK["footsoak.html<br/>泡脚倒计时界面"]
 PHONE["phone.html<br/>手机界面"]
 STAMINA["stamina_hud.html<br/>体力HUD界面"]
+MAIDSTATS["maid_stats.html<br/>女仆饰品统计界面"]
 end
 subgraph "客户端脚本"
 FUJS["foot_ui.js<br/>脚部UI控制器"]
 PUJS["phone_ui.js<br/>手机设置与数据同步"]
 SHJS["stamina_hud.js<br/>体力Overlay控制器"]
+MSUJS["maid_stats_ui.js<br/>女仆统计Overlay控制器"]
+end
+subgraph "服务端脚本"
+MSS["maid_stats.js<br/>女仆饰品统计逻辑"]
 end
 subgraph "ApricityUI框架"
-AUI["WorldWindow / Overlay<br/>文档生命周期管理"]
+AUI["WorldWindow / Overlay / Screen<br/>文档生命周期管理"]
 end
 FUI --> FUJS
 FSOAK --> FUJS
 PHONE --> PUJS
 STAMINA --> SHJS
+MAIDSTATS --> MSUJS
+MSUJS --> MSS
 FUJS --> AUI
 PUJS --> AUI
 SHJS --> AUI
+MSUJS --> AUI
 ```
 
 **图表来源**
@@ -59,40 +77,49 @@ SHJS --> AUI
 - [footsoak.html:1-29](file://apricity/kubejs/footsoak.html#L1-L29)
 - [phone.html:1-184](file://apricity/kubejs/phone.html#L1-L184)
 - [stamina_hud.html:1-16](file://apricity/kubejs/stamina_hud.html#L1-L16)
+- [maid_stats.html:1-387](file://apricity/kubejs/maid_stats.html#L1-L387)
 - [foot_ui.js:12-17](file://kubejs/client_scripts/ui/foot_ui.js#L12-L17)
 - [phone_ui.js:7-10](file://kubejs/client_scripts/ui/phone_ui.js#L7-L10)
 - [stamina_hud.js:7-16](file://kubejs/client_scripts/ui/stamina_hud.js#L7-L16)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats.js:1-11](file://kubejs/server_scripts/backpack/maid_stats.js#L1-L11)
 
 **章节来源**
 - [footui.html:1-69](file://apricity/kubejs/footui.html#L1-L69)
 - [footsoak.html:1-29](file://apricity/kubejs/footsoak.html#L1-L29)
 - [phone.html:1-184](file://apricity/kubejs/phone.html#L1-L184)
 - [stamina_hud.html:1-16](file://apricity/kubejs/stamina_hud.html#L1-L16)
+- [maid_stats.html:1-387](file://apricity/kubejs/maid_stats.html#L1-L387)
 - [foot_ui.js:12-17](file://kubejs/client_scripts/ui/foot_ui.js#L12-L17)
 - [phone_ui.js:7-10](file://kubejs/client_scripts/ui/phone_ui.js#L7-L10)
 - [stamina_hud.js:7-16](file://kubejs/client_scripts/ui/stamina_hud.js#L7-L16)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats.js:1-11](file://kubejs/server_scripts/backpack/maid_stats.js#L1-L11)
 
 ## 核心组件
 - 泡脚界面（footui.html）：展示需求清单、满意度进度条、步骤记录、送客按钮、脚图与拖动跟随图标。由 foot_ui.js 创建 WorldWindow，绑定鼠标移动、离开、点击事件，并根据服务端 NBT 数据更新 DOM。
 - 泡脚倒计时界面（footsoak.html）：显示泡脚按钮、标题、提示文本与进度条。由 foot_ui.js 创建 WorldWindow，监听右键触发泡脚请求，根据服务端状态更新进度条。
 - 手机界面（phone.html）：模拟手机主屏、时间显示、应用图标、评价弹窗与抽卡弹窗。由 phone_ui.js 接收服务端推送的设置与评价数据，并在页面内更新 UI。
 - 体力 HUD 界面（stamina_hud.html）：固定左下角体力条与数值。由 stamina_hud.js 创建 Overlay，周期性请求体力值并更新进度条颜色与宽度。
+- **新增** 女仆饰品属性统计界面（maid_stats.html）：显示女仆当前装备的所有 Curios 饰品的属性加成详情，包括属性合计和饰品明细。由 maid_stats_ui.js 创建 Overlay，通过 pf_maid_stats_sync 网络事件接收服务端统计数据，并在 TLM 女仆界面上方叠加显示。
 
 **章节来源**
 - [footui.html:9-68](file://apricity/kubejs/footui.html#L9-L68)
 - [footsoak.html:10-28](file://apricity/kubejs/footsoak.html#L10-L28)
 - [phone.html:110-183](file://apricity/kubejs/phone.html#L110-L183)
 - [stamina_hud.html:9-15](file://apricity/kubejs/stamina_hud.html#L9-L15)
+- [maid_stats.html:223-233](file://apricity/kubejs/maid_stats.html#L223-L233)
 - [foot_ui.js:120-269](file://kubejs/client_scripts/ui/foot_ui.js#L120-L269)
 - [foot_ui.js:331-396](file://kubejs/client_scripts/ui/foot_ui.js#L331-L396)
 - [phone_ui.js:12-47](file://kubejs/client_scripts/ui/phone_ui.js#L12-L47)
 - [stamina_hud.js:25-73](file://kubejs/client_scripts/ui/stamina_hud.js#L25-L73)
+- [maid_stats_ui.js:1-15](file://kubejs/client_scripts/ui/maid_stats_ui.js#L1-L15)
 
 ## 架构总览
-整体采用“HTML模板 + 客户端脚本 + ApricityUI”的分层架构：
+整体采用"HTML模板 + 客户端脚本 + 服务端脚本 + ApricityUI"的分层架构：
 - HTML 模板定义结构与样式，提供稳定的 DOM 节点 ID。
 - 客户端脚本通过 ApricityUI API 创建和管理文档（WorldWindow/Overlay），订阅网络事件，读取实体 NBT 数据，驱动 DOM 更新。
-- 服务端通过 NBT 字段与 NetworkEvents 推送数据，客户端据此刷新界面。
+- 服务端脚本处理业务逻辑，计算统计数据，通过 NetworkEvents 推送数据，客户端据此刷新界面。
 
 ```mermaid
 sequenceDiagram
@@ -100,8 +127,14 @@ participant Server as "服务端"
 participant Client as "客户端脚本"
 participant AUI as "ApricityUI"
 participant DOM as "HTML模板DOM"
-Server->>Client : "NBT字段变化/NetworkEvents推送"
-Client->>AUI : "createDocument/createWorldWindow"
+participant StatsServer as "女仆统计服务"
+Note over Server,StatsServer : 女仆饰品统计流程
+Server->>Client : "pf_maid_stats_request"
+Client->>Server : "sendData('pf_maid_stats_request')"
+Server->>StatsServer : "pfMaidBuildStats()"
+StatsServer-->>Server : "统计数据JSON"
+Server->>Client : "pf_maid_stats_sync(JSON)"
+Client->>AUI : "createDocument('kubejs/maid_stats.html')"
 AUI-->>Client : "返回文档对象"
 Client->>DOM : "getElementById/setAttribute/innerText"
 DOM-->>Client : "用户交互事件"
@@ -114,6 +147,8 @@ Server-->>Client : "状态更新/网络事件"
 - [foot_ui.js:353-365](file://kubejs/client_scripts/ui/foot_ui.js#L353-L365)
 - [stamina_hud.js:94-114](file://kubejs/client_scripts/ui/stamina_hud.js#L94-L114)
 - [phone_ui.js:12-47](file://kubejs/client_scripts/ui/phone_ui.js#L12-L47)
+- [maid_stats_ui.js:123-126](file://kubejs/client_scripts/ui/maid_stats_ui.js#L123-L126)
+- [maid_stats.js:419-458](file://kubejs/server_scripts/backpack/maid_stats.js#L419-L458)
 
 ## 详细组件分析
 
@@ -137,7 +172,7 @@ Server-->>Client : "状态更新/网络事件"
 - 动态内容更新方式
   - 通过 `updateDemandListDisplay`、`updateSatisfactionDisplay`、`updateStepsDisplay`、`updateOilDisplay` 等方法直接操作 DOM 元素属性与文本。
 - 条件渲染
-  - 需求次数为 0 时显示“✓”并添加完成样式；否则显示次数文本。
+  - 需求次数为 0 时显示"✓"并添加完成样式；否则显示次数文本。
   - 步骤为空时清空显示文本。
 - 模板参数传递
   - 通过服务端 NBT 字段（如 `pfDemandJiaozhang`、`pfSatisfaction`、`pfSteps`、`pfOilId`、`pfOilLeft`）传递数据，客户端脚本读取并映射到 DOM。
@@ -285,10 +320,65 @@ Loop --> |否| Remove["移除Overlay文档"]
 - [stamina_hud.js:25-73](file://kubejs/client_scripts/ui/stamina_hud.js#L25-L73)
 - [stamina_hud.js:94-127](file://kubejs/client_scripts/ui/stamina_hud.js#L94-L127)
 
+### 女仆饰品属性统计界面（maid_stats.html）
+**新增** 女仆饰品属性统计界面是 ApriCity UI 框架中最新加入的组件，专门用于显示女仆当前装备的 Curios 饰品的属性加成详情。
+
+- DOM 结构要点
+  - 根容器 `#panel` 是凸起的灰色面板，采用 Minecraft 风格的凹凸边框设计。
+  - 标题区 `#title` 显示女仆名称和饰品数量。
+  - 关闭按钮 `#closeBtn` 位于右上角，支持 ESC 键关闭。
+  - 滚动内容区 `#scroll` 包含属性合计和饰品明细两个部分。
+  - 详情提示框 `#detailTooltip` 用于显示详细的属性来源信息。
+- CSS 样式绑定
+  - 完全透明的 html/body，不遮挡底下的 TLM 女仆界面。
+  - 凸起面板使用与 TLM 主面板相同的凹凸边框样式。
+  - 属性行使用 flex 布局，左侧标签右侧数值对齐。
+  - 悬停效果通过 background 变化提供视觉反馈。
+- JavaScript 交互逻辑（maid_stats.html 内部脚本）
+  - 每 50ms 轮询 `global.pfMaidStatsJson` 获取最新统计数据。
+  - 解析 JSON 数据并动态生成属性行和饰品明细。
+  - 支持鼠标悬停显示详细属性来源信息。
+  - 点击关闭按钮或按 ESC 键关闭界面。
+- 动态内容更新方式
+  - `render(payload)` 方法根据 totals 和 curios 数组动态构建 DOM。
+  - `appendTotal()` 和 `appendRelic()` 方法分别处理属性合计和饰品明细。
+  - `bindDetail()` 方法为每个属性行绑定悬停详情显示。
+- 条件渲染
+  - 无饰品时显示"（未装备搓脚饰品）"提示。
+  - 有属性合计时显示"—— 搓脚属性合计 ——"标题。
+  - 有饰品明细时显示"—— 饰品明细 ——"标题。
+- 模板参数传递
+  - 通过 `global.pfMaidStatsJson` 接收服务端推送的 JSON 数据。
+  - 数据结构包含 maidName、relicCount、totals、curios 等字段。
+
+```mermaid
+flowchart TD
+Start(["打开女仆界面"]) --> Request["发送pf_maid_stats_request"]
+Request --> ServerCalc["服务端计算统计数据"]
+ServerCalc --> Sync["pf_maid_stats_sync推送JSON"]
+Sync --> Parse["客户端解析JSON数据"]
+Parse --> Render["渲染属性合计和饰品明细"]
+Render --> Hover["鼠标悬停查看详情"]
+Hover --> Close["点击×或ESC关闭"]
+Close --> End(["界面关闭"])
+```
+
+**图表来源**
+- [maid_stats.html:247-250](file://apricity/kubejs/maid_stats.html#L247-L250)
+- [maid_stats.html:368-379](file://apricity/kubejs/maid_stats.html#L368-L379)
+- [maid_stats_ui.js:123-126](file://kubejs/client_scripts/ui/maid_stats_ui.js#L123-L126)
+- [maid_stats.js:419-458](file://kubejs/server_scripts/backpack/maid_stats.js#L419-L458)
+
+**章节来源**
+- [maid_stats.html:1-387](file://apricity/kubejs/maid_stats.html#L1-L387)
+- [maid_stats_ui.js:1-199](file://kubejs/client_scripts/ui/maid_stats_ui.js#L1-L199)
+- [maid_stats.js:1-460](file://kubejs/server_scripts/backpack/maid_stats.js#L1-L460)
+
 ## 依赖关系分析
 - HTML 模板依赖 ApricityUI 提供的文档生命周期 API（createDocument/createWorldWindow/removeDocument）。
 - 客户端脚本依赖 KubeJS 的 Java 桥接类（Minecraft、Vec3、ApricityUI）与服务端通信（sendData/NetworkEvents）。
-- 数据源主要来自服务端 NBT 字段与网络事件推送。
+- 数据源主要来自服务端 NBT 字段、网络事件推送和服务端脚本计算结果。
+- **新增** 女仆饰品统计界面依赖服务端 maid_stats.js 脚本进行饰品属性计算和网络通信。
 
 ```mermaid
 graph LR
@@ -296,17 +386,23 @@ HTML["HTML模板"] --> JS["客户端脚本"]
 JS --> AUI["ApricityUI API"]
 JS --> NET["NetworkEvents/sendData"]
 NET --> DATA["服务端NBT/状态"]
+NET --> STATS["女仆饰品统计服务"]
+STATS --> DATA
 ```
 
 **图表来源**
 - [foot_ui.js:12-17](file://kubejs/client_scripts/ui/foot_ui.js#L12-L17)
 - [phone_ui.js:7-10](file://kubejs/client_scripts/ui/phone_ui.js#L7-L10)
 - [stamina_hud.js:7-16](file://kubejs/client_scripts/ui/stamina_hud.js#L7-L16)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats.js:13-11](file://kubejs/server_scripts/backpack/maid_stats.js#L13-L11)
 
 **章节来源**
 - [foot_ui.js:12-17](file://kubejs/client_scripts/ui/foot_ui.js#L12-L17)
 - [phone_ui.js:7-10](file://kubejs/client_scripts/ui/phone_ui.js#L7-L10)
 - [stamina_hud.js:7-16](file://kubejs/client_scripts/ui/stamina_hud.js#L7-L16)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats.js:13-11](file://kubejs/server_scripts/backpack/maid_stats.js#L13-L11)
 
 ## 性能考虑
 - 减少频繁 DOM 重排：优先使用 style.width 与 class 切换而非重建节点。
@@ -314,6 +410,8 @@ NET --> DATA["服务端NBT/状态"]
 - 延迟移除窗口：safeRemoveWorldWindow 避免鼠标悬停时立即移除导致框架内部异常。
 - 资源清理：登出或不可见时及时 removeDocument，防止内存泄漏。
 - 网络请求频率：体力 HUD 每 20 tick 请求一次，平衡实时性与开销。
+- **新增** 女仆饰品统计界面每 50ms 轮询一次 global 变量，避免过度频繁的 JSON 解析。
+- **新增** 服务端统计逻辑只在收到请求时执行，避免不必要的计算开销。
 
 [本节为通用指导，不直接分析具体文件]
 
@@ -330,14 +428,21 @@ NET --> DATA["服务端NBT/状态"]
 - 进度条异常
   - 验证百分比计算范围（0-100）与 CSS 类名切换逻辑。
   - 确认文本更新使用 setTextContent 或 innerText 兼容写法。
+- **新增** 女仆饰品统计界面问题
+  - 检查 pf_maid_stats_request 是否能正确发送到服务端。
+  - 确认服务端 maid_stats.js 脚本是否正常加载和执行。
+  - 验证 global.pfMaidStatsJson 是否正确接收和解析 JSON 数据。
+  - 检查 TLM 女仆界面是否正确识别和验证玩家距离。
 
 **章节来源**
 - [foot_ui.js:152-166](file://kubejs/client_scripts/ui/foot_ui.js#L152-L166)
 - [foot_ui.js:374-396](file://kubejs/client_scripts/ui/foot_ui.js#L374-L396)
 - [stamina_hud.js:47-56](file://kubejs/client_scripts/ui/stamina_hud.js#L47-L56)
+- [maid_stats_ui.js:167-174](file://kubejs/client_scripts/ui/maid_stats_ui.js#L167-L174)
+- [maid_stats.js:428-458](file://kubejs/server_scripts/backpack/maid_stats.js#L428-L458)
 
 ## 结论
-ApriCity UI 的 HTML 模板通过清晰的 DOM 结构与 CSS 样式绑定，结合客户端脚本的事件绑定与动态更新，实现了泡脚界面、泡脚倒计时界面、手机界面与体力 HUD 界面的完整交互体验。遵循模板开发最佳实践与性能优化建议，可进一步提升稳定性与用户体验。
+ApriCity UI 的 HTML 模板通过清晰的 DOM 结构与 CSS 样式绑定，结合客户端脚本的事件绑定与动态更新，实现了泡脚界面、泡脚倒计时界面、手机界面、体力 HUD 界面和女仆饰品属性统计界面的完整交互体验。新增的女仆饰品统计界面进一步完善了 ApriCity UI 框架的功能，提供了更丰富的女仆配件系统支持。遵循模板开发最佳实践与性能优化建议，可进一步提升稳定性与用户体验。
 
 [本节为总结性内容，不直接分析具体文件]
 
@@ -355,9 +460,17 @@ ApriCity UI 的 HTML 模板通过清晰的 DOM 结构与 CSS 样式绑定，结�
   - 评价数据：种族评分数组与总分池。
 - 体力 HUD 参数
   - 体力值：当前值与最大值（默认 10000）。
+- **新增** 女仆饰品统计界面参数
+  - 女仆名称：maidName 字符串。
+  - 饰品数量：relicCount 数字。
+  - 属性合计：totals 数组，包含 label、amount、base、sources 字段。
+  - 饰品明细：curios 数组，包含 name、rarity、mods 字段。
+  - 属性修改器：mods 数组，包含 amount、label、operation 字段。
 
 **章节来源**
 - [foot_ui.js:533-613](file://kubejs/client_scripts/ui/foot_ui.js#L533-L613)
 - [foot_ui.js:642-750](file://kubejs/client_scripts/ui/foot_ui.js#L642-L750)
 - [phone_ui.js:12-47](file://kubejs/client_scripts/ui/phone_ui.js#L12-L47)
 - [stamina_hud.js:25-73](file://kubejs/client_scripts/ui/stamina_hud.js#L25-L73)
+- [maid_stats.html:347-366](file://apricity/kubejs/maid_stats.html#L347-L366)
+- [maid_stats.js:326-415](file://kubejs/server_scripts/backpack/maid_stats.js#L326-L415)

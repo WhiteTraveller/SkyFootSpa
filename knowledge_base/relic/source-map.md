@@ -15,11 +15,7 @@
 | 文件 | 职责 |
 | --- | --- |
 | `kubejs/startup_scripts/relic/relicItem/relicBackpackSpace.js` | 注册 `backpack_space_mk1..5` 镶板遗物和解锁规则。 |
-| `kubejs/startup_scripts/relic/relicItem/stage1/stage1.js` | 阶段 1 遗物定义。 |
-| `kubejs/startup_scripts/relic/relicItem/stage2/stage2.js` | 阶段 2 遗物定义。 |
-| `kubejs/startup_scripts/relic/relicItem/stage3/stage3.js` | 阶段 3 遗物定义。 |
-| `kubejs/startup_scripts/relic/relicItem/stage4/stage4.js` | 阶段 4 遗物定义。 |
-| `kubejs/startup_scripts/relic/relicItem/stage5/stage5.js` | 阶段 5 遗物定义。 |
+| `kubejs/startup_scripts/relic/relicItem/stage1/stage1.js` | 阶段 1 遗物定义（全局仅存的 6 个芯片）。 |
 
 ## 背包服务端脚本
 

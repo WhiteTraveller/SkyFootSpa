@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/root",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:kazami_yuka\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "风见幽香·两心",
+    "description": "服务风见幽香一次，且其好感度达到150",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

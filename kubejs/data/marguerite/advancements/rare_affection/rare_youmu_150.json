@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/root",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:konpaku_youmu\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "魂魄妖梦·两心",
+    "description": "服务魂魄妖梦一次，且其好感度达到150",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

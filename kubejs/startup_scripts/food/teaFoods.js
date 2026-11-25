@@ -32,7 +32,7 @@ let TEA_SUMMON = [
     { item: "youkaishomecoming:sakura_honey_tea", name: "樱花蜜茶", rare: "rare_yuyuko", guest: "西行寺幽幽子" },  // 白玉楼的西行妖樱 + 贪吃的甜口
     { item: "youkaishomecoming:genmai_tea", name: "玄米茶", rare: "rare_youmu", guest: "魂魄妖梦" },              // 白玉楼庭师的朴素和风茶
     { item: "youkaishomecoming:cornflower_tea", name: "矢车菊茶", rare: "rare_yuka", guest: "风见幽香" },         // 花妖只认花茶
-    { item: "youkaishomecoming:yellow_tea", name: "黄茶", rare: "rare_ran", guest: "八云蓝" },                    // 金色九尾配名贵黄茶
+    { item: "youkaishomecoming:yellow_tea", name: "黄茶", rare: "rare_aunn", guest: "高丽野阿吽" },              // 博丽神社的狛犬守护兽
     { item: "youkaishomecoming:saidi_tea", name: "埃及糖茶", rare: "rare_yukari", guest: "八云紫" },              // 隙间妖怪偏爱外界异国茶
     { item: "youkaishomecoming:tea_mocha", name: "摩卡茶", rare: "rare_aya", guest: "射命丸文" },                 // 熬夜赶稿的天狗记者要咖啡因
     { item: "youkaishomecoming:green_water", name: "青汁", rare: "rare_nitori", guest: "河城荷取" }               // 河童的绿色黄瓜系饮品

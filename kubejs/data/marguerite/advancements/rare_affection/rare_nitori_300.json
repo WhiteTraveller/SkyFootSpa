@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/rare_nitori_150",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:kawasiro_nitori\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "河城荷取·三心",
+    "description": "服务河城荷取一次，且其好感度达到300",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

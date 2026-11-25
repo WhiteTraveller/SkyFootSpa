@@ -1,4 +1,5 @@
-67 possible biomes found:
+72 possible biomes found:
+- "youkaishomecoming:animal_path"
 - "minecraft:badlands"
 - "minecraft:bamboo_jungle"
 - "minecraft:basalt_deltas"
@@ -14,6 +15,7 @@
 - "minecraft:deep_frozen_ocean"
 - "minecraft:deep_lukewarm_ocean"
 - "minecraft:deep_ocean"
+- "terrablender:deferred_placeholder"
 - "minecraft:desert"
 - "minecraft:dripstone_caves"
 - "minecraft:end_barrens"
@@ -42,6 +44,9 @@
 - "marguerite:old_hell"
 - "minecraft:plains"
 - "minecraft:river"
+- "youkaishomecoming:sakura_birch_forest"
+- "youkaishomecoming:sakura_forest"
+- "youkaishomecoming:sakura_taiga"
 - "minecraft:savanna"
 - "minecraft:savanna_plateau"
 - "minecraft:small_end_islands"

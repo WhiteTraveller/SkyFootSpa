@@ -515,13 +515,16 @@ function setupNetworkHandlers() {
             effectTexts.push("满意度+" + satApplied)
         }
         nbt.pfActionPlayerUuid = "" + player.getUuid()
-        nbt.merge({ pfFoodServed: 1 })
+        // 「再来一个」：命中概率则不写 pfFoodServed，按钮保留、可继续奉茶（每次奉茶都重新判定）
+        let repeatHit = food.repeatChance > 0 && Math.random() < food.repeatChance
+        if (!repeatHit) nbt.merge({ pfFoodServed: 1 })
         targetEntity.setMainHandItem(item.withNBT(nbt))
         try { pfSendDemandSync(player, entityUuid, nbt, '') } catch (e) {
             console.log('[PF-FOOD] 需求同步失败: ' + e)
         }
         player.tell("§a招待了 §e" + (food.name || heldId) + (effectTexts.length > 0 ? " §7| §b" + effectTexts.join("，") : ""))
-        console.log("[PF-FOOD] 招待 " + heldId + " uuid=" + entityUuid + " 效果=" + effectTexts.join(","))
+        if (repeatHit) player.tell("§6再来一个！§7顾客意犹未尽，还能继续奉茶")
+        console.log("[PF-FOOD] 招待 " + heldId + " uuid=" + entityUuid + " 效果=" + effectTexts.join(",") + (repeatHit ? " 再来一个" : ""))
 
         if (!food.rareGuests || food.rareGuests.length === 0) return
 

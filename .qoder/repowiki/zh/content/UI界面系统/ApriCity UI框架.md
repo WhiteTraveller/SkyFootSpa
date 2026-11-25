@@ -5,15 +5,22 @@
 - [foot_ui.js](file://kubejs/client_scripts/ui/foot_ui.js)
 - [phone_ui.js](file://kubejs/client_scripts/ui/phone_ui.js)
 - [stamina_hud.js](file://kubejs/client_scripts/ui/stamina_hud.js)
+- [maid_stats_ui.js](file://kubejs/client_scripts/ui/maid_stats_ui.js)
+- [maid_stats.html](file://apricity/kubejs/maid_stats.html)
+- [maid_stats_ui.js](file://kubejs/startup_scripts/ui/maid_stats_ui.js)
+- [maid_stats.js](file://kubejs/server_scripts/backpack/maid_stats.js)
 - [footui.html](file://apricity/kubejs/footui.html)
-- [footui2.html](file://apricity/kubejs/footui2.html)
 - [phone.html](file://apricity/kubejs/phone.html)
 - [stamina_hud.html](file://apricity/kubejs/stamina_hud.html)
-- [auratip_tips.js](file://kubejs/client_scripts/auratip/auratip_tips.js)
-- [oilTooltip.js](file://kubejs/client_scripts/tooltip/oilTooltip.js)
-- [relicTooltip.js](file://kubejs/client_scripts/tooltip/relicTooltip.js)
-- [soakWaterTooltip.js](file://kubejs/client_scripts/tooltip/soakWaterTooltip.js)
 </cite>
+
+## 更新摘要
+**变更内容**
+- 新增女仆统计叠加系统（Maid Statistics Overlay System）完整实现
+- 扩展UI框架的3D界面系统架构，支持交互式叠加层
+- 添加服务端-客户端数据同步机制
+- 集成TLM（Touhou Little Maid）模块的UI交互
+- 增强状态管理和生命周期控制
 
 ## 目录
 1. [简介](#简介)
@@ -21,15 +28,16 @@
 3. [核心组件](#核心组件)
 4. [架构概览](#架构概览)
 5. [详细组件分析](#详细组件分析)
-6. [依赖关系分析](#依赖关系分析)
-7. [性能考虑](#性能考虑)
-8. [故障排除指南](#故障排除指南)
-9. [结论](#结论)
-10. [附录](#附录)
+6. [女仆统计叠加系统](#女仆统计叠加系统)
+7. [依赖关系分析](#依赖关系分析)
+8. [性能考虑](#性能考虑)
+9. [故障排除指南](#故障排除指南)
+10. [结论](#结论)
+11. [附录](#附录)
 
 ## 简介
 
-ApriCity UI框架是一个基于WorldWindow类的3D界面系统架构，专为Minecraft KubeJS环境设计。该框架提供了沉浸式的3D用户界面体验，支持多种UI组件类型，包括睡眠实体UI、手机界面、体力HUD等。
+ApriCity UI框架是一个基于WorldWindow类的3D界面系统架构，专为Minecraft KubeJS环境设计。该框架提供了沉浸式的3D用户界面体验，支持多种UI组件类型，包括睡眠实体UI、手机界面、体力HUD以及最新的女仆统计叠加系统。
 
 框架的核心特性包括：
 - 基于WorldWindow的3D窗口系统
@@ -38,6 +46,9 @@ ApriCity UI框架是一个基于WorldWindow类的3D界面系统架构，专为Mi
 - 事件驱动的状态管理系统
 - 性能优化的渲染策略
 - 丰富的交互体验
+- **新增**：交互式叠加层支持
+- **新增**：服务端-客户端数据同步
+- **新增**：第三方模块UI集成
 
 ## 项目结构
 
@@ -54,43 +65,39 @@ subgraph "客户端脚本"
 FU[foot_ui.js]
 PU[phone_ui.js]
 SH[stamina_hud.js]
+MSU[maid_stats_ui.js]
+SMU[startup maid_stats_ui.js]
 end
 subgraph "HTML模板"
 FUI[footui.html]
-FUI2[footui2.html]
 PH[phone.html]
 SHD[stamina_hud.html]
+MSH[maid_stats.html]
 end
-subgraph "工具脚本"
-AT[auratip_tips.js]
-OT[oilTooltip.js]
-RT[relicTooltip.js]
-SWT[soakWaterTooltip.js]
+subgraph "服务端脚本"
+MSB[maid_stats.js]
 end
 WW --> FU
 AW --> FU
 DOC --> FUI
 DOC --> PH
 DOC --> SHD
+DOC --> MSH
 FU --> FUI
 FU --> FUI2
 PU --> PH
 SH --> SHD
-AT --> FU
-OT --> FU
-RT --> FU
-SWT --> FU
+MSU --> MSH
+SMU --> MSU
+MSB --> MSU
 ```
 
 **图表来源**
 - [foot_ui.js:13-15](file://kubejs/client_scripts/ui/foot_ui.js#L13-L15)
 - [phone_ui.js:7](file://kubejs/client_scripts/ui/phone_ui.js#L7)
 - [stamina_hud.js:7](file://kubejs/client_scripts/ui/stamina_hud.js#L7)
-
-**章节来源**
-- [foot_ui.js:1-50](file://kubejs/client_scripts/ui/foot_ui.js#L1-L50)
-- [phone_ui.js:1-25](file://kubejs/client_scripts/ui/phone_ui.js#L1-L25)
-- [stamina_hud.js:1-25](file://kubejs/client_scripts/ui/stamina_hud.js#L1-L25)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats_ui.js:31-49](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L31-L49)
 
 ## 核心组件
 
@@ -136,6 +143,7 @@ subgraph "业务逻辑层"
 WM[WorldWindow Manager]
 SM[State Manager]
 EM[Event Manager]
+OS[Overlay System]
 end
 subgraph "数据访问层"
 DM[Document Manager]
@@ -159,12 +167,12 @@ NM --> MC
 WM --> JI
 SM --> JI
 EM --> JI
+OS --> MC
 ```
 
 **图表来源**
-- [foot_ui.js:13-15](file://kubejs/client_scripts/ui/foot_ui.js#L13-L15)
-- [phone_ui.js:7](file://kubejs/client_scripts/ui/phone_ui.js#L7)
-- [stamina_hud.js:7](file://kubejs/client_scripts/ui/stamina_hud.js#L7)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats_ui.js:31-49](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L31-L49)
 
 ## 详细组件分析
 
@@ -375,6 +383,107 @@ RemoveDoc --> End([完成])
 - [foot_ui.js:895-907](file://kubejs/client_scripts/ui/foot_ui.js#L895-L907)
 - [stamina_hud.js:60-86](file://kubejs/client_scripts/ui/stamina_hud.js#L60-L86)
 
+## 女仆统计叠加系统
+
+女仆统计叠加系统是ApriCity UI框架的最新扩展，为Touhou Little Maid模块提供了完整的饰品属性统计界面。该系统采用三层架构设计，实现了从服务端数据收集到客户端可视化展示的完整流程。
+
+### 系统架构
+
+```mermaid
+graph TB
+subgraph "客户端层"
+SMU[Startup UI - 页签触发]
+MSU[Client UI - 文档管理]
+MSH[HTML Template - 可视化展示]
+end
+subgraph "网络层"
+NET[Network Events]
+SYNC[Data Sync]
+end
+subgraph "服务端层"
+MSB[Server Stats - 数据统计]
+MC[Modular Curios]
+end
+SMU --> NET
+NET --> MSB
+MSB --> SYNC
+SYNC --> MSU
+MSU --> MSH
+```
+
+**图表来源**
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats_ui.js:31-49](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L31-L49)
+- [maid_stats.js:419-457](file://kubejs/server_scripts/backpack/maid_stats.js#L419-L457)
+
+### 核心组件详解
+
+#### 客户端文档管理器
+
+客户端文档管理器负责Overlay的生命周期控制和数据渲染：
+
+- **状态管理**：维护`pfMaidStatsOpen`全局状态
+- **文档创建**：动态创建和销毁HTML文档
+- **数据同步**：监听服务端推送的统计数据
+- **渲染优化**：避免重复DOM操作
+
+#### 服务端统计引擎
+
+服务端统计引擎负责收集和计算女仆的饰品属性：
+
+- **饰品扫描**：遍历Curios装备槽位
+- **属性捕获**：模拟遗物onLoad过程
+- **数据聚合**：计算属性合计和明细
+- **网络传输**：序列化并发送JSON数据
+
+#### HTML可视化模板
+
+HTML模板提供了完整的用户界面：
+
+- **透明背景**：完全透明的Overlay效果
+- **凸起面板**：与TLM风格一致的灰面板
+- **交互元素**：关闭按钮和悬停提示
+- **响应式布局**：自适应不同屏幕尺寸
+
+### 数据流分析
+
+```mermaid
+sequenceDiagram
+participant Player as 玩家
+participant SMU as Startup UI
+participant Net as 网络层
+participant MSB as 服务端
+participant MSU as Client UI
+participant MSH as HTML模板
+Player->>SMU : 点击女仆页签
+SMU->>Net : 发送pf_maid_stats_request
+Net->>MSB : 请求统计数据
+MSB->>MSB : 扫描饰品并计算属性
+MSB->>Net : 返回pf_maid_stats_sync
+Net->>MSU : 传递JSON数据
+MSU->>MSH : 触发渲染更新
+MSH->>Player : 显示统计界面
+```
+
+**图表来源**
+- [maid_stats_ui.js:207-216](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L207-L216)
+- [maid_stats.js:419-457](file://kubejs/server_scripts/backpack/maid_stats.js#L419-L457)
+- [maid_stats_ui.js:123-126](file://kubejs/client_scripts/ui/maid_stats_ui.js#L123-L126)
+
+### 状态机设计
+
+女仆统计叠加系统采用了三态状态机设计：
+
+1. **未选中状态**：显示铁剑图标，提供Tooltip提示
+2. **选中状态**：绘制凸起背景，激活Overlay
+3. **交互状态**：显示统计面板，支持关闭操作
+
+**章节来源**
+- [maid_stats_ui.js:1-199](file://kubejs/client_scripts/ui/maid_stats_ui.js#L1-L199)
+- [maid_stats_ui.js:1-229](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L1-L229)
+- [maid_stats.js:1-460](file://kubejs/server_scripts/backpack/maid_stats.js#L1-L460)
+- [maid_stats.html:1-387](file://apricity/kubejs/maid_stats.html#L1-L387)
+
 ## 依赖关系分析
 
 ### 组件依赖图
@@ -385,6 +494,8 @@ subgraph "外部依赖"
 MC[Minecraft API]
 Java[Java Integration]
 KubeJS[KubeJS Events]
+TLM[Touhou Little Maid]
+Curios[Curios API]
 end
 subgraph "内部组件"
 WW[WorldWindow]
@@ -392,11 +503,15 @@ AW[ApricityUI]
 FU[foot_ui.js]
 PU[phone_ui.js]
 SH[stamina_hud.js]
+MSU[maid_stats_ui.js]
+SMU[startup maid_stats_ui.js]
+MSB[maid_stats.js]
 end
 subgraph "HTML模板"
 FUI[footui.html]
 PH[phone.html]
 SHD[stamina_hud.html]
+MSH[maid_stats.html]
 end
 WW --> MC
 WW --> Java
@@ -405,18 +520,20 @@ FU --> WW
 FU --> AW
 PU --> AW
 SH --> AW
+MSU --> AW
+SMU --> TLM
+MSB --> Curios
 FU --> FUI
 PU --> PH
 SH --> SHD
-FU --> KubeJS
-PU --> KubeJS
-SH --> KubeJS
+MSU --> MSH
+MSB --> MSU
 ```
 
 **图表来源**
-- [foot_ui.js:13-15](file://kubejs/client_scripts/ui/foot_ui.js#L13-L15)
-- [phone_ui.js:7](file://kubejs/client_scripts/ui/phone_ui.js#L7)
-- [stamina_hud.js:7](file://kubejs/client_scripts/ui/stamina_hud.js#L7)
+- [maid_stats_ui.js:17-20](file://kubejs/client_scripts/ui/maid_stats_ui.js#L17-L20)
+- [maid_stats_ui.js:31-49](file://kubejs/startup_scripts/ui/maid_stats_ui.js#L31-L49)
+- [maid_stats.js:13-18](file://kubejs/server_scripts/backpack/maid_stats.js#L13-L18)
 
 ### 数据流分析
 
@@ -426,11 +543,13 @@ subgraph "数据源"
 Entity[实体数据]
 NBT[NBT标签数据]
 Server[服务器状态]
+Curios[Curios装备]
 end
 subgraph "处理层"
 Parser[数据解析器]
 Updater[状态更新器]
 Renderer[渲染器]
+Stats[统计计算器]
 end
 subgraph "输出层"
 UI[用户界面]
@@ -439,18 +558,21 @@ end
 Entity --> Parser
 NBT --> Parser
 Server --> Parser
+Curios --> Stats
 Parser --> Updater
+Stats --> Renderer
 Updater --> Renderer
 Renderer --> UI
 Renderer --> Network
 ```
 
 **图表来源**
-- [foot_ui.js:527-544](file://kubejs/client_scripts/ui/foot_ui.js#L527-L544)
-- [foot_ui.js:568-580](file://kubejs/client_scripts/ui/foot_ui.js#L568-L580)
+- [maid_stats.js:326-415](file://kubejs/server_scripts/backpack/maid_stats.js#L326-L415)
+- [maid_stats_ui.js:59-98](file://kubejs/client_scripts/ui/maid_stats_ui.js#L59-L98)
 
 **章节来源**
-- [foot_ui.js:527-580](file://kubejs/client_scripts/ui/foot_ui.js#L527-L580)
+- [maid_stats.js:326-415](file://kubejs/server_scripts/backpack/maid_stats.js#L326-L415)
+- [maid_stats_ui.js:59-98](file://kubejs/client_scripts/ui/maid_stats_ui.js#L59-L98)
 - [phone_ui.js:13-47](file://kubejs/client_scripts/ui/phone_ui.js#L13-L47)
 
 ## 性能考虑
@@ -463,6 +585,7 @@ ApriCity UI框架关注以下性能指标：
 - **内存占用**：监控文档和窗口的内存使用情况
 - **网络延迟**：优化数据同步的网络开销
 - **CPU使用率**：控制事件处理的CPU消耗
+- **Overlay性能**：监控叠加层的渲染效率
 
 ### 优化建议
 
@@ -470,6 +593,7 @@ ApriCity UI框架关注以下性能指标：
 2. **延迟加载**：非关键UI组件延迟创建
 3. **缓存策略**：合理利用文档和资源缓存
 4. **事件去抖**：对高频事件进行去抖处理
+5. **透明渲染优化**：最小化透明背景的渲染开销
 
 ## 故障排除指南
 
@@ -487,6 +611,19 @@ ApriCity UI框架关注以下性能指标：
 1. 验证HTML模板路径
 2. 检查位置坐标的有效性
 3. 调整MAX_DISTANCE参数
+
+#### 女仆统计Overlay不显示
+
+**症状**：点击女仆页签后统计界面不出现
+**可能原因**：
+- 网络连接失败
+- 服务端统计计算异常
+- HTML模板加载失败
+
+**解决方法**：
+1. 检查网络事件是否正确注册
+2. 查看服务端日志中的统计计算错误
+3. 验证HTML模板路径和权限
 
 #### 事件无响应问题
 
@@ -518,6 +655,7 @@ ApriCity UI框架关注以下性能指标：
 - [foot_ui.js:97-99](file://kubejs/client_scripts/ui/foot_ui.js#L97-L99)
 - [foot_ui.js:281-291](file://kubejs/client_scripts/ui/foot_ui.js#L281-L291)
 - [stamina_hud.js:70-74](file://kubejs/client_scripts/ui/stamina_hud.js#L70-L74)
+- [maid_stats_ui.js:167-174](file://kubejs/client_scripts/ui/maid_stats_ui.js#L167-L174)
 
 ## 结论
 
@@ -527,8 +665,10 @@ ApriCity UI框架通过WorldWindow类实现了强大的3D界面系统，具有�
 2. **性能优化**：多层优化策略确保流畅的用户体验
 3. **扩展性强**：灵活的架构支持功能扩展
 4. **易用性**：简洁的API接口降低使用门槛
+5. **新增特性**：完整的女仆统计叠加系统支持
+6. **第三方集成**：良好的TLM模块兼容性
 
-框架在Minecraft KubeJS环境中提供了完整的UI解决方案，适用于各种复杂的游戏场景。
+框架在Minecraft KubeJS环境中提供了完整的UI解决方案，适用于各种复杂的游戏场景，特别是需要交互式叠加层和复杂数据可视化的应用场景。
 
 ## 附录
 
@@ -538,6 +678,8 @@ ApriCity UI框架通过WorldWindow类实现了强大的3D界面系统，具有�
 2. **优化模板结构**：保持HTML模板的简洁和高效
 3. **实施错误处理**：为关键操作添加适当的错误处理
 4. **监控性能指标**：定期检查UI性能表现
+5. **Overlay设计原则**：使用透明背景避免遮挡底层UI
+6. **状态管理**：合理设计状态机，避免状态冲突
 
 ### 扩展指南
 
@@ -554,3 +696,10 @@ ApriCity UI框架通过WorldWindow类实现了强大的3D界面系统，具有�
 2. 调整布局参数
 3. 测试响应式设计
 4. 验证跨设备兼容性
+
+#### 集成第三方模块
+
+1. 研究模块的API接口
+2. 创建适配层封装
+3. 实现数据转换逻辑
+4. 测试兼容性

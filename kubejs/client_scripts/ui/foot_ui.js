@@ -94,6 +94,9 @@ let MAX_DISTANCE_SQR = MAX_DISTANCE * MAX_DISTANCE
 let WINDOW_REMOVE_DISTANCE = MAX_DISTANCE + 2
 let WINDOW_REMOVE_DISTANCE_SQR = WINDOW_REMOVE_DISTANCE * WINDOW_REMOVE_DISTANCE
 let WINDOW_LIFT = 1.35
+// 脚部UI viewport 150→210（顶部 60px 为 Boss 面板占位），内容整体下移 60 逻辑px，
+// 平面中心锚点上移 60/2 * SCALE 补偿，使脚区世界位置与加高前一致；泡脚窗口 viewport 未变仍用 WINDOW_LIFT。
+let SLEEP_WINDOW_LIFT = WINDOW_LIFT + 30 * SCALE
 let PI = 3.1415926
 
 /**
@@ -115,12 +118,13 @@ function pfGetFootPosition(bedX, bedY, bedZ, yaw) {
     return { x: footX + 0.5, y: bedY - 0.1, z: footZ + 0.68 }
 }
 
-function liftWorldWindow(window, footPos) {
+function liftWorldWindow(window, footPos, lift) {
     if (window == null || footPos == null) {
         return
     }
+    if (lift === undefined) lift = WINDOW_LIFT
     try {
-        window.setPosition(new Vec3(footPos.x, footPos.y + WINDOW_LIFT, footPos.z))
+        window.setPosition(new Vec3(footPos.x, footPos.y + lift, footPos.z))
     } catch (e) {
         console.log("[FOOT-UI] 调整WorldWindow位置失败: " + e)
     }
@@ -171,7 +175,7 @@ function createSleepWindow(entity) {
     }
     if (bedYaw == -90) bedYaw = 270
     window.setRotation(360 - bedYaw, 0)
-    liftWorldWindow(window, footPos)
+    liftWorldWindow(window, footPos, SLEEP_WINDOW_LIFT)
     console.log("[FOOT-UI-DATA] 设置窗口旋转角度: " + bedYaw + " -> " + (360 - bedYaw))
     window.setScale(SCALE)
 
@@ -290,6 +294,7 @@ function createSleepWindow(entity) {
     updateOilDisplay(window, getOilInfo(entity))
     delete serveFoodHidden[uuid]
     updateServeFoodBtn(window, uuid, isFoodServed(entity))
+    updateBossPanel(window, entity, mainHand)
 
     console.log("[FOOT-UI] 创建UI窗口 uuid=" + uuid + " countdown=" + countdown)
     return window
@@ -632,6 +637,73 @@ function getSatisfaction(entity, mainHand) {
 }
 
 /**
+ * 读取 Boss 标识（手持NBT pfBossId）；非 Boss 返回空串
+ */
+function getBossId(entity, mainHand) {
+    if (entity == null) return ''
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        return '' + mainHand.nbt.getString('pfBossId')
+    }
+    return ''
+}
+
+function isBoss(entity, mainHand) {
+    let id = getBossId(entity, mainHand)
+    return !!(id && id.length > 0)
+}
+
+/**
+ * 读取 Boss 满意度倍率（pfBossSatMul, float）；缺省按 1
+ */
+function getBossSatMul(entity, mainHand) {
+    if (entity == null) return 1
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        let v = Number(mainHand.nbt.getFloat('pfBossSatMul'))
+        return v > 0 ? v : 1
+    }
+    return 1
+}
+
+/**
+ * 读取 Boss 满意度要求（pfBossSatTarget, int 0-100）
+ */
+function getBossSatTarget(entity, mainHand) {
+    if (entity == null) return 0
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        return mainHand.nbt.getInt('pfBossSatTarget') || 0
+    }
+    return 0
+}
+
+/**
+ * 读取 Boss 挑战剩余秒数（pfBossTimeLeft, int）
+ */
+function getBossTimeLeft(entity, mainHand) {
+    if (entity == null) return 0
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        let t = mainHand.nbt.getInt('pfBossTimeLeft')
+        return t >= 0 ? t : 0
+    }
+    return 0
+}
+
+/**
+ * 读取 Boss 纯名称（pfBossName），供面板标题「考核：名称」
+ */
+function getBossName(entity, mainHand) {
+    if (entity == null) return ''
+    if (mainHand === undefined) mainHand = entity.getMainHandItem()
+    if (mainHand && mainHand.id === SYNC_ITEM_ID && mainHand.nbt) {
+        return '' + mainHand.nbt.getString('pfBossName')
+    }
+    return ''
+}
+
+/**
  * 更新窗口中的需求清单显示
  */
 function updateDemandListDisplay(window, demandList) {
@@ -719,6 +791,33 @@ function updateSatisfactionDisplay(window, satisfaction) {
         }
     } catch (e) {
         console.log("[FOOT-UI] 更新满意度失败: " + e)
+    }
+}
+
+/**
+ * 更新 Boss 挑战面板：按 pfBossId 切换容器 boss-mode 类，刷新倍率/要求/剩余时间。
+ * 普通顾客移除 boss-mode（面板隐藏、布局复原）；剩余时间由服务端每秒同步手持NBT驱动。
+ */
+function updateBossPanel(window, entity, mainHand) {
+    if (window == null || window.document == null) return
+    try {
+        let container = window.document.getElementById("footUiContainer")
+        if (container == null) return
+        if (!isBoss(entity, mainHand)) {
+            setAttributeIfChanged(container, "class", "foot-ui-container")
+            return
+        }
+        setAttributeIfChanged(container, "class", "foot-ui-container boss-mode")
+        let titleEl = window.document.getElementById("bossTitle")
+        setTextIfChanged(titleEl, "textContent", "考核：" + getBossName(entity, mainHand))
+        let mulEl = window.document.getElementById("bossSatMul")
+        let targetEl = window.document.getElementById("bossSatTarget")
+        let timeEl = window.document.getElementById("bossTimeLeft")
+        setTextIfChanged(mulEl, "textContent", "x" + getBossSatMul(entity, mainHand).toFixed(2))
+        setTextIfChanged(targetEl, "textContent", getBossSatTarget(entity, mainHand) + "%")
+        setTextIfChanged(timeEl, "textContent", getBossTimeLeft(entity, mainHand) + "s")
+    } catch (e) {
+        console.log("[FOOT-UI] 更新Boss面板失败: " + e)
     }
 }
 
@@ -894,6 +993,7 @@ ClientEvents.tick(event => {
 
                     updateOilDisplay(window, getOilInfo(entity, mainHand))
                     updateServeFoodBtn(window, uuid, isFoodServed(entity, mainHand))
+                    updateBossPanel(window, entity, mainHand)
                 }
             }
         } else {

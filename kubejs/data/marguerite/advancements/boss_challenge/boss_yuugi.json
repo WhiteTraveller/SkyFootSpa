@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:boss_challenge/root",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:hoshiguma_yugi\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "星熊永仪",
+    "description": "在 60s 内清零全部需求，且满意度 ≥ 60%",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

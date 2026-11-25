@@ -3,10 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="aui-font-mode" content="web">
-  <meta name="aui-viewport" content="mode=fixed,width=100,height=150">
+  <meta name="aui-viewport" content="mode=fixed,width=100,height=210">
 </head>
 <body>
-  <div class="foot-ui-container">
+  <div class="foot-ui-container" id="footUiContainer">
+    <!-- Boss 挑战面板：仅 boss-mode 显示，背景同茶水按钮；三行=满意度倍率/满意度要求/剩余时间 -->
+    <div id="bossPanel" class="boss-panel">
+      <div class="boss-title" id="bossTitle">考核：</div>
+      <div class="boss-line"><span class="boss-label">满意度倍率：</span><span class="boss-value" id="bossSatMul">x1.00</span></div>
+      <div class="boss-line"><span class="boss-label">满意度要求：</span><span class="boss-value" id="bossSatTarget">60%</span></div>
+      <div class="boss-line"><span class="boss-label">剩余时间：</span><span class="boss-value" id="bossTimeLeft">60s</span></div>
+    </div>
     <div class="up">
       <div class="header">
         <span class="title" id="titleText">需求清单</span>
@@ -82,11 +89,74 @@
   .foot-ui-container {
     position: relative;
     width: 100px;
-    height: 200px;
+    height: 210px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-sizing: border-box;
+  }
+
+  /* Boss 考核面板：常驻占顶部 60px（普通顾客该区域透明留空、内容位置不变），
+     boss-mode 才显示背景与文字。背景 boss_panel_bg.png = 顶帽+中间纸带+底帽等比合成，不拉伸。
+     viewport 150→210（顶部 60px 面板占位），脚区仍保持底部 25px、内部间距不变；
+     普通顾客由 SLEEP_WINDOW_LIFT 补偿对齐。 */
+  .boss-panel {
+    flex: 0 0 60px;
+    height: 60px;
+    width: 100px;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+  .boss-mode .boss-panel {
+    background-image: url('boss_panel_bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .boss-panel .boss-title,
+  .boss-panel .boss-line {
+    display: none;
+  }
+
+  .boss-mode .boss-panel .boss-title {
+    display: block;
+  }
+
+  .boss-mode .boss-panel .boss-line {
+    display: flex;
+  }
+
+  .boss-title {
+    margin-top: 11px;
+    height: 11px;
+    line-height: 11px;
+    text-align: center;
+    font-family: "FootZhaohua", "SimSun", serif;
+    font-size: 7px;
+    font-weight: bold;
+    color: #844c24;
+  }
+
+  .boss-line {
+    flex-direction: row;
+    align-items: center;
+    height: 9px;
+    padding-left: 8px;
+    line-height: 9px;
+    color: #844c24;
+  }
+
+  .boss-label {
+    font-size: 6px;
+    color: #844c24;
+  }
+
+  .boss-value {
+    font-size: 6px;
+    color: #844c24;
   }
 
   /* 需求清单底图：require_bg.png 去掉中间 44 行（原“已执行”一行）后的 400x236 版本 → 100x59 */
@@ -249,7 +319,7 @@
   .serve-food-btn {
     position: absolute;
     left: 0px;
-    top: 61px;
+    top: 121px;
     width: 100px;
     height: 19px;
     background-image: url('serve_food_btn_bg.png');

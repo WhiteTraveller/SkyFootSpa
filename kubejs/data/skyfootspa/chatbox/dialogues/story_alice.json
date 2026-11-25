@@ -8,6 +8,7 @@
         "dialogBox": {
           "text": "喂喂喂，清醒了吗？能听见我说话吗？"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_confuse",
@@ -21,6 +22,7 @@
         "dialogBox": {
           "text": "呃……按照说明书，唤醒流程应该没错啊。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_confuse",
@@ -45,6 +47,7 @@
         "dialogBox": {
           "text": "……我来看看，“若出现故障请前往畜生界灵长园联系埴安神袿姬”。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -58,6 +61,7 @@
         "dialogBox": {
           "text": "不仅不包邮费还要我自己把东西搬过去吗？不如自己解决了。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_angry",
@@ -70,6 +74,7 @@
         "dialogBox": {
           "text": "既然我对这种构造不是很熟，那就试试土办法好了。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -83,6 +88,7 @@
         "dialogBox": {
           "text": "听魔理沙说，对于大多数设备，只要敲一下就会变好。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -108,6 +114,7 @@
         "dialogBox": {
           "text": "哎呀，原来没坏吗。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_flowers",
@@ -133,6 +140,7 @@
         "dialogBox": {
           "text": "啊……不好意思，我刚刚还以为你需要维修，没吓着你吧。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes_sweat",
@@ -182,6 +190,7 @@
         "dialogBox": {
           "text": "没有写入初始状态设定吗……埴安神女士真是……"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -195,6 +204,7 @@
         "dialogBox": {
           "text": "那就先从我的自我介绍开始吧。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -208,6 +218,7 @@
         "dialogBox": {
           "text": "我的名字是爱丽丝·玛格特罗伊德，是居住在魔法森林的魔法使，严格来说是人偶师。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -220,6 +231,7 @@
         "dialogBox": {
           "text": "而你呢，是一个土偶，简单来说应该是类似于仿生人和机器人之类的……"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_raise_eyebrow",
@@ -234,6 +246,7 @@
         "dialogBox": {
           "text": "这种词你应该还听的懂吧，我不知道你的知识库储备怎么样。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_raise_eyebrow",
@@ -260,6 +273,7 @@
         "dialogBox": {
           "text": "有一位朋友将你制作出来并送给了我，"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_eyebrow",
@@ -274,6 +288,7 @@
         "dialogBox": {
           "text": "不过由于我用自制的人偶已经成习惯了，收到后就一直堆在仓库里。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_eyebrow",
@@ -287,6 +302,7 @@
         "dialogBox": {
           "text": "简单的来说，我是你的主人，而你是我的下属。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -313,6 +329,7 @@
         "dialogBox": {
           "text": "是的，我来到这个幻想乡已经有些年头了，这片与外界隔绝的桃花源，确实如同它的名字般梦幻。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -327,6 +344,7 @@
         "dialogBox": {
           "text": "但在这平和温馨的日常下，总是潜藏着浑浊的污秽。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -340,6 +358,7 @@
         "dialogBox": {
           "text": "最令人痛心的是，很多人对此淡然地接受了，任由这种陈腐的黑暗不断生根发芽。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_angry",
@@ -354,6 +373,7 @@
         "dialogBox": {
           "text": "而我已经无法继续忍受了。于是现在，我要对幻想乡进行一场彻底的创新性变革。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_angry",
@@ -367,6 +387,7 @@
         "dialogBox": {
           "text": "为此，我需要更多人手的协助。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "speed_lines"
@@ -383,6 +404,7 @@
         "dialogBox": {
           "text": "你是我能想到的最佳人选，请务必借给我你的力量。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "speed_lines"
@@ -417,6 +439,7 @@
         "dialogBox": {
           "text": "所以，我现在命你为洗脚城大店长，统率全城。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "speed_lines"
@@ -434,6 +457,7 @@
         "dialogBox": {
           "text": "然后把这家足浴店打造成全幻想乡人尽皆知的超人气品牌！"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "speed_lines"
@@ -462,7 +486,14 @@
           },
           "names"
         ],
-        "sound": "minecraft:entity.villager.celebrate"
+        "sound": "minecraft:entity.villager.celebrate",
+        "renderEvents": [
+          {
+            "trigger": "start",
+            "type": "play_sound",
+            "value": "skyfootspa:voice.alice.hum"
+          }
+        ]
       },
       {
         "dialogBox": {
@@ -493,6 +524,7 @@
         "dialogBox": {
           "text": "展开来说就是，这片土地被称为幻想乡，与外界不同，是充斥着幻想的世界。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_raise_eyebrow",
@@ -507,6 +539,7 @@
         "dialogBox": {
           "text": "随着人类的发展，许多存在——比如妖怪逐渐式微，而这里就是接纳他们的地方。换句话说，幻想乡是为他们提供的避风港。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_raise_eyebrow",
@@ -520,6 +553,7 @@
         "dialogBox": {
           "text": "但关键在于，隔绝幻想乡与外界的“博丽大结界”是于明治年间升起的。在此之后，两边就无法随意往来。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -533,6 +567,7 @@
         "dialogBox": {
           "text": "而幻想乡里也是有人类存在的。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -546,6 +581,7 @@
         "dialogBox": {
           "text": "所以现在幻想乡内的人类聚落——人间之里还大体保留着明治时期乡间的风貌和生活习俗。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",
@@ -560,6 +596,7 @@
         "dialogBox": {
           "text": "也就是说，幻想乡的卫生状态以外界的现代标准来看有点不达标。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",
@@ -573,6 +610,7 @@
         "dialogBox": {
           "text": "于是，就需要我来掀起一场轰轰烈烈的讲卫生树新风行动！"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "speed_lines"
@@ -620,6 +658,7 @@
         "dialogBox": {
           "text": "呃……因为这里其实还有另一个问题。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes_sweat",
@@ -634,6 +673,7 @@
         "dialogBox": {
           "text": "不知道怎么回事，也不知道是谁先开的头，有一股……令人尴尬的流言正在传播。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -660,6 +700,7 @@
         "dialogBox": {
           "text": "……是说幻想乡里的人都不怎么洗脚，所以幻想乡里的美少女脚都很臭……"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -686,6 +727,7 @@
         "dialogBox": {
           "text": "你要不用你的鼻子来自己确认一下？"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes_angry",
@@ -724,6 +766,7 @@
         "dialogBox": {
           "text": "总之，要是给我捉到是谁在散布这种谣言，我绝对要把他钉在魔法森林的树上让他瘴气吸到饱。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -738,6 +781,7 @@
         "dialogBox": {
           "text": "不过现在既然抓不到人，就只能用其他方式来解决这个谣言了。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -775,7 +819,14 @@
           },
           "names"
         ],
-        "sound": "minecraft:entity.player.levelup"
+        "sound": "minecraft:entity.player.levelup",
+        "renderEvents": [
+          {
+            "trigger": "start",
+            "type": "play_sound",
+            "value": "skyfootspa:voice.alice.hum"
+          }
+        ]
       },
       {
         "dialogBox": {
@@ -790,12 +841,20 @@
           },
           "names"
         ],
-        "sound": "minecraft:entity.villager.celebrate"
+        "sound": "minecraft:entity.villager.celebrate",
+        "renderEvents": [
+          {
+            "trigger": "start",
+            "type": "play_sound",
+            "value": "skyfootspa:voice.alice.hum"
+          }
+        ]
       },
       {
         "dialogBox": {
           "text": "简直是一举两得……不对是三得。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_raise_eyebrow",
@@ -842,12 +901,20 @@
           },
           "names"
         ],
-        "sound": "minecraft:entity.player.levelup"
+        "sound": "minecraft:entity.player.levelup",
+        "renderEvents": [
+          {
+            "trigger": "start",
+            "type": "play_sound",
+            "value": "skyfootspa:voice.alice.hum"
+          }
+        ]
       },
       {
         "dialogBox": {
           "text": "所以还是作为土偶可以自主行动的你更加适合。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_flowers",
@@ -873,6 +940,7 @@
         "dialogBox": {
           "text": "你也别想的这么悲观了，如果你高标准地完成了工作的话，我肯定不会亏待你。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_eyebrow",
@@ -887,6 +955,7 @@
         "dialogBox": {
           "text": "毕竟我也不是什么恶魔，和我认识的那几个恶魔相比，我自认为和她们间的差别还是不小的。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",
@@ -924,6 +993,7 @@
         "dialogBox": {
           "text": "好的，不过在经营的时候要小心脚下。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_flowers",
@@ -938,6 +1008,7 @@
         "dialogBox": {
           "text": "为了提升造型的吸引力，我向某个不良天人买了点小道具，所以这座足浴店是飘在天上的空岛。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_flowers",
@@ -965,6 +1036,7 @@
         "dialogBox": {
           "text": "你比我想象的要熟练多了。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -979,6 +1051,7 @@
         "dialogBox": {
           "text": "我原本还以为要多给你留几天时间培训。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -992,6 +1065,7 @@
         "dialogBox": {
           "text": "按照现在的表现你已经可以出师了。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -1005,6 +1079,7 @@
         "dialogBox": {
           "text": "我都有点好奇你是怎么学这么快的。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -1030,6 +1105,7 @@
         "dialogBox": {
           "text": "看来你的基础性能确实优异。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -1044,6 +1120,7 @@
         "dialogBox": {
           "text": "之前在唤醒你的时候我大致检查了一下你的身体。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",
@@ -1057,6 +1134,7 @@
         "dialogBox": {
           "text": "你的身体上似乎预留了一些接口。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",
@@ -1082,6 +1160,7 @@
         "dialogBox": {
           "text": "看来这些信息没有提前输入给你。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -1096,6 +1175,7 @@
         "dialogBox": {
           "text": "明明制作能力很强，为什么埴安神女士总是在这种小地方如此随性。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_sullen",
@@ -1109,6 +1189,7 @@
         "dialogBox": {
           "text": "简单的来说就是你的身上预留了饰品栏位。可以将一些特殊道具装载在身上以强化自身能力。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -1122,6 +1203,7 @@
         "dialogBox": {
           "text": "刚刚你在熟悉操作时我回家里找了点匹配的东西，你可以先试试看。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -1135,6 +1217,7 @@
         "dialogBox": {
           "text": "这些孩子是很得力的帮手，要好好对待她们哦。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -1160,6 +1243,7 @@
         "dialogBox": {
           "text": "接下来你可以开始正式经营了，我现在还走不开身，具体的经营方针就由你自己来决定吧，不要忘记我们的最终目标。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_eyebrow",
@@ -1176,6 +1260,7 @@
         "dialogBox": {
           "text": "生意很红火嘛，没想到这么短时间内就能把店做的这么大。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -1202,6 +1287,7 @@
         "dialogBox": {
           "text": "还没呢，我只是中途来检查一下你的经营情况，目前来看已经远超我的所料。不过我还是想要以实际体验的方式来做确认，你就当是中期考核吧。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice",
@@ -1216,6 +1302,7 @@
         "dialogBox": {
           "text": "事先声明，我可没有其它顾客那么好对付。不过这毕竟不是最终考核，我就先让你一只脚吧。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin_eyebrow"
@@ -1224,11 +1311,7 @@
         ],
         "options": [
           {
-            "text": "收下召唤符",
-            "click": {
-              "type": "command",
-              "value": "give @s marguerite:boss_seal_alice"
-            }
+            "text": "继续"
           }
         ]
       }
@@ -1238,6 +1321,7 @@
         "dialogBox": {
           "text": "我刚进店时就觉得你能过关，现在看来果然没错。让你来经营这家店真是明智的决定。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_grin",
@@ -1276,6 +1360,7 @@
         "dialogBox": {
           "text": "那你再接再厉。我手上的这件事要不了多久就能完成，你就等着大吃一惊吧。"
         },
+        "sound": "skyfootspa:voice.alice.hum",
         "portrait": [
           {
             "id": "alice_close_eyes",

@@ -8,7 +8,7 @@
 //           .setDemands({ jiaozhang: 1 })
 //           .setRandomDemand(0)
 //           .setSatisfaction(5)
-//           .setRareGuests(["rare_yuyuko", "rare_yuyuko_hell"])
+//           .setRareGuests(["rare_yuyuko"])
 //           .setContainer("minecraft:bowl")
 //   })
 // 部位 key：jiaozhang 脚掌 / jiaogen 脚后跟 / jiaozhi 脚趾 / jiaoxin 脚心
@@ -44,6 +44,7 @@ function Food() {
     this.satisfaction = 0
     this.rareGuests = []
     this.rareGuestNames = []
+    this.repeatChance = 0
     this.container = ""
 
     this.setItem = function (item) {
@@ -79,6 +80,12 @@ function Food() {
     // 仅供客户端 tooltip 展示；稀客名在 server_scripts 里，客户端拿不到
     this.setRareGuestNames = function (names) {
         this.rareGuestNames = names
+        return this
+    }
+
+    // 「再来一个」概率（0~1）：奉茶后按此概率不标记已招待，茶水按钮保留
+    this.setRepeatChance = function (chance) {
+        this.repeatChance = chance
         return this
     }
 

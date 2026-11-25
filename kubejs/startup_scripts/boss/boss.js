@@ -17,8 +17,9 @@ StartupEvents.registry('item', event => {
         let boss = register.bosses[i]
         if (!boss.autoCreateItem) continue
         try {
+            let sealName = "§9" + (boss.itemName ? boss.itemName : boss.name + " ✷ 召唤符").replace(/§[0-9a-fk-or]/gi, "")
             let builder = event.create(boss.triggerItemId)
-                .displayName(boss.name + " §r§7✷ 召唤符")
+                .displayName(sealName)
                 .maxStackSize(boss.itemStackSize)
             if (boss.itemRarity) {
                 try { builder.rarity(boss.itemRarity) } catch (e) { }

@@ -53,11 +53,11 @@ global.pfRestoreStamina = function(player, amount) {
 }
 
 // ============================================================
-// 自动回复：每秒（20 tick）为所有在线玩家恢复 4 点体力
+// 自动回复：每秒（20 tick）为所有在线玩家恢复 10 点体力
 // 通过玩家 persistentData 上的 pfStaminaRegenSubTick (0~19) 子 tick 计数器驱动，
 // 跨重启友好；体力封顶 STAMINA_MAX_SERVER。
 // ============================================================
-let STAMINA_REGEN_PER_SECOND = 4
+let STAMINA_REGEN_PER_SECOND = 10
 
 PlayerEvents.tick(event => {
     let player = event.player

@@ -74,15 +74,11 @@
 
 ## 阶段文件
 
-来源：`kubejs/startup_scripts/relic/relicItem/stage1..stage5/stage*.js`
+来源：`kubejs/startup_scripts/relic/relicItem/stage1/stage1.js`（全局遗物已精简，仅存阶段 1）
 
 每个阶段文件都会先设置 `global.relicRegister.currentStage = N`，然后多次调用 `global.relicRegister.register(...)`。除非遗物主动调用 `setStage`，否则阶段会自动继承。
 
 当前数量：
 
-- 阶段 1：12 个遗物。
-- 阶段 2：26 个遗物。
-- 阶段 3：14 个遗物。
-- 阶段 4：11 个遗物。
-- 阶段 5：10 个遗物。
+- 阶段 1：6 个芯片遗物（4 个基础 + 2 个位置芯片）。
 - 背包镶板：`relicBackpackSpace.js` 注册 5 个镶板遗物。

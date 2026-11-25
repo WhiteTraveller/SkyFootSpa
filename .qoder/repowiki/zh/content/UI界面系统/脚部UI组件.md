@@ -4,18 +4,19 @@
 **本文引用的文件**
 - [foot_ui.js](file://kubejs/client_scripts/ui/foot_ui.js)
 - [footui.html](file://apricity/kubejs/footui.html)
-- [footsoak.html](file://apricity/kubejs/footsoak.html)
 - [pfNetworkHandler.js](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js)
 - [pfConstants.js](file://kubejs/server_scripts/pathfinder/pfConstants.js)
+- [teaFoods.js](file://kubejs/startup_scripts/food/teaFoods.js)
+- [foodTooltip.js](file://kubejs/client_scripts/tooltip/foodTooltip.js)
 </cite>
 
 ## 更新摘要
 **变更内容**
-- 更新了拖动检测算法，优化了距离计算逻辑
-- 改进了窗口管理机制，增加了延迟移除队列防止NPE错误
-- 增强了泡脚状态管理系统，支持更稳定的状态切换
-- 优化了网络事件处理，提升了搓脚交互的响应性
-- 修复了多个UI显示和内存管理相关的bug
+- 新增茶水服务系统，支持多种茶水和稀客召唤功能
+- 新增羽毛驱逐机制，允许玩家直接送客离开
+- 移除步骤跟踪系统，简化了UI显示逻辑
+- 改进UI布局和视觉设计，新增茶水按钮和满意度进度条
+- 优化了拖动检测和坐标计算算法
 
 ## 目录
 1. [简介](#简介)
@@ -30,9 +31,9 @@
 
 ## 简介
 
-脚部UI组件是基于ApriCity框架实现的3D脚部界面系统，专为《洗手》模组设计。该系统提供了完整的脚部按摩体验，包括需求清单显示、倒计时系统、满意度进度条、步骤记录、搓脚交互系统、泡脚状态管理和油品显示等功能。
+脚部UI组件是基于ApriCity框架实现的3D脚部界面系统，专为《洗手》模组设计。该系统提供了完整的脚部按摩体验，包括需求清单显示、倒计时系统、满意度进度条、搓脚交互系统、泡脚状态管理、油品显示、茶水服务和羽毛驱逐等功能。
 
-系统采用客户端-服务器架构，通过ApriCity的WorldWindow技术在3D世界中渲染UI界面，同时实现了丰富的粒子效果和网络事件通信机制。最新版本包含了多项bug修复和功能改进，显著提升了用户体验和系统稳定性。
+系统采用客户端-服务器架构，通过ApriCity的WorldWindow技术在3D世界中渲染UI界面，同时实现了丰富的粒子效果和网络事件通信机制。最新版本包含了茶水服务系统和羽毛驱逐机制等重大功能更新，显著提升了用户体验和游戏深度。
 
 ## 项目结构
 
@@ -42,23 +43,28 @@
 graph TB
 subgraph "客户端脚本"
 A[foot_ui.js<br/>主UI控制器]
+B[foodTooltip.js<br/>茶水提示]
 end
 subgraph "HTML模板"
-B[footui.html<br/>脚部主界面]
-C[footsoak.html<br/>泡脚界面]
+C[footui.html<br/>脚部主界面]
+D[footsoak.html<br/>泡脚界面]
 end
 subgraph "服务器端逻辑"
-D[pfNetworkHandler.js<br/>网络事件处理]
-E[pfConstants.js<br/>常量定义]
+E[pfNetworkHandler.js<br/>网络事件处理]
+F[pfConstants.js<br/>常量定义]
+G[teaFoods.js<br/>茶水注册]
 end
-A --> B
 A --> C
-D --> E
+A --> D
+E --> F
+G --> E
+B --> A
 ```
 
 **图表来源**
 - [foot_ui.js:1-50](file://kubejs/client_scripts/ui/foot_ui.js#L1-L50)
 - [pfNetworkHandler.js:1-50](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L1-L50)
+- [teaFoods.js:1-48](file://kubejs/startup_scripts/food/teaFoods.js#L1-L48)
 
 **章节来源**
 - [foot_ui.js:1-100](file://kubejs/client_scripts/ui/foot_ui.js#L1-L100)
@@ -66,31 +72,43 @@ D --> E
 
 ## 核心组件
 
-### 1. UI窗口管理系统
+### 1. 增强的UI窗口管理系统
 
 系统使用ApriCity的WorldWindow技术创建和管理3D UI窗口：
 
-- **主UI窗口**：显示需求清单、满意度进度条和步骤记录
+- **主UI窗口**：显示需求清单、满意度进度条和茶水按钮
 - **泡脚UI窗口**：显示泡脚倒计时和进度条
 - **延迟移除机制**：防止鼠标悬停时立即移除窗口导致的NPE错误
 
-### 2. 增强的搓脚交互系统
+### 2. 全新的茶水服务系统
+
+实现了完整的茶水服务功能：
+
+- **多种茶水类型**：基础茶（绿茶、白茶、红茶、乌龙茶）、黑茶（随机需求）和稀客召唤茶
+- **茶水效果**：增加特定部位需求、提升满意度、召唤稀有客人
+- **容器返还**：使用后返还玻璃瓶容器
+- **防重复机制**：每位顾客只能招待一次茶水
+
+### 3. 羽毛驱逐机制
+
+新增了特殊的羽毛工具用于送客：
+
+- **特殊物品识别**：手持羽毛进行搓脚操作会触发送客
+- **无结算送客**：顾客直接起床离开，不进行结算、不发奖励
+- **状态检查**：只对躺床状态的顾客执行送客
+
+### 4. 改进的搓脚交互系统
 
 实现了精确的拖动检测和距离计算机制：
 
-- **改进的拖动阈值检测**：累计移动距离达到200像素触发搓脚
+- **改进的鼠标跟踪**：使用`getBoundingClientRect()`获取精确坐标
+- **增强的拖动阈值检测**：累计移动距离达到200像素触发搓脚
 - **优化的实时距离计算**：使用欧几里得距离公式计算移动距离
-- **增强的图标跟随**：根据手持物品动态显示对应的搓脚工具图标
-
-### 3. 稳健的状态管理系统
-
-- **实体跟踪**：维护睡眠实体的UI状态，包含待处理的窗口转换
-- **倒计时管理**：1-10秒倒计时系统，支持紧急状态样式
-- **满意度追踪**：0-100%满意度进度条，颜色固定为#844c24
+- **扩展的工具支持**：支持多种筋膜枪变体和羽毛工具
 
 **章节来源**
 - [foot_ui.js:45-90](file://kubejs/client_scripts/ui/foot_ui.js#L45-L90)
-- [foot_ui.js:140-300](file://kubejs/client_scripts/ui/foot_ui.js#L140-L300)
+- [foot_ui.js:182-247](file://kubejs/client_scripts/ui/foot_ui.js#L182-L247)
 
 ## 架构概览
 
@@ -101,24 +119,31 @@ sequenceDiagram
 participant Client as 客户端
 participant UI as UI控制器
 participant Server as 服务器端
-participant Manager as 业务管理器
+participant TeaMgr as 茶水管理器
+participant Dismiss as 驱逐处理器
 Client->>UI : 创建UI窗口
 UI->>Server : 请求实体数据
-Server->>Manager : 查询实体状态
-Manager-->>Server : 返回状态数据
-Server-->>UI : 发送NBT数据
+Server->>TeaMgr : 查询茶水信息
+TeaMgr-->>Server : 返回茶水配置
+Server-->>UI : 发送实体数据
 UI-->>Client : 显示UI界面
-Client->>UI : 搓脚拖动
-UI->>Server : 发送网络事件
-Server->>Manager : 处理搓脚逻辑
-Manager-->>Server : 更新实体状态
+Client->>UI : 点击茶水按钮
+UI->>Server : 发送foot_serve_food
+Server->>TeaMgr : 处理茶水效果
+TeaMgr-->>Server : 更新顾客状态
 Server-->>UI : 确认成功
 UI-->>Client : 更新UI显示
+Client->>UI : 使用羽毛送客
+UI->>Server : 发送羽毛搓脚事件
+Server->>Dismiss : 处理送客逻辑
+Dismiss-->>Server : 唤醒顾客
+Server-->>UI : 确认送客
+UI-->>Client : 关闭相关窗口
 ```
 
 **图表来源**
 - [foot_ui.js:95-303](file://kubejs/client_scripts/ui/foot_ui.js#L95-L303)
-- [pfNetworkHandler.js:39-219](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L39-L219)
+- [pfNetworkHandler.js:428-528](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L428-L528)
 
 ## 详细组件分析
 
@@ -144,7 +169,7 @@ CalcPos --> End([返回脚部坐标])
 ```
 
 **图表来源**
-- [foot_ui.js:95-109](file://kubejs/client_scripts/ui/foot_ui.js#L95-L109)
+- [foot_ui.js:102-116](file://kubejs/client_scripts/ui/foot_ui.js#L102-L116)
 
 #### UI窗口定位策略
 
@@ -154,77 +179,161 @@ CalcPos --> End([返回脚部坐标])
 - **边界防卡顿**：18格范围内才回收窗口，避免频繁创建销毁
 
 **章节来源**
-- [foot_ui.js:95-135](file://kubejs/client_scripts/ui/foot_ui.js#L95-L135)
+- [foot_ui.js:102-116](file://kubejs/client_scripts/ui/foot_ui.js#L102-L116)
+- [foot_ui.js:132-177](file://kubejs/client_scripts/ui/foot_ui.js#L132-L177)
 
-### 2. 需求清单显示系统
+### 2. 全新的茶水服务系统
 
-#### 数据结构设计
+#### 茶水类型和效果
 
-需求清单包含四个主要部位的需求次数：
+茶水系统支持多种不同类型的茶水：
 
-| 部位 | NBT键值 | 显示状态 |
-|------|---------|----------|
-| 脚掌 | pfDemandJiaozhang | 数字显示 |
-| 脚后跟 | pfDemandJiaogen | 数字显示 |
-| 脚趾 | pfDemandJiaozhi | 数字显示 |
-| 脚心 | pfDemandJiaoxin | 数字显示 |
+| 茶水类型 | 效果 | 稀有客人 |
+|----------|------|----------|
+| 绿茶 | +1脚掌需求，+5满意度 | 无 |
+| 白茶 | +1脚心需求，+5满意度 | 无 |
+| 红茶 | +1脚跟需求，+5满意度 | 无 |
+| 乌龙茶 | +1脚趾需求，+5满意度 | 无 |
+| 黑茶 | +2随机部位需求，无满意度 | 无 |
+| 红魔馆红茶 | +5满意度 | 蕾米莉亚·斯卡蕾特 |
+| 樱花蜜茶 | +5满意度 | 西行寺幽幽子 |
+| 玄米茶 | +5满意度 | 魂魄妖梦 |
+| 其他召唤茶 | +5满意度 | 对应稀有客人 |
 
-#### 状态转换逻辑
+#### 茶水服务流程
 
 ```mermaid
 stateDiagram-v2
-[*] --> 需求>0
-需求>0 --> 显示数字
-需求>0 --> 消耗体力
-需求>0 --> 更新满意度
-需求>0 --> 记录步骤
-需求>0 --> 掉落奖励
-需求=0 --> 显示完成 ✓
-需求=0 --> 绿色对号
-需求=0 --> 无收益提示
+[*] --> 等待茶水
+等待茶水 --> 选择茶水 : 玩家选择茶水
+选择茶水 --> 验证茶水 : 检查茶水有效性
+验证茶水 --> 消耗茶水 : 茶水有效
+验证茶水 --> 拒绝 : 茶水无效
+消耗茶水 --> 应用效果 : 减少需求量
+应用效果 --> 更新满意度 : 增加满意度
+更新满意度 --> 召唤稀客 : 检查稀有客人
+召唤稀客 --> 完成服务 : 稀客已在路径上
+召唤稀客 --> 生成稀客 : 稀客不在路径上
+完成服务 --> 隐藏按钮 : 标记已招待
+生成稀客 --> 隐藏按钮 : 标记已招待
 ```
 
 **图表来源**
-- [foot_ui.js:663-724](file://kubejs/client_scripts/ui/foot_ui.js#L663-L724)
+- [pfNetworkHandler.js:428-528](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L428-L528)
+
+#### 茶水UI集成
+
+- **茶水按钮**：位于需求清单正下方，背景为专用按钮贴图
+- **防重复机制**：服务端写入pfFoodServed=1后隐藏按钮
+- **视觉效果**：按钮点击时有缩放动画反馈
 
 **章节来源**
-- [foot_ui.js:554-571](file://kubejs/client_scripts/ui/foot_ui.js#L554-L571)
-- [foot_ui.js:663-724](file://kubejs/client_scripts/ui/foot_ui.js#L663-L724)
+- [pfNetworkHandler.js:428-528](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L428-L528)
+- [teaFoods.js:1-48](file://kubejs/startup_scripts/food/teaFoods.js#L1-L48)
+- [footui.html:48-51](file://apricity/kubejs/footui.html#L48-L51)
 
-### 3. 倒计时系统
+### 3. 羽毛驱逐机制
 
-#### 倒计时实现机制
+#### 羽毛工具实现
 
-倒计时系统采用1-10秒的递减计时：
+羽毛作为一种特殊的搓脚工具，具有独特的送客功能：
 
-- **数据来源**：从实体主手物品的NBT读取
-- **更新频率**：每tick检查倒计时变化
-- **紧急状态**：剩余3秒以下时改变UI样式为红色
+- **物品识别**：检测玩家手持minecraft:feather
+- **特殊处理**：跳过正常的搓脚逻辑，直接执行送客
+- **状态验证**：只对处于睡眠状态（phase=3）的顾客执行
 
-#### 倒计时状态管理
+#### 送客流程
 
 ```mermaid
-flowchart TD
-Init[初始化倒计时] --> CheckChange{倒计时变化?}
-CheckChange --> |否| Wait[等待下一tick]
-CheckChange --> |是| UpdateUI[更新UI显示]
-UpdateUI --> Urgent{剩余<=3秒?}
-Urgent --> |是| RedStyle[红色紧急样式]
-Urgent --> |否| NormalStyle[普通样式]
-RedStyle --> Wait
-NormalStyle --> Wait
-Wait --> CheckChange
+sequenceDiagram
+participant Player as 玩家
+participant UI as UI界面
+participant Server as 服务器
+participant SleepMgr as 睡眠管理器
+Player->>UI : 手持羽毛搓脚
+UI->>Server : 发送羽毛搓脚事件
+Server->>Server : 检查顾客状态
+Server->>SleepMgr : 调用pfWakeUp
+SleepMgr-->>Server : 唤醒顾客
+Server-->>Player : 显示送客消息
 ```
 
 **图表来源**
-- [foot_ui.js:465-487](file://kubejs/client_scripts/ui/foot_ui.js#L465-L487)
-- [foot_ui.js:911-919](file://kubejs/client_scripts/ui/foot_ui.js#L911-L919)
+- [pfNetworkHandler.js:65-89](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L65-L89)
+
+#### 用户反馈
+
+- **成功消息**："已送客（未结算，无奖励）"
+- **即时生效**：顾客立即起床离开
+- **无收益**：不给予任何金钱或满意度奖励
 
 **章节来源**
-- [foot_ui.js:577-589](file://kubejs/client_scripts/ui/foot_ui.js#L577-L589)
-- [foot_ui.js:465-487](file://kubejs/client_scripts/ui/foot_ui.js#L465-L487)
+- [pfNetworkHandler.js:65-89](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L65-L89)
 
-### 4. 满意度进度条
+### 4. 改进的搓脚交互系统
+
+#### 改进的鼠标跟踪算法
+
+**更新** 搓脚交互系统现在使用`getBoundingClientRect()`方法获取精确的鼠标坐标，替代了之前的`offsetX/offsetY`方法：
+
+```javascript
+// 新的精确坐标计算方法
+let bounds = footImage.getBoundingClientRect()
+let mouseX = event.clientX - bounds.left
+let mouseY = event.clientY - bounds.top
+```
+
+这种方法的优势：
+- **更高的坐标精度**：避免了子元素命中时的坐标跳变问题
+- **更好的兼容性**：在不同浏览器和渲染环境下表现一致
+- **更稳定的拖动检测**：减少了误判和漏判的情况
+
+#### 增强的拖动检测机制
+
+**更新** 拖动检测现在支持单帧多次阈值跨越处理：
+
+```javascript
+// 每累计 200 像素触发一次；保留余量，并处理单帧跨过多个阈值的情况
+while (tracking.totalDist >= DRAG_THRESHOLD) {
+    tracking.totalDist -= DRAG_THRESHOLD
+    tracking.requestSeq++
+    let clientRequestId = tracking.requestSeq
+    // 发送搓脚事件
+    player.sendData('foot_click_demand', {
+        entityUuid: uuid,
+        clientRequestId: clientRequestId
+    })
+}
+```
+
+这种改进确保了：
+- **快速拖动的正确处理**：即使单次移动超过阈值也能正确计数
+- **准确的搓脚次数统计**：避免快速拖动时丢失搓脚事件
+- **更好的用户体验**：流畅的拖动操作获得预期的反馈
+
+#### 扩展的工具支持
+
+**更新** 系统现在支持多种工具的图标映射：
+
+| 物品类型 | 对应图标 | 触发条件 |
+|----------|----------|----------|
+| 基础搓脚工具 | hand_jiaozhang.png等 | 手持对应工具 |
+| 强化版筋膜枪 | hand_jiaozhang.png等 | 手持强化版工具 |
+| 四合一筋膜枪 | fascia_gun.png | 手持通用工具 |
+| 羽毛 | feather.png | 送客功能 |
+
+支持的工具体系包括：
+- `marguerite:hand_*` - 基础搓手工具
+- `marguerite:fascia_gun_*` - 各种筋膜枪变体
+- `marguerite:fascia_gun_*_advanced` - 强化版筋膜枪
+- `marguerite:fascia_gun_universal` - 四合一通用筋膜枪
+- `minecraft:feather` - 羽毛（送客）
+
+**章节来源**
+- [foot_ui.js:65-81](file://kubejs/client_scripts/ui/foot_ui.js#L65-L81)
+- [foot_ui.js:182-247](file://kubejs/client_scripts/ui/foot_ui.js#L182-L247)
+
+### 5. 满意度进度条
 
 #### 进度条设计
 
@@ -250,82 +359,12 @@ UI->>DOM : 更新百分比文本
 ```
 
 **图表来源**
-- [foot_ui.js:730-749](file://kubejs/client_scripts/ui/foot_ui.js#L730-L749)
+- [foot_ui.js:704-723](file://kubejs/client_scripts/ui/foot_ui.js#L704-L723)
 
 **章节来源**
-- [foot_ui.js:730-749](file://kubejs/client_scripts/ui/foot_ui.js#L730-L749)
+- [foot_ui.js:704-723](file://kubejs/client_scripts/ui/foot_ui.js#L704-L723)
 
-### 5. 步骤记录系统
-
-#### 步骤编码机制
-
-步骤记录使用整数代码编码：
-
-| 代码 | 部位 | 显示名称 |
-|------|------|----------|
-| 1 | 脚掌 | 脚掌 |
-| 2 | 脚后跟 | 脚跟 |
-| 3 | 脚趾 | 脚趾 |
-| 4 | 脚心 | 脚心 |
-
-#### 步骤显示格式
-
-步骤记录以箭头连接符显示：
-```
-脚掌 → 脚心 → 脚趾
-```
-
-**章节来源**
-- [foot_ui.js:610-658](file://kubejs/client_scripts/ui/foot_ui.js#L610-L658)
-- [foot_ui.js:754-771](file://kubejs/client_scripts/ui/foot_ui.js#L754-L771)
-
-### 6. 增强的搓脚交互系统
-
-#### 改进的拖动检测算法
-
-搓脚交互系统实现了精确的拖动检测：
-
-```mermaid
-flowchart TD
-MouseMove[鼠标移动事件] --> CheckHand{手中有搓脚工具?}
-CheckHand --> |否| HideIcon[隐藏跟随图标]
-CheckHand --> |是| CalcDistance[计算移动距离]
-CalcDistance --> UpdateTrail[更新轨迹距离]
-UpdateTrail --> CheckThreshold{累计距离>=200?}
-CheckThreshold --> |否| Continue[继续累积]
-CheckThreshold --> |是| SendEvent[发送搓脚事件]
-SendEvent --> ResetCounter[重置计数器]
-HideIcon --> End([结束])
-Continue --> End
-ResetCounter --> End
-```
-
-**图表来源**
-- [foot_ui.js:182-247](file://kubejs/client_scripts/ui/foot_ui.js#L182-L247)
-
-#### 距离计算实现
-
-使用欧几里得距离公式计算两点间距离：
-```
-距离 = √[(x2-x1)² + (y2-y1)²]
-```
-
-#### 图标跟随系统
-
-系统提供动态图标跟随功能：
-
-| 物品类型 | 对应图标 | 触发条件 |
-|----------|----------|----------|
-| 脚掌工具 | hand_jiaozhang.png | 手持对应工具 |
-| 脚心工具 | hand_jiaoxin.png | 手持对应工具 |
-| 脚跟工具 | hand_jiaogen.png | 手持对应工具 |
-| 脚趾工具 | hand_jiaozhi.png | 手持对应工具 |
-
-**章节来源**
-- [foot_ui.js:65-74](file://kubejs/client_scripts/ui/foot_ui.js#L65-L74)
-- [foot_ui.js:182-247](file://kubejs/client_scripts/ui/foot_ui.js#L182-L247)
-
-### 7. 泡脚状态管理系统
+### 6. 泡脚状态管理系统
 
 #### 泡脚状态流程
 
@@ -344,7 +383,7 @@ stateDiagram-v2
 ```
 
 **图表来源**
-- [pfNetworkHandler.js:277-327](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L277-L327)
+- [pfNetworkHandler.js:377-424](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L377-L424)
 
 #### 泡脚倒计时实现
 
@@ -353,10 +392,10 @@ stateDiagram-v2
 - **状态同步**：客户端实时更新倒计时显示
 
 **章节来源**
-- [pfNetworkHandler.js:277-327](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L277-L327)
-- [foot_ui.js:336-401](file://kubejs/client_scripts/ui/foot_ui.js#L336-L401)
+- [pfNetworkHandler.js:377-424](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L377-L424)
+- [foot_ui.js:359-424](file://kubejs/client_scripts/ui/foot_ui.js#L359-L424)
 
-### 8. 油品显示系统
+### 7. 油品显示系统
 
 #### 油品状态管理
 
@@ -374,38 +413,41 @@ stateDiagram-v2
 | pfOilLeft | Integer | 剩余量 |
 
 **章节来源**
-- [foot_ui.js:773-804](file://kubejs/client_scripts/ui/foot_ui.js#L773-L804)
+- [foot_ui.js:741-772](file://kubejs/client_scripts/ui/foot_ui.js#L741-L772)
 
-### 9. 送客功能
+### 8. 需求清单显示系统
 
-#### 送客实现机制
+#### 数据结构设计
 
-送客功能允许玩家直接结束服务流程：
+需求清单包含四个主要部位的需求次数：
 
-- **功能行为**：顾客直接起床，不进行结算
-- **网络事件**：发送foot_dismiss_customer事件
-- **服务器处理**：调用pfSleepManager.pfWakeUp
+| 部位 | NBT键值 | 显示状态 |
+|------|---------|----------|
+| 脚掌 | pfDemandJiaozhang | 数字显示 |
+| 脚后跟 | pfDemandJiaogen | 数字显示 |
+| 脚趾 | pfDemandJiaozhi | 数字显示 |
+| 脚心 | pfDemandJiaoxin | 数字显示 |
 
-#### 送客状态流程
+#### 状态转换逻辑
 
 ```mermaid
-sequenceDiagram
-participant Player as 玩家
-participant UI as UI界面
-participant Server as 服务器
-participant SleepMgr as 睡眠管理器
-Player->>UI : 点击送客按钮
-UI->>Server : 发送foot_dismiss_customer
-Server->>SleepMgr : 调用pfWakeUp
-SleepMgr-->>Server : 清醒实体
-Server-->>Player : 确认送客成功
+stateDiagram-v2
+[*] --> 需求>0
+需求>0 --> 显示数字
+需求>0 --> 消耗体力
+需求>0 --> 更新满意度
+需求>0 --> 掉落奖励
+需求=0 --> 显示完成 ✓
+需求=0 --> 绿色对号
+需求=0 --> 无收益提示
 ```
 
 **图表来源**
-- [pfNetworkHandler.js:332-365](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L332-L365)
+- [foot_ui.js:637-698](file://kubejs/client_scripts/ui/foot_ui.js#L637-L698)
 
 **章节来源**
-- [pfNetworkHandler.js:332-365](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L332-L365)
+- [foot_ui.js:579-596](file://kubejs/client_scripts/ui/foot_ui.js#L579-L596)
+- [foot_ui.js:637-698](file://kubejs/client_scripts/ui/foot_ui.js#L637-L698)
 
 ## 依赖关系分析
 
@@ -417,20 +459,26 @@ subgraph "客户端依赖"
 A[foot_ui.js] --> B[WorldWindow<br/>ApriCity UI框架]
 A --> C[ApricityUI<br/>文档管理]
 A --> D[Minecraft<br/>游戏接口]
+E[foodTooltip.js] --> F[global.foodRegister<br/>茶水注册表]
 end
 subgraph "服务器端依赖"
-E[pfNetworkHandler.js] --> F[pfConstants.js<br/>常量定义]
+G[pfNetworkHandler.js] --> H[pfConstants.js<br/>常量定义]
+I[teaFoods.js] --> J[global.foodRegister<br/>茶水注册]
 end
 subgraph "数据流"
-G[实体NBT] --> A
-A --> E
-E --> G
+K[实体NBT] --> A
+A --> G
+G --> K
+H --> G
+I --> G
+F --> E
 end
 ```
 
 **图表来源**
 - [foot_ui.js:13-15](file://kubejs/client_scripts/ui/foot_ui.js#L13-L15)
 - [pfNetworkHandler.js:1-5](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L1-L5)
+- [teaFoods.js:1-48](file://kubejs/startup_scripts/food/teaFoods.js#L1-L48)
 
 ### 2. 关键依赖关系
 
@@ -438,10 +486,13 @@ end
 - **ApricityUI**：提供HTML文档的创建和管理功能
 - **Minecraft**：访问游戏客户端状态和玩家信息
 - **pfConstants**：提供系统常量和配置信息
+- **global.foodRegister**：管理茶水物品的注册和查询
+- **pfShopManager**：处理稀有客人的召唤逻辑
 
 **章节来源**
 - [foot_ui.js:13-15](file://kubejs/client_scripts/ui/foot_ui.js#L13-L15)
 - [pfNetworkHandler.js:1-5](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L1-L5)
+- [teaFoods.js:1-48](file://kubejs/startup_scripts/food/teaFoods.js#L1-L48)
 
 ## 性能考虑
 
@@ -479,57 +530,74 @@ end
 - 确认床朝向数据正确性
 - 验证红石纸物品的NBT结构
 
-#### 搓脚无效问题
+#### 茶水服务无效问题
 
 **可能原因**：
-- 手中没有正确的搓脚工具
-- 移动距离未达到阈值
-- 拖动检测逻辑异常
+- 手中没有正确的茶水
+- 顾客已经喝过茶
+- 店铺未开张无法召唤稀客
 
 **解决方法**：
-- 使用正确的搓脚工具（marguerite:hand_*）
-- 确保拖动距离超过200像素
-- 检查拖动状态是否正确初始化
+- 使用正确的茶水物品
+- 检查顾客的pfFoodServed状态
+- 确认店铺状态和稀有客人配置
 
-#### 倒计时异常问题
+#### 羽毛送客失败问题
+
+**可能原因**：
+- 顾客不在睡眠状态
+- 实体UUID不匹配
+- 服务器端状态不同步
+
+**解决方法**：
+- 确认顾客处于睡眠状态
+- 检查实体UUID是否正确
+- 重新登录游戏刷新状态
+
+#### 鼠标坐标异常问题
+
+**更新** 如果鼠标坐标出现异常，可能是由于DOM结构变化导致的：
+
+**可能原因**：
+- 子元素命中导致坐标跳变
+- 浏览器兼容性问题
+- CSS变换影响坐标计算
+
+**解决方法**：
+- 确认使用了`getBoundingClientRect()`方法
+- 检查父元素的CSS变换属性
+- 验证事件监听器绑定在正确的元素上
+
+#### 满意度进度条显示异常
 
 **可能原因**：
 - NBT数据格式错误
-- 服务器端状态不同步
-- 客户端缓存问题
+- CSS样式冲突
+- DOM元素引用失效
 
 **解决方法**：
-- 检查实体NBT中的pfCountdown字段
-- 重新登录游戏刷新状态
-- 清理客户端缓存
-
-#### 窗口切换问题
-
-**可能原因**：
-- 窗口延迟移除队列阻塞
-- 待处理窗口转换冲突
-- 实体状态不一致
-
-**解决方法**：
-- 检查pendingWindowTransitions状态
-- 确认实体是否存活
-- 查看控制台日志中的窗口切换错误
+- 检查实体NBT中的pfSatisfaction字段
+- 验证CSS样式是否正确加载
+- 重新创建UI窗口
 
 **章节来源**
 - [foot_ui.js:818-831](file://kubejs/client_scripts/ui/foot_ui.js#L818-L831)
-- [foot_ui.js:983-1024](file://kubejs/client_scripts/ui/foot_ui.js#L983-L1024)
+- [pfNetworkHandler.js:437-462](file://kubejs/server_scripts/pathfinder/pfNetworkHandler.js#L437-L462)
 
 ## 结论
 
-脚部UI组件系统是一个功能完整、架构清晰的3D交互界面解决方案。最新版本包含了多项重要的bug修复和功能改进，显著提升了系统的稳定性和用户体验。
+脚部UI组件系统是一个功能完整、架构清晰的3D交互界面解决方案。最新版本包含了茶水服务系统、羽毛驱逐机制等重大功能更新，以及多项重要的bug修复和功能改进，显著提升了系统的稳定性和用户体验。
 
 主要特点包括：
 
 1. **精确的3D定位**：基于床朝向的准确位置计算
-2. **增强的交互反馈**：改进的拖动检测和图标跟随系统
-3. **稳健的状态管理**：从需求清单到满意度的全流程管理
-4. **可靠的网络同步**：客户端-服务器的稳定通信机制
-5. **优化的性能表现**：改进的内存管理和渲染效率
-6. **完善的错误处理**：延迟移除机制防止NPE错误
+2. **全新的茶水服务系统**：支持多种茶水和稀客召唤功能
+3. **羽毛驱逐机制**：提供便捷的送客功能
+4. **增强的交互反馈**：改进的拖动检测和图标跟随系统，使用`getBoundingClientRect()`提高坐标精度
+5. **稳健的状态管理**：从需求清单到满意度的全流程管理
+6. **可靠的网络同步**：客户端-服务器的稳定通信机制
+7. **优化的性能表现**：改进的内存管理和渲染效率
+8. **完善的错误处理**：延迟移除机制防止NPE错误
+9. **扩展的工具支持**：支持多种工具和高级功能
 
-该系统为《洗手》模组提供了高质量的用户界面，是ApriCity框架在复杂UI场景下的优秀实践案例。通过持续的bug修复和功能改进，系统已经具备了生产环境所需的稳定性和可靠性。
+通过这些重大更新，系统现在能够提供更丰富的游戏玩法、更精确的鼠标跟踪、更可靠的拖动检测和更强大的工具支持，为玩家带来更加沉浸式的脚部按摩体验。该系统为《洗手》模组提供了高质量的用户界面，是ApriCity框架在复杂UI场景下的优秀实践案例。

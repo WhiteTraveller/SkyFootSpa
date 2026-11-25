@@ -111,11 +111,7 @@
         },
         "options": [
           {
-            "text": "收下挑战符",
-            "click": {
-              "type": "command",
-              "value": "give @s marguerite:boss_seal_yuugi"
-            }
+            "text": "继续"
           }
         ],
         "portrait": [

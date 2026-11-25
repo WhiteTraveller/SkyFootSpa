@@ -334,12 +334,10 @@ function pfWriteBasinFluid(level, pos, fluidId, amount, tankIdx, tankGroup) {
 
     // ====== 命令写入（已验证的正确路径） ======
     let tankPath = group + '[' + idx + ']'
+    // TankContent 整体原子写入：分步写时 Create 每条命令后 reload，空槽中间态 {Amount:0,FluidName:非empty} 会被归零丢失流体名
     let cmds = [
-        // TankContent 是单 Compound，直接改 FluidName / Amount
         'data modify block ' + x + ' ' + y + ' ' + z
-            + ' ' + tankPath + '.TankContent.FluidName set value "' + fluidId + '"',
-        'data modify block ' + x + ' ' + y + ' ' + z
-            + ' ' + tankPath + '.TankContent.Amount set value ' + amt,
+            + ' ' + tankPath + '.TankContent set value {Amount:' + amt + ',FluidName:"' + fluidId + '"}',
         // 视觉层面液位（Target/Value）
         'data modify block ' + x + ' ' + y + ' ' + z
             + ' ' + tankPath + '.Level.Target set value ' + levelValue,

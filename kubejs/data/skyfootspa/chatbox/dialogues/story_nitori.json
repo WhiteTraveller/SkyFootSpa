@@ -8,6 +8,7 @@
         "dialogBox": {
           "text": "喂喂，小兄弟。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_1",
@@ -21,6 +22,7 @@
         "dialogBox": {
           "text": "你这家足浴店感觉生意挺红火的啊。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_1",
@@ -59,6 +61,7 @@
         "dialogBox": {
           "text": "我是河童荷城河取。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_1",
@@ -85,6 +88,7 @@
         "dialogBox": {
           "text": "这不重要，重要的是你的店现在相当有名哦。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_2",
@@ -111,6 +115,7 @@
         "dialogBox": {
           "text": "可不要小瞧了幻想乡的消息流通，人类之间产生的新奇事物，过不了多久就会传到妖怪们耳中。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_1",
@@ -125,6 +130,7 @@
         "dialogBox": {
           "text": "其实你的店里已经有妖怪客人了，幻想乡的大部分妖怪长得和人类本就差不多，如果伪装一下就更难区分了。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_2",
@@ -150,6 +156,7 @@
         "dialogBox": {
           "text": "可以说是但也不完全是。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_1",
@@ -164,6 +171,7 @@
         "dialogBox": {
           "text": "幻想乡最先进的技术是仅由我们河童掌握的。虽然幻想乡整体的科技并不发达，但我们河童的技术不比外界差。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_1",
@@ -177,6 +185,7 @@
         "dialogBox": {
           "text": "而我们平时会和人类做生意，这次也是同样的目的。你的足浴店如果要为顾客提供优质服务的话，肯定需要不少材料供应吧。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_1",
@@ -190,6 +199,7 @@
         "dialogBox": {
           "text": "我们的机器可以帮你实现这一点。如果你现在手头比较紧的话我们还可以给你提供免费试用和首次购买优惠。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_2",
@@ -203,6 +213,7 @@
         "dialogBox": {
           "text": "但前提是，你必须向我们证明你拥有足够的实力。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_2",
@@ -216,6 +227,7 @@
         "dialogBox": {
           "text": "如果在把机器卖给你之后，顾客对你的服务产生不满也会牵连到我们的产品口碑。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_1",
@@ -241,6 +253,7 @@
         "dialogBox": {
           "text": "这个简单，你给我洗个脚，让我切身体会一下你的手艺就行。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_2",
@@ -255,6 +268,7 @@
         "dialogBox": {
           "text": "事先说明，我会以相当严谨的态度来体验，可没有普通顾客那么好对付。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_2",
@@ -268,13 +282,10 @@
         "dialogBox": {
           "text": "不过我也给你一些准备时间，你拿着这个，准备好之后就用它右击 方块通知我来。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "options": [
           {
-            "text": "感谢",
-            "click": {
-              "type": "command",
-              "value": "give @s marguerite:boss_seal_nitori"
-            }
+            "text": "感谢"
           }
         ],
         "portrait": [
@@ -293,6 +304,7 @@
         "dialogBox": {
           "text": "小兄弟你的手艺确实不错嘛。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_think_2",
@@ -307,6 +319,7 @@
         "dialogBox": {
           "text": "即使是我这样天天泡在水里的河童也没有洗过这么舒服的脚。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_2",
@@ -320,6 +333,7 @@
         "dialogBox": {
           "text": "这样一来我们也能放心地跟你合作了。"
         },
+        "sound": "skyfootspa:voice.nitori.hum",
         "portrait": [
           {
             "id": "hchq_1",

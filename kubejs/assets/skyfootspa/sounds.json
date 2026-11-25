@@ -91,5 +91,8 @@
   "voice.alice.chapter1.011": {"sounds": [{"name": "skyfootspa:voice/alice/chapter1/011_alice", "stream": true}]},
   "voice.alice.chapter1.012": {"sounds": [{"name": "skyfootspa:voice/alice/chapter1/012_alice", "stream": true}]},
   "voice.alice.chapter1.013": {"sounds": [{"name": "skyfootspa:voice/alice/chapter1/013_alice", "stream": true}]},
-  "voice.alice.chapter1.015": {"sounds": [{"name": "skyfootspa:voice/alice/chapter1/015_alice", "stream": true}]}
+  "voice.alice.chapter1.015": {"sounds": [{"name": "skyfootspa:voice/alice/chapter1/015_alice", "stream": true}]},
+  "voice.alice.hum": {"sounds": [{"name": "skyfootspa:voice/alice/hum/0"}, {"name": "skyfootspa:voice/alice/hum/1"}, {"name": "skyfootspa:voice/alice/hum/2"}, {"name": "skyfootspa:voice/alice/hum/3"}]},
+  "voice.nitori.hum": {"sounds": [{"name": "skyfootspa:voice/nitori/hum/0"}, {"name": "skyfootspa:voice/nitori/hum/1"}, {"name": "skyfootspa:voice/nitori/hum/2"}, {"name": "skyfootspa:voice/nitori/hum/3"}]},
+  "voice.reimu.hum": {"sounds": [{"name": "skyfootspa:voice/reimu/hum/0"}, {"name": "skyfootspa:voice/reimu/hum/1"}, {"name": "skyfootspa:voice/reimu/hum/2"}, {"name": "skyfootspa:voice/reimu/hum/3"}]}
 }

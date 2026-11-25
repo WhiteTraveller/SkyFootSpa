@@ -50,6 +50,24 @@ NetworkEvents.dataReceived('pf_rare_affection_open', event => {
     console.log('[PF-CONFIG-UI] 通知客户端打开稀客好感度 Screen dim=' + dim + ' 稀客数=' + view.length)
 })
 
+// 专属饰品领取：客户端稀客页点击领取行发送，服务端校验好感度/已领状态后仅发放物品
+// （按要求领取除给物品外无任何动作：不发聊天提示、不回推视图）
+// 方块上下文（维度+坐标）与 pf_rare_affection_open 同源，取自 player.persistentData
+NetworkEvents.dataReceived('pf_rare_affection_claim', event => {
+    let player = event.player
+    if (!player) return
+    if (!global.pfRareAffection || !global.pfShopManager) return
+    let rareId = '' + event.data.getString('rareId')
+    if (!rareId || rareId.length === 0) return
+    let level = player.getLevel()
+    let x = player.persistentData.getInt('pfCfgX')
+    let y = player.persistentData.getInt('pfCfgY')
+    let z = player.persistentData.getInt('pfCfgZ')
+    let be = global.pfShopManager.pfShopGetBE(level, x, y, z)
+    if (!be) return
+    global.pfRareAffection.pfClaimRareReward(player, be, rareId)
+})
+
 // "人物图鉴"按钮：无需服务端数据，直接通知客户端关闭配置容器并打开图鉴 Screen
 NetworkEvents.dataReceived('pf_character_gallery_open', event => {
     let player = event.player

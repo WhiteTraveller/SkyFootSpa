@@ -61,7 +61,21 @@ global.pfOnStartSleep = function (entity, level, bedPos, currentTick) {
     // 计算脚的位置（用于日志）
     let footPos = pfGetFootPosition(bedPos.blockX, bedPos.blockY, bedPos.blockZ, bedPos.yaw)
     console.log("[SLEEP-JS] 脚位置: (" + footPos.x.toFixed(1) + "," + footPos.y + "," + footPos.z.toFixed(1) + ")")
-    
+
+    // Boss 挑战：躺床即开始倒计时（含泡脚阶段），并刷新面板静态字段到手持NBT
+    let bossId = '' + entity.persistentData.getString('pfBossId')
+    if (bossId && bossId.length > 0 && global.bossRegister && global.bossRegister.byId) {
+        let bossDef = global.bossRegister.byId[bossId]
+        if (bossDef) {
+            let timeLeft = bossDef.time || 60
+            entity.persistentData.putInt('pfBossTimeLeft', timeLeft)
+            entity.persistentData.putInt('pfBossFailed', 0)
+            global.pfNbtSync.pfSyncBossInfo(entity, bossId, bossDef.satisfactionMultiplier, bossDef.satisfactionTarget)
+            global.pfNbtSync.pfSyncBossTimeLeft(entity, timeLeft)
+            console.log("[BOSS] 躺床开始挑战倒计时 " + timeLeft + "s, 满意度目标=" + bossDef.satisfactionTarget + "% uuid=" + uuid)
+        }
+    }
+
     // UI由客户端脚本管理，无需在此创建
 }
 
@@ -107,7 +121,30 @@ global.pfShouldWakeUp = function (entity, level, bedPos, sleepDuration) {
         // 所有需求都为0时才能起床
         if (jiaozhang === 0 && jiaogen === 0 && jiaozhi === 0 && jiaoxin === 0) {
             console.log("[SLEEP-JS] 所有需求已清零，起床 uuid=" + uuid)
-            
+
+            // Boss 挑战判定：需求清零时满意度未达标 → 挑战失败（下床 + 返还召唤券，不结算）
+            let bossId = '' + entity.persistentData.getString('pfBossId')
+            if (bossId && bossId.length > 0) {
+                let bossDef = (global.bossRegister && global.bossRegister.byId) ? global.bossRegister.byId[bossId] : null
+                let satTarget = bossDef ? (bossDef.satisfactionTarget || 0) : 0
+                let satNow = nbt.getInt('pfSatisfaction') || 0
+                if (satNow < satTarget) {
+                    console.log("[BOSS] 需求清零但满意度未达标 sat=" + satNow + " < target=" + satTarget + " uuid=" + uuid)
+                    global.pfBossManager.pfBossFail(entity, level, 'satisfaction')
+                    return false
+                }
+                // 达标 → 挑战成功，提示后继续走下方通用结算
+                try {
+                    let actionUuid = '' + nbt.getString('pfActionPlayerUuid')
+                    let winPlayer = actionUuid ? level.getPlayerByUUID(actionUuid) : null
+                    if (winPlayer) {
+                        winPlayer.tell('§a' + (bossDef ? bossDef.name : 'Boss') + ' §a挑战成功！§7满意度 ' + satNow + '% ≥ ' + satTarget + '%')
+                        // 挑战成功即完成对应 Boss 考核成就
+                        global.pfBossManager.pfBossGrantAdvancement(level, bossId, winPlayer)
+                    }
+                } catch (e) {}
+            }
+
             // 结算规则：
             // - 本单累计金钱（pfMoney）按 coinsje 硬币体系贪心拆分，从最高面额向下
             // - 面额比例: copper=1, iron=9, gold=81, diamond=729, netherite=6561

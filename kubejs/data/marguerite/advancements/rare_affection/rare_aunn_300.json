@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/rare_aunn_150",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:komano_aunn\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "高丽野阿吽·三心",
+    "description": "服务高丽野阿吽一次，且其好感度达到300",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

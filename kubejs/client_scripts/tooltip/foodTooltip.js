@@ -29,6 +29,9 @@ ItemEvents.tooltip(tooltip => {
             if (guests.length > 0) {
                 text.add(Text.gray(" 招来稀客 ").append(Text.of("§d" + guests.join("§7 / §d"))))
             }
+            if (f.repeatChance > 0) {
+                text.add(Text.gray(" 再来一个 ").append(Text.of("§6" + Math.round(f.repeatChance * 100) + "%§7 概率可再奉一杯")))
+            }
             text.add(Text.of(" §7在需求清单下方点「茶水」按钮给予顾客"))
         })
     }

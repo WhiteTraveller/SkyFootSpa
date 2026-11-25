@@ -183,6 +183,15 @@ description: 本项目 ChatBox 模组剧情对话配置方法：对话文件、�
 - 模型 id（TLM 日志确认）：`touhou_little_maid:kaenbyou_rin`、`touhou_little_maid:hoshiguma_yugi`（注意 yugi 非 yuugi）。
 - 第二章四段落暂无 FTB 入口（任务书 9 条 chatbox 命令只到第一章）；手动实测用 `/chatbox skip skyfootspa:story_rin ch2_rin` 等；后续挂任务时同步本节。
 
+## 角色语气音（嗯~）
+
+角色不配逐句台词配音，改为每个角色一个 `skyfootspa:voice.<角色>.hum` 事件，内含 4 条不同声调的「嗯」（平/上扬疑问/肯定/拖长，约 0.2~0.8 秒），每句由原版声音事件随机选一条播放。
+
+- 音频：`sounds/voice/<角色>/hum/0.ogg`~`3.ogg`（22050Hz 单声道 OGG，`stream` 不写=预加载）。`sounds.json` 的键不带命名空间（`"voice.alice.hum"`），value 里才写 `skyfootspa:voice/...`。
+- 生成：`local/generate_chatbox_hum.py`（IndexTTS2.5，需先启动 `E:\index-tts` 的 webui 于 127.0.0.1:7860；每种声调生成 10 条按音高走向选优、裁静音、统一响度；`--verify` 校验哈希）。音色取自 `E:\index-tts\outputs\presets\<角色>\prompt.wav`，目前只有 爱丽丝/河城荷取/博丽灵梦，猫燐/早苗/永仪待定音色。
+- 接入：`local/apply_chatbox_hum.py`（不带参数为试运行，`--apply` 写入）。规则：角色立绘非 `NOT_TALK` 且台词有实际文字的行加 `sound`；玩家行、空文本运镜行、纯「……」行不加。行上已有原音效（如 `minecraft:entity.villager.celebrate`）时保留 `sound`，嗯~写进 `renderEvents` 的 `play_sound`（`trigger: start`），两者可同时播放。
+- 新增角色：先在生成脚本的 `CHARACTERS` 加预设目录名，生成后重跑接入脚本即可（幂等）。
+
 ## 命令与触发
 
 | 命令 | 用途 |

@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: kubejs_scripts
-title: KubeJS 玩法脚本与资源包（寻路泡脚/Boss/遗物/手机/体力）
-scope:
-    - kubejs/
-source_files: []
-depends_on: []
-related_to:
-    - path: apricity_ui_assets

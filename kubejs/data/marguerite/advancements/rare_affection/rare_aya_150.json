@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/root",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:syameimaru_aya\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "射命丸文·两心",
+    "description": "服务射命丸文一次，且其好感度达到150",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -83,11 +83,39 @@ function pfGetPhase(entity) {
     return 0
 }
 
+// 同步 Boss 面板静态字段到手持物品NBT（客户端脚部UI顶部面板读取）
+// pfBossId: boss key；pfBossSatMul: 满意度倍率(float)；pfBossSatTarget: 满意度要求(int 0-100)；pfBossName: 纯名称(标题用)
+function pfSyncBossInfo(entity, bossId, satMul, satTarget) {
+    let item = entity.getMainHandItem()
+    if (!item || item.id === 'minecraft:air') {
+        item = Item.of(global.pfConstants.SYNC_ITEM_ID, {})
+    }
+    let nbt = item.nbt || {}
+    nbt.pfBossId = '' + bossId
+    nbt.putFloat('pfBossSatMul', Number(satMul))
+    nbt.pfBossSatTarget = Math.floor(satTarget) | 0
+    let def = (global.bossRegister && global.bossRegister.byId) ? global.bossRegister.byId[bossId] : null
+    nbt.pfBossName = def ? ('' + def.name) : ''
+    entity.setMainHandItem(item.withNBT(nbt))
+}
+
+// 同步 Boss 挑战剩余秒数到手持物品NBT（每秒更新，客户端据此刷新倒计时）
+function pfSyncBossTimeLeft(entity, timeLeft) {
+    let item = entity.getMainHandItem()
+    if (item && item.id === global.pfConstants.SYNC_ITEM_ID) {
+        let nbt = item.nbt || {}
+        nbt.putInt('pfBossTimeLeft', timeLeft | 0)
+        entity.setMainHandItem(item.withNBT(nbt))
+    }
+}
+
 // 导出到全局
 global.pfNbtSync = {
     pfSyncPhase: pfSyncPhase,
     pfSyncBed: pfSyncBed,
     pfSyncCountdown: pfSyncCountdown,
     pfSyncDemandList: pfSyncDemandList,
-    pfGetPhase: pfGetPhase
+    pfGetPhase: pfGetPhase,
+    pfSyncBossInfo: pfSyncBossInfo,
+    pfSyncBossTimeLeft: pfSyncBossTimeLeft
 }

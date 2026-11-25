@@ -12,7 +12,6 @@
 //
 // 门槛改造（沿用「高级电子元件解锁难机器」的分级思路，见 docs/08）：
 //   · 回转窑滚筒(rotary_kiln_cylinder) 复合窑壁掺入 高级电子元件
-//   · 激发器(basic_energiser) 合成掺入 高级电子元件
 //   · 车窑砖(car_kiln_brick) 核心改用 重型机械方块（重型机械方块门槛车窑）
 //   · 斗轮挖掘机沿用 IE 重型工程块（已由高级电子元件门槛），仅在任务链上串接
 //
@@ -168,25 +167,6 @@ ServerEvents.recipes(event => {
         console.log('[CH3-MAGIC] ⑧ 回转窑滚筒复合窑壁已掺入高级电子元件')
     } catch (e) {
         console.log('[CH3-MAGIC] ⑧ 回转窑滚筒改造失败: ' + e)
-    }
-
-    // ========== ⑨ 激发器：合成掺入高级电子元件 ==========
-    // 原配方（无序）：安山机壳 + 避雷针。改后追加 高级电子元件。
-    try {
-        event.remove({ output: 'create_new_age:basic_energiser' })
-        event.custom({
-            type: 'minecraft:crafting_shapeless',
-            category: 'misc',
-            ingredients: [
-                { item: 'create:andesite_casing' },
-                { item: 'minecraft:lightning_rod' },
-                { item: 'immersiveengineering:component_electronic_adv' }
-            ],
-            result: { item: 'create_new_age:basic_energiser' }
-        }).id('kubejs:ch3_basic_energiser_gated')
-        console.log('[CH3-MAGIC] ⑨ 激发器合成已掺入高级电子元件')
-    } catch (e) {
-        console.log('[CH3-MAGIC] ⑨ 激发器改造失败: ' + e)
     }
 
     // ========== ⑩ 车窑砖：核心改用重型机械方块（门槛车窑）==========

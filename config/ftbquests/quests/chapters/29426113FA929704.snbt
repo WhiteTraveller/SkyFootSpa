@@ -8,12 +8,15 @@
 	images: [{
 		height: 3.0d
 		image: "skyfootspa:textures/avatars/alice.png"
+		quest_enhance_exclude_from_box_selection: false
 		rotation: 0.0d
 		width: 3.0d
 		x: 7.0d
 		y: -6.5d
 	}]
 	order_index: 0
+	quest_enhance_decorative_lines: [ ]
+	quest_enhance_hidden_dependency_lines: [ ]
 	quest_links: [ ]
 	quests: [
 		{
@@ -28,6 +31,7 @@
 			]
 			icon: "marguerite:phone_s23ultra"
 			id: "1AD9CACAA44EDA80"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [
 				{
 					id: "33D561B0D6C8BAA4"
@@ -56,12 +60,13 @@
 			]
 			icon: "coinsje:copper_coin"
 			id: "7B3A5D9E2F1C8300"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				id: "6E46422B3B7AA0D4"
 				item: "coinsje:iron_coin"
 				type: "item"
 			}]
-			shape: "gear"
+			shape: "square"
 			size: 2.0d
 			tasks: [{
 				id: "7B3A5D9E2F1C8301"
@@ -81,6 +86,7 @@
 			]
 			icon: "minecraft:red_carpet"
 			id: "376BDD47335AF7C9"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "66691B226A513A73"
 				title: "服务顾客的流程"
@@ -99,6 +105,7 @@
 			]
 			icon: "minecraft:water_bucket"
 			id: "0D3D46BFF19509D8"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [
 				{
 					id: "3A74E9FB41FBA2BD"
@@ -141,6 +148,12 @@
 			]
 			icon: "marguerite:phone_s23ultra"
 			id: "556C60C85311BA8E"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				command: "/say Hi, @p!"
+				id: "76692098458D79AA"
+				type: "command"
+			}]
 			tasks: [{
 				id: "609AB09F09E7B13F"
 				title: "开店与关店"
@@ -158,13 +171,14 @@
 				"在你的屏幕左侧可以查看你当前的体力值"
 			]
 			id: "7A8BA7A73622323C"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "77CD3454B469C84C"
 				title: "体力值"
 				type: "checkmark"
 			}]
 			x: 11.0d
-			y: -0.5d
+			y: -1.0d
 		}
 		{
 			can_repeat: false
@@ -185,7 +199,10 @@
 					}
 				}
 			}
+			icon_scale: 0.0d
 			id: "13CFD333B3A16B05"
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "marguerite:item/boss_seal_alice"
 			rewards: [
 				{
 					command: "/chatbox skip skyfootspa:story_alice ch0_prologue"
@@ -205,7 +222,7 @@
 					type: "item"
 				}
 			]
-			shape: "gear"
+			shape: "square"
 			size: 2.0d
 			tasks: [{
 				id: "4A5728D6FD498112"
@@ -214,6 +231,22 @@
 			}]
 			x: 1.0d
 			y: -3.0d
+		}
+		{
+			dependencies: ["0D3D46BFF19509D8"]
+			id: "7A89B47ABFAA6FDE"
+			quest_enhance_disable_scroll_paging: false
+			rewards: [{
+				id: "29DE8FADFDCDB627"
+				item: "minecraft:feather"
+				type: "item"
+			}]
+			tasks: [{
+				id: "59875F12F7A6D290"
+				type: "checkmark"
+			}]
+			x: 11.0d
+			y: -5.0d
 		}
 	]
 	title: "序章"

@@ -10,7 +10,7 @@
 StartupEvents.registry("block", event => {
     try {
         let builder = event.create("marguerite:cleaned_cun_block")
-            .displayName("§f洗净的皴块")
+            .displayName("§9洗净的皴块")
             .material("dirt")
             .soundType("gravel")
             .hardness(0.6)

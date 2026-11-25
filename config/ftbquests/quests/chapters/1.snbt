@@ -6,19 +6,21 @@
 	icon: "marguerite:basic_chip_heel"
 	id: "358D848C495AD6C3"
 	order_index: 1
+	quest_enhance_decorative_lines: [ ]
+	quest_enhance_hidden_dependency_lines: [ ]
 	quest_links: [ ]
 	quests: [
 		{
 			dependencies: ["47911DBA354F2830"]
 			description: [
-				"开店赚来的第一桶硬币该拿去做什么？"
+				"开店赚来的第一桶硬币该拿去做什么？先买点§e黄铜锭§r吧。"
 				""
-				"§b黄铜锭§r 是 §b机械动力§r 中后期的关键材料——合成§e黄铜板§r、§e精密构件§r、§e芯片§r都离不开它。"
-				""
-				"§6虽然§r可以用 §f铜锭 + 锌锭§r 在动力搅拌器里合成，但早期机械尚未铺开，不如先去§b商店§r花点硬币，§a直接买黄铜§r，见识见识超市的便利。"
+				"把黄铜压成板，后面做§e精密构件§r和§e芯片§r都用得上。"
 			]
+			hide_dependency_lines: true
 			icon: "create:brass_ingot"
 			id: "7B3A5D9E2F1C8200"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "7B3A5D9E2F1C8202"
@@ -30,22 +32,20 @@
 				item: "create:brass_ingot"
 				type: "item"
 			}]
-			title: "以币易物：购买黄铜锭"
-			x: 18.0d
-			y: 2.0d
+			title: "黄铜锭"
+			x: 14.0d
+			y: -9.5d
 		}
 		{
-			dependencies: [
-				"7B3A5D9E2F1C8200"
-				"7CBD5A2E6AE463D8"
-			]
+			dependencies: ["7B3A5D9E2F1C8200"]
 			description: [
-				"把买来的§6黄铜锭§r送进§b动力辊压机§r下方，启动后即可压制成§e黄铜板§r。"
+				"把§e黄铜锭§r放在§b动力冲压机§r下方，接入动力就能压成§e黄铜板§r。"
 				""
-				"§a黄铜板§r是合成§f精密构件§r、§f各类芯片§r的核心材料，请务必留存一些。§r"
+				"精密构件和芯片都要用，多压几张留着。"
 			]
 			icon: "create:brass_sheet"
 			id: "7B3A5D9E2F1C8210"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "7B3A5D9E2F1C8212"
@@ -58,96 +58,49 @@
 				type: "item"
 			}]
 			title: "黄铜板"
-			x: 18.0d
-			y: 0.0d
+			x: 14.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["494196DBF4AA9FCE"]
 			description: [
-				"「皴」是顾客脚部老去角质的统称，是后续一切合成与产线的基础原料。"
+				"「皴」就是从顾客脚上搓下来的老化角质。先别急着扔，攒起来还能筛出矿物。"
 				""
-				"§e获取方式§r：为顾客提供搓脚服务，每次触碰需求部位会掉落皴。"
+				"搓脚时，每完成一次需求就会获得皴，直接放进背包。已经没有需求的部位，再搓也不会有。"
 				""
-				"先服务一位顾客，试着获取吧！（呕）"
+				"先服务一位顾客，攒一点试试吧。（呕）"
 			]
 			icon: "marguerite:cun"
 			id: "017E1DD7A9182B70"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 2
 				id: "01E5036B9C896465"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
-			shape: "square"
-			size: 1.5d
+			shape: "circle"
 			tasks: [{
 				id: "14E3750B8BFDFEAA"
 				item: "marguerite:cun"
 				type: "item"
 			}]
 			title: "意外的副产物"
-			x: 4.0d
-			y: -2.0d
-		}
-		{
-			dependencies: [
-				"017E1DD7A9182B70"
-				"47911DBA354F2830"
-			]
-			description: [
-				"§6搓泥宝§r是一款去角质神器，专为顾客脚底沉积的顽固死皮而生。"
-				""
-				"§e副手持有§r时搓脚掉落的皴数量会§a翻倍§r，每次消耗 §c1 点§r耐久。"
-				""
-				"§e获取方式§r：从§b商店§r获取。"
-				""
-				"§b使用提示§r：放入副手，在服务时生效。"
-			]
-			icon: {
-				Count: 1
-				id: "marguerite:cuonibao"
-				tag: {
-					Damage: 0
-				}
-			}
-			id: "4B8C9D7F3A21E55C"
-			rewards: [{
-				id: "1A7B3C8D5E9F2046"
-				item: {
-					Count: 1
-					id: "marguerite:cuonibao"
-					tag: {
-						Damage: 0
-					}
-				}
-				type: "item"
-			}]
-			tasks: [{
-				id: "6F1D2A8E9B3C7D5F"
-				item: {
-					Count: 1
-					id: "marguerite:cuonibao"
-					tag: {
-						Damage: 0
-					}
-				}
-				type: "item"
-			}]
-			title: "搓泥宝"
-			x: 4.0d
-			y: 2.0d
+			x: 5.0d
+			y: -5.0d
 		}
 		{
 			dependencies: ["017E1DD7A9182B70"]
 			description: [
-				"§a9 个皴§r可以合成 §f1 个皴块§r。"
+				"§e4 个皴§r可以合成§e1 个皴块§r。"
 				""
-				"皴块是筛矿产线的原料，可以被§b动力筛子§r筛选出铁粒、铜粒、金粒、锌粒与石英。"
+				"用§b动力筛子§r筛分皴块，有机会得到铁粒、铜粒、金粒、锌粒、下界石英和红石粉。"
 			]
 			icon: "marguerite:cun_block"
 			id: "3117AB70F0AEC7F7"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 5
+				count: 10
 				id: "31AC710669601B25"
 				item: "coinsje:copper_coin"
 				type: "item"
@@ -157,35 +110,24 @@
 				item: "marguerite:cun_block"
 				type: "item"
 			}]
-			title: "聚砂成塔"
-			x: 6.0d
-			y: -2.0d
+			title: "合成皴块"
+			x: 5.0d
+			y: -6.5d
 		}
 		{
 			dependencies: [
 				"3117AB70F0AEC7F7"
 				"7B3A5D9E2F1C8240"
 			]
-			description: [
-				"§b线筛网§r 是§b动力筛子§r的基础筛网配件，用于将皴块筛分出矿粒与石英。"
-				""
-				"§e那么线从哪来？§r"
-				"· 天然途径：击杀蜘蛛、破坏蜘蛛网"
-				"· §6更省心的办法§r：打开§b商店§r，直接买"
-			]
+			description: ["§b动力筛子§r要装上§e线筛网§r才能筛矿。先做一张筛网，再把奖励里的筛子和动力接起来。"]
 			icon: {
 				Count: 1
 				id: "createsifter:string_mesh"
 				tag: { }
 			}
 			id: "5D10D03366DB0677"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [
-				{
-					count: 5
-					id: "10234FC8D2C53E93"
-					item: "coinsje:copper_coin"
-					type: "item"
-				}
 				{
 					id: "10234FC8D2C53E94"
 					item: "createsifter:sifter"
@@ -221,40 +163,58 @@
 				type: "item"
 			}]
 			title: "筛矿工具"
-			x: 8.0d
-			y: -2.0d
+			x: 5.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["5D10D03366DB0677"]
-			description: ["将皴块与§b线筛网§r投入§b动力筛子§r，即可随机筛出各种矿物。§r"]
+			description: ["装好§e线筛网§r、接上动力后，把皴块放进§b动力筛子§r。产物是随机的，先筛出下面任意一种矿粒就行。"]
 			icon: "minecraft:iron_nugget"
 			id: "314C359231516C59"
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_minimum_tasks: 1
 			rewards: [{
-				count: 5
+				count: 10
 				id: "1900C29CA41E20D9"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
-			shape: "square"
-			size: 1.5d
-			tasks: [{
-				icon: "minecraft:iron_nugget"
-				id: "237316F73A39C1B8"
-				item: "minecraft:iron_nugget"
-				title: "任一矿粒（铁/铜/金/锌）"
-				type: "item"
-			}]
+			shape: "circle"
+			tasks: [
+				{
+					icon: "minecraft:iron_nugget"
+					id: "237316F73A39C1B8"
+					item: "minecraft:iron_nugget"
+					type: "item"
+				}
+				{
+					id: "61FDB800F5DB610D"
+					item: "create:zinc_nugget"
+					type: "item"
+				}
+				{
+					id: "6942676916259320"
+					item: "minecraft:gold_nugget"
+					type: "item"
+				}
+				{
+					id: "0EAFAB3650FC9517"
+					item: "create:copper_nugget"
+					type: "item"
+				}
+			]
 			title: "首次筛矿"
-			x: 10.0d
-			y: -2.0d
+			x: 6.5d
+			y: -6.5d
 		}
 		{
 			dependencies: ["314C359231516C59"]
-			description: ["筛矿的副产品之一——§f下界石英§r，在筛块产线中低概率出现。"]
+			description: ["筛分皴块时，偶尔还能筛出§e下界石英§r。留一些，合成闪长岩和玫瑰石英都需要它。"]
 			icon: "minecraft:quartz"
 			id: "610F10EC9FEE4CE9"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 3
+				count: 10
 				id: "671D99EA2BB11779"
 				item: "coinsje:copper_coin"
 				type: "item"
@@ -265,19 +225,20 @@
 				type: "item"
 			}]
 			title: "意外收获：石英"
-			x: 10.0d
-			y: 0.0d
+			x: 6.5d
+			y: -8.0d
 		}
 		{
 			dependencies: [
 				"314C359231516C59"
 				"51624AFBB7E4F90F"
 			]
-			description: ["§b安山岩§r是机械工业的基石，由§f鹅卵石§r与§f闪长岩§r合成获得。"]
+			description: ["用§f圆石§r和§f闪长岩§r合成§e安山岩§r，接下来就能做安山合金了。"]
 			icon: "minecraft:andesite"
 			id: "7B3A5D9E2F1C8046"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 5
+				count: 10
 				id: "7B3A5D9E2F1C8048"
 				item: "coinsje:copper_coin"
 				type: "item"
@@ -288,188 +249,57 @@
 				type: "item"
 			}]
 			title: "合成安山岩"
-			x: 12.0d
-			y: -2.0d
+			x: 8.0d
+			y: -6.5d
 		}
 		{
 			dependencies: ["314C359231516C59"]
-			description: [
-				"筛矿产出的铁粒可以在工作台 3×3 压合成§f铁锭§r。"
-				""
-				"铁锭是矿粉、安山合金的重要来源。"
-			]
-			icon: "minecraft:iron_ingot"
-			id: "00974D4CCDEC3E45"
-			rewards: [{
-				id: "7306B4A1395053FB"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "65B199578AB51A50"
-				item: "minecraft:iron_ingot"
-				type: "item"
-			}]
-			x: 10.0d
-			y: -6.0d
-		}
-		{
-			dependencies: ["314C359231516C59"]
-			description: ["筛矿产出的铜粒压合成§f铜锭§r——铜粉、电路、布线的常用材料。"]
-			icon: "minecraft:copper_ingot"
-			id: "5343606BA59A1D03"
-			rewards: [{
-				id: "2679205E75E6DA6A"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "5FFB59789133FA8D"
-				item: "minecraft:copper_ingot"
-				type: "item"
-			}]
-			x: 10.0d
-			y: -8.0d
-		}
-		{
-			dependencies: ["314C359231516C59"]
-			description: ["筛矿产出的金粒压合成§f金锭§r——金粉、加工合金的稀缺来源。"]
-			icon: "minecraft:gold_ingot"
-			id: "3E31FEE7A9E6CA6E"
-			rewards: [{
-				id: "6150A063A8629E0A"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "6FB290C302C57DC2"
-				item: "minecraft:gold_ingot"
-				type: "item"
-			}]
-			x: 10.0d
-			y: -10.0d
-		}
-		{
-			dependencies: ["314C359231516C59"]
-			description: ["筛矿产出的锌粒压合成§f锌锭§r——合成§e黄铜§r的必备原料。"]
+			description: ["筛出的铁粒、铜粒、金粒和锌粒，每 §e9 个§r同种矿粒可以合成 §e1 个§r对应的金属锭。攒齐这四种，后面做机器会陆续用到。"]
 			icon: "create:zinc_ingot"
 			id: "4624E054EC74B95B"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				id: "4109877A411EFFAA"
 				item: "coinsje:iron_coin"
 				type: "item"
 			}]
-			tasks: [{
-				id: "53B403F004EB4629"
-				item: "create:zinc_ingot"
-				type: "item"
-			}]
-			x: 10.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["204993835E6F415C"]
-			description: [
-				"§b石磨§r 是 §b机械动力§r 早期最重要的加工设备，由安山合金构成骨架。"
-				""
-				"§a功能§r："
-				"· 将§f矿石§r研磨为§e矿物粉末§r（产出 ×2 粒）"
-				"· 研磨麦子、染料、兽骨等杂物"
-				""
-				"§6动力要求§r：顶部接入齿轮 / 水车即可运转，不需要高速传动。"
-				""
-				"合出第一台石磨，解锁铁、铜、金三条粉末支线。"
+			tasks: [
+				{
+					id: "53B403F004EB4629"
+					item: "create:zinc_ingot"
+					type: "item"
+				}
+				{
+					id: "7EC7BBFFB51FF507"
+					item: "minecraft:iron_ingot"
+					type: "item"
+				}
+				{
+					id: "16AA741ABE5D0C4D"
+					item: "minecraft:gold_ingot"
+					type: "item"
+				}
+				{
+					id: "30C4C35638512D31"
+					item: "minecraft:copper_ingot"
+					type: "item"
+				}
 			]
-			icon: "create:millstone"
-			id: "365CCFD7F2F410C8"
-			rewards: [{
-				count: 10
-				id: "226396F3A6231C7E"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "518566877D60B3DB"
-				item: "create:millstone"
-				type: "item"
-			}]
-			title: "组装磨盘"
-			x: 14.0d
-			y: -4.0d
+			title: "金属锭"
+			x: 6.5d
+			y: -5.0d
 		}
 		{
 			dependencies: [
-				"365CCFD7F2F410C8"
-				"00974D4CCDEC3E45"
+				"7B3A5D9E2F1C8046"
+				"4624E054EC74B95B"
 			]
-			description: ["将§f铁矿石§r放入石磨，即可磨出§e铁粉§r。"]
-			icon: "mekanism:dust_iron"
-			id: "3D393475EFEFCEDB"
-			rewards: [{
-				id: "1DDF4EAADF2C6C2C"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "380DA8BACECF910E"
-				item: "mekanism:dust_iron"
-				type: "item"
-			}]
-			title: "铁粉"
-			x: 14.0d
-			y: -6.0d
-		}
-		{
-			dependencies: [
-				"365CCFD7F2F410C8"
-				"5343606BA59A1D03"
-			]
-			description: ["将§f铜矿石§r放入石磨，即可磨出§e铜粉§r。"]
-			icon: "mekanism:dust_copper"
-			id: "79C5E3ABD15EB78B"
-			rewards: [{
-				id: "53F0C5DA10C910FA"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "5056558689A368DE"
-				item: "mekanism:dust_copper"
-				type: "item"
-			}]
-			title: "铜粉"
-			x: 14.0d
-			y: -8.0d
-		}
-		{
-			dependencies: [
-				"365CCFD7F2F410C8"
-				"3E31FEE7A9E6CA6E"
-			]
-			description: ["将§f金矿石§r放入石磨，即可磨出§e金粉§r。"]
-			icon: "mekanism:dust_gold"
-			id: "04FEB1161AD4A6C1"
-			rewards: [{
-				id: "14911EA0AAFD4D76"
-				item: "coinsje:iron_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "49457E36B4BD1C47"
-				item: "mekanism:dust_gold"
-				type: "item"
-			}]
-			title: "金粉"
-			x: 14.0d
-			y: -10.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8046"]
-			description: ["§e安山合金§r是 §b机械动力§r 所有机械的通用原料，几乎每一个机器都要用到它。"]
+			description: ["§e安山岩§r配上§f铁粒§r或§f锌粒§r，就能合成§e安山合金§r。传动杆、机壳和不少基础机器都要用，先备一些。"]
 			icon: "create:andesite_alloy"
 			id: "204993835E6F415C"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
-				count: 3
+				count: 10
 				id: "48B987853A21B2C4"
 				item: "coinsje:copper_coin"
 				type: "item"
@@ -480,19 +310,16 @@
 				item: "create:andesite_alloy"
 				type: "item"
 			}]
-			title: "安山岩合金"
-			x: 14.0d
-			y: -2.0d
+			title: "安山合金"
+			x: 8.0d
+			y: -5.0d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
-			description: [
-				"§b传动轴§r 是机械动力世界里最基本的动力传输元件。"
-				""
-				"它连接动力源与机械，是所有装置的骨架。"
-			]
+			description: ["用§b传动杆§r把动力从水车传到机器上。直着接就行，需要转向或变速时再配合齿轮。"]
 			icon: "create:shaft"
 			id: "555B57E84414A97D"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "7F4A977C01E5E75C"
@@ -505,15 +332,16 @@
 				item: "create:shaft"
 				type: "item"
 			}]
-			title: "传动轴"
-			x: 16.0d
-			y: -2.0d
+			title: "传动杆"
+			x: 9.5d
+			y: -6.5d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
-			description: ["§b齿轮§r 是传动系统的核心零件，可以改变旋转方向或串联多台机械。"]
+			description: ["§b齿轮§r可以互相啮合，把动力传给旁边的设备。装配§e精密构件§r也会用到它。"]
 			icon: "create:cogwheel"
 			id: "606C31ED5C612D97"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "1BC3ACC3DA5124C9"
@@ -527,18 +355,15 @@
 				type: "item"
 			}]
 			title: "齿轮"
-			x: 18.0d
-			y: -2.0d
+			x: 11.0d
+			y: -6.5d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
-			description: [
-				"§b大齿轮§r 是齿轮的升级版，可以实现 2:1 的变速传动。"
-				""
-				"在启动精密构件产线时必不可少。"
-			]
+			description: ["§b大齿轮§r和小齿轮啮合时，可以改变转速。机器转得太慢，可以试着调整大小齿轮的搭配。"]
 			icon: "create:large_cogwheel"
 			id: "3EBF0AAB9D5A7B0C"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "16E2BC05BDA2A790"
@@ -552,23 +377,15 @@
 				type: "item"
 			}]
 			title: "大齿轮"
-			x: 18.0d
-			y: -4.0d
+			x: 12.5d
+			y: -6.5d
 		}
 		{
 			dependencies: ["555B57E84414A97D"]
-			description: [
-				"§b水车§r 是 §b机械动力§r 最朴素、也最稳定的入门动力源。"
-				""
-				"§e使用方式§r："
-				"· 将水车紧贴流水放置，中心轴自动开始转动"
-				"· 流水面积越大、包围面越多，§6转速§r越高、§6应力容量§r越足"
-				"· 连接传动轴 / 齿轮即可把动力输出到任意机械"
-				""
-				"§7相比手摇曲柄，水车无需玩家蹲点摇动，§f适合长时间稳定供能§r。§r"
-			]
+			description: ["让水流推动§b水车§r，再用传动杆接到机器上，就有了前期的动力来源。机器带不动时，可以多接几台水车。"]
 			icon: "create:water_wheel"
 			id: "7B3A5D9E2F1C8400"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "7B3A5D9E2F1C8402"
@@ -581,37 +398,15 @@
 				type: "item"
 			}]
 			title: "水车"
-			x: 16.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["555B57E84414A97D"]
-			description: [
-				"§b手摇曲柄§r 是 §b机械动力§r 最便携的应急动力源。"
-				"§7适合§e临时驱动§r单台机器（如一次搅拌、一次压制），无需铺设水源或搭建风车。§r"
-			]
-			icon: "create:hand_crank"
-			id: "7B3A5D9E2F1C8410"
-			rewards: [{
-				count: 3
-				id: "7B3A5D9E2F1C8412"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "7B3A5D9E2F1C8411"
-				item: "create:hand_crank"
-				type: "item"
-			}]
-			title: "手摇曲柄"
-			x: 16.0d
+			x: 11.0d
 			y: -8.0d
 		}
 		{
 			dependencies: ["204993835E6F415C"]
-			description: ["§b安山机壳§r 是 §b机械动力§r 机械装配的通用外壳。"]
+			description: ["§b安山机壳§r是许多基础机器的外壳，接下来做动力冲压机和机械手都要用。"]
 			icon: "create:andesite_casing"
 			id: "7B3A5D9E2F1C8100"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "7B3A5D9E2F1C8102"
@@ -625,14 +420,15 @@
 				type: "item"
 			}]
 			title: "安山机壳"
-			x: 14.0d
-			y: 0.0d
+			x: 9.5d
+			y: -5.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
-			description: ["§b动力辊压机§r 可以将金属锭压制成板材，是黄铜板、铁板等的必备装置。"]
+			description: ["给§b动力冲压机§r接上动力，把金属锭放到它下方的置物台上，就能压成板材。黄铜板、铁板都可以这样做。"]
 			icon: "create:mechanical_press"
 			id: "7CBD5A2E6AE463D8"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "3DE436592ACCA3AA"
@@ -644,15 +440,16 @@
 				item: "create:mechanical_press"
 				type: "item"
 			}]
-			title: "动力辊压机"
-			x: 16.0d
-			y: 0.0d
+			title: "动力冲压机"
+			x: 11.0d
+			y: -5.0d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8100"]
-			description: ["§b机械手§r 可以模拟玩家动作——放置、点击、合成，是自动化产线的核心。"]
+			description: ["§b机械手§r能代替你使用手里的物品。给它装上所需零件，再接入动力，就能参与精密构件的装配。"]
 			icon: "create:deployer"
 			id: "23A4599D0C5B6BC0"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 15
 				id: "0E90F0B5931B771C"
@@ -660,20 +457,21 @@
 				type: "item"
 			}]
 			tasks: [{
-				count: 4L
 				id: "1145AB3A132E2F97"
 				item: "create:deployer"
 				type: "item"
 			}]
-			title: "机械手 ×4"
-			x: 20.0d
-			y: 0.0d
+			title: "机械手"
+			x: 12.5d
+			y: -5.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: ["§c红石粉§r 是§b精密构件§r合成中不可替代的材料。在前期你可以直接在商店购买"]
+			description: ["§e红石粉§r前期可以直接在商店购买，装配精密构件和制作芯片都要用。"]
+			hide_dependency_lines: true
 			icon: "minecraft:redstone"
 			id: "7B3A5D9E2F1C8230"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 2
 				id: "7B3A5D9E2F1C8232"
@@ -685,20 +483,17 @@
 				item: "minecraft:redstone"
 				type: "item"
 			}]
-			title: "以币易物：购买红石"
-			x: 20.0d
-			y: 2.0d
+			title: "红石"
+			x: 8.0d
+			y: -9.5d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f线§r 是合成§b线筛网§r的关键材料，也是早期缝制背包、绳索等小物件的常见原料。"
-				""
-				"§e天然途径§r：击杀蜘蛛。"
-				"更省心的办法§r：打开商店直接买"
-			]
+			description: ["做§e线筛网§r需要§f线§r，可以直接在商店购买。"]
+			hide_dependency_lines: true
 			icon: "minecraft:string"
 			id: "7B3A5D9E2F1C8240"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 2
 				id: "7B3A5D9E2F1C8242"
@@ -710,29 +505,9 @@
 				item: "minecraft:string"
 				type: "item"
 			}]
-			title: "以币易物：购买线"
-			x: 8.0d
-			y: 2.0d
-		}
-		{
-			dependencies: ["47911DBA354F2830"]
-			description: ["§b机械传送带§r 是 §b机械动力§r 产线铺设中的核心物流零件——运输物品、桥接机械一把好手。你可以在商店中直接购买"]
-			icon: "create:belt_connector"
-			id: "7B3A5D9E2F1C8250"
-			rewards: [{
-				count: 3
-				id: "7B3A5D9E2F1C8252"
-				item: "coinsje:copper_coin"
-				type: "item"
-			}]
-			tasks: [{
-				id: "7B3A5D9E2F1C8251"
-				item: "create:belt_connector"
-				type: "item"
-			}]
-			title: "以币易物：购买机械传送带"
-			x: 10.0d
-			y: 2.0d
+			title: "购买线"
+			x: 5.0d
+			y: -9.5d
 		}
 		{
 			dependencies: [
@@ -740,18 +515,24 @@
 				"3EBF0AAB9D5A7B0C"
 				"23A4599D0C5B6BC0"
 				"7B3A5D9E2F1C8210"
-				"7B3A5D9E2F1C8230"
 			]
-			description: ["§b精密构件§r 是合成§e芯片遗物§r的核心材料。"]
+			description: [
+				"有了§e精密构件§r，就能着手做芯片和栏位扩大器了。"
+				""
+				"以§e黄铜板§r为底，用机械手依次装上§f齿轮、大齿轮、铁粒、红石§r。这套顺序要重复 §e5 轮§r，别做到第一轮就收走。"
+				""
+				"具体摆法可以对照游戏里的序列装配配方。最后也可能得到别的零件，材料多备几份。"
+			]
 			icon: "create:precision_mechanism"
 			id: "7B3A5D9E2F1C8220"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "7B3A5D9E2F1C8222"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
-			shape: "square"
+			shape: "octagon"
 			size: 1.0d
 			tasks: [{
 				id: "7B3A5D9E2F1C8221"
@@ -759,60 +540,22 @@
 				type: "item"
 			}]
 			title: "精密构件"
-			x: 22.0d
-			y: -2.0d
+			x: 14.0d
+			y: -6.5d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8300"]
-			description: ["一般的经营看来已经难不住你了!爱丽丝很高兴,并且有一些话要对你说"]
-			icon: {
-				Count: 1
-				id: "touhou_little_maid:garage_kit"
-				tag: {
-					EntityInfo: {
-						IsYsmModel: 0b
-						MaidTaskDataMaps: { }
-						ModelId: "touhou_little_maid:alice_margatroid"
-						id: "touhou_little_maid:maid"
-					}
-				}
-			}
+			description: ["店里的生意渐渐上手了，爱丽丝也回来看看。先放下手里的活，听听她想说什么。"]
+			icon_scale: 0.0d
 			id: "2C92FF8892F38FDC"
-			rewards: [
-				{
-					count: 2
-					id: "5B316FEC4918F702"
-					item: "marguerite:voucher_random"
-					type: "item"
-				}
-				{
-					id: "349C63469451E956"
-					item: "marguerite:basic_chip_toe"
-					type: "item"
-				}
-				{
-					id: "587C0AE49009377A"
-					item: "marguerite:basic_chip_sole"
-					type: "item"
-				}
-				{
-					id: "3CC55A1AE94DCB68"
-					item: "marguerite:eco_chip_center"
-					type: "item"
-				}
-				{
-					id: "2598D342A6033723"
-					item: "marguerite:basic_chip_heel"
-					type: "item"
-				}
-				{
-					command: "/chatbox skip skyfootspa:story_alice ch1_alice"
-					icon: "minecraft:nether_star"
-					id: "66A725ED9697CBFF"
-					title: "与爱丽丝对话"
-					type: "command"
-				}
-			]
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "skyfootspa:textures/avatars/alice.png"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:story_alice ch1_alice"
+				id: "7F4BD6CB9C352D9B"
+				title: "与爱丽丝对话"
+				type: "command"
+			}]
 			shape: "square"
 			size: 2.0d
 			tasks: [{
@@ -822,13 +565,14 @@
 			}]
 			title: "爱丽丝的回访"
 			x: 2.0d
-			y: -10.0d
+			y: -5.0d
 		}
 		{
+			dependencies: ["69A76F375E97B63C"]
 			description: [
-				"你的名声传到了神社，§b博丽灵梦§r亲自前来一探究竟。"
+				"你的名声传到了神社，§b博丽灵梦§r也想来看看。"
 				""
-				"完成她的来访，§e开启下一段旅程§r。"
+				"先招待好§e高丽野阿吽§r，把好感度养到§e两心（150）§r，完成对应的服务成就。"
 			]
 			icon: {
 				Count: 1
@@ -842,51 +586,68 @@
 					}
 				}
 			}
+			icon_scale: 0.0d
 			id: "0FD9B77E961BFF01"
-			rewards: [{
-				command: "/chatbox skip skyfootspa:story_reimu ch1_reimu"
-				icon: "minecraft:nether_star"
-				id: "1A65FC3DD77E458F"
-				title: "与博丽灵梦对话"
-				type: "command"
-			}]
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "skyfootspa:textures/avatars/reimu.png"
+			rewards: [
+				{
+					command: "/chatbox skip skyfootspa:story_reimu ch1_reimu"
+					icon: "minecraft:nether_star"
+					id: "1A65FC3DD77E458F"
+					title: "与博丽灵梦对话"
+					type: "command"
+				}
+				{
+					id: "62F8217ACDE91DC2"
+					item: "marguerite:boss_seal_reimu"
+					type: "item"
+				}
+			]
 			shape: "square"
 			size: 2.0d
 			tasks: [{
-				id: "5ED92D05392FD2B3"
-				title: "博丽灵梦的来访"
-				type: "checkmark"
+				advancement: "marguerite:rare_affection/rare_aunn_150"
+				criterion: ""
+				id: "67D5A756BFBDDE5B"
+				type: "advancement"
 			}]
+			title: "灵梦的来访"
 			x: 2.0d
-			y: 7.0d
+			y: 4.0d
 		}
 		{
 			dependencies: ["29ED21FA69A44D13"]
 			description: [
-				"芯片槽的本质是饰品槽位，在前期你的芯片槽是被大量的背包镶板占据的，你需要获取芯片槽解锁器来扩充你的槽位。"
-				"只有你的背包有对应等级的扩充器，才可以取下对应的镶板"
-				"（你再放回去是不会返还的哦）"
+				"芯片装在饰品栏的芯片槽里，不过一开始很多格子都被§e背包镶板§r占着。"
+				""
+				"把§e对应等级的栏位扩大器§r放进背包，就能取下镶板。§c每取下一块，消耗一个扩大器§r，腾出的格子就能装芯片。"
+				""
+				"镶板放回去也不会退还扩大器，取下来就收好。"
 			]
 			icon: "marguerite:backpack_space_mk1"
 			id: "73FAB1A89F0E143F"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "526B084749D3CA59"
 				type: "checkmark"
 			}]
-			title: "”芯片槽“"
-			x: -2.0d
-			y: -10.0d
+			title: "“芯片槽”"
+			x: 2.0d
+			y: -8.0d
 		}
 		{
 			dependencies: ["2C92FF8892F38FDC"]
 			description: [
-				"所谓芯片，其实就是饰品"
-				"可以为你搓脚的属性提供不同程度、不同重点的加成与削弱。合理利用芯片可以大大提高你的收益"
-				"芯片的来源主要是来自制作与抽奖"
-				"随着游戏的进行，你还能获取到更高等级的芯片"
+				"所谓芯片，其实就是饰品。§e装进芯片槽才会生效§r，只放在普通背包里可没用。"
+				""
+				"有的让你多赚钱，有的省体力，也有的能让顾客更满意。不过，加成往往也带着代价，装之前先看看效果。"
+				""
+				"芯片主要靠制作和抽奖获得，后面还会遇到更高等级的。"
 			]
 			icon: "marguerite:basic_chip_toe"
 			id: "29ED21FA69A44D13"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				id: "4271AD7D049C8B14"
 				item: "marguerite:slot_expander_mk1"
@@ -897,70 +658,61 @@
 				title: "“芯片”"
 				type: "checkmark"
 			}]
-			x: 0.0d
-			y: -10.0d
+			x: 2.0d
+			y: -6.5d
 		}
 		{
 			dependencies: [
 				"610F10EC9FEE4CE9"
 				"03EFA7BE40402DF6"
 			]
-			description: [
-				"§f闪长岩§r——合成§e安山合金§r的原料。"
-				""
-				"§a配方§r：工作台 §f圆石 ×2§r + §f石英 ×2§r → §f闪长岩 ×2§r。"
-				""
-				"§7圆石由§b造石机§r（§c岩浆§r + 水）产出。"
-			]
+			description: ["§f闪长岩§r可以和圆石合成§e安山岩§r，再往下做安山合金。筛出的下界石英在这里就派上用场了。"]
 			id: "51624AFBB7E4F90F"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "6F82DBBDF34075E1"
 				item: "minecraft:diorite"
 				type: "item"
 			}]
-			x: 12.0d
-			y: 0.0d
+			x: 8.0d
+			y: -8.0d
 		}
 		{
-			dependencies: ["494196DBF4AA9FCE"]
 			description: [
-				"§8洗脚水§r——顾客泡脚后§b工作盆§r里剩下的废水。"
+				"顾客泡完脚，§b工作盆§r里会留下废水。用§f空桶§r右键取出，别一直留在盆里，否则下一次泡脚没法开始。"
 				""
-				"§e获取方式§r：泡脚倒计时结束后，盆中泡脚水转为废水，用§f空桶§r右键取出。"
+				"§e洗脚水§r还能拿去制盐，先留一些，后面做电解质水用得上。"
 			]
 			id: "4F97186849B00F06"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "55F5CC167FE4B01A"
 				item: "kubejs:foot_water_bucket"
 				type: "item"
 			}]
-			x: 0.0d
-			y: -2.0d
+			x: 8.0d
+			y: -3.5d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§c岩浆桶§r——§b商店§r购买。"
-				""
-				"§e用途§r：搭建§b造石机§r（配水）产出圆石，也是高效燃料。"
-			]
+			description: ["在商店买一桶§e熔岩§r，配合水搭个刷石机，后面合成石材就不缺圆石了。"]
+			hide_dependency_lines: true
 			id: "03EFA7BE40402DF6"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "25CBECFE52EAF7C9"
 				item: "minecraft:lava_bucket"
 				type: "item"
 			}]
-			x: 12.0d
-			y: 2.0d
+			x: 9.5d
+			y: -8.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§b砂纸§r——打磨§d玫瑰石英§r的工具。"
-				""
-				"§e获取方式§r：§b商店§r购买，或按游戏内配方合成。"
-			]
+			description: ["§e砂纸§r用来打磨玫瑰石英，可以直接在商店买。"]
+			hide_dependency_lines: true
 			id: "0A462696D0925D02"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "6EC57DB3F3372ACF"
 				item: {
@@ -972,41 +724,37 @@
 				}
 				type: "item"
 			}]
-			x: 22.0d
-			y: 2.0d
+			x: 6.5d
+			y: -9.5d
 		}
 		{
 			dependencies: [
 				"0A462696D0925D02"
 				"7B3A5D9E2F1C8230"
 			]
-			description: ["§b磨制玫瑰石英§r——§e电子管§r的核心材料。"]
+			description: ["先用§f下界石英§r和§f红石§r合成玫瑰石英，再用§e砂纸§r打磨。磨好后就能拿去做电子管。"]
 			id: "3F288A4C2CD5B94C"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "5B188F88C92CCCC4"
 				item: "create:polished_rose_quartz"
 				type: "item"
 			}]
-			x: 22.0d
-			y: 0.0d
+			x: 9.5d
+			y: -9.5d
 		}
 		{
 			dependencies: ["3F288A4C2CD5B94C"]
-			description: [
-				"§b电子管§r——§b机械动力§r 精密机器的通用元件。"
-				""
-				"§a配方§r：以§b磨制玫瑰石英§r为主料合成（详见游戏内配方）。"
-				""
-				"§e用途§r：§b智能流体管道§r等。"
-			]
+			description: ["§e电子管§r是制作机械手和智能流体管道的材料，磨好的玫瑰石英可以用在这里。"]
 			id: "2C8F92D1F900326E"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "2DE87BD9A80FB7F1"
 				item: "create:electron_tube"
 				type: "item"
 			}]
-			x: 24.0d
-			y: 2.0d
+			x: 11.0d
+			y: -9.5d
 		}
 		{
 			dependencies: [
@@ -1014,212 +762,86 @@
 				"2C8F92D1F900326E"
 				"7B3A5D9E2F1C8210"
 			]
-			description: [
-				"§b智能流体管道§r——可过滤、可控的流体管道。"
-				""
-				"§a配方§r：§b流体管道§r + §b电子管§r + §e黄铜板§r（详见游戏内配方）。"
-			]
+			description: ["§b智能流体管道§r可以指定只让某种流体通过。把排水管设成只输送废水，就不用担心把新加的泡脚水一起抽走了。"]
 			id: "53BA5F31C0FFA92C"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "288069D88DA3E453"
 				item: "create:smart_fluid_pipe"
 				type: "item"
 			}]
-			x: 26.0d
-			y: 0.0d
+			x: 12.5d
+			y: -8.0d
 		}
 		{
-			description: [
-				"§b流体管道§r——§b机械动力§r 输送流体的基础管道。"
-				""
-				"§a配方§r：铜锭等合成（详见游戏内配方）。"
-			]
+			description: ["§b流体管道§r用来输送液体，配合泵给工作盆供水、排水，就不用一直拿桶来回跑了。"]
 			id: "5FAE3DBF960AB8C6"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "00F0E18490E60F64"
 				item: "create:fluid_pipe"
 				type: "item"
 			}]
-			x: 26.0d
-			y: 2.0d
+			x: 12.5d
+			y: -9.5d
 		}
 		{
 			dependencies: ["7B3A5D9E2F1C8220"]
-			description: ["§d基础芯片：敛财§r——所有部位§a金钱 +1§r、§c满意度 -1§r。"]
-			id: "24E775561DAFB297"
-			tasks: [{
-				id: "18D337CC8E2DC6EE"
-				item: "marguerite:basic_chip_toe"
-				type: "item"
-			}]
-			x: 22.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: ["§d基础芯片：勤劳§r——所有部位§a金钱 +1§r、§c体力消耗 +10§r。"]
-			id: "59331FCB907CEBE5"
-			tasks: [{
-				id: "6C1AE7D3C206B38E"
-				item: "marguerite:basic_chip_sole"
-				type: "item"
-			}]
-			x: 20.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：懈怠§r——所有部位§a体力消耗 -10§r、§c满意度 -1§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铁粉§r + §f金粉§r。"
-			]
-			id: "03DA16F6A08CB355"
-			tasks: [{
-				id: "4FD2AD8312FDE16F"
-				item: "marguerite:basic_chip_center"
-				type: "item"
-			}]
-			x: 20.0d
-			y: -8.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: ["§r + f铁粉§r。"]
-			id: "736D2E89559B2B8B"
-			tasks: [{
-				id: "3E72739D6340FAAE"
-				item: "marguerite:general_chip_all"
-				type: "item"
-			}]
-			x: 20.0d
-			y: -6.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：躺平§r——所有部位§a体力消耗 -10§r、§c金钱 -1§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×2§r + §c红石 ×4§r + §e黄铜板§r + §f铁粉§r + §f铜粉§r。"
-			]
-			id: "07B7364C3A9A9D00"
-			tasks: [{
-				id: "744D83D6D1A13630"
-				item: "marguerite:basic_chip_heel"
-				type: "item"
-			}]
-			x: 22.0d
-			y: -6.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：奸商§r（高级）——所有部位§a金钱 +2§r、§c满意度 -2§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f铜粉 ×2§r + §f金粉§r。"
-			]
-			id: "5610E16C89CDF9B0"
-			tasks: [{
-				id: "3D508AA532D8C35B"
-				item: "marguerite:synergy_chip_toe"
-				type: "item"
-			}]
-			x: 24.0d
-			y: -4.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：佛系§r（高级）——所有部位§a体力消耗 -20§r、§c满意度 -1§r、§c金钱 -1§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f铁粉§r + §f金粉§r + §f铜粉§r。"
-			]
-			id: "2800AE0DB615FCC1"
-			invisible: true
-			tasks: [{
-				id: "02AF5CE06F4948EB"
-				item: "marguerite:focus_chip_sole"
-				type: "item"
-			}]
-			x: 24.0d
-			y: -6.0d
-		}
-		{
-			dependencies: ["7B3A5D9E2F1C8220"]
-			description: [
-				"§d基础芯片：热情§r（高级）——所有部位§a满意度 +2§r、§c体力消耗 +20§r。"
-				""
-				"§a配方§r：3×3，§f精密构件 ×4§r + §e黄铜板 ×2§r + §f金粉 ×2§r + §f铁粉§r。"
-			]
-			id: "05B80128122D32E1"
-			tasks: [{
-				id: "1C090C5E39DD02FA"
-				item: "marguerite:eco_chip_center"
-				type: "item"
-			}]
-			x: 22.0d
-			y: -8.0d
-		}
-		{
-			dependencies: [
-				"2C92FF8892F38FDC"
-				"7B3A5D9E2F1C8220"
-			]
-			description: ["§6栏位扩大器·一型§r——解锁被背包镶板占据的§e芯片槽§r。"]
+			description: ["把§e栏位扩大器 MK1§r放进背包，就能取下§e背包镶板 MK1§r。每取下一块消耗一个，想装几块芯片，就先腾几格。"]
 			id: "41840CF6F1387414"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
-			size: 1.5d
 			tasks: [{
 				id: "2B173D8BCBA35573"
 				item: "marguerite:slot_expander_mk1"
 				type: "item"
 			}]
-			x: 20.0d
-			y: -10.0d
+			x: 14.0d
+			y: -5.0d
 		}
 		{
 			dependencies: ["4F97186849B00F06"]
-			description: ["§f盐§r——§b电解质水§r的原料。"]
+			description: [
+				"§e洗脚水§r别急着倒掉，用动力搅拌器处理 §e1 桶§r，就能得到 §e3 个盐§r和 §e1 桶水§r，不需要加热。"
+				""
+				"盐留着做电解质水，回收的水也能继续用。"
+			]
 			id: "6B96992B6F2A526E"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "4928FE63EF0C9D4D"
 				item: "mekanism:salt"
 				type: "item"
 			}]
-			x: -2.0d
-			y: -2.0d
+			x: 6.5d
+			y: -3.5d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f甘蔗§r——§b商店§r购买，或水边种植。"
-				""
-				"§e用途§r：合成§f糖§r。"
-			]
+			description: ["§e甘蔗§r可以在商店买，用来制糖。也可以留几根种起来，省得以后总要买。"]
+			hide_dependency_lines: true
 			id: "6290F355861DDF81"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "3940A91321EFE0F2"
 				item: "minecraft:sugar_cane"
 				type: "item"
 			}]
-			x: 0.0d
-			y: 2.0d
+			x: 9.5d
+			y: -0.5d
 		}
 		{
 			dependencies: ["6290F355861DDF81"]
-			description: [
-				"§f糖§r——§b电解质水§r的原料。"
-				""
-				"§a配方§r：§f甘蔗§r工作台合成。"
-			]
+			description: ["§f糖§r——§b电解质水§r的原料。"]
 			id: "66959BE2AC7A1A2C"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "74913CA1CDE25F11"
 				item: "minecraft:sugar"
 				type: "item"
 			}]
-			x: 0.0d
-			y: 0.0d
+			x: 8.0d
+			y: -0.5d
 		}
 		{
 			dependencies: [
@@ -1228,17 +850,17 @@
 				"66959BE2AC7A1A2C"
 				"7745620940DB40CC"
 				"62E4C654ECE2E45B"
+				"494196DBF4AA9FCE"
 			]
 			description: [
-				"§b电解质水瓶§r——快速回复体力的饮品。"
+				"客人多起来，体力就不太够用了。§e电解质水§r每瓶恢复 §a750 体力§r，没有使用冷却，开店前可以备上几瓶。"
 				""
-				"§a配方§r："
-				"· §b动力搅拌器§r：§f水 1 桶§r + §e柠檬§r + §f盐 ×4§r + §f糖 ×4§r → §b电解质水§r"
-				"· §b注液器§r：§f玻璃瓶§r + §b电解质水 1/4 桶§r → §b电解质水瓶§r"
+				"在工作盆里放入§f水 1 桶、柠檬 1 个、盐 4 个、糖 4 个§r，用动力搅拌器混合，得到 1 桶电解质水。"
 				""
-				"§e效果§r：饮用§a恢复 750 点体力§r，无冷却。"
+				"再用§b注液器§r灌进玻璃瓶，每桶能装 §e4 瓶§r。"
 			]
 			id: "13E6F23D19349B09"
+			quest_enhance_disable_scroll_paging: false
 			shape: "square"
 			size: 1.0d
 			tasks: [{
@@ -1246,124 +868,111 @@
 				item: "marguerite:electrolyte_bottle"
 				type: "item"
 			}]
-			x: -4.0d
+			x: 6.5d
 			y: -2.0d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: ["§e柠檬种子§r——§b商店§r购买后种植，收获§e柠檬§r。"]
+			description: ["在商店买些§e柠檬种子§r，种下后就有柠檬可收了。"]
+			hide_dependency_lines: true
 			id: "647056248C563326"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "3596A40967AFFC86"
 				item: "lemoned:lemon_seeds"
 				type: "item"
 			}]
-			x: -2.0d
-			y: 2.0d
+			x: 5.0d
+			y: -0.5d
 		}
 		{
 			dependencies: ["647056248C563326"]
 			description: ["§e柠檬§r——由§e柠檬种子§r种植收获，是§b电解质水§r的原料。"]
 			id: "150E3FE2FD04A6BE"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "2F1B0E02EABAB9EC"
 				item: "lemoned:lemon"
 				type: "item"
 			}]
-			x: -2.0d
-			y: 0.0d
+			x: 6.5d
+			y: -0.5d
 		}
 		{
 			description: [
-				"§b商店§r——用硬币换取前期稀缺物资的便利店。"
+				"开店赚的硬币，可以在§b商店§r换材料。黄铜、红石、线和种子这些前期缺的东西，都能去翻翻。"
 				""
-				"§e可购§r：黄铜、红石、线、§c岩浆桶§r、砖、沙子、甘蔗、柠檬种子、牛刷怪蛋等。"
-				""
-				"§7空岛开荒缺什么，先来逛一圈。"
+				"按 §eO 键§r打开商店。改过键位的话，在控制设置里找商店按键。"
 			]
+			hide_dependent_lines: true
 			id: "47911DBA354F2830"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "0BFDD8FF84A9FA98"
 				title: "商店"
 				type: "checkmark"
 			}]
 			x: 2.0d
-			y: 2.0d
+			y: -9.5d
 		}
 		{
-			dependencies: ["5343606BA59A1D03"]
-			description: [
-				"§b注液器§r——§b机械动力§r 灌装流体的装置。"
-				""
-				"§e用途§r：把§b电解质水§r注入§f玻璃瓶§r。"
-				""
-				"§a配方§r：铜锭等合成（详见游戏内配方）。"
-			]
+			description: ["把电解质水送进§b注液器§r，再把§f玻璃瓶§r放到它下方，就能灌装成瓶。"]
 			id: "7745620940DB40CC"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "5AFC519DB07C1530"
 				item: "create:spout"
 				type: "item"
 			}]
-			x: -4.0d
-			y: -8.0d
+			x: 5.0d
+			y: -3.5d
 		}
 		{
 			dependencies: ["4F97186849B00F06"]
-			description: [
-				"§b液体垃圾桶§r——自动销毁多余流体。"
-				""
-				"§e用途§r：处理泡脚产生的§8废水§r，省去手动倾倒。"
-				""
-				"§a配方§r：详见游戏内配方。"
-			]
+			description: ["§b液体垃圾桶§r会销毁送进去的流体，倒进去就拿不回来了。洗脚水还能制盐，用不完的再往这里排。"]
 			id: "235650FEBE43834C"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "4DC3829D42749AC1"
 				item: "trashcans:liquid_trash_can"
 				type: "item"
 			}]
-			x: 0.0d
-			y: -4.0d
+			x: 9.5d
+			y: -3.5d
 		}
 		{
 			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f沙子§r——§b商店§r购买。"
-				""
-				"§e用途§r：烧制§f玻璃§r，再做§f玻璃瓶§r。"
-			]
+			description: ["§e沙子§r可以直接在商店买，烧成玻璃后就能做瓶子。"]
+			hide_dependency_lines: true
 			id: "4273523AC7E440F6"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "652B94441D42BE18"
 				item: "minecraft:sand"
 				type: "item"
 			}]
-			x: -4.0d
-			y: 2.0d
+			x: 9.5d
+			y: -2.0d
 		}
 		{
 			dependencies: ["4273523AC7E440F6"]
-			description: [
-				"§f玻璃瓶§r——§b电解质水瓶§r的容器。"
-				""
-				"§a配方§r：§f沙子§r烧成§f玻璃§r，3 玻璃合成 1 玻璃瓶。"
-			]
+			description: ["用玻璃合成§e玻璃瓶§r，装电解质水和茶都用得上，可以一次多做几个。"]
 			id: "62E4C654ECE2E45B"
+			quest_enhance_disable_scroll_paging: false
 			tasks: [{
 				id: "35FB82E34CBA4B25"
 				item: "minecraft:glass_bottle"
 				type: "item"
 			}]
-			x: -4.0d
-			y: 0.0d
+			x: 8.0d
+			y: -2.0d
 		}
 		{
 			dependencies: ["2C92FF8892F38FDC"]
 			description: [
 				"你的手艺传开了，§b河城荷取§r这位河童工程师慕名来访。"
 				""
-				"备好§6金币 ×3§r招待她——她的来意似乎还牵扯一场§c挑战§r。"
+				"和她聊聊，再收好§e河城荷取邀请函§r。等准备好了，就请她来试试你的手艺。"
 			]
 			icon: {
 				Count: 1
@@ -1377,7 +986,10 @@
 					}
 				}
 			}
+			icon_scale: 0.0d
 			id: "494196DBF4AA9FCE"
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "skyfootspa:textures/avatars/hchq_1.png"
 			rewards: [
 				{
 					command: "/chatbox skip skyfootspa:story_nitori ch1_nitori"
@@ -1395,81 +1007,76 @@
 			shape: "square"
 			size: 2.0d
 			tasks: [{
-				consume_items: false
-				count: 3L
-				id: "43083B192D90BB0B"
-				item: "coinsje:gold_coin"
-				type: "item"
+				id: "4989F52148561D19"
+				type: "checkmark"
 			}]
 			title: "河城荷取的来访"
-			x: 2.0d
-			y: -2.0d
+			x: 2.011904761904759d
+			y: -2.005952380952394d
 		}
 		{
-			dependencies: ["47911DBA354F2830"]
-			description: [
-				"§f茶籽§r是一切茶饮的起点。"
-				""
-				"§e获取方式§r："
-				"· 破坏§f野生茶树§r掉落"
-				"· 茶树的下半株同样会掉落茶籽"
-				""
-				"把茶籽种在§f草方块§r上，就能长出§f茶树§r。"
+			dependencies: [
+				"47911DBA354F2830"
+				"494196DBF4AA9FCE"
 			]
+			description: ["想给店里添些茶饮，就先从§e茶籽§r开始。在商店买几粒，种在草方块上，等茶树长起来。"]
 			id: "1F1C5CC8741B03FA"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 2
 				id: "39D3AC569470FB71"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
+			shape: "circle"
 			tasks: [{
 				id: "6B2BD8162D403FEE"
 				item: "youkaishomecoming:tea_seeds"
 				type: "item"
 			}]
 			title: "一粒茶籽"
-			x: 6.0d
-			y: 2.0d
+			x: 5.0d
+			y: 1.0d
 		}
 		{
 			dependencies: ["1F1C5CC8741B03FA"]
 			description: [
-				"§f茶树§r长成后即可采摘§e生茶叶§r。"
+				"茶树长高后，记得趁§e开花前§r采下生茶叶。§c别等到开花，花开了就采不到茶叶了。§r"
 				""
-				"§c注意§r：只能在茶树§c开花前§r采摘，开花后就采不到茶叶了。"
-				""
-				"生茶叶经过§b蒸§r、§b晒§r、§b焙§r、§b发酵§r等不同工序，会变成六种不同的茶叶。"
+				"同样的生茶叶，经过蒸、晒、焙、发酵等不同工序，能做成六种茶叶。"
 			]
 			id: "29B7C02DFB33B21B"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "2F4407C9BF05B58A"
 				item: "coinsje:copper_coin"
 				type: "item"
 			}]
-			shape: "square"
+			shape: "circle"
 			tasks: [{
 				id: "2FC1176FAF90A9FC"
 				item: "youkaishomecoming:tea_leaves"
 				type: "item"
 			}]
 			title: "采青"
-			x: 6.0d
-			y: 4.0d
+			x: 6.5d
+			y: 1.0d
 		}
 		{
 			dependencies: ["29B7C02DFB33B21B"]
 			description: [
-				"§b茶壶§r是泡茶的核心器具。"
+				"茶叶备好了，就用§b茶壶§r煮一壶茶。"
 				""
-				"§a使用方法§r："
-				"· 放在§c热源§r（如营火、岩浆块、炉灶）上方"
-				"· 持§f水桶§r或§f水瓶§r右键添水"
-				"· 放入 §a4§r 份茶叶（或对应配料），泡出 §a1 桶§r茶水"
-				"· 每 §a1/4 桶§r茶水装一瓶：持空§f玻璃瓶§r右键茶壶，或用§b注液器§r灌装"
+				"· 把茶壶放在§c热源§r（如营火、岩浆块、炉灶）上方。"
+				"· 持§f水桶§r或§f水瓶§r右键添水。"
+				"· 按对应配方放入茶叶和配料，每份配方煮出 §e1 桶§r茶水。"
+				"· 用空§f玻璃瓶§r右键取茶，或用§b注液器§r灌装，每桶能装 §e4 瓶§r。"
+				""
+				"给顾客上茶时，手持茶饮，点击需求界面里的「茶水」。有些茶还能招来稀客，要在主世界营业时使用。"
 			]
 			id: "04A4C82CFC22E77D"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "05515539F1F66126"
@@ -1483,22 +1090,24 @@
 			}]
 			title: "一壶清茶"
 			x: 8.0d
-			y: 4.0d
+			y: 1.0d
 		}
 		{
 			dependencies: ["29B7C02DFB33B21B"]
 			description: [
 				"把§f生茶叶§r送进§b蒸笼§r蒸制，就能得到§e绿茶叶§r。"
 				""
-				"§a蒸笼搭建§r："
-				"· §b蒸锅§r：§f竹子 ×2§r + §f铁锭 ×3§r + §f粘土球 ×2§r"
-				"· §b蒸笼§r：§f竹块§r在切石机中切制；§b蒸笼盖§r：任意§f木板§r在切石机中切制"
-				"· 蒸锅下方放§c热源§r、锅内加水，上方叠上蒸笼并盖好蒸笼盖"
+				"§a准备器具§r："
+				"· §b蒸锅§r：§f竹子 ×2§r + §f铁锭 ×3§r + §f黏土球 ×2§r"
+				"· §b蒸笼§r：§f竹块§r在切石机中切制；§b蒸笼盖§r：任意§f木板§r在切石机中切制。"
+				""
+				"蒸锅下方放§c热源§r，锅内加水，上方叠上蒸笼。放入茶叶后，记得盖好蒸笼盖。"
 				""
 				"§7蒸笼可以层层叠高，一次蒸更多茶叶。§r"
 			]
 			icon: "youkaishomecoming:green_tea_leaves"
 			id: "27D3225F27855066"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "7DB3696BC235A0A3"
@@ -1523,8 +1132,8 @@
 				}
 			]
 			title: "蒸青"
-			x: 6.0d
-			y: 6.0d
+			x: 6.5d
+			y: 2.5d
 		}
 		{
 			dependencies: ["27D3225F27855066"]
@@ -1534,6 +1143,7 @@
 				"§b晒干架§r：§f竹块§r在切石机中切制。"
 			]
 			id: "4D5610EA7E51DEBE"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "6124B101DCE6E062"
@@ -1546,14 +1156,15 @@
 				type: "item"
 			}]
 			title: "闷黄"
-			x: 8.0d
-			y: 6.0d
+			x: 5.0d
+			y: 2.5d
 		}
 		{
 			dependencies: ["27D3225F27855066"]
 			description: ["把§e绿茶叶§r放进§b发酵桶§r，静置约 §a90 秒§r，即可发酵成§e黑茶叶§r。"]
 			icon: "youkaishomecoming:dark_tea_leaves"
 			id: "2FEDCA5FEB5CC956"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "577418484FF71EDC"
@@ -1573,8 +1184,8 @@
 				}
 			]
 			title: "渥堆"
-			x: 4.0d
-			y: 6.0d
+			x: 8.0d
+			y: 4.0d
 		}
 		{
 			dependencies: ["29B7C02DFB33B21B"]
@@ -1587,6 +1198,7 @@
 			]
 			icon: "youkaishomecoming:white_tea_leaves"
 			id: "218A9BA53D4784A8"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "3151F419694D5410"
@@ -1606,13 +1218,14 @@
 				}
 			]
 			title: "晒白"
-			x: 10.0d
-			y: 6.0d
+			x: 8.0d
+			y: 2.5d
 		}
 		{
 			dependencies: ["218A9BA53D4784A8"]
 			description: ["把§e白茶叶§r放到§b营火§r上烘焙，即可得到§e乌龙茶叶§r。"]
 			id: "5C3C37E1E2F6819E"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "43C375D862C1330E"
@@ -1625,13 +1238,14 @@
 				type: "item"
 			}]
 			title: "焙火"
-			x: 12.0d
-			y: 6.0d
+			x: 9.5d
+			y: 2.5d
 		}
 		{
 			dependencies: ["218A9BA53D4784A8"]
 			description: ["把§e白茶叶§r放进§b发酵桶§r，静置约 §a90 秒§r，即可发酵成§e红茶叶§r。"]
 			id: "56E61D51C2A03DAF"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "205C6309FE43F923"
@@ -1644,17 +1258,14 @@
 				type: "item"
 			}]
 			title: "全发酵"
-			x: 14.0d
-			y: 6.0d
+			x: 11.0d
+			y: 2.5d
 		}
 		{
 			dependencies: ["27D3225F27855066"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e绿茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：§a脚掌§r需求 +1，满意度 §a+5§r。"
-			]
+			description: ["配方：绿茶叶 ×4"]
 			id: "777FE5E073667689"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "32DD92537129BC72"
@@ -1666,17 +1277,14 @@
 				item: "youkaishomecoming:green_tea"
 				type: "item"
 			}]
-			x: 5.5d
-			y: 8.0d
+			x: 6.5d
+			y: 4.0d
 		}
 		{
 			dependencies: ["4D5610EA7E51DEBE"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e黄茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d八云蓝§r。"
-			]
+			description: ["配方：黄茶叶 ×4"]
 			id: "7B26D0C15DD7AEE9"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "69C346A437167F83"
@@ -1688,17 +1296,14 @@
 				item: "youkaishomecoming:yellow_tea"
 				type: "item"
 			}]
-			x: 8.0d
-			y: 8.0d
+			x: 5.0d
+			y: 4.0d
 		}
 		{
 			dependencies: ["2FEDCA5FEB5CC956"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e黑茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：随机一个部位需求 §a+2§r。"
-			]
+			description: ["配方：黑茶叶 ×4"]
 			id: "45C0AD6B0E4F7768"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "47D26CACD453CBF7"
@@ -1710,17 +1315,14 @@
 				item: "youkaishomecoming:dark_tea"
 				type: "item"
 			}]
-			x: 4.0d
-			y: 8.0d
+			x: 9.5d
+			y: 5.5d
 		}
 		{
 			dependencies: ["5C3C37E1E2F6819E"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e乌龙茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：§a脚趾§r需求 +1，满意度 §a+5§r。"
-			]
+			description: ["配方：乌龙茶叶 ×4"]
 			id: "66A3FF2E90875F6E"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "6900347FADFA9CD6"
@@ -1732,17 +1334,14 @@
 				item: "youkaishomecoming:oolong_tea"
 				type: "item"
 			}]
-			x: 12.0d
-			y: 8.0d
+			x: 9.5d
+			y: 4.0d
 		}
 		{
 			dependencies: ["218A9BA53D4784A8"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e白茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：§a脚心§r需求 +1，满意度 §a+5§r。"
-			]
+			description: ["配方：白茶叶 ×4"]
 			id: "187CD332668777E3"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "334EC1378B7521AC"
@@ -1754,17 +1353,14 @@
 				item: "youkaishomecoming:white_tea"
 				type: "item"
 			}]
-			x: 10.0d
-			y: 8.0d
+			x: 9.5d
+			y: 1.0d
 		}
 		{
 			dependencies: ["56E61D51C2A03DAF"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e红茶叶 ×4§r"
-				""
-				"§e奉茶效果§r：§a脚跟§r需求 +1，满意度 §a+5§r。"
-			]
+			description: ["配方：红茶叶 ×4"]
 			id: "60F8B4AA9BBD4028"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 3
 				id: "6C52FCF6E266CD20"
@@ -1776,18 +1372,14 @@
 				item: "youkaishomecoming:black_tea"
 				type: "item"
 			}]
-			x: 14.0d
-			y: 8.0d
+			x: 12.5d
+			y: 2.5d
 		}
 		{
 			dependencies: ["27D3225F27855066"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e绿茶叶 ×2§r + §f稻米 ×2§r"
-				"§7稻米来自农夫乐事的稻谷作物。§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d魂魄妖梦§r。"
-			]
+			description: ["配方：绿茶叶 ×2 + 稻米 ×2"]
 			id: "3D8A9FEC74F6FFDC"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "34B085137330FFE1"
@@ -1800,17 +1392,13 @@
 				type: "item"
 			}]
 			x: 6.5d
-			y: 8.0d
+			y: 5.5d
 		}
 		{
 			dependencies: ["56E61D51C2A03DAF"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §d瓶装血液 ×2§r"
-				"§c注意§r：瓶装血液需在妖怪化或半妖怪化状态下持小刀、副手持玻璃瓶击杀人类生物获得。"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d蕾米莉亚·斯卡蕾特§r。"
-			]
+			description: ["配方：红茶叶 ×2 + 瓶装血液 ×2"]
 			id: "6AC60D06C6994337"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "5FF9C50D5562204E"
@@ -1822,17 +1410,14 @@
 				item: "youkaishomecoming:scarlet_tea"
 				type: "item"
 			}]
-			x: 15.0d
-			y: 8.0d
+			x: 12.5d
+			y: 4.0d
 		}
 		{
 			dependencies: ["56E61D51C2A03DAF"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §f糖§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d八云紫§r。"
-			]
+			description: ["配方：红茶叶 ×2 + 糖"]
 			id: "7D774AE4465FECEB"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "4FD788DE68D88C88"
@@ -1844,17 +1429,14 @@
 				item: "youkaishomecoming:saidi_tea"
 				type: "item"
 			}]
-			x: 16.0d
-			y: 8.0d
+			x: 11.0d
+			y: 4.0d
 		}
 		{
 			dependencies: ["56E61D51C2A03DAF"]
-			description: [
-				"§a配方§r：§b茶壶§r + §e红茶叶 ×2§r + §f可可豆§r + §f牛奶瓶§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d射命丸文§r。"
-			]
+			description: ["配方：红茶叶 ×2 + 可可豆 + 奶瓶"]
 			id: "3765BE88F95E2AF9"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "1E3511FC104481E9"
@@ -1866,17 +1448,13 @@
 				item: "youkaishomecoming:tea_mocha"
 				type: "item"
 			}]
-			x: 17.0d
-			y: 8.0d
+			x: 11.0d
+			y: 1.0d
 		}
 		{
-			description: [
-				"§a配方§r：§b茶壶§r + §f樱花树叶 ×2§r + §f蜂蜜瓶§r"
-				"§7樱花树叶可用剪刀从樱花树上剪下。§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d西行寺幽幽子§r。"
-			]
+			description: ["配方：樱花树叶 ×2 + 蜂蜜瓶"]
 			id: "2BE06B38B3FFF13C"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "6B75E8E75CE984C4"
@@ -1888,16 +1466,13 @@
 				item: "youkaishomecoming:sakura_honey_tea"
 				type: "item"
 			}]
-			x: 19.0d
-			y: 8.0d
+			x: 14.0d
+			y: 1.0d
 		}
 		{
-			description: [
-				"§a配方§r：§b茶壶§r + §f矢车菊 ×4§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d风见幽香§r。"
-			]
+			description: ["配方：矢车菊 ×4"]
 			id: "256BAA3F79C9353A"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "56660CFB5AF9113E"
@@ -1909,17 +1484,13 @@
 				item: "youkaishomecoming:cornflower_tea"
 				type: "item"
 			}]
-			x: 20.0d
-			y: 8.0d
+			x: 14.0d
+			y: 4.0d
 		}
 		{
-			description: [
-				"§a配方§r：§b茶壶§r + §f卷心菜 ×4§r"
-				"§7卷心菜来自农夫乐事的卷心菜作物。§r"
-				""
-				"§e奉茶效果§r：满意度 §a+5§r，引来稀客§d河城荷取§r。"
-			]
+			description: ["配方：卷心菜 ×4"]
 			id: "0AB8A830DFBA4B09"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 5
 				id: "2025868B6BFB39BB"
@@ -1931,20 +1502,12 @@
 				item: "youkaishomecoming:green_water"
 				type: "item"
 			}]
-			x: 18.0d
-			y: 8.0d
+			x: 14.0d
+			y: 2.5d
 		}
 		{
 			dependencies: ["3D8A9FEC74F6FFDC"]
-			description: [
-				"§d半人半灵§r · 出自§7「东方妖妖梦」§r"
-				""
-				"白玉楼庭师兼剑士，二刀流斩断烦恼。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d玄米茶§r，魂魄妖梦便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§f铁粒§r → §f铁板§r → §e精密构件§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：玄米茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -1958,6 +1521,7 @@
 				}
 			}
 			id: "3E42CAA0FDE2CAB1"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "233E6D1031A2DC91"
@@ -1971,20 +1535,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：魂魄妖梦"
-			x: 6.5d
-			y: 10.0d
+			x: 8.0d
+			y: 5.5d
 		}
 		{
 			dependencies: ["7B26D0C15DD7AEE9"]
-			description: [
-				"§d妖怪（九尾狐）§r · 出自§7「东方妖妖梦」§r"
-				""
-				"八云紫的式神、九尾之狐，亦是橙的主人，精于术算。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d黄茶§r，八云蓝便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§f金粒§r → §f萤石粉§r → §6金锭§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：黄茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -1992,12 +1548,13 @@
 					EntityInfo: {
 						IsYsmModel: 0b
 						MaidTaskDataMaps: { }
-						ModelId: "touhou_little_maid:yakumo_ran"
+						ModelId: "touhou_little_maid:komano_aunn"
 						id: "touhou_little_maid:maid"
 					}
 				}
 			}
 			id: "15E1DFBA096C5FC2"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "428B1E9B9D5EF7BE"
@@ -2007,24 +1564,16 @@
 			shape: "square"
 			tasks: [{
 				id: "1F0DDA42BDD3A3A0"
-				title: "迎接八云蓝"
+				title: "迎接高丽野阿吽"
 				type: "checkmark"
 			}]
-			title: "稀客：八云蓝"
-			x: 8.0d
-			y: 10.0d
+			title: "稀客：高丽野阿吽"
+			x: 5.0d
+			y: 5.5d
 		}
 		{
 			dependencies: ["6AC60D06C6994337"]
-			description: [
-				"§d吸血鬼§r · 出自§7「东方红魔乡」§r"
-				""
-				"红魔馆之主，操纵命运的幼女吸血鬼。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d红魔馆红茶§r，蕾米莉亚·斯卡蕾特便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§c红石§r与§f铜粒§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：红魔馆红茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2038,6 +1587,7 @@
 				}
 			}
 			id: "31170C67374B5E30"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "666A61B39298ECA2"
@@ -2051,20 +1601,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：蕾米莉亚·斯卡蕾特"
-			x: 15.0d
-			y: 10.0d
+			x: 12.5d
+			y: 5.5d
 		}
 		{
 			dependencies: ["7D774AE4465FECEB"]
-			description: [
-				"§d妖怪（境界）§r · 出自§7「东方妖妖梦」§r"
-				""
-				"操纵境界的隙间妖怪，幻想乡贤者之一，神出鬼没。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d埃及糖茶§r，八云紫便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§d紫水晶碎片§r → §d末影珍珠§r → §d赛特斯石英§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：埃及糖茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2078,6 +1620,7 @@
 				}
 			}
 			id: "303F97ACD1850B5B"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "3521F7F1C58A94EC"
@@ -2091,20 +1634,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：八云紫"
-			x: 16.0d
-			y: 10.0d
+			x: 11.0d
+			y: 5.5d
 		}
 		{
 			dependencies: ["3765BE88F95E2AF9"]
-			description: [
-				"§d天狗§r · 出自§7「东方风神录」§r"
-				""
-				"发行《文文。新闻》的天狗记者，操纵风、速度极快。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d摩卡茶§r，射命丸文便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§f纸§r与§f羽毛§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：摩卡茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2118,6 +1653,7 @@
 				}
 			}
 			id: "6D13F90C79855B2E"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "376A91E986977B1C"
@@ -2131,20 +1667,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：射命丸文"
-			x: 17.0d
-			y: 10.0d
+			x: 12.5d
+			y: 1.0d
 		}
 		{
 			dependencies: ["2BE06B38B3FFF13C"]
-			description: [
-				"§d幽灵§r · 出自§7「东方妖妖梦」§r"
-				""
-				"白玉楼之主、亡灵的公主，能操纵死亡。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d樱花蜜茶§r，西行寺幽幽子便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§f石英§r与§f骨头§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：樱花蜜茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2158,6 +1686,7 @@
 				}
 			}
 			id: "0988DC7BEAAB73D8"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "6B9B028F57A5C860"
@@ -2171,20 +1700,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：西行寺幽幽子"
-			x: 19.0d
-			y: 10.0d
+			x: 15.5d
+			y: 1.0d
 		}
 		{
 			dependencies: ["256BAA3F79C9353A"]
-			description: [
-				"§d妖怪（花）§r · 出自§7「东方花映塚」§r"
-				""
-				"喜爱鲜花的花妖，实力深不可测。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d矢车菊茶§r，风见幽香便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§8草灰§r → §f骨头§r → §a绿宝石§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：矢车菊茶"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2198,6 +1719,7 @@
 				}
 			}
 			id: "7CFE7C5CF04D0F5D"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "6D1ED1780FA96560"
@@ -2211,20 +1733,12 @@
 				type: "checkmark"
 			}]
 			title: "稀客：风见幽香"
-			x: 20.0d
-			y: 10.0d
+			x: 15.5d
+			y: 4.0d
 		}
 		{
 			dependencies: ["0AB8A830DFBA4B09"]
-			description: [
-				"§d河童§r · 出自§7「东方风神录」§r"
-				""
-				"妖怪之山的河童工程师，热爱黄瓜与机械，能操纵水。"
-				""
-				"§e招待方式§r：为正在服务的顾客奉上一杯§d青汁§r，河城荷取便会循着茶香来访。"
-				""
-				"§a来访回礼§r：§f铜粒§r → §f锌粒§r → §e精密构件§r；好感越高，回礼越丰厚。"
-			]
+			description: ["召唤：青汁"]
 			icon: {
 				Count: 1
 				id: "touhou_little_maid:garage_kit"
@@ -2238,6 +1752,7 @@
 				}
 			}
 			id: "5B2CBFF59E36F3C8"
+			quest_enhance_disable_scroll_paging: false
 			rewards: [{
 				count: 10
 				id: "12D8101B485F6D6E"
@@ -2251,8 +1766,191 @@
 				type: "checkmark"
 			}]
 			title: "稀客：河城荷取"
-			x: 18.0d
-			y: 10.0d
+			x: 15.5d
+			y: 2.5d
+		}
+		{
+			dependencies: ["7B3A5D9E2F1C8220"]
+			description: [
+				"这六种芯片都要用§f红石、黄铜板和两个精密构件§r，再配上不同的金属粉。粉末的种类和摆放位置都要对照配方。"
+				""
+				"先看效果，挑一块适合自己用的做出来，装进腾好的芯片槽。"
+			]
+			hide_dependency_lines: true
+			id: "1618F73B3A075DBE"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "59F0C3B783C916D7"
+				title: "制作你的第一个人工芯片"
+				type: "checkmark"
+			}]
+			x: 17.0d
+			y: -6.5d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			description: ["每次搓脚多赚一点，但也更费体力。装上之前，先看看饮品够不够。"]
+			id: "216A20A7189EB125"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "7DFD9037F9FED999"
+				item: "marguerite:basic_chip_sole"
+				type: "item"
+			}]
+			x: 15.5d
+			y: -6.5d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			description: ["多赚些钱，代价是满意度涨得少些。碰到有满意度要求的考核，先想想要不要换下来。"]
+			id: "12988EFE2A81F277"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "412CEE2710D79BB4"
+				item: "marguerite:basic_chip_toe"
+				type: "item"
+			}]
+			x: 15.5d
+			y: -8.0d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			dependency_requirement: "all_started"
+			description: ["搓脚省力了，满意度却会涨得更慢。适合体力不够用的时候，想让顾客满意还得靠别的补回来。"]
+			id: "06A20D89B974A92F"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "18EA7B5C2F6B0F35"
+				item: "marguerite:basic_chip_center"
+				type: "item"
+			}]
+			x: 15.5d
+			y: -5.0d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			description: ["多花些体力，让满意度涨得更多。准备考核时可以试试，别忘了带补体力的饮品。"]
+			id: "4F9EC16335BA5B03"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "6317082639826F6B"
+				item: "marguerite:basic_chip_heel"
+				type: "item"
+			}]
+			x: 18.5d
+			y: -6.5d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			description: ["在芯片§e正上方留一格空槽§r，才能获得满意度加成。镶板占着的格子不算，放在最上排也不会生效。"]
+			id: "2B2AC1D6D4C5AA3E"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "5BD51B3ADE3F7193"
+				item: "marguerite:void_chip_all"
+				type: "item"
+			}]
+			x: 18.5d
+			y: -5.0d
+		}
+		{
+			dependencies: ["1618F73B3A075DBE"]
+			description: ["在芯片§e正下方留一格空槽§r，才能获得金钱加成。镶板占着的格子不算，放在最下排也不会生效。"]
+			id: "5EF8D0EF15E14971"
+			quest_enhance_disable_scroll_paging: false
+			tasks: [{
+				id: "77D2A04A0BC9129A"
+				item: "marguerite:margin_chip_all"
+				type: "item"
+			}]
+			x: 18.5d
+			y: -8.0d
+		}
+		{
+			dependencies: ["494196DBF4AA9FCE"]
+			description: [
+				"荷取想亲自试试你的手艺。白天手持§e河城荷取邀请函§r，右键§b寻路触发器§r，就能请她来店里。"
+				""
+				"她躺下后，考核就开始了。你要在 §e60 秒§r内完成全部需求，结束时满意度至少达到 §e60%§r。"
+				""
+				"只做完需求还不够，满意度不达标也算失败。先挑好芯片，备好补体力的饮品再开始。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:hakurei_reimu"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			icon_scale: 0.0d
+			id: "69A76F375E97B63C"
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "skyfootspa:textures/avatars/hchq_think_1.png"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:story_nitori ch1_nitori_boss"
+				id: "6D312A6665A44D91"
+				title: "与河城荷取对话"
+				type: "command"
+			}]
+			shape: "square"
+			size: 2.0d
+			tasks: [{
+				advancement: "marguerite:boss_challenge/boss_nitori"
+				criterion: ""
+				id: "6B7C9BC3F0F8211C"
+				type: "advancement"
+			}]
+			title: "河城荷取的考核"
+			x: 2.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["0FD9B77E961BFF01"]
+			description: [
+				"轮到灵梦了。白天手持§e博丽灵梦邀请函§r，右键§b寻路触发器§r，请她来店里。"
+				""
+				"从她躺下开始，你有 §e120 秒§r完成全部需求，结束时满意度至少达到 §e50%§r。"
+				""
+				"别看目标比荷取低，灵梦的满意度更难涨。多留意满意度，别只顾着把需求清完。"
+			]
+			icon: {
+				Count: 1
+				id: "touhou_little_maid:garage_kit"
+				tag: {
+					EntityInfo: {
+						IsYsmModel: 0b
+						MaidTaskDataMaps: { }
+						ModelId: "touhou_little_maid:hakurei_reimu"
+						id: "touhou_little_maid:maid"
+					}
+				}
+			}
+			icon_scale: 0.0d
+			id: "5C907BF8E919B8F2"
+			quest_enhance_disable_scroll_paging: false
+			quest_enhance_quest_background: "skyfootspa:textures/avatars/reimu_open.png"
+			rewards: [{
+				command: "/chatbox skip skyfootspa:story_reimu ch1_reimu_boss"
+				id: "7F6040D74B73CF7D"
+				title: "与博丽灵梦对话"
+				type: "command"
+			}]
+			shape: "square"
+			size: 2.0d
+			tasks: [{
+				advancement: "marguerite:boss_challenge/boss_reimu"
+				criterion: ""
+				id: "2F823F9D82FD7EE4"
+				type: "advancement"
+			}]
+			title: "博丽灵梦的考核"
+			x: 2.0d
+			y: 7.0d
 		}
 	]
 	title: "第一章"

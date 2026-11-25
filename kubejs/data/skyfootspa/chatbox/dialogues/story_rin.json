@@ -124,11 +124,7 @@
         },
         "options": [
           {
-            "text": "收下召唤符",
-            "click": {
-              "type": "command",
-              "value": "give @s marguerite:boss_seal_rin"
-            }
+            "text": "继续"
           }
         ],
         "portrait": [

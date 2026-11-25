@@ -107,6 +107,9 @@
     .thwrap { display: flex; flex-grow: 0; flex-shrink: 0; }
     .thwrap img { margin-right: 2px; }
     .ttxt { color: #9d6f6f; white-space: nowrap; flex-grow: 0; flex-shrink: 0; }
+    /* 专属饰品领取行：文案+物品图标横排；灰显/已领由行 opacity 承担（AUI 不支持 filter） */
+    .ctxt { color: #513737; font-weight: bold; white-space: nowrap; flex-grow: 0; flex-shrink: 0; }
+    .cwrap { display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; }
     /* 掉落槽组：从右往左排（row-reverse），0 号槽贴右缘顶格；隐藏槽不占位，余下物品仍右对齐。
        槽间距由 layoutPage 按序号写 margin-right（0 号 0、其余 8），不用 CSS 统一 margin。 */
     .dslots { display: flex; flex-direction: row-reverse; flex-grow: 0; flex-shrink: 0; }
@@ -217,6 +220,11 @@
         <div class="dslot" id="drop3_3" style="display:none;"><item id="di3_3"></item><div class="cnt" id="dt3_3"></div></div>
       </div>
     </div>
+    <!-- 专属饰品领取行：好感度达到阈值可领一次；未达标灰显、可领橙条、已领灰条「已领取」 -->
+    <div class="placed trow" id="claimRow" style="display:none;">
+      <div class="ctxt" id="claimLabel"></div>
+      <div class="cwrap" id="claimWrap"><item id="claimItem"></item></div>
+    </div>
   </div>
 
   <script>
@@ -247,6 +255,9 @@
       tierState.push({ visible: false, unlocked: false });
       dropState.push([false, false, false, false]);
     }
+    // 领取行状态：mode 0=未达标灰显 1=可领取 2=已领取；样式由 layoutPage 统一重写
+    var claimState = { visible: false, mode: 0, itemVisible: false };
+    var claimBaseStyle = "display:none;";
 
     function px(value) { return (value * pageScale).toFixed(3) + "px"; }
     function sizeStyle(width, height) { return "width:" + px(width) + ";height:" + px(height) + ";"; }
@@ -362,6 +373,26 @@
       document.getElementById("tier" + t).setAttribute("style", baseStyle + style);
     }
 
+    // 领取行：可领取用 ACTIVE 橙条；未达标/已领取用普通条+opacity 灰显（AUI 不支持 filter 灰度）
+    function applyClaimStyle(baseStyle) {
+      var el = document.getElementById("claimRow");
+      if (!el) return;
+      if (!claimState.visible) {
+        claimBaseStyle = "display:none;";
+        el.setAttribute("style", claimBaseStyle);
+        return;
+      }
+      var bg = claimState.mode === 1 ? "rare_row_active.png" : "rare_row.png";
+      claimBaseStyle = baseStyle + "display:flex;background-image:url('" + bg + "');background-size:100% 100%;";
+      var extra = claimState.mode === 0 ? "opacity:0.45;" : (claimState.mode === 2 ? "opacity:0.6;" : "cursor:pointer;");
+      el.setAttribute("style", claimBaseStyle + extra);
+    }
+    function hoverClaim(on) {
+      var el = document.getElementById("claimRow");
+      if (!el || !claimState.visible || claimState.mode !== 1) return;
+      el.setAttribute("style", claimBaseStyle + (on ? "opacity:0.9;" : "") + "cursor:pointer;");
+    }
+
     function layoutPage() {
       var width = Number(window.innerWidth);
       var height = Number(window.innerHeight);
@@ -423,6 +454,13 @@
             "right:" + px(2) + ";bottom:" + px(2) + ";" + sizeStyle(28, 18) + "font-size:" + px(14) + ";");
         }
       }
+      // 领取行在「报酬」标题右侧：与标题同高（562..605），右缘与报酬条右缘 1471 对齐
+      applyClaimStyle("left:" + px(800) + ";top:" + px(562) + ";" + sizeStyle(671, 43));
+      document.getElementById("claimLabel").setAttribute("style",
+        "margin-left:" + px(24) + ";" + sizeStyle(330, 30) + "font-size:" + px(20) + ";");
+      document.getElementById("claimWrap").setAttribute("style",
+        (claimState.itemVisible ? "display:flex;" : "display:none;") + sizeStyle(40, 40));
+      document.getElementById("claimItem").setAttribute("style", itemStyle(1.2));
     }
 
     // ===== 自定义滚动条：分隔笔刷=轨道，同图叠层=滑块（设计稿滚动条.html 双层结构）。
@@ -533,6 +571,14 @@
           tierState[tt].visible = false;
         }
       }
+      // 专属饰品领取行：已领取 > 可领取（好感度≥阈值）> 未达标灰显
+      var rewardTh = r.rewardThreshold != null ? r.rewardThreshold : 300;
+      claimState.visible = true;
+      claimState.mode = (r.claimed === true || r.claimed === 1) ? 2 : (r.affection >= rewardTh ? 1 : 0);
+      claimState.itemVisible = claimState.mode !== 2;
+      document.getElementById("claimLabel").textContent =
+        claimState.mode === 2 ? "已领取" : ("好感度达到" + rewardTh + "时可领取：");
+      document.getElementById("claimItem").textContent = r.reward || "minecraft:nether_star";
       layoutPage();
     }
 
@@ -578,6 +624,24 @@
           row.addEventListener("mouseenter", function () { rowState[idx].lift = true; applyRowStyle(idx); });
           row.addEventListener("mouseleave", function () { rowState[idx].lift = false; applyRowStyle(idx); });
         })(i);
+      }
+      var claimEl = document.getElementById("claimRow");
+      if (claimEl) {
+        claimEl.addEventListener("click", function () {
+          if (!VIEW || claimState.mode !== 1) return;
+          var r = (VIEW.list || [])[selectedIdx];
+          if (!r) return;
+          var player = McClient.getInstance().player;
+          if (!player) return;
+          player.sendData("pf_rare_affection_claim", { rareId: r.id });
+          // 服务端仅发物品；页面本地把本行切到「已领取」，不整页刷新、无其它动作
+          claimState.mode = 2;
+          claimState.itemVisible = false;
+          document.getElementById("claimLabel").textContent = "已领取";
+          layoutPage();
+        });
+        claimEl.addEventListener("mouseenter", function () { hoverClaim(true); });
+        claimEl.addEventListener("mouseleave", function () { hoverClaim(false); });
       }
       window.addEventListener("resize", onResize);
       document.addEventListener("unload", function () {

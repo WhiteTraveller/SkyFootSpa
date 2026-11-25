@@ -1,6 +1,6 @@
 ItemEvents.tooltip(event => {
     event.addAdvanced("marguerite:cun_block", (stack, advanced, text) => {
-        text.add("§7九个皴压缩而成")
+        text.add("§7四个皴压缩而成")
         text.add("§8可放入筛网筛出金属颗粒")
     })
 

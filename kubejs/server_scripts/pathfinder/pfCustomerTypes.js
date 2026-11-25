@@ -402,7 +402,7 @@ function pfRollCustomer(player, level) {
 // ============================================================
 
 // ===== 稀客可配置项 =====
-let PF_RARE_SPAWN_CHANCE = 0.10       // 自然生成时替换为稀客的概率（0-1，默认 10%）
+let PF_RARE_SPAWN_CHANCE = 0          // 自然生成时替换为稀客的概率（0-1，0=禁用自然生成稀客，仅茶水召唤）
 let PF_RARE_DEMAND_MULTIPLIER = 1.5   // 稀客需求倍率（相对普通顾客）
 
 // ===== 稀客好感度可配置项 =====
@@ -410,6 +410,15 @@ let PF_RARE_DEMAND_MULTIPLIER = 1.5   // 稀客需求倍率（相对普通顾客
 let PF_RARE_HEART_THRESHOLDS = [50, 150, 300]
 // 结算时好感度增量 = 本单满意度 - PF_RARE_AFFECTION_SAT_OFFSET（允许为负即扣除），结果 clamp 到最小 0，无上限
 let PF_RARE_AFFECTION_SAT_OFFSET = 50
+
+// ===== 稀客专属饰品（满心好感一次性领取）=====
+// 领取阈值：默认取最高爱心阈值（当前 300）
+let PF_RARE_REWARD_THRESHOLD = PF_RARE_HEART_THRESHOLDS[PF_RARE_HEART_THRESHOLDS.length - 1]
+// 每个稀客的专属饰品；未配置的稀客回退 PF_RARE_REWARD_DEFAULT（当前下界之星占位）
+let PF_RARE_REWARDS = {
+    // 'rare_yukari': 'marguerite:xxx_accessory',
+}
+let PF_RARE_REWARD_DEFAULT = 'minecraft:nether_star'
 
 // ===== 稀客掉落配置 =====
 // 每个稀客按“当前爱心数”（0/1/2/3）掉落不同物品。
@@ -445,13 +454,13 @@ let PF_RARE_BY_DIMENSION = {
             }
         },
         {
-            id: 'rare_ran', name: '八云蓝', model: 'touhou_little_maid:yakumo_ran', weight: 1,
-            // (B) 式神狐·金：金粒 → 萤石粉(1心解锁) → 金锭(3心最高级)
+            id: 'rare_aunn', name: '高丽野阿吽', model: 'touhou_little_maid:komano_aunn', weight: 1,
+            // (B) 狛犬·守护石：圆石 → 苔石(1心解锁) → 青金石(3心最高级)
             drops: {
-                0: [{ item: 'minecraft:gold_nugget', min: 2, max: 4 }],
-                1: [{ item: 'minecraft:gold_nugget', min: 4, max: 8 }, { item: 'minecraft:glowstone_dust', min: 2, max: 3 }],
-                2: [{ item: 'minecraft:gold_nugget', min: 6, max: 10 }, { item: 'minecraft:glowstone_dust', min: 3, max: 5 }],
-                3: [{ item: 'minecraft:gold_nugget', min: 8, max: 12 }, { item: 'minecraft:glowstone_dust', min: 4, max: 6 }, { item: 'minecraft:gold_ingot', min: 2, max: 4 }]
+                0: [{ item: 'minecraft:cobblestone', min: 2, max: 4 }],
+                1: [{ item: 'minecraft:cobblestone', min: 4, max: 8 }, { item: 'minecraft:mossy_cobblestone', min: 1, max: 2 }],
+                2: [{ item: 'minecraft:cobblestone', min: 6, max: 10 }, { item: 'minecraft:mossy_cobblestone', min: 2, max: 4 }],
+                3: [{ item: 'minecraft:cobblestone', min: 8, max: 12 }, { item: 'minecraft:mossy_cobblestone', min: 3, max: 5 }, { item: 'minecraft:lapis_lazuli', min: 2, max: 4 }]
             }
         },
         {
@@ -515,27 +524,18 @@ let PF_RARE_BY_DIMENSION = {
             }
         }
     ],
-    // 旧地狱：普通池为 妖精+鬼族，稀客从地狱/冥界主题角色中挑选（避开 oni 普通池）
+    // 旧地狱：普通池为 妖精+鬼族，稀客为地底/三途河主题角色（避开 oni 普通池）
+    // 第二章「地灵殿咖啡时间」：古明地觉←卡布奇诺、火焰猫燐←摩卡、灵乌路空←阿芙佳朵（coffeeFoods.js）
     // drops 同样分 (A) 种类固定递增数量 / (B) 种类递进解锁(1心中级、3心最高级) 两种设计
     'marguerite:old_hell': [
         {
-            id: 'rare_yuyuko_hell', name: '西行寺幽幽子', model: 'touhou_little_maid:saigyouji_yuyuko', weight: 1,
-            // (A) 冥界亡灵·白：石英 + 骨（种类固定，数量随好感递增）
+            id: 'rare_satori', name: '古明地觉', model: 'touhou_little_maid:komeiji_satori', weight: 1,
+            // (B) 觉妖怪·读心：赛特斯石英 → 魔力粉(3心最高级·洞察)
             drops: {
-                0: [{ item: 'minecraft:quartz', min: 2, max: 3 }, { item: 'minecraft:bone', min: 1, max: 2 }],
-                1: [{ item: 'minecraft:quartz', min: 3, max: 5 }, { item: 'minecraft:bone', min: 2, max: 3 }],
-                2: [{ item: 'minecraft:quartz', min: 5, max: 8 }, { item: 'minecraft:bone', min: 3, max: 5 }],
-                3: [{ item: 'minecraft:quartz', min: 8, max: 12 }, { item: 'minecraft:bone', min: 4, max: 6 }]
-            }
-        },
-        {
-            id: 'rare_youmu_hell', name: '魂魄妖梦', model: 'touhou_little_maid:konpaku_youmu', weight: 1,
-            // (B) 冥界剑士·铁钢：铁粒 → 铁板(1心解锁) → 精密构件(3心最高级)
-            drops: {
-                0: [{ item: 'minecraft:iron_nugget', min: 2, max: 4 }],
-                1: [{ item: 'minecraft:iron_nugget', min: 4, max: 8 }, { item: 'immersiveengineering:plate_iron', min: 1, max: 2 }],
-                2: [{ item: 'minecraft:iron_nugget', min: 6, max: 10 }, { item: 'immersiveengineering:plate_iron', min: 2, max: 4 }],
-                3: [{ item: 'minecraft:iron_nugget', min: 8, max: 12 }, { item: 'immersiveengineering:plate_iron', min: 3, max: 5 }, { item: 'create:precision_mechanism', min: 1, max: 2 }]
+                0: [{ item: 'ae2:certus_quartz_crystal', min: 1, max: 2 }],
+                1: [{ item: 'ae2:certus_quartz_crystal', min: 2, max: 4 }],
+                2: [{ item: 'ae2:certus_quartz_crystal', min: 3, max: 6 }],
+                3: [{ item: 'ae2:certus_quartz_crystal', min: 4, max: 8 }, { item: 'marguerite:magic_dust', min: 1, max: 2 }]
             }
         },
         {
@@ -724,6 +724,15 @@ function pfRareDropsFor(rareDef, heartCount) {
 }
 
 /**
+ * 取某稀客的专属饰品物品 id（未配置回退默认占位）
+ * @param {string} rareId 稀客 id
+ * @returns {string} 物品 id
+ */
+function pfRareRewardItem(rareId) {
+    return PF_RARE_REWARDS[rareId] || PF_RARE_REWARD_DEFAULT
+}
+
+/**
  * 取某维度的稀客池
  * @param {string} dimId 维度干净 id
  * @returns {Array} 稀客定义数组（无则空数组）
@@ -749,15 +758,14 @@ function pfRareFind(dimId, rareId) {
 // ===== 稀客角色设定（供界面右侧悬停展示：种族 / 出现作品 / 简介）=====
 let PF_RARE_LORE = {
     'rare_yukari':      { race: '妖怪（境界）',     work: '东方妖妖梦', desc: '操纵境界的隙间妖怪，幻想乡贤者之一，神出鬼没。' },
-    'rare_ran':         { race: '妖怪（九尾狐）',   work: '东方妖妖梦', desc: '八云紫的式神、九尾之狐，亦是橙的主人，精于术算。' },
+    'rare_aunn':        { race: '妖怪（狛犬）',     work: '东方天空璋', desc: '博丽神社的狛犬守护兽，由「阿」与「吽」两只狛犬合一而生，从信仰中汲取力量。' },
     'rare_yuyuko':      { race: '幽灵',             work: '东方妖妖梦', desc: '白玉楼之主、亡灵的公主，能操纵死亡。' },
     'rare_youmu':       { race: '半人半灵',         work: '东方妖妖梦', desc: '白玉楼庭师兼剑士，二刀流斩断烦恼。' },
     'rare_remilia':     { race: '吸血鬼',           work: '东方红魔乡', desc: '红魔馆之主，操纵命运的幼女吸血鬼。' },
     'rare_yuka':        { race: '妖怪（花）',       work: '东方花映塚', desc: '喜爱鲜花的花妖，操纵花程度的能力，实力深不可测。' },
     'rare_aya':         { race: '天狗',             work: '东方风神录', desc: '发行《文文。新闻》的天狗记者，操纵风、速度极快。' },
     'rare_nitori':      { race: '河童',             work: '东方风神录', desc: '妖怪之山的河童工程师，热爱黄瓜与机械，能操纵水。' },
-    'rare_yuyuko_hell': { race: '幽灵',             work: '东方妖妖梦', desc: '冥界的亡灵公主、白玉楼之主（旧地狱访客）。' },
-    'rare_youmu_hell':  { race: '半人半灵',         work: '东方妖妖梦', desc: '半人半灵的剑士庭师（旧地狱访客）。' },
+    'rare_satori':      { race: '妖怪（觉）',       work: '东方地灵殿', desc: '地灵殿之主，能读取内心的觉妖怪，深居地底、喜静爱宠。' },
     'rare_komachi':     { race: '死神',             work: '东方花映塚', desc: '三途河的摆渡死神，引导亡魂，懒散却称职。' },
     'rare_shikieiki':   { race: '阎魔',             work: '东方花映塚', desc: '是非曲直厅的阎魔，审判亡魂、黑白分明。' },
     'rare_rin':         { race: '妖怪猫（火车）',   work: '东方地灵殿', desc: '旧地狱的妖怪猫，搬运尸体，阿空的挚友。' },
@@ -802,7 +810,9 @@ global.pfCustomerTypes = {
     pfRareFigureItemExpr: pfRareFigureItemExpr,
     pfRareDropsFor: pfRareDropsFor,
     pfRareGetPool: pfRareGetPool,
-    pfRareFind: pfRareFind
+    pfRareFind: pfRareFind,
+    PF_RARE_REWARD_THRESHOLD: PF_RARE_REWARD_THRESHOLD,
+    pfRareRewardItem: pfRareRewardItem
 }
 
 let skinInfo = []

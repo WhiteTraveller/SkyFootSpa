@@ -16,13 +16,13 @@
 // ============================================================
 
 global.VOUCHER_CATEGORIES = [
-    { id: "random", name: "§d✦ 随机预约凭证",    rarity: "rare",     desc: "随机召唤一位任意种类的顾客" },
-    { id: "ningen", name: "§f✦ 预约凭证 · 人类", rarity: "uncommon", desc: "召唤一位随机的人类顾客" },
-    { id: "yousei", name: "§a✦ 预约凭证 · 妖精", rarity: "uncommon", desc: "召唤一位随机的妖精顾客" },
-    { id: "youkai", name: "§5✦ 预约凭证 · 妖怪", rarity: "rare",     desc: "召唤一位随机的妖怪顾客" },
-    { id: "kami",   name: "§6✦ 预约凭证 · 神",   rarity: "epic",     desc: "召唤一位随机的神类顾客" },
-    { id: "rei",    name: "§b✦ 预约凭证 · 灵",   rarity: "rare",     desc: "召唤一位随机的灵类顾客" },
-    { id: "oni",    name: "§4✦ 预约凭证 · 鬼",   rarity: "epic",     desc: "召唤一位随机的鬼类顾客" }
+    { id: "random", name: "✦ 随机预约凭证",    rarity: "rare",     desc: "随机召唤一位任意种类的顾客" },
+    { id: "ningen", name: "✦ 预约凭证 · 人类", rarity: "uncommon", desc: "召唤一位随机的人类顾客", tex: "marguerite:item/voucher_ningen" },
+    { id: "yousei", name: "✦ 预约凭证 · 妖精", rarity: "uncommon", desc: "召唤一位随机的妖精顾客" },
+    { id: "youkai", name: "✦ 预约凭证 · 妖怪", rarity: "rare",     desc: "召唤一位随机的妖怪顾客", tex: "marguerite:item/voucher_youkai" },
+    { id: "kami",   name: "✦ 预约凭证 · 神",   rarity: "epic",     desc: "召唤一位随机的神类顾客" },
+    { id: "rei",    name: "✦ 预约凭证 · 灵",   rarity: "rare",     desc: "召唤一位随机的灵类顾客" },
+    { id: "oni",    name: "✦ 预约凭证 · 鬼",   rarity: "epic",     desc: "召唤一位随机的鬼类顾客" }
 ]
 
 StartupEvents.registry("item", event => {
@@ -35,7 +35,7 @@ StartupEvents.registry("item", event => {
                 .maxStackSize(16)
                 .tooltip("§7" + v.desc)
                 .tooltip("§8右键开店方块使用 · 无视昼夜")
-                .texture("minecraft:item/paper")
+                .texture(v.tex || "minecraft:item/paper")
             try { b.rarity(v.rarity) } catch (e) {}
             console.log("[VOUCHER] 已注册: marguerite:voucher_" + v.id)
         } catch (e) {

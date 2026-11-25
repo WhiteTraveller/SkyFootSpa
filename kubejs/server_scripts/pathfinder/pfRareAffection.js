@@ -175,6 +175,9 @@ function pfApplyRareSettlement(entity, level, satisfaction) {
         console.log("[PF-RARE] 结算未找到开店方块 BE，好感度未持久化 rareId=" + rareId)
     }
 
+    // 好感成就：本次结算即“服务一次”，方块好感达到 150/300 档时授予对应自定义进度
+    pfGrantRareAffectionAdvancement(level, rareId, newAffection)
+
     let name = rareDef ? rareDef.name : rareId
     console.log("[PF-RARE] 结算 " + name + "(" + rareId + "): 更新前好感=" + preAffection +
         " 爱心=" + heartCount + " 增量=" + delta + " 更新后好感=" + newAffection +
@@ -182,6 +185,32 @@ function pfApplyRareSettlement(entity, level, satisfaction) {
     return {
         rareId: rareId, name: name, heartCount: heartCount,
         delta: delta, newAffection: newAffection, drops: rolled
+    }
+}
+
+// ========== 稀客好感成就（自定义进度）==========
+
+/**
+ * 结算时按方块好感档位授予自定义进度（kubejs/data/marguerite/advancements/rare_affection/）
+ * 进度为 minecraft:impossible 触发器，只能由命令授予；until 只连带父级（root 与 150 档）一起授予。
+ * 不能用 through：它会连带所有子级，授予 150 档时会把子级 300 档一并误发。
+ * 好感度按开店方块存储、结算为全店事件，故授予对象为在线玩家（@a）。
+ * @param {$Level_} level 世界
+ * @param {string} rareId 稀客 id
+ * @param {number} newAffection 结算后方块好感度
+ */
+function pfGrantRareAffectionAdvancement(level, rareId, newAffection) {
+    // 仅主世界八位稀客配置了对应成就
+    if (!global.pfCustomerTypes.pfRareFind('minecraft:overworld', rareId)) return
+    let thresholds = global.pfCustomerTypes.PF_RARE_HEART_THRESHOLDS
+    let advId = null
+    if (newAffection >= thresholds[2]) advId = 'marguerite:rare_affection/' + rareId + '_300'
+    else if (newAffection >= thresholds[1]) advId = 'marguerite:rare_affection/' + rareId + '_150'
+    if (!advId) return
+    try {
+        level.getServer().runCommandSilent('advancement grant @a until ' + advId)
+    } catch (e) {
+        console.log('[PF-RARE] 好感成就授予失败 ' + advId + ': ' + e)
     }
 }
 
@@ -226,10 +255,40 @@ function pfBuildRareAffectionView(be, dimId) {
             desc: '' + (lore.desc || ''),
             affection: aff,
             hearts: hearts,
-            tiers: tiers
+            tiers: tiers,
+            // 专属饰品领取状态（键 pfRareClaim_<rareId>，与好感度同存开店方块 BE）
+            claimed: be.persistentData.getInt('pfRareClaim_' + r.id) === 1,
+            reward: global.pfCustomerTypes.pfRareRewardItem(r.id),
+            rewardThreshold: global.pfCustomerTypes.PF_RARE_REWARD_THRESHOLD | 0
         })
     }
     return out
+}
+
+// ========== 专属饰品领取 ==========
+
+/**
+ * 领取某稀客的专属饰品（每个开店方块内每稀客限一次）
+ * 校验顺序：已领取 → 好感度阈值 → 写领取标记 → 发放物品
+ * @param {$Player_} player 领取玩家
+ * @param {$BlockEntity_} be 寻路方块实体
+ * @param {string} rareId 稀客 id
+ * @returns {string} 'ok' | 'claimed' | 'low' | 'invalid'
+ */
+function pfClaimRareReward(player, be, rareId) {
+    if (!player || !be || !rareId) return 'invalid'
+    if (be.persistentData.getInt('pfRareClaim_' + rareId) === 1) return 'claimed'
+    if (pfGetBeAffection(be, rareId) < (global.pfCustomerTypes.PF_RARE_REWARD_THRESHOLD | 0)) return 'low'
+    let item = global.pfCustomerTypes.pfRareRewardItem(rareId)
+    // 先写领取标记再发放，避免发放异常时重复领取
+    be.persistentData.putInt('pfRareClaim_' + rareId, 1)
+    try {
+        player.give(Item.of(item))
+    } catch (e) {
+        console.log('[PF-RARE] 专属饰品发放失败 ' + item + ': ' + e)
+    }
+    console.log('[PF-RARE] 领取专属饰品 rareId=' + rareId + ' item=' + item + ' player=' + player.getName().getString())
+    return 'ok'
 }
 
 // 导出到全局
@@ -243,7 +302,8 @@ global.pfRareAffection = {
     pfRollDropItems: pfRollDropItems,
     pfSpawnDropItems: pfSpawnDropItems,
     pfApplyRareSettlement: pfApplyRareSettlement,
-    pfBuildRareAffectionView: pfBuildRareAffectionView
+    pfBuildRareAffectionView: pfBuildRareAffectionView,
+    pfClaimRareReward: pfClaimRareReward
 }
 
 console.log("[PF-RARE] 稀客好感度模块已加载")

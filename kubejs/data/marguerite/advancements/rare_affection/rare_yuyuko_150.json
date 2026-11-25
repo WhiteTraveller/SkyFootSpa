@@ -1,0 +1,19 @@
+{
+  "parent": "marguerite:rare_affection/root",
+  "display": {
+    "icon": {
+      "item": "touhou_little_maid:garage_kit",
+      "nbt": "{EntityInfo:{IsYsmModel:0b,MaidTaskDataMaps:{},ModelId:\"touhou_little_maid:saigyouji_yuyuko\",id:\"touhou_little_maid:maid\"}}"
+    },
+    "title": "西行寺幽幽子·两心",
+    "description": "服务西行寺幽幽子一次，且其好感度达到150",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

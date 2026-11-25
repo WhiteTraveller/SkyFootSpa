@@ -220,11 +220,7 @@
         ],
         "options": [
           {
-            "text": "收下召唤符",
-            "click": {
-              "type": "command",
-              "value": "give @s marguerite:boss_seal_sanae"
-            }
+            "text": "继续"
           }
         ]
       }

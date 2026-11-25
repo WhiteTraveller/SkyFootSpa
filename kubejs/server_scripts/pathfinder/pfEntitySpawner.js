@@ -62,15 +62,21 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
     global.pfEntityData.pfSetBedList(walker, global.pfBedManager.pfSerializeBeds(pathBeds))
     console.log("[PF] 出场时刷新床位数量=" + pathBeds.length)
     
-    // 生成需求清单（按种族配置的范围随机）
-    let demandList = global.pfEntityData.pfGenerateDemandList(customerCategory)
-    // Boss 需求倍率：每部位次数 × bossDef.demandMultiplier
-    if (bossDef && bossDef.demandMultiplier && bossDef.demandMultiplier > 1) {
-        let mul = bossDef.demandMultiplier
-        for (let key in demandList) {
-            demandList[key] = demandList[key] * mul
+    // 生成需求清单：Boss 按注册的每部位范围随机，普通顾客按种族配置的范围随机
+    let demandList
+    if (bossDef && bossDef.demandRanges) {
+        demandList = {}
+        for (let i = 0; i < global.pfConstants.PF_DEMAND_TYPES.length; i++) {
+            let type = global.pfConstants.PF_DEMAND_TYPES[i]
+            let range = bossDef.demandRanges[type] || [6, 12]
+            let min = range[0] | 0
+            let max = range[1] | 0
+            if (max < min) max = min
+            demandList[type] = min + Math.floor(Math.random() * (max - min + 1))
         }
-        console.log("[PF-BOSS] 需求倍率x" + mul + " 应用后: " + JSON.stringify(demandList))
+        console.log("[PF-BOSS] 需求范围随机: " + JSON.stringify(demandList))
+    } else {
+        demandList = global.pfEntityData.pfGenerateDemandList(customerCategory)
     }
     // 稀客需求倍率：每部位次数 × PF_RARE_DEMAND_MULTIPLIER（默认 1.5，四舍五入取整）
     if (rareDef) {
@@ -94,6 +100,8 @@ function pfSpawnWalker(level, baseX, baseY, baseZ, routeStr, queuePos, player, m
     // Boss 标识写入 persistentData（供满意度倍率查询）
     if (bossDef && bossDef.id) {
         walker.persistentData.putString('pfBossId', bossDef.id)
+        // 面板静态字段同步到手持物品NBT，供客户端脚部UI顶部Boss面板读取
+        global.pfNbtSync.pfSyncBossInfo(walker, bossDef.id, bossDef.satisfactionMultiplier, bossDef.satisfactionTarget)
         console.log("[PF-BOSS] 实体标记 pfBossId=" + bossDef.id)
     }
     

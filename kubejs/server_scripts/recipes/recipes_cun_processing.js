@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 // 产线流程：
 //   ① 皴块 + 水(1000mb) → [动力搅拌(不加热)] → 皴水(1000mb) + 洗净的皴块
-//   ② 洗净的皴块 → [黄铜/进阶黄铜筛网] → 二倍铁矿粒 + 其余矿粒 + 煤炭(30%/45%)
+//   ② 洗净的皴块 → [黄铜/进阶黄铜筛网] → 四倍铁矿粒 + 其余矿粒 + 煤炭(30%/45%) + 红石粉(30%×2)
 //   ③ 皴水(8000mb) → [动力搅拌(加热)] → 赛特斯石英
 //   ④ 赛特斯石英 → [石磨/粉碎轮] → 赛特斯石英粉（供强力去灰水等）
 // ============================================================
@@ -35,7 +35,7 @@ ServerEvents.recipes(event => {
 
     // ========== ② 洗净皴块筛网配方 ==========
     // 只有黄铜筛网和进阶黄铜筛网（线筛网不能筛洗净皴块）
-    // 基础矿粒产出同皴块，铁矿粒二倍（count 3→6），额外产出煤炭
+    // 基础矿粒产出同皴块，铁矿粒再二倍（count 6→12），额外产出煤炭与红石粉(30%×2)
     let cleanedCunBaseChances = {
         iron: 0.40, copper: 0.40, zinc: 0.40, gold: 0.20, quartz: 0.20
     }
@@ -54,13 +54,14 @@ ServerEvents.recipes(event => {
                 ],
                 processingTime: 500,
                 results: [
-                    // 出铁二倍：同筛网下皴块只出 3 粒
-                    { chance: +(cleanedCunBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget',   count: 6 },
+                    // 出铁二倍：同筛网下皴块出 6 粒
+                    { chance: +(cleanedCunBaseChances.iron   * m.mult).toFixed(4), item: 'minecraft:iron_nugget',   count: 12 },
                     { chance: +(cleanedCunBaseChances.copper * m.mult).toFixed(4), item: 'create:copper_nugget',     count: 3 },
                     { chance: +(cleanedCunBaseChances.zinc   * m.mult).toFixed(4), item: 'create:zinc_nugget',       count: 3 },
                     { chance: +(cleanedCunBaseChances.gold   * m.mult).toFixed(4), item: 'minecraft:gold_nugget',   count: 3 },
                     { chance: +(cleanedCunBaseChances.quartz * m.mult).toFixed(4), item: 'minecraft:quartz',         count: 3 },
-                    { chance: m.coalChance,                                         item: 'minecraft:coal',           count: 1 }
+                    { chance: m.coalChance,                                         item: 'minecraft:coal',           count: 1 },
+                    { chance: 0.30,                                                 item: 'minecraft:redstone',       count: 2 }
                 ]
             }).id('kubejs:sift_cleaned_cun_block_' + m.idTag)
             console.log('[CUN-PROC] ② 洗净皴块筛网配方已注册: ' + m.mesh + ' (煤炭 ' + (m.coalChance * 100) + '%)')
